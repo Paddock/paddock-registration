@@ -66,6 +66,9 @@ class Club(m.Model):
         #TODO: set the safe_name from the name using a shared safing function
         #TODO: Create the admin group, and the appropriate conditions
         raise NotImplementedError
+    
+    def __unicode__(self): 
+	return "<Club: %s>"%self.safe_name
 
 class Membership(m.Model): 
     
