@@ -48,11 +48,11 @@ class Club(m.Model):
     last_mod = m.DateTimeField(auto_now=True)
     
     new_member_cost = m.DecimalField('New Membership Price', max_digits = 100,decimal_places=2, default=0.0) 
-    renew_member_cost = m.DecimalField('Membership Renewal Price', max_digits = 100,decimal_places=2, default=0.0) 
+    renew_cost = m.DecimalField('Membership Renewal Price', max_digits = 100,decimal_places=2, default=0.0) 
     membership_terms = m.TextField('Membership Terms')
                
     process_payments = m.BooleanField('Process Payments',default=True)
-    paypal_email = m.BooleanField('Paypal Email Address',default=True)
+    paypal_email = m.CharField('Paypal Email Address',max_length=100)
     
     address = m.CharField('Mailing Address',max_length=100)
     city = m.CharField('City',max_length=100)
@@ -97,7 +97,7 @@ class Membership(m.Model):
     def l_name(self): 
         if self.user: 
             return self.user.l_name
-        return self._anon_l_name 
+        return self._anon_l_name     
  
 class RegType(m.Model):
     name = m.CharField("Name",max_length=20)
