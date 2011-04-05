@@ -1,0 +1,5 @@
+Paddock is a web based motorsports club/event management application,
+written as a django app. You can use paddock to organize your club, track
+memberships, and set up motorsports events like autocrosses and track days.
+You can collect payments for memberships and event registrations with Paddock,
+via Paypal. 
