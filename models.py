@@ -6,7 +6,10 @@ from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
 
 from django.contrib.auth.models import User
 
-
+def url_safe(text): 
+    safe_text = text.replace(" ","_")
+    safe_text = safe_text.replace("-","_")
+        
 def find_driver_car(f_name=None,l_name=None,car_year=None,car_make=None,car_model=None):
     #look for a driver/car that might match any of these attrs
     raise NotImplementedError
@@ -19,8 +22,8 @@ class UserProfile(m.Model):
     state = m.CharField('State',max_length=25)
     zip_code = m.CharField('Zip Code',max_length=13)
     
-    def __repr__(self): 
-        return "<Driver: %s>"%self.user.user_name
+    def __unicode__(self): 
+        return self.user.user_name
     
     def get_next_events(self): 
         today = datetime.datetime.today()
@@ -42,7 +45,7 @@ class UserProfile(m.Model):
 class Club(m.Model):
     
     club_name = m.CharField('Club Name',max_length=100)
-    safe_name  = m.CharField(max_length=100) 
+    safe_name  = m.CharField(max_length=100, primary_key=True) 
     
     created = m.DateTimeField(auto_now_add=True)
     last_mod = m.DateTimeField(auto_now=True)
@@ -68,7 +71,8 @@ class Club(m.Model):
         raise NotImplementedError
     
     def __unicode__(self): 
-	return "<Club: %s>"%self.safe_name
+	    return self.safe_name
+	     
 
 class Membership(m.Model): 
     
@@ -77,11 +81,14 @@ class Membership(m.Model):
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
     
-    user_prof = m.ForeignKey('UserProfile',related_name="memberships")
+    user = m.ForeignKey(User,related_name="memberships")
     club = m.ForeignKey("Club",related_name="memberships")
     
     _anon_f_name = m.CharField(max_length=50)
     _anon_l_name = m.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return "%s in %s>"%(self.user.username,self.club.safe_name)
     
     def clean(self): 
         pass
@@ -108,17 +115,29 @@ class RegType(m.Model):
     
     club = m.ForeignKey('Club',related_name="reg_types")
     
+    def __unicode__(self): 
+        return self.name
+    
 class RaceClass(m.Model): 
     name = m.CharField('Class Name',max_length=4)
     pax = m.FloatField('PAX multiplier')
     
     club = m.ForeignKey('Club',related_name='race_classes')
     
+    def __unicode__(self): 
+        return u"%s %1.3f"%(self.name,self.pax)
+    
 class Season(m.Model): 
-    year = m.DateField()
-    drop_lowest_events = m.IntegerField('# of Events to drop from points calculations')    
+    year = m.IntegerField(default=None)
+    drop_lowest_events = m.IntegerField('# of Events to drop from points calculations',
+    default=0)    
     
     club = m.ForeignKey('Club',related_name="seasons")
+    
+    def count_events_with_results(self): 
+        return Event.objects.filter(season=self,regs__results__isnull=False).count() 
+    def __unicode__(self): 
+        return u"%d"%self.year
      
 class Event(m.Model): 
     name = m.CharField('Name',max_length=40)
@@ -133,6 +152,8 @@ class Event(m.Model):
     
     count_points = m.BooleanField("Include this event in season point totals",default=True)
     
+    season = m.ForeignKey('Season',related_name="events")    
+    
     #TODO: modify on_delete to set to club default location
     location = m.ForeignKey('Location',null=True,on_delete=m.SET_NULL)
     
@@ -145,6 +166,9 @@ class Event(m.Model):
     #TODO: make a widget which knows how to render events, before registration closes
     #TODO: make a widget which knows how to render events, after registration closes
     
+    def __unicode__(self): 
+        return self.safe_name
+        
 class Registration(m.Model): 
     car = m.ForeignKey("Car",related_name="regs")
     number = m.IntegerField("Car Number")
@@ -164,7 +188,10 @@ class Registration(m.Model):
     _anon_l_name = m.CharField(max_length=50)
     _anon_car = m.CharField(max_length=50)
     
-    user = m.ForeignKey("UserProfile",related_name="regs")
+    user = m.ForeignKey(User,related_name="regs")
+    
+    def __unicode__(self): 
+        return self.user.username
     
     @property
     def first_name(self): 
@@ -194,6 +221,9 @@ class Session(m.Model):
     event = m.ForeignKey("Event",related_name="sessions")
     course = m.OneToOneField("Course")
     
+    def __unicode__(self): 
+        return self.name
+    
 class Result(m.Model): 
     best_run = m.OneToOneField("Run",related_name="+")
     reg = m.ForeignKey("Registration",related_name="results")
@@ -203,9 +233,11 @@ class Result(m.Model):
     
     #TODO: make a widget so that a result knows how to render itslf, take options for class/index view
     
+    def __unicode__(self): 
+        return unicode(self.best_run)
+    
     def find_best_run(self): 
-        pass
-        #TODO: search the runs, and pick the best one to be the best_run attr
+        return min(runs,key=lambda r:r.calc_time)
 
 class Run(m.Model):     
     base_time = m.FloatField()
@@ -216,6 +248,14 @@ class Run(m.Model):
     penalty = m.CharField(max_length=10)
     
     result = m.ForeignKey("Result",related_name="runs")
+    
+    def __unicode__(self): 
+        if self.penalty: 
+            return self.penalty
+        if self.cones: 
+            return u"3.3f, +%d cones (3.3f)"%(self.calc_time,self.cones,self.index_time)
+            
+        return u"%3.3f(%3.3f)"%(self.calc_time,self.index_time)
     
 class Location(m.Model):
     
@@ -229,6 +269,9 @@ class Location(m.Model):
     
     club = m.ForeignKey('Club',related_name='locations')
     
+    def __unicode__(self): 
+        return self.safe_name
+    
 def upload_course_to(course,file_name): 
     return os.path.join(course.event.club.safe_name,course.event.safe_name,"")    
     
@@ -240,7 +283,9 @@ class Course(m.Model):
     
     event = m.ForeignKey('Event',related_name="courses")
     
-
+    def __unicode__(self): 
+        return self.safe_name
+        
 def uplaoad_car_to(car,file_name):
     return os.path.join(car.owner.username,"cars","")
     
@@ -255,10 +300,10 @@ class Car(m.Model):
     avatar = m.ImageField('Picture of your car',upload_to=uplaoad_car_to)
     thumb = m.ImageField('Picture of your car',upload_to=uplaoad_car_to)
     
-    owner = m.ForeignKey('UserProfile',related_name="cars")
+    owner = m.ForeignKey(User,related_name="cars")
     
     def __unicode__(self): 
-    	return "<Car: %d %s %s>"%(int(self.year),self.make,self.model)
+    	return "%d %s %s"%(self.year,self.make,self.model)
 
         
 class Lease(m.Model): 
@@ -269,8 +314,8 @@ class Lease(m.Model):
     expiration = m.DateField("Expiration Date")
     permanent = m.BooleanField("Permanent Lease")
     
-    user = m.ForeignKey("UserProfile",related_name="leases")
+    user = m.ForeignKey(User,related_name="leases")
     car = m.ForeignKey("Car",related_name="leases")
     
     def __unicode__(self): 
-	return "<Lease: %s to %s>"%(unicode(self.car),self.user.username)
+        return "%s to %s"%(self.car.name ,self.user.username)
