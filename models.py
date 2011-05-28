@@ -50,8 +50,13 @@ class Club(m.Model):
     created = m.DateTimeField(auto_now_add=True)
     last_mod = m.DateTimeField(auto_now=True)
     
-    new_member_cost = m.DecimalField('New Membership Price', max_digits = 100,decimal_places=2, default=0.0) 
-    renew_cost = m.DecimalField('Membership Renewal Price', max_digits = 100,decimal_places=2, default=0.0) 
+    new_member_cost = m.DecimalField('New Membership Price', 
+                                     max_digits = 100,
+                                     decimal_places=2,
+                                     default="0.00") 
+    renew_cost = m.DecimalField('Membership Renewal Price', 
+                                max_digits = 100,
+                                decimal_places=2, default="0.00") 
     membership_terms = m.TextField('Membership Terms')
                
     process_payments = m.BooleanField('Process Payments',default=True)
@@ -62,8 +67,8 @@ class Club(m.Model):
     state = m.CharField('State',max_length=25) #USStateField('State')
     zip_code = m.CharField('Zip Code',max_length=12) #USZipCodeField('Zip Code')
     
-    active_season = m.OneToOneField("Season",related_name="+")
-    default_location = m.OneToOneField("Location",related_name="+")
+    active_season = m.OneToOneField("Season",related_name="+",null=True)
+    default_location = m.OneToOneField("Location",related_name="+",null=True)
     
     def clean(self): 
         #TODO: set the safe_name from the name using a shared safing function
@@ -170,25 +175,27 @@ class Event(m.Model):
         return self.safe_name
         
 class Registration(m.Model): 
-    car = m.ForeignKey("Car",related_name="regs")
+    car = m.ForeignKey("Car",related_name="regs",null=True)
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
-    reg_type = m.ForeignKey("RegType",related_name="+")
+    pax_class  = m.ForeignKey("RaceClass",related_name="+",null=True)
     
     index_flag = m.BooleanField(default=False)
-    total_raw_time = m.FloatField('Total Raw Time')
-    total_index_time = m.FloatField('Total Index Time')
+    total_raw_time = m.FloatField('Total Raw Time', null=True)
+    total_index_time = m.FloatField('Total Index Time', null=True)
     
-    class_points = m.IntegerField()
-    index_points = m.IntegerField()
+    class_points = m.IntegerField(null=True)
+    index_points = m.IntegerField(null=True)
     
-    event = m.ForeignKey("Event",related_name="regs")
+    #TODO: remove null
+    event = m.ForeignKey("Event",related_name="regs",null=True)
     
-    _anon_f_name = m.CharField(max_length=50)
-    _anon_l_name = m.CharField(max_length=50)
-    _anon_car = m.CharField(max_length=50)
+    _anon_f_name = m.CharField(max_length=50,null=True)
+    _anon_l_name = m.CharField(max_length=50,null=True)
+    _anon_car = m.CharField(max_length=50,null=True)
     
-    user = m.ForeignKey(User,related_name="regs")
+    #TODO: Remove Null
+    user = m.ForeignKey(User,related_name="regs", null=True)
     
     def __unicode__(self): 
         return self.user.username
@@ -225,19 +232,24 @@ class Session(m.Model):
         return self.name
     
 class Result(m.Model): 
-    best_run = m.OneToOneField("Run",related_name="+")
+    best_run = m.OneToOneField("Run",related_name="+",null=True)
     reg = m.ForeignKey("Registration",related_name="results")
     
     #session is used for database, so for clarity names sess
-    sess = m.ForeignKey("Session",related_name="results") 
+    #TODO: Remove null
+    sess = m.ForeignKey("Session",related_name="results",null=True) 
     
     #TODO: make a widget so that a result knows how to render itslf, take options for class/index view
     
     def __unicode__(self): 
         return unicode(self.best_run)
     
-    def find_best_run(self): 
-        return min(runs,key=lambda r:r.calc_time)
+    def calc_best_run(self): 
+        br =  Run.objects.filter(result=self,result__runs__penalty__isnull=True).\
+        order_by('calc_time')[0]
+        self.best_run = br
+        return br
+        #return min(runs,key=lambda r:r.calc_time)
 
 class Run(m.Model):     
     base_time = m.FloatField()
@@ -245,9 +257,19 @@ class Run(m.Model):
     index_time = m.FloatField()
     
     cones = m.IntegerField(default=0)
-    penalty = m.CharField(max_length=10)
+    penalty = m.CharField(default=None,max_length=10,null=True)
     
     result = m.ForeignKey("Result",related_name="runs")
+    
+    def set_times(self,base_time,cones): 
+        self.base_time = base_time
+        self.cones = cones
+        
+        self.calc_time = base_time+2.0*cones
+        self.index_time = self.calc_time*self.result.reg.race_class.pax   
+        
+        return (self.calc_time,self.index_time)
+        
     
     def __unicode__(self): 
         if self.penalty: 
