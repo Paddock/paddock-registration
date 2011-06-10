@@ -7,4 +7,4 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 
-from paddock.model_tests import *
+from paddock.model_tests.test_club import TestClub

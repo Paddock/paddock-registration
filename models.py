@@ -1,11 +1,19 @@
 import os
 import datetime
-import base64.urlsafe_b64encode as urlsafe
+from urllib import pathname2url
+import re
 
 from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
 
 from django.contrib.auth.models import User
+
+def urlsafe(name): 
+    safe = re.sub(r'\s','',name)
+    safe = pathname2url(safe)
+    safe = safe.lower()    
+    
+    return safe
         
 def find_driver_car(f_name=None,l_name=None,car_year=None,car_make=None,car_model=None):
     #look for a driver/car that might match any of these attrs
@@ -41,8 +49,17 @@ class UserProfile(m.Model):
 
 class Club(m.Model):
     
-    club_name = m.CharField('Club Name',max_length=100)
-    safe_name  = m.CharField(max_length=100, primary_key=True) 
+    @property
+    def name(self): 
+	return self._name
+    
+    @name.setter
+    def name(self,name): 
+	self._name = name
+	self.safe_name = urlsafe(name) 
+	
+    _name = m.CharField('Club Name',max_length=100)
+    safe_name  = m.CharField("safe_name", max_length=100, primary_key=True) 
     
     created = m.DateTimeField(auto_now_add=True)
     last_mod = m.DateTimeField(auto_now=True)
@@ -54,23 +71,22 @@ class Club(m.Model):
     renew_cost = m.DecimalField('Membership Renewal Price', 
                                 max_digits = 100,
                                 decimal_places=2, default="0.00") 
-    membership_terms = m.TextField('Membership Terms')
+    membership_terms = m.TextField('Membership Terms',blank=True)
                
     process_payments = m.BooleanField('Process Payments',default=True)
-    paypal_email = m.CharField('Paypal Email Address',max_length=100)
+    paypal_email = m.CharField('Paypal Email Address',max_length=100,blank=True)
     
-    address = m.CharField('Mailing Address',max_length=100)
-    city = m.CharField('City',max_length=100)
-    state = m.CharField('State',max_length=25) #USStateField('State')
-    zip_code = m.CharField('Zip Code',max_length=12) #USZipCodeField('Zip Code')
+    address = m.CharField('Mailing Address',max_length=100,blank=True)
+    city = m.CharField('City',max_length=100,blank=True)
+    state = m.CharField('State',max_length=25,blank=True) #USStateField('State')
+    zip_code = m.CharField('Zip Code',max_length=12,blank=True) #USZipCodeField('Zip Code')
     
-    active_season = m.OneToOneField("Season",related_name="+",null=True)
-    default_location = m.OneToOneField("Location",related_name="+",null=True)
+    active_season = m.OneToOneField("Season",related_name="+",blank=True,null=True)
+    default_location = m.OneToOneField("Location",related_name="+",blank=True,null=True)
     
     def clean(self): 
-        #TODO: set the safe_name from the name using a shared safing function
-        #TODO: Create the admin group, and the appropriate conditions
-        raise NotImplementedError
+	print  "TEST", urlsafe(self.name)
+	self.safe_name = urlsafe(self.name)
     
     def __unicode__(self): 
 	    return self.safe_name
