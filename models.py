@@ -1,14 +1,11 @@
 import os
 import datetime
+import base64.urlsafe_b64encode as urlsafe
 
 from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
 
 from django.contrib.auth.models import User
-
-def url_safe(text): 
-    safe_text = text.replace(" ","_")
-    safe_text = safe_text.replace("-","_")
         
 def find_driver_car(f_name=None,l_name=None,car_year=None,car_make=None,car_model=None):
     #look for a driver/car that might match any of these attrs
