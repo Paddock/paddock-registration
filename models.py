@@ -123,21 +123,15 @@ class Membership(m.Model):
             return self.user.l_name
         return self._anon_l_name     
  
-class RegType(m.Model):
-    name = m.CharField("Name",max_length=20)
-    class_letters = m.CharField("Class Letters",max_length=4)
-    reg_limit = m.IntegerField("Registration Limit")
-    index = m.FloatField("PAX multiplier")
-    description = m.TextField("description")
-    
-    club = m.ForeignKey('Club',related_name="reg_types")
-    
-    def __unicode__(self): 
-        return self.name
-    
+
 class RaceClass(m.Model): 
     name = m.CharField('Class Name',max_length=4)
     pax = m.FloatField('PAX multiplier')
+    
+    pax_class = m.BooleanField('PAX Class',default=False)
+    index = m.FloatField("PAX multiplier")
+    description = m.TextField("description")
+    reg_limit = m.IntegerField("Registration Limit")
     
     club = m.ForeignKey('Club',related_name='race_classes')
     
