@@ -5,6 +5,8 @@ import re
 
 from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from django.contrib.auth.models import User
 
@@ -74,7 +76,8 @@ class Club(m.Model):
     membership_terms = m.TextField('Membership Terms',blank=True)
                
     process_payments = m.BooleanField('Process Payments',default=True)
-    paypal_email = m.CharField('Paypal Email Address',max_length=100,blank=True)
+    paypal_email = m.CharField('Paypal Email Address',max_length=100,blank=True,
+                               validators=[validate_email])
     
     address = m.CharField('Mailing Address',max_length=100,blank=True)
     city = m.CharField('City',max_length=100,blank=True)
@@ -83,10 +86,6 @@ class Club(m.Model):
     
     active_season = m.OneToOneField("Season",related_name="+",blank=True,null=True)
     default_location = m.OneToOneField("Location",related_name="+",blank=True,null=True)
-    
-    def clean(self): 
-	print  "TEST", urlsafe(self.name)
-	self.safe_name = urlsafe(self.name)
     
     def __unicode__(self): 
 	    return self.safe_name
@@ -148,7 +147,7 @@ class RaceClass(m.Model):
 class Season(m.Model): 
     year = m.IntegerField(default=None)
     drop_lowest_events = m.IntegerField('# of Events to drop from points calculations',
-    default=0)    
+                                        default=0)    
     
     club = m.ForeignKey('Club',related_name="seasons")
     
@@ -158,31 +157,48 @@ class Season(m.Model):
         return u"%d"%self.year
      
 class Event(m.Model): 
-    name = m.CharField('Name',max_length=40)
+    @property
+    def name(self): 
+	return self._name
+    @name.setter
+    def name(self,name): 
+	self._name = name
+	self.safe_name = urlsafe(name)
+    
+    _name = m.CharField('Name',max_length=40)
     safe_name = m.CharField(max_length=40)
     
-    date = m.DateField('Event Date') #TODO: validate that this date is at least today or later
-    reg_close = m.DateTimeField('Registration Close Date') #TODO: validate that this is no later than the event date
+    date = m.DateField('Event Date')
     
-    member_price = m.DecimalField("Price for club members", max_digits=10,decimal_places=2, default=0.0)
-    non_member_price = m.DecimalField("Price for non club Members", max_digits=10, decimal_places=2, default=0.0)
-    non_pre_pay_penalty = m.DecimalField("Extra Cost if paying at the event", max_digits=10, decimal_places=2, default=0.0)
+    reg_close = m.DateTimeField('Registration Close Date',blank=True,null=True)
+    
+    member_price = m.DecimalField("Price for club members", max_digits=10,
+                                  decimal_places=2, default="0.00")
+    non_member_price = m.DecimalField("Price for non club Members", max_digits=10, 
+                                      decimal_places=2, default="0.00")
+    non_pre_pay_penalty = m.DecimalField("Extra Cost if paying at the event", max_digits=10, 
+                                         decimal_places=2, default="0.00")
     
     count_points = m.BooleanField("Include this event in season point totals",default=True)
     
-    season = m.ForeignKey('Season',related_name="events")    
+    season = m.ForeignKey('Season',related_name="events",null=True,blank=True)    
     
     #TODO: modify on_delete to set to club default location
-    location = m.ForeignKey('Location',null=True,on_delete=m.SET_NULL)
+    location = m.ForeignKey('Location',blank=True,null=True,on_delete=m.SET_NULL)
     
     #This is to allow for registration of one event to automaticaly count toward any child events as well
-    #TODO: Implement this, sot that individual registrations are still created for each event
+    #TODO: Implement this, so that individual registrations are still created for each event
     child_events = m.ManyToManyField("Event",symmetrical=False,related_name="parent_events",
+                                     blank=True,null=True,
                                      help_text="When drivers register for this event, they will automatically be" 
                                      "registered for all the associated events listed here.")
     
     #TODO: make a widget which knows how to render events, before registration closes
     #TODO: make a widget which knows how to render events, after registration closes
+    
+    def clean(self): 
+	if self.reg_close.date() >= self.date: 
+	    raise ValidationError("Registration must close before the date of the event.")
     
     def __unicode__(self): 
         return self.safe_name

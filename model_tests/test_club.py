@@ -30,6 +30,8 @@ class TestClub(unittest.TestCase):
             new_c.full_clean()
         except ValidationError as err: 
             self.assertEqual("{'safe_name': [u'Club with this Safe_name already exists.']}",str(err))
+        else: 
+            self.fail("ValidationError expected")
 
 
 
