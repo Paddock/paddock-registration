@@ -204,35 +204,41 @@ class Event(m.Model):
         return self.safe_name
         
 class Registration(m.Model): 
-    car = m.ForeignKey("Car",related_name="regs",null=True)
+    car = m.ForeignKey("Car",related_name="regs",blank=True,null=True)
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
-    pax_class  = m.ForeignKey("RaceClass",related_name="+",null=True)
+    pax_class  = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
     
     index_flag = m.BooleanField(default=False)
-    total_raw_time = m.FloatField('Total Raw Time', null=True)
-    total_index_time = m.FloatField('Total Index Time', null=True)
+    total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default = None)
+    total_index_time = m.FloatField('Total Index Time', blank=True, null=True, default = None)
     
-    class_points = m.IntegerField(null=True)
-    index_points = m.IntegerField(null=True)
+    class_points = m.IntegerField(blank=True,null=True)
+    index_points = m.IntegerField(blank=True,null=True)
     
     #TODO: remove null
-    event = m.ForeignKey("Event",related_name="regs",null=True)
+    event = m.ForeignKey("Event",related_name="regs")
     
-    _anon_f_name = m.CharField(max_length=50,null=True)
-    _anon_l_name = m.CharField(max_length=50,null=True)
-    _anon_car = m.CharField(max_length=50,null=True)
+    _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
+    _anon_l_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
+    _anon_car = m.CharField(max_length=50,blank=True,null=True,default="N/A")
     
     #TODO: Remove Null
-    user = m.ForeignKey(User,related_name="regs", null=True)
+    user = m.ForeignKey(User,related_name="regs", blank=True, null=True)
     
     def __unicode__(self): 
         return self.user.username
     
     @property
+    def car_name(self): 
+	if not self.car is None: 
+	    return "%d %s %s"%(self.car.year, self.car.make, self.car.model)
+	return self._anon_car
+    
+    @property
     def first_name(self): 
         if self.user: 
-            return self.user.f_name
+            return self.user.first_name
         elif self._anon_f_name: 
             return self._anon_f_name
         return "Driver"
@@ -240,7 +246,7 @@ class Registration(m.Model):
     @property
     def last_name(self):
         if self.user: 
-            return self.user.l_name
+            return self.user.last_name
         elif self._anon_l_name: 
             return self._anon_l_name
         return "Not On File"    
