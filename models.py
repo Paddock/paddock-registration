@@ -2,6 +2,7 @@ import os
 import datetime
 from urllib import pathname2url
 import re
+from copy import copy
 
 from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
@@ -89,6 +90,11 @@ class Club(m.Model):
     
     def __unicode__(self): 
 	    return self.safe_name
+	
+    def check_dibs(self,number,race_class): 
+	"""Checks to see if anyone has dibs on the given number/race_class for a club club"""
+	pass
+        
 	     
 
 class Membership(m.Model): 
@@ -129,9 +135,9 @@ class RaceClass(m.Model):
     pax = m.FloatField('PAX multiplier')
     
     pax_class = m.BooleanField('PAX Class',default=False)
-    index = m.FloatField("PAX multiplier")
-    description = m.TextField("description")
-    reg_limit = m.IntegerField("Registration Limit")
+    description = m.TextField("Description",blank=True,default="")
+    user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
+    event_reg_limit = m.IntegerField("Limit per EVent",null=True,default=None)
     
     club = m.ForeignKey('Club',related_name='race_classes')
     
@@ -175,14 +181,14 @@ class Event(m.Model):
     
     count_points = m.BooleanField("Include this event in season point totals",default=True)
     
-    season = m.ForeignKey('Season',related_name="events",null=True,blank=True)    
+    season = m.ForeignKey('Season',related_name="events")    
     
     #TODO: modify on_delete to set to club default location
     location = m.ForeignKey('Location',blank=True,null=True,on_delete=m.SET_NULL)
     
     #This is to allow for registration of one event to automaticaly count toward any child events as well
     #TODO: Implement this, so that individual registrations are still created for each event
-    child_events = m.ManyToManyField("Event",symmetrical=False,related_name="parent_events",
+    child_events = m.ManyToManyField("self",symmetrical=False,related_name="parent_events",
                                      blank=True,null=True,
                                      help_text="When drivers register for this event, they will automatically be" 
                                      "registered for all the associated events listed here.")
@@ -190,14 +196,35 @@ class Event(m.Model):
     #TODO: make a widget which knows how to render events, before registration closes
     #TODO: make a widget which knows how to render events, after registration closes
     
+    def allow_number_race_class(self,number,race_class): 
+	"""Checks to see if the specified number and race_class are available for this event"""
+        #check if the number/class is used in this event 
+        reg_check = Event.objects.filter(id=self.id,
+                             regs__number=number,	                     
+	                     regs__race_class=race_class).count()
+	if reg_check: 
+	    return False
+	
+	#Check if the number/class is used in any child events
+	for event in self.child_events.all(): 
+	    reg_check = Event.objects.filter(id=event.id,
+	                                     regs__number=number,	                     
+	                                     regs__race_class=race_class).count()
+	    
+	    if reg_check: 
+		return False
+	    
+	#TODO: Check if anyone has dibs on this number for this club
+        return True	
+    
     def clean(self): 
 	if self.reg_close.date() >= self.date: 
 	    raise ValidationError("Registration must close before the date of the event.")
-    
+	    
     def __unicode__(self): 
         return self.safe_name
-        
-class Registration(m.Model): 
+    
+class Registration(m.Model):
     car = m.ForeignKey("Car",related_name="regs",blank=True,null=True)
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
@@ -210,18 +237,18 @@ class Registration(m.Model):
     class_points = m.IntegerField(blank=True,null=True)
     index_points = m.IntegerField(blank=True,null=True)
     
-    #TODO: remove null
     event = m.ForeignKey("Event",related_name="regs")
     
+    reg_detail = m.ForeignKey("RegDetail",related_name="regs",blank=True,null=True)
+    
+    @property
+    def user(self):
+	return self.reg_detail.user
+    
+    #used only for anonymous regs
     _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
     _anon_l_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
     _anon_car = m.CharField(max_length=50,blank=True,null=True,default="N/A")
-    
-    #TODO: Remove Null
-    user = m.ForeignKey(User,related_name="regs", blank=True, null=True)
-    
-    def __unicode__(self): 
-        return self.user.username
     
     @property
     def car_name(self): 
@@ -229,28 +256,52 @@ class Registration(m.Model):
 	    return "%d %s %s"%(self.car.year, self.car.make, self.car.model)
 	return self._anon_car
     
+    
     @property
     def first_name(self): 
-        if self.user: 
-            return self.user.first_name
+        if self.reg_detail: 
+            return self.reg_detail.user.first_name
         elif self._anon_f_name: 
             return self._anon_f_name
         return "Driver"
     
     @property
     def last_name(self):
-        if self.user: 
+        if self.reg_detail: 
             return self.user.last_name
         elif self._anon_l_name: 
             return self._anon_l_name
-        return "Not On File"    
-    @property
-    def car_str(self): 
-        if self.car: 
-            pass
-        elif self._anon_car: 
-            return self._anon_car
-        return "N/A"
+        return "Not On File" 
+    
+    def __unicode__(self):
+	if self.reg_detail: 
+	    return "%s for %s"%(self.reg_detail.user.username,self.event.name)
+	return "anon: %s %s for %s"%(self.first_name,self.last_name,self.event.name)
+    
+    def clean(self): 
+	if not self.event.allow_number_race_class(self.number,self.race_class):
+	    raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
+	
+	#if necessary, check to make sure user has not already run the max times in this class
+        if self.reg_detail and self.race_class.user_reg_limit:	
+	    reg_count = Registration.objects.filter(event__season__club=self.event.season.club,
+	                                            reg_detail__user=self.reg_detail.user,
+	                                            reg_detail__isnull=False,
+	                                            race_class=self.race_class).count()
+	    if reg_count >= self.race_class.user_reg_limit:
+		raise ValidationError("You have reached the registration limit for %s."%self.race_class.name)
+	#TODO: Check if Event has reached the maximum number of allowed regs in this reg class
+	
+    
+        
+class RegDetail(m.Model): 
+    
+    user = m.ForeignKey(User,related_name="regs")
+    #TODO: transaction = m.ForeignKey("Transaction",related_name="+")
+    
+    def __unicode__(self): 
+        return self.user.username   
+
     
 class Session(m.Model): 
     name = m.CharField(max_length=30)
@@ -360,7 +411,6 @@ class Car(m.Model):
 class Lease(m.Model): 
     suggested_number = m.IntegerField("Suggested Number",null=True)
     suggested_race_class = m.ForeignKey('RaceClass',null=True,on_delete=m.SET_NULL,related_name='+')
-    suggested_reg_type = m.ForeignKey('RegType',null=True,on_delete=m.SET_NULL,related_name="+")
     
     expiration = m.DateField("Expiration Date")
     permanent = m.BooleanField("Permanent Lease")
