@@ -290,7 +290,15 @@ class Registration(m.Model):
 	                                            race_class=self.race_class).count()
 	    if reg_count >= self.race_class.user_reg_limit:
 		raise ValidationError("You have reached the registration limit for %s."%self.race_class.name)
+	        
 	#TODO: Check if Event has reached the maximum number of allowed regs in this reg class
+	if self.race_class.event_reg_limit: 
+	    reg_count = Registration.objects.filter(event=self.event).count()
+	    if reg_count >= self.race_class.event_reg_limit: 
+		raise ValidationError("Only %d registrations for %s are allowed "
+		                      "for this event. The class is full"%(self.race_class.event_reg_limit,
+		                                                           self.race_class.name))
+	                                        
 	
     
         

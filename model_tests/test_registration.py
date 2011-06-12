@@ -171,11 +171,30 @@ class TestRegistration(unittest.TestCase):
             self.assertEqual("{'__all__': [u'You have reached the registration limit for CSP.']}",str(err))
         else: 
             self.fail("ValidationError expected")
-        
-        
-        
-        
             
+        self.e2.delete()
+            
+            
+    def testEventRegLimit(self):           
+        self.race_class.event_reg_limit = 1
+        self.race_class.save()
         
+        self.r.car = self.car
+        self.r.reg_detail = self.reg_detail
+        self.r.event = self.e
+        self.r.save()        
+                   
+        self.r2 = Registration()
+        self.r2.number = 111
+        self.r2.race_class = self.race_class
+        self.r2.pax_class = None
+        self.r2.event = self.e    
+        self.r2.reg_detail = self.reg_detail
         
-        
+        try: 
+            self.r2.full_clean()
+        except ValidationError as err: 
+            self.assertEqual("{'__all__': [u'Only 1 registrations for CSP are "
+                             "allowed for this event. The class is full']}",str(err))
+        else: 
+            self.fail("ValidationError expected")  
