@@ -99,7 +99,7 @@ class Club(m.Model):
 
 class Membership(m.Model): 
     
-    num = m.IntegerField("ID #",null=True,default=None)
+    num = m.IntegerField("ID #",null=True,default=None,autoincrement=True)
     
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
@@ -277,6 +277,12 @@ class Registration(m.Model):
 	if self.reg_detail: 
 	    return "%s for %s"%(self.reg_detail.user.username,self.event.name)
 	return "anon: %s %s for %s"%(self.first_name,self.last_name,self.event.name)
+    
+    def associate_with_user(self,user): 
+	self._anon_f_name = "N/A"
+	self._anon_l_name = "N/A"
+	self.reg_detail = RegDetail()
+	self.reg_detai.user = user
     
     def clean(self): 
 	if not self.event.allow_number_race_class(self.number,self.race_class):
