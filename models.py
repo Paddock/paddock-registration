@@ -282,7 +282,7 @@ class Registration(m.Model):
 	self._anon_f_name = "N/A"
 	self._anon_l_name = "N/A"
 	self.reg_detail = RegDetail()
-	self.reg_detai.user = user
+	self.reg_detail.user = user
     
     def clean(self): 
 	if not self.event.allow_number_race_class(self.number,self.race_class):
