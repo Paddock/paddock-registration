@@ -420,7 +420,7 @@ class Car(m.Model):
     
     @property
     def car_str(self): 
-	return "%s %s %s"%(self.year,self.make,self.model)
+	return "%s %s %s"%(self.year,self.make,self.model)   
 	
     
     def __unicode__(self): 
