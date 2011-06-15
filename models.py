@@ -418,6 +418,11 @@ class Car(m.Model):
     
     owner = m.ForeignKey(User,related_name="cars")
     
+    @property
+    def car_str(self): 
+	return "%s %s %s"%(self.year,self.make,self.model)   
+	
+    
     def __unicode__(self): 
     	return "%d %s %s"%(self.year,self.make,self.model)
 
