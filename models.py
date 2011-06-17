@@ -68,11 +68,11 @@ class Club(m.Model):
     last_mod = m.DateTimeField(auto_now=True)
     
     new_member_cost = m.DecimalField('New Membership Price', 
-                                     max_digits = 100,
+                                     max_digits = 10,
                                      decimal_places=2,
                                      default="0.00") 
     renew_cost = m.DecimalField('Membership Renewal Price', 
-                                max_digits = 100,
+                                max_digits = 10,
                                 decimal_places=2, default="0.00") 
     membership_terms = m.TextField('Membership Terms',blank=True)
                
@@ -99,7 +99,9 @@ class Club(m.Model):
 
 class Membership(m.Model): 
     
-    num = m.IntegerField("ID #",null=True,default=None,autoincrement=True)
+    num = m.IntegerField("ID #",null=True,default=None)
+    
+    
     
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
@@ -113,10 +115,6 @@ class Membership(m.Model):
     def __unicode__(self):
         return "%s in %s>"%(self.user.username,self.club.safe_name)
     
-    def clean(self): 
-        pass
-        #TODO: make the validate autoincrement num, if no num is provided
-    
     @property    
     def f_name(self):
         if self.user: 
@@ -127,7 +125,24 @@ class Membership(m.Model):
     def l_name(self): 
         if self.user: 
             return self.user.l_name
-        return self._anon_l_name     
+        return self._anon_l_name   
+    
+    def clean(self): 
+	try: 
+	    Membership.objects.filter(club=self.club,num=self.num).get()
+	except Membership.DoesNotExist: 
+	    pass
+	else: 
+	    raise ValidationError("A member with that number already exists")
+    
+    def save(self): 
+	if not self.num:
+	    try: 
+		Membership.objects.filter(club==self.club, num__max).get()
+	    except Membership.leNotExist: 
+		self.num = 100
+		
+	super(Membership,self).save()
  
 
 class RaceClass(m.Model): 
@@ -439,3 +454,40 @@ class Lease(m.Model):
     
     def __unicode__(self): 
         return "%s to %s"%(self.car.name ,self.user.username)
+    
+class Transaction(m.Model): 
+    token = m.CharField("Token",max_length=50,blank=True,null=True)
+    payer_id = m.CharField("Payer #",max_length=50,blank=True,null=True)
+    transaction_id = m.CharField("Transac. #",max_length=50,blank=True,null=True)
+    price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
+    
+    created = m.DateTimeField(auto_now_add=True)
+    completed = m.DateTimeField(blank=True,null=True)
+    
+    #coupon_id = Column(Integer,ForeignKey('pdk_coupon.id'))
+    #coupon = relationship("Coupon",backref=backref("transaction", uselist=False))
+    
+    
+class Coupon(m.Model):     
+    code = m.CharField("code",max_length=20)
+    
+    is_percent = m.BooleanField("%",default=False)    
+    permanent = m.BooleanField("permanent",default=False)
+    single_use_per_user = m.BooleanField("Once per user", default=False)
+    
+    discount_amount = m.DecimalField("$ discount",
+                                     max_digits=10,
+                                     decimal_places=2,
+                                     default = "0.00")
+    uses_left = m.IntegerField("# uses",default=1)
+    expires = m.DateField(blank=True)
+    
+    def clean(self): 
+	if " " in self.code: 
+	    raise ValidationError("Spaces not allowed in the code")
+	
+	if self.expires < datetime.date.today()+datetime.timedelta(days=1):
+	    raise ValidationError("Coupon must expire atleast one day from now")
+    
+    #user_id = Column(Integer,ForeignKey("tg_user.user_id"))
+    #club_id = Column(Integer,ForeignKey("pdk_club.club_id"))    
