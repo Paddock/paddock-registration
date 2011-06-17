@@ -20,6 +20,16 @@ class TestCoupon(unittest.TestCase):
         try: 
             self.c.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'Spaces not allowed in the code']}",str(err))
+            self.assertEqual("{'code': [u'Spaces not allowed in the code']}",str(err))
+        else: 
+            self.fail("ValidationError expected")
+            
+    def test_expires(self):  
+        self.c.expires = datetime.date.today()
+        self.c.code = "testcode"
+        try: 
+            self.c.full_clean()
+        except ValidationError as err: 
+            self.assertEqual("{'expires': [u'Coupon must expire atleast one day from now']}",str(err))
         else: 
             self.fail("ValidationError expected")
