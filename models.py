@@ -22,6 +22,21 @@ def find_driver_car(f_name=None,l_name=None,car_year=None,car_make=None,car_mode
     #look for a driver/car that might match any of these attrs
     raise NotImplementedError
 
+class TodayOrLaterField(m.DateField): 
+    def validate(self,value,model_instance): 
+	super(TodayOrLaterField,self).validate(value,model_instance)
+	
+	if value and value < datetime.date.today()+datetime.timedelta(days=1):
+	    raise ValidationError("Coupon must expire atleast one day from now")
+
+class CodeField(m.CharField): 
+    def validate(self,value,model_instance): 
+	super(CodeField,self).validate(value,model_instance)
+	
+	if " " in value: 
+	    raise ValidationError("Spaces not allowed in the code")
+	
+
 class UserProfile(m.Model): 
     
     user = m.OneToOneField(User)
@@ -100,8 +115,6 @@ class Club(m.Model):
 class Membership(m.Model): 
     
     num = m.IntegerField("ID #",null=True,default=None)
-    
-    
     
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
@@ -467,11 +480,11 @@ class Transaction(m.Model):
     #coupon_id = Column(Integer,ForeignKey('pdk_coupon.id'))
     #coupon = relationship("Coupon",backref=backref("transaction", uselist=False))
     
-    
 class Coupon(m.Model):     
-    code = m.CharField("code",max_length=20)
+    code = CodeField("code",max_length=20)
     
-    is_percent = m.BooleanField("%",default=False)    
+    is_percent = m.BooleanField("%",default=False)   
+    is_giftcard = m.BooleanField("GiftCard",default=False)
     permanent = m.BooleanField("permanent",default=False)
     single_use_per_user = m.BooleanField("Once per user", default=False)
     
@@ -480,14 +493,11 @@ class Coupon(m.Model):
                                      decimal_places=2,
                                      default = "0.00")
     uses_left = m.IntegerField("# uses",default=1)
-    expires = m.DateField(blank=True)
+    expires = TodayOrLaterField(blank=True,default=None)
     
     def clean(self): 
-	if " " in self.code: 
-	    raise ValidationError("Spaces not allowed in the code")
+	pass
 	
-	if self.expires < datetime.date.today()+datetime.timedelta(days=1):
-	    raise ValidationError("Coupon must expire atleast one day from now")
     
     #user_id = Column(Integer,ForeignKey("tg_user.user_id"))
     #club_id = Column(Integer,ForeignKey("pdk_club.club_id"))    
