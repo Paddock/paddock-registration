@@ -29,9 +29,9 @@ class TodayOrLaterField(m.DateField):
 	if value and value < datetime.date.today()+datetime.timedelta(days=1):
 	    raise ValidationError("Coupon must expire atleast one day from now")
 
-class CodeField(m.CharField): 
+class CouponCodeField(m.CharField): 
     def validate(self,value,model_instance): 
-	super(CodeField,self).validate(value,model_instance)
+	super(CouponCodeField,self).validate(value,model_instance)
 	
 	if " " in value: 
 	    raise ValidationError("Spaces not allowed in the code")
@@ -481,7 +481,7 @@ class Transaction(m.Model):
     #coupon = relationship("Coupon",backref=backref("transaction", uselist=False))
     
 class Coupon(m.Model):     
-    code = CodeField("code",max_length=20)
+    code = CouponCodeField("code",max_length=20)
     
     is_percent = m.BooleanField("%",default=False)   
     is_giftcard = m.BooleanField("GiftCard",default=False)
