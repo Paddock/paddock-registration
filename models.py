@@ -18,9 +18,11 @@ def urlsafe(name):
     
     return safe
         
-def find_driver_car(f_name=None,l_name=None,car_year=None,car_make=None,car_model=None):
-    #look for a driver/car that might match any of these attrs
-    raise NotImplementedError
+def find_user(query):
+    """look for a driver that might match any of these attrs"""
+    
+    return User.objects.filter(m.Q(last_name__icontains=query)|
+                                 m.Q(first_name__icontains=query)).all()
 
 class TodayOrLaterField(m.DateField): 
     def validate(self,value,model_instance): 
