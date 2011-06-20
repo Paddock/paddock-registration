@@ -18,8 +18,6 @@ from paddock.model_tests.test_registration import TestRegistration
 from paddock.model_tests.test_coupon import TestCoupon
 
 
-
-
 class TestGeneral(TestCase): 
     
     def setUp(self): 

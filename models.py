@@ -109,7 +109,7 @@ class Club(m.Model):
 	    return self.safe_name
 	
     def check_dibs(self,number,race_class): 
-	"""Checks to see if anyone has dibs on the given number/race_class for a club club"""
+	"""Checks to see if anyone has dibs on the given number/race_class for a club"""
 	pass
         
 	     
@@ -173,6 +173,14 @@ class RaceClass(m.Model):
     
     def __unicode__(self): 
         return u"%s %1.3f"%(self.name,self.pax)
+    
+class Dibs(m.Model): 
+
+    number = m.IntegerField("Number")    
+    race_class = m.ForeignKey('RaceClass',related_name='+')
+    club = m.ForeignKey("Club",related_name='dibs')
+    user = m.ForeignKey(User,related_name='dibs')
+    
     
 class Season(m.Model): 
     year = m.IntegerField(default=None)
@@ -334,9 +342,7 @@ class Registration(m.Model):
 		raise ValidationError("Only %d registrations for %s are allowed "
 		                      "for this event. The class is full"%(self.race_class.event_reg_limit,
 		                                                           self.race_class.name))
-	                                        
-	
-    
+	                                            
         
 class RegDetail(m.Model): 
     
