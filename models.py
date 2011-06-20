@@ -109,10 +109,15 @@ class Club(m.Model):
 	    return self.safe_name
 	
     def check_dibs(self,number,race_class): 
-	"""Checks to see if anyone has dibs on the given number/race_class for a club"""
-	pass
-        
-	     
+	"""Checks to see if anyone has dibs on the given number/race_class for a club.
+        returns True if someone has dibs on the number/race_class
+        """
+	
+	try: 
+	    Dibs.objects.filter(club=self,race_class=race_class,number=number).get()
+        except Dibs.DoesNotExist: 
+	    return False
+	return True     
 
 class Membership(m.Model): 
     
@@ -175,7 +180,7 @@ class RaceClass(m.Model):
         return u"%s %1.3f"%(self.name,self.pax)
     
 class Dibs(m.Model): 
-
+    
     number = m.IntegerField("Number")    
     race_class = m.ForeignKey('RaceClass',related_name='+')
     club = m.ForeignKey("Club",related_name='dibs')
