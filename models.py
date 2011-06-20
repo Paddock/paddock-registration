@@ -114,7 +114,10 @@ class Club(m.Model):
         """
 	
 	try: 
-	    Dibs.objects.filter(club=self,race_class=race_class,number=number).get()
+            if isinstance(race_class,str): 
+		Dibs.objects.filter(club=self,number=number,race_class__name=race_class).get()
+	    else: 	
+		Dibs.objects.filter(club=self,race_class=race_class,number=number).get()
         except Dibs.DoesNotExist: 
 	    return False
 	return True     
