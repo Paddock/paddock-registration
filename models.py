@@ -260,7 +260,8 @@ class Event(m.Model):
 	    if reg_check: 
 		return False
 	    
-	#TODO: Check if anyone has dibs on this number for this club
+	if self.club.check_dibs(number,race_class): 
+	    return False
         return True	
     
     def clean(self): 
