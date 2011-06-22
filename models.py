@@ -145,6 +145,7 @@ class Club(m.Model):
 	                        user=user, 
 	                        default={'expires':expires})
 	    if not_created: 
+		#TODO, add some extra time based on how long you have had the dibs? 
 		dibs.expires = expires
 		dibs.save()
 		
