@@ -136,7 +136,7 @@ class Club(m.Model):
 	except Registration.DoesNotExist: #No one meets the criteria, so just stop
 	    return 
 	
-	expires = datetime.date.today()+datetime.timedelta(months=self.dibs_duration)
+	expires = datetime.date.today()+datetime.timedelta(days=30)
 	for reg in regs: 
 	    user = reg.reg_detail.user
 	    dibs,created = Dibs.objects.get_or_create(number=reg.number,
@@ -145,8 +145,11 @@ class Club(m.Model):
 	                        user=user, 
 	                        default={'expires':expires})
 	    if not_created: 
-		#TODO, add some extra time based on how long you have had the dibs? 
-		dibs.expires = expires
+		time_held = dibs.expires-dibs.created
+		months_held = time_held.days/30 #gets the whole number of months held, drops remainder
+		if months_held > 12: 
+		    months_held = 12 #can't hold for more than 1 year
+		dibs.expires = dibs.created+datetime.timedelta(days=months_held*30)
 		dibs.save()
 		
 	
