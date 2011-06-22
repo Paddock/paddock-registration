@@ -4,7 +4,7 @@ from urllib import pathname2url
 import re
 from copy import copy
 
-from django.db import models as m
+from django.db import models as m, count
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -102,11 +102,53 @@ class Club(m.Model):
     state = m.CharField('State',max_length=25,blank=True) #USStateField('State')
     zip_code = m.CharField('Zip Code',max_length=12,blank=True) #USZipCodeField('Zip Code')
     
+    events_for_dibs = m.IntegerField("# of events to get dibs",default=3)
+    
     active_season = m.OneToOneField("Season",related_name="+",blank=True,null=True)
     default_location = m.OneToOneField("Location",related_name="+",blank=True,null=True)
     
     def __unicode__(self): 
 	    return self.safe_name
+	
+    def assign_dibs(self):
+	"""looks through the most recent events to assign 
+	dibs to anyone who has earned it.""" 
+        	
+	
+	#check for new users who earned dibs
+	#find last three events
+	try: 
+	    last_three = Event.objects.filter(season__club==self).order_by('-date')[:2]
+	    if len(last_three) != self.events_for_dibs: 
+		#there have not been enough events yet to grant dibs
+		return 
+	except IndexError: #then there are no events, so just stop 
+	    return 
+	    
+	#look for people who have used the same num/class in the last N events    
+	try: 
+	    regs=Registration.objects.select_related("reg_detail__user",
+	                                             "race_class").\
+	                         filter(event__season__club=self,
+		                        event__in=last_three,
+		                        ).values('reg_detail__user','num','race_class').\
+		        aggregate(reg_count = count('pk')).filter(reg_count=self.events_for_dibs).get()
+	except Registration.DoesNotExist: #No one meets the criteria, so just stop
+	    return 
+	
+	expires = datetime.date.today()+datetime.timedelta(months=self.dibs_duration)
+	for reg in regs: 
+	    user = reg.reg_detail.user
+	    dibs,created = Dibs.objects.get_or_create(number=reg.number,
+	                        race_class=reg.race_class,
+	                        club=self,
+	                        user=user, 
+	                        default={'expires':expires})
+	    if not_created: 
+		dibs.expires = expires
+		dibs.save()
+		
+	
 	
     def check_dibs(self,number,race_class): 
 	"""Checks to see if anyone has dibs on the given number/race_class for a club.
@@ -183,7 +225,7 @@ class RaceClass(m.Model):
         return u"%s %1.3f"%(self.name,self.pax)
     
 class Dibs(m.Model): 
-    
+    created = m.DateField(auto_now_add=True)
     number = m.IntegerField("Number")    
     race_class = m.ForeignKey('RaceClass',related_name='+')
     club = m.ForeignKey("Club",related_name='dibs')
