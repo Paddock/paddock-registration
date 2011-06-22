@@ -226,6 +226,7 @@ class RaceClass(m.Model):
     
 class Dibs(m.Model): 
     created = m.DateField(auto_now_add=True)
+    expires = m.DateField(blank=True)
     number = m.IntegerField("Number")    
     race_class = m.ForeignKey('RaceClass',related_name='+')
     club = m.ForeignKey("Club",related_name='dibs')
