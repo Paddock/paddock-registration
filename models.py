@@ -115,10 +115,20 @@ class Club(m.Model):
 	dibs to anyone who has earned it.""" 
         	
 	
+        #look for all drivers who have dibs, and have run once in the last X events
+	"""time_held = dibs.expires-dibs.created
+	months_held = time_held.days/30 #gets the whole number of months held, drops remainder
+	if months_held > 12: 
+	    months_held = 12 #can't hold for more than 1 year
+	dibs.expires = dibs.expires+datetime.timedelta(days=months_held*30)
+	dibs.save()"""
+	
 	#check for new users who earned dibs
 	#find last three events
 	try: 
-	    last_three = Event.objects.filter(season__club==self).order_by('-date')[:2]
+	    recent_events = Event.objects.filter(season__club==self,
+	                                         results__isnull=False
+	                                         ).order_by('-date')[:self.events_for_dibs-1]
 	    if len(last_three) != self.events_for_dibs: 
 		#there have not been enough events yet to grant dibs
 		return 
@@ -130,13 +140,21 @@ class Club(m.Model):
 	    regs=Registration.objects.select_related("reg_detail__user",
 	                                             "race_class").\
 	                         filter(event__season__club=self,
-		                        event__in=last_three,
+		                        event__in=recent_events,
 		                        ).values('reg_detail__user','num','race_class').\
 		        aggregate(reg_count = count('pk')).filter(reg_count=self.events_for_dibs).get()
 	except Registration.DoesNotExist: #No one meets the criteria, so just stop
 	    return 
 	
-	expires = datetime.date.today()+datetime.timedelta(days=30)
+	try: 
+	    next_event = Events.objects.filter(season_club=self,date__gt=datetime.today()).order_by('date')[0].get()
+	    #get dibs for one month past the date of the next event
+	    expires = next_event.date + datetime.timedelta(days=30)
+	except Event.DoesNotExist: 
+	    #if there is no future even in the system yet, just give it to you for 6 months
+	    expires = datetime.date.today()+datetime.timedelta(days=180)
+	
+	#get or create because someone with dibs might have run the last X events and be in this list
 	for reg in regs: 
 	    user = reg.reg_detail.user
 	    dibs,created = Dibs.objects.get_or_create(number=reg.number,
@@ -144,13 +162,6 @@ class Club(m.Model):
 	                        club=self,
 	                        user=user, 
 	                        default={'expires':expires})
-	    if not_created: 
-		time_held = dibs.expires-dibs.created
-		months_held = time_held.days/30 #gets the whole number of months held, drops remainder
-		if months_held > 12: 
-		    months_held = 12 #can't hold for more than 1 year
-		dibs.expires = dibs.created+datetime.timedelta(days=months_held*30)
-		dibs.save()
 		
 	
 	
