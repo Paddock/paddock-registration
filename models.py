@@ -4,7 +4,7 @@ from urllib import pathname2url
 import re
 from copy import copy
 
-from django.db import models as m, count
+from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -131,11 +131,10 @@ class Club(m.Model):
         try: 
 	    regs=Registration.objects.select_related("reg_detail__user",
 	                                             'reg_detail__user__dibs').\
-	                         filter(event__season__club=self,
-		                        event__in=recent_events,
+	                         filter(event__in=recent_events,
 	                                reg_detail__user__dibs__isnull=False,
 		                        ).values('reg_detail__user','num','race_class').\
-		        aggregate(reg_count = count('pk')).filter(reg_count__gte=1).get()
+		        aggregate(reg_count = m.Count('pk')).filter(reg_count__gte=1).get()
 	except Registration.DoesNotExist: #No one meets the criteria, so just stop
 	    return 	
 	for reg in regs: 
@@ -153,10 +152,9 @@ class Club(m.Model):
 	try: 
 	    regs=Registration.objects.select_related("reg_detail__user",
 	                                             "race_class").\
-	                         filter(event__season__club=self,
-		                        event__in=recent_events,
+	                         filter(event__in=recent_events,
 		                        ).values('reg_detail__user','num','race_class').\
-		        aggregate(reg_count = count('pk')).filter(reg_count=self.events_for_dibs).get()
+		        aggregate(reg_count = m.Count('pk')).filter(reg_count=self.events_for_dibs).get()
 	except Registration.DoesNotExist: #No one meets the criteria, so just stop
 	    return 
 	
@@ -177,7 +175,7 @@ class Club(m.Model):
 	                        race_class=reg.race_class,
 	                        club=self,
 	                        user=user, 
-	                        default={'expires':expires},'duration':duration)
+	                        default={'expires':expires,'duration':duration})
 		
 	
 	
@@ -336,7 +334,7 @@ class Event(m.Model):
 	    if reg_check: 
 		return False
 	    
-	if self.club.check_dibs(number,race_class): 
+	if self.season.club.check_dibs(number,race_class): 
 	    return False
         return True	
     
@@ -441,7 +439,7 @@ class RegDetail(m.Model):
 class Session(m.Model): 
     name = m.CharField(max_length=30)
     event = m.ForeignKey("Event",related_name="sessions")
-    course = m.OneToOneField("Course")
+    course = m.OneToOneField("Course",blank=True,null=True)
     
     def __unicode__(self): 
         return self.name
@@ -467,9 +465,9 @@ class Result(m.Model):
         #return min(runs,key=lambda r:r.calc_time)
 
 class Run(m.Model):     
-    base_time = m.FloatField()
-    calc_time = m.FloatField()
-    index_time = m.FloatField()
+    base_time = m.FloatField('Base Time')
+    calc_time = m.FloatField('Calculated Time')
+    index_time = m.FloatField('Indexed Time')
     
     cones = m.IntegerField(default=0)
     penalty = m.CharField(default=None,max_length=10,null=True)
