@@ -16,6 +16,7 @@ from paddock.model_tests.test_season import TestSeason
 from paddock.model_tests.test_event import TestEvent
 from paddock.model_tests.test_registration import TestRegistration
 from paddock.model_tests.test_coupon import TestCoupon
+from paddock.model_tests.test_dibs import TestDibs
 
 
 class TestGeneral(TestCase): 
