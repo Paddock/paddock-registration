@@ -13,6 +13,7 @@ class TestDibs(unittest.TestCase):
         
         self.c = Club()
         self.c.name = "test"
+        self.c.events_for_dibs = 2
         
         self.race_class = RaceClass()
         self.race_class.name = "CSP"
@@ -68,8 +69,9 @@ class TestDibs(unittest.TestCase):
         for i,user in enumerate(self.users): 
             rd= RegDetail()
             rd.user = user
+            rd.save()
             for j,event in enumerate(self.events): 
-                if i<=j: 
+                if j<=i: 
                     r = Registration()
                     r.number = "%d%d"%(i+1,j+1)
                     r.race_class = self.race_class
@@ -83,15 +85,15 @@ class TestDibs(unittest.TestCase):
                     result.session = event.sessions.all()[0]
                     result.save()
                     
-                    for i in range(0,3):
+                    for k in range(0,3):
                         r = Run()
                         r.base_time = 10.0
                         r.calc_time = 10.0
                         r.index_time = 10.0
                         r.result = result
                         r.save()
-        
-        
+
+                        
     def tearDown(self): 
         self.u3.delete()
         self.u2.delete()
@@ -100,8 +102,10 @@ class TestDibs(unittest.TestCase):
         self.c.delete()
         
     def test_1_dibs(self): 
-        pass
         
+        self.c.assign_dibs()
+        
+        self.assertEqual(len(self.c.dibs.all()),2)        
         
         
         

@@ -114,31 +114,53 @@ class Club(m.Model):
 	"""looks through the most recent events to assign 
 	dibs to anyone who has earned it.""" 
         today = datetime.date.today()
-	
 	#find last N events
 	try: 
-	    recent_events = Event.objects.filter(season__club==self,
-	                                         results__isnull=False
-	                                         ).order_by('-date')[:self.events_for_dibs-1]
-	    if len(last_three) != self.events_for_dibs: 
+	    """recent_events = Event.objects.filter(season__club=self,
+	                                         sessions__isnull=False,
+	                                         sessions__results__isnull=False
+	                                         ).\
+	                                  order_by('-date')#.all()#[:self.events_for_dibs]"""
+	    #TODO: Look into aggregation to try and avoid the raw query here, 
+	    #      but the raw query migh be the most efficient
+	    recent_events = [x for x in Event.objects.raw('''SELECT "paddock_event".* FROM "paddock_event" 
+	                                      INNER JOIN "paddock_session" ON 
+	                                      ("paddock_event"."id" = "paddock_session"."event_id") 
+	                                      INNER JOIN "paddock_result" ON (
+	                                      "paddock_session"."id" = "paddock_result"."session_id") 
+	                                      INNER JOIN "paddock_season" ON 
+	                                      ("paddock_event"."season_id" = "paddock_season"."id") 
+	                                      WHERE ("paddock_result"."id" IS NOT NULL 
+	                                             AND "paddock_season"."club_id" = "%s"  
+	                                            AND "paddock_session"."id" IS NOT NULL) 
+	                                      GROUP BY "paddock_event"."id"
+	                                      ORDER BY "paddock_event"."date" DESC
+	                                      LIMIT %d'''%(self.pk,self.events_for_dibs))]
+
+	    if len(recent_events) != self.events_for_dibs: 
 		#there have not been enough events yet to grant dibs
 		return 
-	except IndexError: #then there are no events, so just stop 
+	    
+	except Event.DoesNotExist: #then there are no events, so just stop 
 	    return 
 	
-        #look for all drivers who have dibs, and have run once in the last X events
-	#    adjust their expiration dates/durations as necessary
+        #look for all dibs with drivers who have a registration in one of the last N events
         try: 
-	    regs=Registration.objects.select_related("reg_detail__user",
+	    """regs=Registration.objects.select_related("reg_detail__user",
 	                                             'reg_detail__user__dibs').\
 	                         filter(event__in=recent_events,
 	                                reg_detail__user__dibs__isnull=False,
-		                        ).values('reg_detail__user','num','race_class').\
-		        aggregate(reg_count = m.Count('pk')).filter(reg_count__gte=1).get()
+		                        ).values('reg_detail__user','number','race_class').\
+		        annotate(reg_count = m.Count('pk')).filter(reg_count__gte=1).all()"""
+	    regs=Registration.objects.select_related("reg_detail__user",
+	                                             'reg_detail__user__dibs').\
+	                          filter(event__in=recent_events,
+		                        ).all()
+	    print regs
 	except Registration.DoesNotExist: #No one meets the criteria, so just stop
 	    return 	
 	for reg in regs: 
-	    dibs = reg.user_detail.user.dibs
+	    dibs = reg.reg_detail.user.dibs.all()
 	    time_held = dibs.expires-dibs.created
 	    months_held = time_held.days/30 #gets the whole number of months held, drops remainder
 	    if months_held > 12: 
@@ -153,8 +175,8 @@ class Club(m.Model):
 	    regs=Registration.objects.select_related("reg_detail__user",
 	                                             "race_class").\
 	                         filter(event__in=recent_events,
-		                        ).values('reg_detail__user','num','race_class').\
-		        aggregate(reg_count = m.Count('pk')).filter(reg_count=self.events_for_dibs).get()
+		                        ).values('reg_detail__user','number','race_class').\
+		        annotate(reg_count = m.Count('pk')).filter(reg_count=self.events_for_dibs).get()
 	except Registration.DoesNotExist: #No one meets the criteria, so just stop
 	    return 
 	
@@ -448,9 +470,8 @@ class Result(m.Model):
     best_run = m.OneToOneField("Run",related_name="+",null=True)
     reg = m.ForeignKey("Registration",related_name="results")
     
-    #session is used for database, so for clarity names sess
     #TODO: Remove null
-    sess = m.ForeignKey("Session",related_name="results",null=True) 
+    session = m.ForeignKey("Session",related_name="results",null=True) 
     
     #TODO: make a widget so that a result knows how to render itslf, take options for class/index view
     
