@@ -120,9 +120,10 @@ class Club(m.Model):
 	                                         sessions__isnull=False,
 	                                         sessions__results__isnull=False
 	                                         ).\
-	                                  order_by('-date').all()[:self.events_for_dibs].annotate(m.Count("sessions"))
-	    #TODO: Look into aggregation to try and avoid the raw query here, 
-	    #      but the raw query migh be the most efficient
+	                                  order_by('-date')[:self.events_for_dibs].\
+	                                  annotate().all()
+	    
+	    
 	    """recent_events = [x for x in Event.objects.raw('''SELECT "paddock_event".* FROM "paddock_event" 
 	                                      INNER JOIN "paddock_session" ON 
 	                                      ("paddock_event"."id" = "paddock_session"."event_id") 
