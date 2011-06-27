@@ -11,6 +11,8 @@ class TestDibs(unittest.TestCase):
     
     def setUp(self): 
         
+        self.today = datetime.date.today()
+        
         self.c = Club()
         self.c.name = "test"
         self.c.events_for_dibs = 2
@@ -28,21 +30,27 @@ class TestDibs(unittest.TestCase):
         
         self.e1 = Event()
         self.e1.name = "event1"
-        self.e1.date = datetime.date(2011,5,1)
+        self.e1.date = self.today-datetime.timedelta(days=10)
         self.e1.season = self.s
         self.e1.save()
         
         self.e2 = Event()
         self.e2.name = "event2"
-        self.e2.date = datetime.date(2011,5,2)
+        self.e2.date = self.today-datetime.timedelta(days=8)
         self.e2.season = self.s
         self.e2.save()
         
         self.e3 = Event()
         self.e3.name = "event3"
-        self.e3.date = datetime.date(2011,5,2)
+        self.e3.date = self.today-datetime.timedelta(days=5)
         self.e3.season = self.s
         self.e3.save()
+        
+        self.e4 = Event()
+        self.e4.name = "event4"
+        self.e4.date = self.today+datetime.timedelta(days=10)
+        self.e4.season = self.s
+        self.e4.save()
         
         self.events = [self.e1,self.e2,self.e3]       
         
@@ -73,7 +81,7 @@ class TestDibs(unittest.TestCase):
             for j,event in enumerate(self.events): 
                 if j<=i: 
                     r = Registration()
-                    r.number = "%d%d"%(i+1,j+1)
+                    r.number = "%d"%(i+1)
                     r.race_class = self.race_class
                     r.pax_class = None
                     r.event = event    
@@ -105,7 +113,32 @@ class TestDibs(unittest.TestCase):
         
         self.c.assign_dibs()
         
-        self.assertEqual(len(self.c.dibs.all()),2)        
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(dibs.number,3)
+        self.assertEqual(dibs.race_class,self.race_class)
+        self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
+        
+    def test_update_existing_dibs(self):
+        
+        dibs = Dibs()
+        dibs.club = self.c
+        dibs.user = self.u3
+        dibs.race_class = self.race_class
+        dibs.number = 3
+        dibs.duration = 30
+        dibs.expires = self.today+datetime.timedelta(days=5)
+        dibs.save()
+        dibs.created = self.today-datetime.timedelta(days=60)
+        dibs.save()
+        
+        self.c.assign_dibs()       
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(dibs.duration,60)
+        self.assertEqual(dibs.expires,self.e3.date+datetime.timedelta(days=60))
+        
+        dibs.delete()
         
         
         
