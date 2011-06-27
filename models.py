@@ -115,90 +115,85 @@ class Club(m.Model):
 	dibs to anyone who has earned it.""" 
         today = datetime.date.today()
 	#find last N events
-	try: 
-	    recent_events = Event.objects.filter(season__club=self,
-	                                         sessions__isnull=False,
-	                                         sessions__results__isnull=False
-	                                         ).\
-	                                  order_by('-date')[:self.events_for_dibs].\
-	                                  annotate().all()
-	    
-	    
-	    """recent_events = [x for x in Event.objects.raw('''SELECT "paddock_event".* FROM "paddock_event" 
-	                                      INNER JOIN "paddock_session" ON 
-	                                      ("paddock_event"."id" = "paddock_session"."event_id") 
-	                                      INNER JOIN "paddock_result" ON (
-	                                      "paddock_session"."id" = "paddock_result"."session_id") 
-	                                      INNER JOIN "paddock_season" ON 
-	                                      ("paddock_event"."season_id" = "paddock_season"."id") 
-	                                      WHERE ("paddock_result"."id" IS NOT NULL 
-	                                             AND "paddock_season"."club_id" = "%s"  
-	                                            AND "paddock_session"."id" IS NOT NULL) 
-	                                      GROUP BY "paddock_event"."id"
-	                                      ORDER BY "paddock_event"."date" DESC
-	                                      LIMIT %d'''%(self.pk,self.events_for_dibs))]"""
-            print "recent_events:", recent_events
-	    if len(recent_events) != self.events_for_dibs: 
-		#there have not been enough events yet to grant dibs
-		return 
-	    
-	except Event.DoesNotExist: #then there are no events, so just stop 
+	recent_events = Event.objects.filter(season__club=self,
+                                             sessions__isnull=False,
+                                             sessions__results__isnull=False
+                                             ).\
+                                      order_by('-date')[:self.events_for_dibs].\
+                                      annotate().all()
+	
+	
+	"""recent_events = [x for x in Event.objects.raw('''SELECT "paddock_event".* FROM "paddock_event" 
+					  INNER JOIN "paddock_session" ON 
+					  ("paddock_event"."id" = "paddock_session"."event_id") 
+					  INNER JOIN "paddock_result" ON (
+					  "paddock_session"."id" = "paddock_result"."session_id") 
+					  INNER JOIN "paddock_season" ON 
+					  ("paddock_event"."season_id" = "paddock_season"."id") 
+					  WHERE ("paddock_result"."id" IS NOT NULL 
+						 AND "paddock_season"."club_id" = "%s"  
+						AND "paddock_session"."id" IS NOT NULL) 
+					  GROUP BY "paddock_event"."id"
+					  ORDER BY "paddock_event"."date" DESC
+					  LIMIT %d'''%(self.pk,self.events_for_dibs))]"""
+	print "recent_events:", recent_events
+	if len(recent_events) != self.events_for_dibs: 
+	    #there have not been enough events yet to grant dibs
 	    return 
 	
         #look for all dibs with drivers who have a registration in one of the last N events
-        try: 
-	    """regs=Registration.objects.select_related("reg_detail__user",
-	                                             'reg_detail__user__dibs').\
-	                         filter(event__in=recent_events,
-	                                reg_detail__user__dibs__isnull=False,
-		                        ).values('reg_detail__user','number','race_class').\
-		        annotate(reg_count = m.Count('pk')).filter(reg_count__gte=1).all()"""
-	    regs=Registration.objects.select_related("reg_detail__user",
-	                                             'reg_detail__user__dibs').\
-	                          filter(event__in=recent_events,
-		                        ).all()
-	    print regs
-	except Registration.DoesNotExist: #No one meets the criteria, so just stop
-	    return 	
-	for reg in regs: 
-	    dibs = reg.reg_detail.user.dibs.all()
-	    time_held = dibs.expires-dibs.created
+	"""regs=Registration.objects.select_related("reg_detail__user",
+						 'reg_detail__user__dibs').\
+			     filter(event__in=recent_events,
+				    reg_detail__user__dibs__isnull=False,
+				    ).values('reg_detail__user','number','race_class').\
+		    annotate(reg_count = m.Count('pk')).filter(reg_count__gte=1).all()"""
+	#TODO: Select the right dibs
+	dibs = Dibs.objects.all()
+	print "dibs",dibs
+	
+	for d in dibs: 
+	    time_held = d.expires-d.created
 	    months_held = time_held.days/30 #gets the whole number of months held, drops remainder
 	    if months_held > 12: 
 		months_held = 12 #can't hold for more than 1 year
-	    dibs.duration = months_held
-	    dibs.expires = reg.event.date+datetime.timedelta(days=months_held*30)
-	    dibs.save()
+	    d.duration = months_held*30
+	    d.expires = recent_events[0].date+datetime.timedelta(days=months_held*30)
+	    d.save()
 	
 	#check for new users who earned dibs
-	#look for people who have used the same num/class in the last N events    
-	try: 
-	    regs=Registration.objects.select_related("reg_detail__user",
-	                                             "race_class").\
-	                         filter(event__in=recent_events,
-		                        ).values('reg_detail__user','number','race_class').\
-		        annotate(reg_count = m.Count('pk')).filter(reg_count=self.events_for_dibs).get()
-	except Registration.DoesNotExist: #No one meets the criteria, so just stop
-	    return 
+	#look for people who have used the same num/class in the last N events and don't already have dibs     
+	
+	#users = User.objects.filter(reg_details__regs__event__in=recent_events).\
+	#                     annotate(num_regs=m.Count("reg_details__regs")).\
+	#                     filter(num_regs=self.events_for_dibs).all()
+	#print "users that earned dibs: ", users
+	
+	regs = Registration.objects.values('number','race_class','reg_detail__user').\
+				   filter(event__in=recent_events).\
+	                           annotate(reg_count=m.Count('number')).\
+	                           filter(reg_count=self.events_for_dibs).all()
+	print "regs that earned dibs: "
+	for x in regs: 
+	    print x
 	
 	try: 
-	    next_event = Events.objects.filter(season_club=self,date__gt=today).order_by('date')[0].get()
+	    next_event = Event.objects.filter(season__club=self,date__gt=today).order_by('date')[0]
 	    #get dibs for one month past the date of the next event
-	    duration = datetime.timedelta(days=30)
-	    expires =  next_event.date + duration
-	except Event.DoesNotExist: 
+	    duration = 30
+	    expires =  next_event.date + datetime.timedelta(days=duration)
+	except IndexError: 
 	    #if there is no future even in the system yet, just give it to you for 6 months
-	    duration = datetime.date.today()+datetime.timedelta(days=180)
+	    duration = 180
 	    expires = today+datetime.timedelta(days=180)
 	
 	#get or create because someone with dibs might have run the last X events and be in this list
 	for reg in regs: 
-	    user = reg.reg_detail.user
-	    dibs,created = Dibs.objects.get_or_create(number=reg.number,
-	                        race_class=reg.race_class,
+	    dibs,created = Dibs.objects.get_or_create(number=reg['number'],
+	                        race_class_id=reg['race_class'],
 	                        club=self,
-	                        user=user, 
-	                        default={'expires':expires,'duration':duration})
+	                        user_id=reg['reg_detail__user'], 
+	                        defaults={'expires':expires,'duration':duration})
 		
 	
 	
@@ -280,7 +275,8 @@ class Dibs(m.Model):
     created = m.DateField(auto_now_add=True)
     expires = m.DateField("Expires")
     duration = m.IntegerField("#of days",
-                              help_text="# of days after the most recent event a User ran in the Dibs is valid for")
+                              help_text="# of days after the most recent event a User ran in the Dibs is valid for",
+                              default=30)
     number = m.IntegerField("Number")    
     race_class = m.ForeignKey('RaceClass',related_name='+')
     club = m.ForeignKey("Club",related_name='dibs')
@@ -452,7 +448,7 @@ class Registration(m.Model):
         
 class RegDetail(m.Model): 
     
-    user = m.ForeignKey(User,related_name="regs")
+    user = m.ForeignKey(User,related_name="reg_details")
     #TODO: transaction = m.ForeignKey("Transaction",related_name="+")
     
     def __unicode__(self): 
