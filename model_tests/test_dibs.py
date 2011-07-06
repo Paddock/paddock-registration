@@ -119,6 +119,67 @@ class TestDibs(unittest.TestCase):
         self.assertEqual(dibs.race_class,self.race_class)
         self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
         
+        Dibs.objects.all().delete()
+        
+    def test_no_dibs(self): 
+        reg = Registration()
+        rd = RegDetail()
+        rd.user = self.u1
+        rd.save()
+        reg.reg_detail = rd
+        reg.number = 15
+        reg.race_class = self.race_class
+        reg.pax_class = None
+        reg.event = self.e4
+        reg.save()   
+        
+        s = Session()
+        s.event = self.e4
+        s.name = "AM"
+        s.save()
+        
+        result = Result()
+        result.reg = reg
+        result.session = s
+        result.save()
+        
+        for k in range(0,3):
+            r = Run()
+            r.base_time = 10.0
+            r.calc_time = 10.0
+            r.index_time = 10.0
+            r.result = result
+            r.save()        
+        
+        self.c.assign_dibs()
+        self.assertEqual(len(Dibs.objects.all()),0) 
+                        
+        reg.delete()
+        s.delete()
+        
+    def test_no_result_reg_dibs(self): 
+        reg = Registration()
+        rd = RegDetail()
+        rd.user = self.u2
+        rd.save()
+        reg.reg_detail = rd
+        reg.number = 15
+        reg.race_class = self.race_class
+        reg.pax_class = None
+        reg.event = self.e3
+        reg.save() 
+        
+        self.c.assign_dibs()
+        
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(dibs.number,3)
+        self.assertEqual(dibs.race_class,self.race_class)
+        self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
+        
+        reg.delete()
+        Dibs.objects.all().delete()
+        
     def test_update_existing_dibs(self):
         
         dibs = Dibs()
@@ -139,6 +200,27 @@ class TestDibs(unittest.TestCase):
         self.assertEqual(dibs.expires,self.e3.date+datetime.timedelta(days=60))
         
         dibs.delete()
+        
+    def test_dont_update_old_dibs(self): 
+        
+        dibs = Dibs()
+        dibs.club = self.c
+        dibs.user = self.u1
+        dibs.race_class = self.race_class
+        dibs.number = 3
+        dibs.duration = 30
+        dibs.expires = self.today-datetime.timedelta(days=5)
+        dibs.save()
+        dibs.created = self.today-datetime.timedelta(days=60)
+        dibs.save()
+        
+        self.c.assign_dibs()  
+        
+        dibs = Dibs.objects.filter(user=self.u1).get()
+        
+        self.assertEqual(dibs.expires,self.today-datetime.timedelta(days=5))
+        self.assertEqual(dibs.duration,30)
+        
         
         
         
