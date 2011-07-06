@@ -136,21 +136,16 @@ class Club(m.Model):
 					  GROUP BY "paddock_event"."id"
 					  ORDER BY "paddock_event"."date" DESC
 					  LIMIT %d'''%(self.pk,self.events_for_dibs))]"""
-	print "recent_events:", recent_events
+	#print "recent_events:", recent_events
 	if len(recent_events) != self.events_for_dibs: 
 	    #there have not been enough events yet to grant dibs
 	    return 
 	
         #look for all dibs with drivers who have a registration in one of the last N events
-	"""regs=Registration.objects.select_related("reg_detail__user",
-						 'reg_detail__user__dibs').\
-			     filter(event__in=recent_events,
-				    reg_detail__user__dibs__isnull=False,
-				    ).values('reg_detail__user','number','race_class').\
-		    annotate(reg_count = m.Count('pk')).filter(reg_count__gte=1).all()"""
-	#TODO: Select the right dibs
-	dibs = Dibs.objects.all()
-	print "dibs",dibs
+	dibs = Dibs.objects.filter(user__reg_details__regs__event__in=recent_events,
+	                           user__reg_details__regs__isnull=False,
+	                           user__reg_details__regs__results__isnull=False).all()
+	#print "dibs",dibs
 	
 	for d in dibs: 
 	    time_held = d.expires-d.created
@@ -170,12 +165,12 @@ class Club(m.Model):
 	#print "users that earned dibs: ", users
 	
 	regs = Registration.objects.values('number','race_class','reg_detail__user').\
-				   filter(event__in=recent_events).\
+				   filter(event__in=recent_events,results__isnull=False).\
 	                           annotate(reg_count=m.Count('number')).\
 	                           filter(reg_count=self.events_for_dibs).all()
-	print "regs that earned dibs: "
-	for x in regs: 
-	    print x
+	#print "regs that earned dibs: "
+	#for x in regs: 
+	#    print x
 	
 	try: 
 	    next_event = Event.objects.filter(season__club=self,date__gt=today).order_by('date')[0]
@@ -281,6 +276,9 @@ class Dibs(m.Model):
     race_class = m.ForeignKey('RaceClass',related_name='+')
     club = m.ForeignKey("Club",related_name='dibs')
     user = m.ForeignKey(User,related_name='dibs')
+    
+    def __unicode__(self):
+	return "%d %s, for %s"%(self.number,self.race_class.name,self.user.username)
     
     
 class Season(m.Model): 
