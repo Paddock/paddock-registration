@@ -122,20 +122,6 @@ class Club(m.Model):
                                       order_by('-date')[:self.events_for_dibs].\
                                       annotate().all()
 	
-	
-	"""recent_events = [x for x in Event.objects.raw('''SELECT "paddock_event".* FROM "paddock_event" 
-					  INNER JOIN "paddock_session" ON 
-					  ("paddock_event"."id" = "paddock_session"."event_id") 
-					  INNER JOIN "paddock_result" ON (
-					  "paddock_session"."id" = "paddock_result"."session_id") 
-					  INNER JOIN "paddock_season" ON 
-					  ("paddock_event"."season_id" = "paddock_season"."id") 
-					  WHERE ("paddock_result"."id" IS NOT NULL 
-						 AND "paddock_season"."club_id" = "%s"  
-						AND "paddock_session"."id" IS NOT NULL) 
-					  GROUP BY "paddock_event"."id"
-					  ORDER BY "paddock_event"."date" DESC
-					  LIMIT %d'''%(self.pk,self.events_for_dibs))]"""
 	#print "recent_events:", recent_events
 	if len(recent_events) != self.events_for_dibs: 
 	    #there have not been enough events yet to grant dibs
@@ -158,14 +144,12 @@ class Club(m.Model):
 	
 	#check for new users who earned dibs
 	#look for people who have used the same num/class in the last N events and don't already have dibs     
-	
-	#users = User.objects.filter(reg_details__regs__event__in=recent_events).\
-	#                     annotate(num_regs=m.Count("reg_details__regs")).\
-	#                     filter(num_regs=self.events_for_dibs).all()
 	#print "users that earned dibs: ", users
 	
 	regs = Registration.objects.values('number','race_class','reg_detail__user').\
-				   filter(event__in=recent_events,results__isnull=False).\
+				   filter(event__in=recent_events,
+	                                  results__isnull=False,
+	                                  race_class__allow_dibs=True).\
 	                           annotate(reg_count=m.Count('number')).\
 	                           filter(reg_count=self.events_for_dibs).all()
 	#print "regs that earned dibs: "
@@ -260,6 +244,7 @@ class RaceClass(m.Model):
     description = m.TextField("Description",blank=True,default="")
     user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
     event_reg_limit = m.IntegerField("Limit per EVent",null=True,default=None)
+    allow_dibs = m.BooleanField("dibs",default=True)
     
     club = m.ForeignKey('Club',related_name='race_classes')
     

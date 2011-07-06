@@ -221,6 +221,15 @@ class TestDibs(unittest.TestCase):
         self.assertEqual(dibs.expires,self.today-datetime.timedelta(days=5))
         self.assertEqual(dibs.duration,30)
         
+    def test_race_class_allow_dibs(self): 
+        
+        self.race_class.allow_dibs = False
+        self.race_class.save()
+        
+        self.c.assign_dibs()
+        
+        self.assertEqual(len(Dibs.objects.all()),0)
+        
         
         
         
