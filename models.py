@@ -24,6 +24,12 @@ def find_user(query):
     return User.objects.filter(m.Q(last_name__icontains=query)|
                                  m.Q(first_name__icontains=query)).all()
 
+def clean_dibs(): 
+    for c in Club.objects.all(): 
+	c.assign_dibs()
+	
+    Dibs.objects.filter(expires__lt=datetime.date.today()).delete()	
+	
 class TodayOrLaterField(m.DateField): 
     def validate(self,value,model_instance): 
 	super(TodayOrLaterField,self).validate(value,model_instance)
@@ -102,17 +108,85 @@ class Club(m.Model):
     state = m.CharField('State',max_length=25,blank=True) #USStateField('State')
     zip_code = m.CharField('Zip Code',max_length=12,blank=True) #USZipCodeField('Zip Code')
     
+    events_for_dibs = m.IntegerField("# of events to get dibs",default=3)
+    
     active_season = m.OneToOneField("Season",related_name="+",blank=True,null=True)
     default_location = m.OneToOneField("Location",related_name="+",blank=True,null=True)
     
     def __unicode__(self): 
 	    return self.safe_name
 	
+    def assign_dibs(self):
+	"""looks through the most recent events to assign 
+	dibs to anyone who has earned it.""" 
+        today = datetime.date.today()
+	#find last N events
+	recent_events = Event.objects.filter(season__club=self,
+                                             sessions__isnull=False,
+                                             sessions__results__isnull=False
+                                             ).\
+                                      order_by('-date')[:self.events_for_dibs].\
+                                      annotate().all()
+	if len(recent_events) != self.events_for_dibs: 
+	    #there have not been enough events yet to grant dibs
+	    return 
+
+        #look for all dibs with drivers who have a registration in one of the last N events
+	dibs = Dibs.objects.filter(user__reg_details__regs__event__in=recent_events,
+	                           user__reg_details__regs__isnull=False,
+	                           user__reg_details__regs__results__isnull=False).all()	
+	for d in dibs: 
+	    time_held = d.expires-d.created
+	    months_held = time_held.days/30 #gets the whole number of months held, drops remainder
+	    if months_held > 12: 
+		months_held = 12 #can't hold for more than 1 year
+	    d.duration = months_held*30
+	    d.expires = recent_events[0].date+datetime.timedelta(days=months_held*30)
+	    d.save()
+	
+	#check for new users who earned dibs
+	#look for people who have used the same num/class in the last N events and don't already have dibs     
+	
+	regs = Registration.objects.values('number','race_class','reg_detail__user').\
+				   filter(event__in=recent_events,
+	                                  results__isnull=False,
+	                                  race_class__allow_dibs=True).\
+	                           annotate(reg_count=m.Count('number')).\
+	                           filter(reg_count=self.events_for_dibs).all()
+	
+	try: 
+	    next_event = Event.objects.filter(season__club=self,date__gt=today).order_by('date')[0]
+	    #get dibs for one month past the date of the next event
+	    duration = 30
+	    expires =  next_event.date + datetime.timedelta(days=duration)
+	except IndexError: 
+	    #if there is no future even in the system yet, just give it to you for 6 months
+	    duration = 180
+	    expires = today+datetime.timedelta(days=180)
+	
+	#get or create because someone with dibs might have run the last X events and be in this list
+	for reg in regs: 
+	    dibs,created = Dibs.objects.get_or_create(number=reg['number'],
+	                        race_class_id=reg['race_class'],
+	                        club=self,
+	                        user_id=reg['reg_detail__user'], 
+	                        defaults={'expires':expires,'duration':duration})
+		
+	
+	
     def check_dibs(self,number,race_class): 
-	"""Checks to see if anyone has dibs on the given number/race_class for a club club"""
-	pass
-        
-	     
+	"""Checks to see if anyone has dibs on the given number/race_class for a club.
+        returns True if someone has dibs on the number/race_class
+        """
+	
+	try: 
+            if isinstance(race_class,str): 
+		Dibs.objects.filter(club=self,number=number,race_class__name=race_class).get()
+	    else: 	
+		Dibs.objects.filter(club=self,race_class=race_class,number=number).get()
+        except Dibs.DoesNotExist: 
+	    return False
+	return True     
 
 class Membership(m.Model): 
     
@@ -168,11 +242,27 @@ class RaceClass(m.Model):
     description = m.TextField("Description",blank=True,default="")
     user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
     event_reg_limit = m.IntegerField("Limit per EVent",null=True,default=None)
+    allow_dibs = m.BooleanField("dibs",default=True)
     
     club = m.ForeignKey('Club',related_name='race_classes')
     
     def __unicode__(self): 
         return u"%s %1.3f"%(self.name,self.pax)
+    
+class Dibs(m.Model): 
+    created = m.DateField(auto_now_add=True)
+    expires = m.DateField("Expires")
+    duration = m.IntegerField("#of days",
+                              help_text="# of days after the most recent event a User ran in the Dibs is valid for",
+                              default=30)
+    number = m.IntegerField("Number")    
+    race_class = m.ForeignKey('RaceClass',related_name='+')
+    club = m.ForeignKey("Club",related_name='dibs')
+    user = m.ForeignKey(User,related_name='dibs')
+    
+    def __unicode__(self):
+	return "%d %s, for %s"%(self.number,self.race_class.name,self.user.username)
+    
     
 class Season(m.Model): 
     year = m.IntegerField(default=None)
@@ -244,7 +334,8 @@ class Event(m.Model):
 	    if reg_check: 
 		return False
 	    
-	#TODO: Check if anyone has dibs on this number for this club
+	if self.season.club.check_dibs(number,race_class): 
+	    return False
         return True	
     
     def clean(self): 
@@ -334,13 +425,11 @@ class Registration(m.Model):
 		raise ValidationError("Only %d registrations for %s are allowed "
 		                      "for this event. The class is full"%(self.race_class.event_reg_limit,
 		                                                           self.race_class.name))
-	                                        
-	
-    
+	                                            
         
 class RegDetail(m.Model): 
     
-    user = m.ForeignKey(User,related_name="regs")
+    user = m.ForeignKey(User,related_name="reg_details")
     #TODO: transaction = m.ForeignKey("Transaction",related_name="+")
     
     def __unicode__(self): 
@@ -350,7 +439,7 @@ class RegDetail(m.Model):
 class Session(m.Model): 
     name = m.CharField(max_length=30)
     event = m.ForeignKey("Event",related_name="sessions")
-    course = m.OneToOneField("Course")
+    course = m.OneToOneField("Course",blank=True,null=True)
     
     def __unicode__(self): 
         return self.name
@@ -359,9 +448,8 @@ class Result(m.Model):
     best_run = m.OneToOneField("Run",related_name="+",null=True)
     reg = m.ForeignKey("Registration",related_name="results")
     
-    #session is used for database, so for clarity names sess
     #TODO: Remove null
-    sess = m.ForeignKey("Session",related_name="results",null=True) 
+    session = m.ForeignKey("Session",related_name="results",null=True) 
     
     #TODO: make a widget so that a result knows how to render itslf, take options for class/index view
     
@@ -376,9 +464,9 @@ class Result(m.Model):
         #return min(runs,key=lambda r:r.calc_time)
 
 class Run(m.Model):     
-    base_time = m.FloatField()
-    calc_time = m.FloatField()
-    index_time = m.FloatField()
+    base_time = m.FloatField('Base Time')
+    calc_time = m.FloatField('Calculated Time')
+    index_time = m.FloatField('Indexed Time')
     
     cones = m.IntegerField(default=0)
     penalty = m.CharField(default=None,max_length=10,null=True)
