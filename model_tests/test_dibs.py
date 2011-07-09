@@ -5,7 +5,8 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 
 from paddock.models import Club, Dibs, User, Season, Event, \
-     Registration, RegDetail, RaceClass, Run, Result, Session
+     Registration, RegDetail, RaceClass, Run, Result, Session, \
+     clean_dibs
 
 class TestDibs(unittest.TestCase): 
     
@@ -16,6 +17,7 @@ class TestDibs(unittest.TestCase):
         self.c = Club()
         self.c.name = "test"
         self.c.events_for_dibs = 2
+        self.c.save()
         
         self.race_class = RaceClass()
         self.race_class.name = "CSP"
@@ -229,6 +231,32 @@ class TestDibs(unittest.TestCase):
         self.c.assign_dibs()
         
         self.assertEqual(len(Dibs.objects.all()),0)
+        
+    def test_clean_dibs(self): 
+        
+        """dibs = Dibs()
+        dibs.club = self.c
+        dibs.expires = datetime.date.today()-datetime.timedelta(days=10)
+        dibs.duration = 30
+        dibs.number = 99
+        dibs.race_class = self.race_class
+        dibs.user = self.u2
+        
+        dibs.save()"""
+
+        clean_dibs()
+        
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(dibs.number,3)
+        self.assertEqual(dibs.race_class,self.race_class)
+        self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
+        
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u2).all()),0) 
+        
+        
+        
+        
         
         
         

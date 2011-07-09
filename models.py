@@ -24,6 +24,12 @@ def find_user(query):
     return User.objects.filter(m.Q(last_name__icontains=query)|
                                  m.Q(first_name__icontains=query)).all()
 
+def clean_dibs(): 
+    for c in Club.objects.all(): 
+	c.assign_dibs()
+	
+    Dibs.objects.filter(expires__lt=datetime.date.today()).delete()	
+	
 class TodayOrLaterField(m.DateField): 
     def validate(self,value,model_instance): 
 	super(TodayOrLaterField,self).validate(value,model_instance)
@@ -121,18 +127,14 @@ class Club(m.Model):
                                              ).\
                                       order_by('-date')[:self.events_for_dibs].\
                                       annotate().all()
-	
-	#print "recent_events:", recent_events
 	if len(recent_events) != self.events_for_dibs: 
 	    #there have not been enough events yet to grant dibs
 	    return 
-	
+
         #look for all dibs with drivers who have a registration in one of the last N events
 	dibs = Dibs.objects.filter(user__reg_details__regs__event__in=recent_events,
 	                           user__reg_details__regs__isnull=False,
-	                           user__reg_details__regs__results__isnull=False).all()
-	#print "dibs",dibs
-	
+	                           user__reg_details__regs__results__isnull=False).all()	
 	for d in dibs: 
 	    time_held = d.expires-d.created
 	    months_held = time_held.days/30 #gets the whole number of months held, drops remainder
@@ -144,7 +146,6 @@ class Club(m.Model):
 	
 	#check for new users who earned dibs
 	#look for people who have used the same num/class in the last N events and don't already have dibs     
-	#print "users that earned dibs: ", users
 	
 	regs = Registration.objects.values('number','race_class','reg_detail__user').\
 				   filter(event__in=recent_events,
@@ -152,9 +153,6 @@ class Club(m.Model):
 	                                  race_class__allow_dibs=True).\
 	                           annotate(reg_count=m.Count('number')).\
 	                           filter(reg_count=self.events_for_dibs).all()
-	#print "regs that earned dibs: "
-	#for x in regs: 
-	#    print x
 	
 	try: 
 	    next_event = Event.objects.filter(season__club=self,date__gt=today).order_by('date')[0]
