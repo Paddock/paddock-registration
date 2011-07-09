@@ -5,6 +5,9 @@ from django.core.exceptions import ValidationError
 from paddock.models import Club
 
 class TestClub(unittest.TestCase): 
+    
+    def tearDown(self): 
+        Club.objects.all().delete()
 
     def testSafeName(self): 
         c = Club()
