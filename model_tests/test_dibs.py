@@ -234,7 +234,7 @@ class TestDibs(unittest.TestCase):
         
     def test_clean_dibs(self): 
         
-        """dibs = Dibs()
+        dibs = Dibs()
         dibs.club = self.c
         dibs.expires = datetime.date.today()-datetime.timedelta(days=10)
         dibs.duration = 30
@@ -242,7 +242,7 @@ class TestDibs(unittest.TestCase):
         dibs.race_class = self.race_class
         dibs.user = self.u2
         
-        dibs.save()"""
+        dibs.save()
 
         clean_dibs()
         
@@ -253,6 +253,17 @@ class TestDibs(unittest.TestCase):
         self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
         
         self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u2).all()),0) 
+        
+    def test_race_class_allow_dibs(self): 
+        
+        self.race_class.allow_dibs = False
+        self.race_class.save()
+        
+        self.c.assign_dibs()
+        
+        self.assertEqual(len(Dibs.objects.all()),0)
+        
+        
         
         
         
