@@ -405,6 +405,30 @@ class Registration(m.Model):
 	self.reg_detail = RegDetail()
 	self.reg_detail.user = user
     
+    def make_assoc_regs(self): 
+	"""creates regs for all child events of the event this registration is associated with""" 
+	
+	events = Events.objects.filter(_in=self.event.child_events).exclude(regs__reg_detail=self.reg_detail)
+	#only grab child events which don't already have an associated reg
+	for event in events: 
+	    reg = Registration()
+	    reg.number = self.number
+	    reg.race_class = self.race_class
+	    reg.pax_class = self.pax_class
+	    reg.reg_detail = self.reg_detail
+            reg.event = event
+	    reg.save()
+	    
+    def update_assoc_regs(self): 
+	
+	other_regs = Registration.objects.filter(reg_detail=self.reg_detail)
+	for reg in other_regs: 
+	    reg.number = self.number
+	    reg.race_class = self.race_class
+	    reg.pax_class = self.pax_class
+	    reg.save()
+	    
+        
     def clean(self): 
 	if not self.event.allow_number_race_class(self.number,self.race_class):
 	    raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
