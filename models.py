@@ -346,7 +346,7 @@ class Event(m.Model):
         return self.safe_name
     
 class Registration(m.Model):
-    car = m.ForeignKey("Car",related_name="regs",blank=True,null=True)
+    car = m.ForeignKey("Car",related_name="regs",blank=True,null=True,on_delete=m.SET_NULL)
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
     pax_class  = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)

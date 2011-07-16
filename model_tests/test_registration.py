@@ -197,4 +197,15 @@ class TestRegistration(unittest.TestCase):
             self.assertEqual("{'__all__': [u'Only 1 registrations for CSP are "
                              "allowed for this event. The class is full']}",str(err))
         else: 
-            self.fail("ValidationError expected")  
+            self.fail("ValidationError expected") 
+            
+   def testCarDeleteFromReg(self): 
+       """Check to make sure reg_car gets set to null if a car gets deleted"""
+       pass
+   
+   def testMakeAssocRegs(self): 
+       pass
+   
+   def testUpdateAssocRegs(self): 
+       pass
+       
