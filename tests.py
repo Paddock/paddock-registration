@@ -65,3 +65,6 @@ class TestGeneral(TestCase):
         
         query = find_user('uro')
         self.assertEqual(set([self.u3]),set(query))
+        
+        query = find_user('user')
+        self.assertEqual(set([self.u1,self.u2,self.u3]),set(query))
