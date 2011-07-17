@@ -56,19 +56,14 @@ class TestRegistration(unittest.TestCase):
         
     def tearDown(self): 
         
-        try: 
-            self.r.delete()
-        except AssertionError: 
-            pass 
-        
-        self.e.delete()
-        self.car.delete()
-        self.user.delete()
-        self.race_class.delete()
-        self.c.delete()
-        self.season.delete()
-        self.reg_detail.delete()
-        
+        Registration.objects.all().delete()
+        Event.objects.all().delete()
+        Car.objects.all().delete()
+        User.objects.all().delete()
+        RaceClass.objects.all().delete()
+        Club.objects.all().delete()
+        Season.objects.all().delete()
+        RegDetail.objects.all().delete()
         
         
     def testAnon(self): 
@@ -171,9 +166,7 @@ class TestRegistration(unittest.TestCase):
             self.assertEqual("{'__all__': [u'You have reached the registration limit for CSP.']}",str(err))
         else: 
             self.fail("ValidationError expected")
-            
-        self.e2.delete()
-            
+              
             
     def testEventRegLimit(self):           
         self.race_class.event_reg_limit = 1
@@ -199,13 +192,38 @@ class TestRegistration(unittest.TestCase):
         else: 
             self.fail("ValidationError expected") 
             
-   def testCarDeleteFromReg(self): 
-       """Check to make sure reg_car gets set to null if a car gets deleted"""
-       pass
+    def testCarDeleteFromReg(self): 
+        """Check to make sure reg_car gets set to null if a car gets deleted"""
+       
+        self.r.car = self.car
+        self.r.reg_detail = self.reg_detail
+        
+        self.reg_detail.save()
+        self.r.save()    
+        
+        self.assertEqual(self.r.car, self.car)
+        
+        self.car.delete()
+        reg = Registration.objects.filter(number=11).get()
+        
+        self.assertIsNone(reg.car)
+        
    
-   def testMakeAssocRegs(self): 
-       pass
+    def testMakeAssocRegs(self): 
+        e2 = Event()
+        e2.name = "test event 2"
+        e2.date = datetime.date.today() 
+        e2.season = self.season
+        e2.save()           
+        
+        self.e.child_events.add(e2)
+        self.e.save()
+       
+        self.r.make_assoc_regs()
+        regs = Registration.objects.filter(event=e2).all()
+        self.assertEqual(len(regs),1)       
+       
    
-   def testUpdateAssocRegs(self): 
+    def testUpdateAssocRegs(self): 
        pass
        

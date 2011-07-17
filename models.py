@@ -22,7 +22,8 @@ def find_user(query):
     """look for a driver that might match any of these attrs"""
     
     return User.objects.filter(m.Q(last_name__icontains=query)|
-                                 m.Q(first_name__icontains=query)).all()
+                                 m.Q(first_name__icontains=query)|
+                                 m.Q(username__icontains=query)).all()
 
 def clean_dibs(): 
     for c in Club.objects.all(): 
@@ -407,17 +408,21 @@ class Registration(m.Model):
     
     def make_assoc_regs(self): 
 	"""creates regs for all child events of the event this registration is associated with""" 
-	
-	events = Events.objects.filter(_in=self.event.child_events).exclude(regs__reg_detail=self.reg_detail)
-	#only grab child events which don't already have an associated reg
-	for event in events: 
-	    reg = Registration()
-	    reg.number = self.number
-	    reg.race_class = self.race_class
-	    reg.pax_class = self.pax_class
-	    reg.reg_detail = self.reg_detail
-            reg.event = event
-	    reg.save()
+	try: 
+	    events = self.event.child_events.all().exclude(regs__reg_detail=self.reg_detail,
+		                                          regs__reg_detail__isnull=False).all()
+	    
+	    #only grab child events which don't already have an associated reg
+	    for event in events: 
+		reg = Registration()
+		reg.number = self.number
+		reg.race_class = self.race_class
+		reg.pax_class = self.pax_class
+		reg.reg_detail = self.reg_detail
+		reg.event = event
+		reg.save()
+	except Event.DoesNotExist: 
+	    return 
 	    
     def update_assoc_regs(self): 
 	
