@@ -308,7 +308,6 @@ class Event(m.Model):
     location = m.ForeignKey('Location',blank=True,null=True,on_delete=m.SET_NULL)
     
     #This is to allow for registration of one event to automaticaly count toward any child events as well
-    #TODO: Implement this, so that individual registrations are still created for each event
     child_events = m.ManyToManyField("self",symmetrical=False,related_name="parent_events",
                                      blank=True,null=True,
                                      help_text="When drivers register for this event, they will automatically be" 
@@ -339,6 +338,26 @@ class Event(m.Model):
 	    return False
         return True	
     
+    def get_index_results(self): 
+	"""Returns a list of all registrations which qualified for points and were the only 
+	were the only ones in their class"""
+	pass
+    
+    def get_pax_class_results(self): 
+	"""Returns a list of lists of all registrations which qualified for points and were in 
+	a pax class. Each sub-list is for one pax class"""
+	pass
+    
+    def get_normal_results(self): 
+	"""Returns a list of lists of all registrations which qualified for points and were in 
+	a normal class. Each sub-list is for one normal class"""
+	pass
+    
+    def get_index_results(self): 
+	"""Returns a list all registrations which qualified for points"""
+	pass
+	
+    
     def clean(self): 
 	if self.reg_close.date() >= self.date: 
 	    raise ValidationError("Registration must close before the date of the event.")
@@ -351,6 +370,9 @@ class Registration(m.Model):
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
     pax_class  = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
+    run_heat = m.IntegerField("Run Heat",blank=True,null=True,default=None)
+    work_heat = m.IntegerField("Work Heat",blank=True,null=True,default=None)
+    checked_in = m.BooleanField("Checked In",default=False)
     
     index_flag = m.BooleanField(default=False)
     total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default = None)
@@ -400,6 +422,20 @@ class Registration(m.Model):
 	    return "%s for %s"%(self.reg_detail.user.username,self.event.name)
 	return "anon: %s %s for %s"%(self.first_name,self.last_name,self.event.name)
     
+    def calc_times(self): 
+	"""Finds the lowest time for each associated result, adds them together, then 
+	calculates a new combined index time based on the associated race_class or 
+	pax_class"""
+	
+	self.total_raw_time = sum([res.best_run.calc_time for res in self.results.all()])
+        if self.pax_class: 
+	    pax = self.pax_class.pax
+	else: 
+	    pax = self.race_class.pax
+        self.total_index_time = self.total_raw_time*pax
+	self.save()
+	
+	
     def associate_with_user(self,user): 
 	self._anon_f_name = "N/A"
 	self._anon_l_name = "N/A"
@@ -485,10 +521,16 @@ class Result(m.Model):
     def __unicode__(self): 
         return unicode(self.best_run)
     
-    def calc_best_run(self): 
-        br =  Run.objects.filter(result=self,result__runs__penalty__isnull=True).\
-        order_by('calc_time')[0]
+    @property
+    def best_run(self): 
+	#recalculate all the runs, incase any times were changed
+	self.runs.update(calc_time = m.F('base_time')+2.0*m.F('cones'))
+        #find the best run        
+        br =  Run.objects.filter(result=self,
+	                         result__runs__penalty__isnull=True).\
+              order_by('calc_time')[0]
         self.best_run = br
+	self.save()
         return br
         #return min(runs,key=lambda r:r.calc_time)
 
