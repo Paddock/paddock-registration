@@ -4,7 +4,7 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 
 from paddock.models import Registration, User, RaceClass, Event, Car, Club, \
-                           RegDetail, Season
+                           RegDetail, Season, Session, Result, Run
 
 class TestRegistration(unittest.TestCase): 
     
@@ -64,6 +64,50 @@ class TestRegistration(unittest.TestCase):
         Club.objects.all().delete()
         Season.objects.all().delete()
         RegDetail.objects.all().delete()
+        Session.objects.all().delete()
+        Result.objects.all().delete()
+        Run.objects.all().delete()
+    
+    def test_calc_times_empty_results(self): 
+        self.r.save()
+        
+        self.r.calc_times()
+        
+        self.assertEqual(self.r.total_raw_time,0)
+        self.assertEqual(self.r.total_index_time,0)
+        
+    def test_calc_times(self): 
+        self.r.save()        
+        
+        sess = Session()
+        sess.name = "AM"
+        sess.event = self.e
+        sess.save()        
+        
+        res = Result()
+        res.reg = self.r
+        res.session = sess
+        res.save()
+        
+        r = Run()
+        r.base_time = 10.0
+        r.result = res
+        r.save()
+        
+        res = Result()
+        res.reg = self.r
+        res.session = sess
+        res.save()
+        
+        r = Run()
+        r.base_time = 10.0
+        r.result = res
+        r.save()
+        
+        self.r.calc_times()
+        
+        self.assertEqual(self.r.total_raw_time,20.0)
+        self.assertEqual(self.r.total_index_time,self.r.total_raw_time*self.race_class.pax)
         
         
     def testAnon(self): 

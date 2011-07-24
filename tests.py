@@ -17,6 +17,7 @@ from paddock.model_tests.test_event import TestEvent
 from paddock.model_tests.test_registration import TestRegistration
 from paddock.model_tests.test_coupon import TestCoupon
 from paddock.model_tests.test_dibs import TestDibs
+from paddock.model_tests.test_result import TestResult
 
 
 class TestGeneral(TestCase): 
@@ -51,9 +52,7 @@ class TestGeneral(TestCase):
         self.u3.save()
     
     def tearDown(self): 
-        self.u1.delete()
-        self.u2.delete()
-        self.u3.delete()
+        User.objects.all().delete()
         
     def testFindUser(self):     
         
