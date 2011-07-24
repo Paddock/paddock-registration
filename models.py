@@ -510,7 +510,7 @@ class Session(m.Model):
         return self.name
     
 class Result(m.Model): 
-    best_run = m.OneToOneField("Run",related_name="+",null=True)
+    _best_run = m.OneToOneField("Run",related_name="+",null=True)
     reg = m.ForeignKey("Registration",related_name="results")
     
     #TODO: Remove null
@@ -523,15 +523,16 @@ class Result(m.Model):
     
     @property
     def best_run(self): 
-	#recalculate all the runs, incase any times were changed
-	self.runs.update(calc_time = m.F('base_time')+2.0*m.F('cones'))
         #find the best run        
-        br =  Run.objects.filter(result=self,
-	                         result__runs__penalty__isnull=True).\
-              order_by('calc_time')[0]
-        self.best_run = br
-	self.save()
-        return br
+        try:         
+	    br =  Run.objects.filter(result=self,
+		                     result__runs__penalty__isnull=True).\
+		  order_by('calc_time')[0]
+	    self._best_run = br
+	    self.save()
+	    return br
+	except IndexError: 
+	    return None
         #return min(runs,key=lambda r:r.calc_time)
 
 class Run(m.Model):     
@@ -544,15 +545,15 @@ class Run(m.Model):
     
     result = m.ForeignKey("Result",related_name="runs")
     
-    def set_times(self,base_time,cones): 
-        self.base_time = base_time
-        self.cones = cones
-        
-        self.calc_time = base_time+2.0*cones
+    def _set_times(self): 
+        self.calc_time = self.base_time+2.0*self.cones
         self.index_time = self.calc_time*self.result.reg.race_class.pax   
         
         return (self.calc_time,self.index_time)
-        
+    
+    def save(self): 
+	self._set_times()
+        super(Run,self).save()
     
     def __unicode__(self): 
         if self.penalty: 
