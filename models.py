@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 
 #TODO: need to replace this with some sort of plugin system
 from paddock.points_calculators.nora_class_points import calc_points as class_points
+from paddock.points_calculators.nora_index_points import calc_points as index_points
 
 def urlsafe(name): 
     safe = re.sub(r'\s','',name)
@@ -360,9 +361,11 @@ class Event(m.Model):
 	
 	#assign index points, sort results into classes, then assign class points
 	race_classes = dict()
-	for i,reg in enumerate(regs): 	
-	    #assign index points
-	    
+	
+	for i,reg in enumerate(regs): 
+	    if i == 0 : #fastest index time!
+		index_ftd = reg
+		
 	    #these get on the list sorted, because the whole list is sorted
 	    race_classes.setdefault(reg.race_class,[]).append(reg) 
 	    #assign class points, based on position in the list
@@ -370,7 +373,11 @@ class Event(m.Model):
 	    place = len(race_classes[reg.race_class])
 	    first_place_time = race_classes[reg.race_class][0].total_index_time
 	    reg.class_points = class_points(place,first_place_time,reg.total_index_time)
-	
+	    
+	    #place is i+1
+	    reg.index_points = index_points(i+1,index_ftd.total_index_time,reg.total_index_time)
+	    reg.save()
+	    
 	return race_classes
 		
     def get_results(self):
@@ -379,9 +386,7 @@ class Event(m.Model):
 	       event=self,n_results=len(self.sessions.all())).order_by('total_index_time').\
 	       all()
 	
-	race_classes = dict()
-        for reg in regs: 
-	    race_classes.setdefault(reg.race_class,[]).append(reg) 
+	return regs
 	    
     def get_class_results(self,race_class): 
 	"""Returns a list of lists of all registrations which qualified for points and were in 

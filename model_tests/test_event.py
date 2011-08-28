@@ -6,6 +6,9 @@ from django.db import models as m
 
 from paddock.models import Event, Registration, Season, Club, Session, Result, Run, RaceClass
 
+from paddock.points_calculators.nora_index_points import point_ladder as index_point_ladder
+from paddock.points_calculators.nora_class_points import point_ladder as class_point_ladder
+
 class TestEvent(unittest.TestCase): 
     
     def setUp(self): 
@@ -107,13 +110,16 @@ class TestEventPointsCalc(unittest.TestCase):
         rc_A = RaceClass.objects.filter(name="A").get()
         
         #make sure the results come back sorted
-        class_points = [20,17,14,12,10,8,6,4,2,1]
         for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
             self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
 
-            self.assertEqual(class_points[:8],[reg.class_points for reg in regs])
+            self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
             
             self.assertEqual(8, len(regs))
+            
+        regs = self.e.get_results()
+        self.assertEqual(index_point_ladder[:56],[reg.index_points for reg in regs])
+        
         
             
             
