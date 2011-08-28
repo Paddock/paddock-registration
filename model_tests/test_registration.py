@@ -2,6 +2,7 @@ import datetime
 
 from django.utils import unittest
 from django.core.exceptions import ValidationError
+from django.db import models as m
 
 from paddock.models import Registration, User, RaceClass, Event, Car, Club, \
                            RegDetail, Season, Session, Result, Run
@@ -56,17 +57,8 @@ class TestRegistration(unittest.TestCase):
         
     def tearDown(self): 
         
-        Registration.objects.all().delete()
-        Event.objects.all().delete()
-        Car.objects.all().delete()
-        User.objects.all().delete()
-        RaceClass.objects.all().delete()
-        Club.objects.all().delete()
-        Season.objects.all().delete()
-        RegDetail.objects.all().delete()
-        Session.objects.all().delete()
-        Result.objects.all().delete()
-        Run.objects.all().delete()
+        for model in m.get_models(): 
+            model.objects.all().delete()
     
     def test_calc_times_empty_results(self): 
         self.r.save()
@@ -104,6 +96,7 @@ class TestRegistration(unittest.TestCase):
         r.result = res
         r.save()
         
+        self.r.save()
         self.r.calc_times()
         
         self.assertEqual(self.r.total_raw_time,20.0)
@@ -252,7 +245,19 @@ class TestRegistration(unittest.TestCase):
         
         self.assertIsNone(reg.car)
         
-   
+    def testMoveToBumpClass(self): 
+        bump_class = RaceClass()
+        bump_class.name = "Index"
+        bump_class.pax = 1.0
+        bump_class.club = self.c
+        bump_class.save()
+        
+        self.r.bump_class = bump_class
+        self.r.save()
+        
+        self.assertEqual(self.r.race_class,self.race_class)
+        self.assertEqual(self.r.bump_class,bump_class)
+        
     def testMakeAssocRegs(self): 
         e2 = Event()
         e2.name = "test event 2"

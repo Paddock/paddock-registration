@@ -86,7 +86,8 @@ class TestResult(unittest.TestCase):
         r4.penalty = "DNF"
         r4.save()
         
-        best_run = self.result.best_run 
+        
+        best_run = self.result.find_best_run()
         
         self.assertEqual(best_run,r1)
         
@@ -98,12 +99,12 @@ class TestResult(unittest.TestCase):
         r1.save()
         
         
-        best_run = self.result.best_run 
+        best_run = self.result.find_best_run() 
         
         self.assertEqual(best_run,r1)   
         
         
-    def test_best_run2(self): 
+    def test_best_run3(self): 
         
         r1 = Run()
         r1.base_time = 10.0
@@ -121,9 +122,11 @@ class TestResult(unittest.TestCase):
         r3.save()
         
         
-        best_run = self.result.best_run 
+        best_run = self.result.find_best_run() 
         
         self.assertEqual(best_run,r2) 
+        
+        
         
         
     def test_best_run_no_clean_runs(self): 
@@ -140,7 +143,7 @@ class TestResult(unittest.TestCase):
         r2.penalty = "O/C"
         r2.save()
         
-        best_run = self.result.best_run 
+        best_run = self.result.find_best_run() 
         
         self.assertEqual(best_run,None)        
     
