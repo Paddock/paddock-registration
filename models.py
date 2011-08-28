@@ -11,6 +11,9 @@ from django.core.validators import validate_email
 
 from django.contrib.auth.models import User
 
+#TODO: need to replace this with some sort of plugin system
+from paddock.points_calculators.nora_class_points import calc_points as class_points
+
 def urlsafe(name): 
     safe = re.sub(r'\s','',name)
     safe = pathname2url(safe)
@@ -242,8 +245,11 @@ class RaceClass(m.Model):
     pax_class = m.BooleanField('PAX Class',default=False)
     description = m.TextField("Description",blank=True,default="")
     user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
-    event_reg_limit = m.IntegerField("Limit per EVent",null=True,default=None)
+    event_reg_limit = m.IntegerField("Limit per Event",null=True,default=None)
     allow_dibs = m.BooleanField("dibs",default=True)
+    hidden = m.BooleanField("hidden",default=False,
+                            help_text="Hidden race classes can't be selected by users for registration."+\
+                            "These race classes are used for index/bump-class results")
     
     club = m.ForeignKey('Club',related_name='race_classes')
     
@@ -338,25 +344,60 @@ class Event(m.Model):
 	    return False
         return True	
     
-    def get_index_results(self): 
-	"""Returns a list of all registrations which qualified for points and were the only 
-	were the only ones in their class"""
-	pass
-    
-    def get_pax_class_results(self): 
-	"""Returns a list of lists of all registrations which qualified for points and were in 
-	a pax class. Each sub-list is for one pax class"""
-	pass
-    
-    def get_normal_results(self): 
-	"""Returns a list of lists of all registrations which qualified for points and were in 
-	a normal class. Each sub-list is for one normal class"""
-	pass
-    
-    def get_index_results(self): 
-	"""Returns a list all registrations which qualified for points"""
-	pass
+    def calc_results(self): 
+	#all regs that are valid, from this event
 	
+	#find all results from any pax classes
+	regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
+	         event=self,n_results=len(self.sessions.all())).all()
+	#calc all penalty times, index times, 
+	for reg in regs: 
+	    reg.calc_times()
+	
+	#find all the regs, now ordered by time
+	regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
+	         event=self,n_results=len(self.sessions.all())).order_by('total_index_time').all()
+	
+	#assign index points, sort results into classes, then assign class points
+	race_classes = dict()
+	for i,reg in enumerate(regs): 	
+	    #assign index points
+	    
+	    #these get on the list sorted, because the whole list is sorted
+	    race_classes.setdefault(reg.race_class,[]).append(reg) 
+	    #assign class points, based on position in the list
+	    
+	    place = len(race_classes[reg.race_class])
+	    first_place_time = race_classes[reg.race_class][0].total_index_time
+	    reg.class_points = class_points(place,first_place_time,reg.total_index_time)
+	
+	return race_classes
+		
+    def get_results(self):
+	#check if valid points calculations, if not calc_results
+	regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
+	       event=self,n_results=len(self.sessions.all())).order_by('total_index_time').\
+	       all()
+	
+	race_classes = dict()
+        for reg in regs: 
+	    race_classes.setdefault(reg.race_class,[]).append(reg) 
+	    
+    def get_class_results(self,race_class): 
+	"""Returns a list of lists of all registrations which qualified for points and were in 
+	a class."""
+        regs = Registration.objects.filter(event=self,
+	                                   race_class=race_class).\
+	       annotate(result_count=m.Count('results')).\
+	       filter(result_count=m.F('n_event__sessions')).\
+	       select_related('results').all()
+	
+	for reg in regs: 
+	    reg.calc_times()
+	
+	    
+	regs.sort(key=lambda reg: reg.total_index_time)
+	return regs
     
     def clean(self): 
 	if self.reg_close.date() >= self.date: 
@@ -370,11 +411,12 @@ class Registration(m.Model):
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
     pax_class  = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
+    bump_class = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
     run_heat = m.IntegerField("Run Heat",blank=True,null=True,default=None)
     work_heat = m.IntegerField("Work Heat",blank=True,null=True,default=None)
     checked_in = m.BooleanField("Checked In",default=False)
     
-    index_flag = m.BooleanField(default=False)
+    
     total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default = None)
     total_index_time = m.FloatField('Total Index Time', blank=True, null=True, default = None)
     
@@ -421,14 +463,15 @@ class Registration(m.Model):
 	if self.reg_detail: 
 	    return "%s for %s"%(self.reg_detail.user.username,self.event.name)
 	return "anon: %s %s for %s"%(self.first_name,self.last_name,self.event.name)
+	
     
     def calc_times(self): 
 	"""Finds the lowest time for each associated result, adds them together, then 
 	calculates a new combined index time based on the associated race_class or 
 	pax_class"""
 	
-	self.total_raw_time = sum([res.best_run.calc_time for res in self.results.all()])
-        if self.pax_class: 
+	self.total_raw_time = sum([res.best_run.calc_time for res in self.results.all() if res.best_run])
+        if self.pax_class:
 	    pax = self.pax_class.pax
 	else: 
 	    pax = self.race_class.pax
@@ -468,7 +511,7 @@ class Registration(m.Model):
 	    reg.race_class = self.race_class
 	    reg.pax_class = self.pax_class
 	    reg.save()
-	    
+	
         
     def clean(self): 
 	if not self.event.allow_number_race_class(self.number,self.race_class):
@@ -510,7 +553,7 @@ class Session(m.Model):
         return self.name
     
 class Result(m.Model): 
-    _best_run = m.OneToOneField("Run",related_name="+",null=True)
+    best_run = m.OneToOneField("Run",related_name="+",null=True)
     reg = m.ForeignKey("Registration",related_name="results")
     
     #TODO: Remove null
@@ -521,20 +564,19 @@ class Result(m.Model):
     def __unicode__(self): 
         return unicode(self.best_run)
     
-    @property
-    def best_run(self): 
+    def find_best_run(self): 
         #find the best run        
         try:         
 	    br =  Run.objects.filter(result=self,
 		                     result__runs__penalty__isnull=True).\
 		  order_by('calc_time')[0]
-	    self._best_run = br
+	    self.best_run = br
 	    self.save()
 	    return br
 	except IndexError: 
 	    return None
-        #return min(runs,key=lambda r:r.calc_time)
-
+        
+    
 class Run(m.Model):     
     base_time = m.FloatField('Base Time')
     calc_time = m.FloatField('Calculated Time')
@@ -548,12 +590,13 @@ class Run(m.Model):
     def _set_times(self): 
         self.calc_time = self.base_time+2.0*self.cones
         self.index_time = self.calc_time*self.result.reg.race_class.pax   
-        
         return (self.calc_time,self.index_time)
     
     def save(self): 
 	self._set_times()
         super(Run,self).save()
+	self.result.find_best_run()
+	
     
     def __unicode__(self): 
         if self.penalty: 
