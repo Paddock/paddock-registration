@@ -66,9 +66,9 @@ class TestEventPointsCalc(unittest.TestCase):
         self.sess.event = self.e
         self.sess.save()
         
-        classes = ["A","B","C","D","E","F","G","H"]
-        paxes   = [1.0,.98,.96,.94,.92,.90,.88,.86]
-        for klass,pax in zip(classes,paxes): 
+        self.classes = ["A","B","C","D","E","F","G","H"]
+        self.paxes   = [1.0,.98,.96,.94,.92,.90,.88,.86]
+        for klass,pax in zip(self.classes,self.paxes): 
             self.race_class = RaceClass()
             self.race_class.name = klass
             self.race_class.pax = pax
@@ -79,7 +79,7 @@ class TestEventPointsCalc(unittest.TestCase):
                 self.r = Registration()
                 self.r.number = 0
                 self.r.race_class = self.race_class
-                self.r._anon_f_name = "%d"%i
+                self.r._anon_f_name = "%s%d"%(self.race_class.name,i)
                 self.r.pax_class = None
                 self.r.event = self.e
                 self.r.save()
@@ -92,7 +92,7 @@ class TestEventPointsCalc(unittest.TestCase):
                     self.result.save()
                     for j in range(0,3): 
                         run = Run()
-                        run.base_time = 100.0-i-j
+                        run.base_time = 100.0-i-j #91.0 is lowest raw time (*0.88 for index)
                         run.result = self.result
                         run.save()        
                             
@@ -106,9 +106,7 @@ class TestEventPointsCalc(unittest.TestCase):
         
         race_classes = self.e.calc_results()
         self.assertEqual(["A","B","C","D","E","F","G"],[rc.name for rc in race_classes])
-        
-        rc_A = RaceClass.objects.filter(name="A").get()
-        
+                
         #make sure the results come back sorted
         for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
             self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
@@ -118,9 +116,48 @@ class TestEventPointsCalc(unittest.TestCase):
             self.assertEqual(8, len(regs))
             
         regs = self.e.get_results()
+        self.assertEqual(regs[0].total_index_time,(91.0)*.88)
         self.assertEqual(index_point_ladder[:56],[reg.index_points for reg in regs])
         
+    def test_no_index_classes_two_result(self): 
         
+        self.sess = Session()
+        self.sess.name = "PM"
+        self.sess.event = self.e
+        self.sess.save()
+
+        for klass,pax in zip(self.classes,self.paxes): 
+            self.race_class = RaceClass.objects.filter(name=klass).get()            
+            for i in range(0,10): 
+                self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name,i)).get()
+                
+                #make  regs with empty runs for each class
+                if self.race_class.name!="H" and i < 8: #one race class with no results
+                    self.result = Result()
+                    self.result.reg = self.r
+                    self.result.session = self.sess
+                    self.result.save()
+                    for j in range(0,3): 
+                        run = Run()
+                        run.base_time = 100.0-i-j
+                        run.result = self.result
+                        run.save()   
+                self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name,i)).get()        
+                
+        race_classes = self.e.calc_results()
+        self.assertEqual(["A","B","C","D","E","F","G"],[rc.name for rc in race_classes])
+                
+        #make sure the results come back sorted
+        for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
+            self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
+
+            self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
+            
+            self.assertEqual(8, len(regs))
+            
+        regs = self.e.get_results()
+        self.assertEqual(regs[0].total_index_time,2*(91.0)*.88)
+        self.assertEqual(index_point_ladder[:56],[reg.index_points for reg in regs])
             
             
             
