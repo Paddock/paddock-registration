@@ -349,8 +349,8 @@ class Event(m.Model):
 	#all regs that are valid, from this event
 	
 	#find all results from any pax classes
-	regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
-	         event=self,n_results=len(self.sessions.all())).all()
+	regs = Registration.objects.filter(event=self).annotate(n_results=m.Count('results')).\
+	     filter(n_results=len(self.sessions.all())).all()
 	#calc all penalty times, index times, 
 	for reg in regs: 
 	    reg.calc_times()
