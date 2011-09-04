@@ -30,6 +30,6 @@ class TestCoupon(unittest.TestCase):
         try: 
             self.c.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'expires': [u'Coupon must expire atleast one day from now']}",str(err))
+            self.assertEqual("{'expires': [u'Date must be at least one day from now']}",str(err))
         else: 
             self.fail("ValidationError expected")

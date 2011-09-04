@@ -225,7 +225,7 @@ class TestRegistration(unittest.TestCase):
             self.r2.full_clean()
         except ValidationError as err: 
             self.assertEqual("{'__all__': [u'Only 1 registrations for CSP are "
-                             "allowed for this event. The class is full']}",str(err))
+                             "allowed for an event. The class is full']}",str(err))
         else: 
             self.fail("ValidationError expected") 
             
