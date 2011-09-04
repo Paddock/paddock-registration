@@ -274,5 +274,20 @@ class TestRegistration(unittest.TestCase):
        
    
     def testUpdateAssocRegs(self): 
-       pass
+        e2 = Event()
+        e2.name = "test event 2"
+        e2.date = datetime.date.today() 
+        e2.season = self.season
+        e2.save()           
+        
+        self.e.child_events.add(e2)
+        self.e.save()
+       
+        self.r.make_assoc_regs()
+        
+        self.r.number = 10
+        self.r.save()
+        
+        reg = Registration.objects.filter(event=e2).get()
+        self.assertEqual(reg.number,self.number)
        
