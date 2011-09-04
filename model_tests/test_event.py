@@ -39,7 +39,40 @@ class TestEvent(unittest.TestCase):
         except ValidationError as err: 
             self.assertEqual("{'__all__': [u'Registration must close before the date of the event.']}",str(err))
         else: 
-            self.fail("ValidationError expected")
+            self.fail("ValidationError expected")     
+        
+    
+    def test_event_reg_limit(self): 
+        self.e.save()
+        self.sess = Session()
+        self.sess.name = "AM"
+        self.sess.event = self.e
+        self.sess.save()
+                
+        self.race_class = RaceClass()
+        self.race_class.name = "A"
+        self.race_class.pax = 1
+        self.race_class.club = self.c
+        self.race_class.save()        
+        
+        self.e.reg_limit = 3
+        
+        for i in range(0,4): 
+            try: 
+                self.r = Registration()
+                self.r.number = i
+                self.r.race_class = self.race_class
+                self.r._anon_f_name = "%d"%(i,)
+                self.r.pax_class = None
+                self.r.event = self.e
+                self.r.full_clean()
+                self.r.save()
+                
+            except ValidationError as err: #don't error untill the limit is reached  
+                self.assertEqual(i,3)
+            else: 
+                self.assertLess(i,3)
+        
             
             
 class TestEventPointsCalc(unittest.TestCase): 

@@ -40,7 +40,7 @@ class TodayOrLaterField(m.DateField):
 	super(TodayOrLaterField,self).validate(value,model_instance)
 	
 	if value and value < datetime.date.today()+datetime.timedelta(days=1):
-	    raise ValidationError("Coupon must expire atleast one day from now")
+	    raise ValidationError("Date must be at least one day from now")
 
 class CouponCodeField(m.CharField): 
     def validate(self,value,model_instance): 
@@ -307,6 +307,8 @@ class Event(m.Model):
     non_pre_pay_penalty = m.DecimalField("Extra Cost if paying at the event", max_digits=10, 
                                          decimal_places=2, default="0.00")
     
+    reg_limit = m.IntegerField("Reg. Limit", default=0, help_text="Maximum number of registrations allowed. ")
+    
     count_points = m.BooleanField("Include this event in season point totals",default=True)
     
     season = m.ForeignKey('Season',related_name="events")    
@@ -414,6 +416,9 @@ class Event(m.Model):
 	    
     def __unicode__(self): 
         return self.safe_name
+
+	
+	
     
 class Registration(m.Model):
     car = m.ForeignKey("Car",related_name="regs",blank=True,null=True,on_delete=m.SET_NULL)
@@ -535,13 +540,17 @@ class Registration(m.Model):
 	    if reg_count >= self.race_class.user_reg_limit:
 		raise ValidationError("You have reached the registration limit for %s."%self.race_class.name)
 	        
-	#TODO: Check if Event has reached the maximum number of allowed regs in this reg class
 	if self.race_class.event_reg_limit: 
-	    reg_count = Registration.objects.filter(event=self.event).count()
+	    reg_count = Registration.objects.filter(event=self.event,race_class=self.race_class).count()
 	    if reg_count >= self.race_class.event_reg_limit: 
 		raise ValidationError("Only %d registrations for %s are allowed "
-		                      "for this event. The class is full"%(self.race_class.event_reg_limit,
+		                      "for an event. The class is full"%(self.race_class.event_reg_limit,
 		                                                           self.race_class.name))
+	    
+	if self.event.reg_limit: 
+	    reg_count = Registration.objects.filter(event=self.event).count()
+	    if reg_count >= self.event.reg_limit: 
+		raise ValidationError('Only %d registrations are allowed for the event. The event is full'%self.event.reg_limit)
 	                                            
         
 class RegDetail(m.Model): 
