@@ -367,11 +367,15 @@ class Event(m.Model):
 		index_ftd = reg
 		
 	    #these get on the list sorted, because the whole list is sorted
-	    race_classes.setdefault(reg.race_class,[]).append(reg) 
+	    if reg.bump_class: 
+		key = reg.bump_class
+	    else: 
+		key = reg.race_class
+	    race_classes.setdefault(key,[]).append(reg) 
 	    #assign class points, based on position in the list
 	    
-	    place = len(race_classes[reg.race_class])
-	    first_place_time = race_classes[reg.race_class][0].total_index_time
+	    place = len(race_classes[key])
+	    first_place_time = race_classes[key][0].total_index_time
 	    reg.class_points = class_points(place,first_place_time,reg.total_index_time)
 	    
 	    #place is i+1
