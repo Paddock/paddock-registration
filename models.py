@@ -80,7 +80,7 @@ class UserProfile(m.Model):
 class Purchasable(m.Model): 
     price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")    
 
-class Club(m.Model):
+class Club(Purchasable):
     
     @property
     def name(self): 

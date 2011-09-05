@@ -286,6 +286,7 @@ class TestRegistration(unittest.TestCase):
         
         self.r.number = 10
         self.r.save()
+        self.r.update_assoc_regs()
         
         reg = Registration.objects.filter(event=e2).get()
         self.assertEqual(reg.number,self.r.number)
