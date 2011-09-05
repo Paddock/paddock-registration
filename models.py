@@ -86,11 +86,18 @@ class Order(m.Model):
     total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
     coupon = m.OneToOneField("Coupon",related_name="order",null=True,blank=True)
     
+    def calc_total_price(self): 
+        self.total_price = self.items.aggregate(m.Sum('price'))['price__sum']
+	if self.coupon:
+	    self.total_price -= self.coupon.discount(self.total_price)
+	self.save()    
+	    	
+    
 class Coupon(m.Model):     
     code = CouponCodeField("code",max_length=20)
     
     is_percent = m.BooleanField("%",default=False)   
-    is_giftcard = m.BooleanField("GiftCard",default=False)
+    #is_giftcard = m.BooleanField("GiftCard",default=False)
     permanent = m.BooleanField("permanent",default=False)
     single_use_per_user = m.BooleanField("Once per user", default=False)
     
@@ -101,13 +108,21 @@ class Coupon(m.Model):
     uses_left = m.IntegerField("# uses",default=1)
     expires = TodayOrLaterField(blank=True,default=None)
     
-    def clean(self): 
+    def is_valid(self,user): 
+	"""check to see if the given user is allowed to use this coupon""" 
 	pass
-	
     
-    #user_id = Column(Integer,ForeignKey("tg_user.user_id"))
-    #club_id = Column(Integer,ForeignKey("pdk_club.club_id"))        
-
+    def discount(self,price): 
+	if self.is_percent: #percentage discount
+	    return price*self.discount_amount
+        
+	#dollar amount
+	if self.discount_amount >= price:
+	    return price #free, but not worth more than the price
+	
+	return self.discount_amount
+	    
+    
 class Club(Purchasable):
     
     @property
