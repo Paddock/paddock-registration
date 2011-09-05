@@ -49,7 +49,6 @@ class CouponCodeField(m.CharField):
 	if " " in value: 
 	    raise ValidationError("Spaces not allowed in the code")
 	
-
 class UserProfile(m.Model): 
     
     user = m.OneToOneField(User)
@@ -77,6 +76,9 @@ class UserProfile(m.Model):
         for r in self.registrations:
             if r.event == event: return r
         return False
+    
+class Purchasable(m.Model): 
+    price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")    
 
 class Club(m.Model):
     
@@ -193,7 +195,7 @@ class Club(m.Model):
 	    return False
 	return True     
 
-class Membership(m.Model): 
+class Membership(Purchasable): 
     
     num = m.IntegerField("ID #",null=True,default=None)
     
@@ -420,7 +422,7 @@ class Event(m.Model):
 	
 	
     
-class Registration(m.Model):
+class Registration(Purchasable):
     car = m.ForeignKey("Car",related_name="regs",blank=True,null=True,on_delete=m.SET_NULL)
     number = m.IntegerField("Car Number")
     race_class = m.ForeignKey("RaceClass",related_name="+")
@@ -455,7 +457,6 @@ class Registration(m.Model):
 	if not self.car is None: 
 	    return "%d %s %s"%(self.car.year, self.car.make, self.car.model)
 	return self._anon_car
-    
     
     @property
     def first_name(self): 
@@ -690,12 +691,13 @@ class Lease(m.Model):
     
     def __unicode__(self): 
         return "%s to %s"%(self.car.name ,self.user.username)
+
     
 class Transaction(m.Model): 
     token = m.CharField("Token",max_length=50,blank=True,null=True)
     payer_id = m.CharField("Payer #",max_length=50,blank=True,null=True)
     transaction_id = m.CharField("Transac. #",max_length=50,blank=True,null=True)
-    price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
+    total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
     
     created = m.DateTimeField(auto_now_add=True)
     completed = m.DateTimeField(blank=True,null=True)
