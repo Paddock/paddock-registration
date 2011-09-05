@@ -91,7 +91,7 @@ class Order(m.Model):
 	if self.coupon:
 	    self.total_price -= self.coupon.discount(self.total_price)
 	self.save()    
-	    	
+	   	
     
 class Coupon(m.Model):     
     code = CouponCodeField("code",max_length=20)
@@ -113,14 +113,15 @@ class Coupon(m.Model):
 	pass
     
     def discount(self,price): 
+	discount = float(discount_amount)
 	if self.is_percent: #percentage discount
-	    return price*self.discount_amount
+	    return price*discount
         
 	#dollar amount
-	if self.discount_amount >= price:
+	if discount >= price:
 	    return price #free, but not worth more than the price
 	
-	return self.discount_amount
+	return discount
 	    
     
 class Club(Purchasable):
