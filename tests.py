@@ -17,6 +17,7 @@ from paddock.model_tests.test_registration import TestRegistration
 from paddock.model_tests.test_coupon import TestCoupon
 from paddock.model_tests.test_dibs import TestDibs
 from paddock.model_tests.test_result import TestResult
+from paddock.model_tests.test_membership import TestMembership
 
 
 

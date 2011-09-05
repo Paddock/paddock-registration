@@ -194,10 +194,21 @@ class Club(Purchasable):
         except Dibs.DoesNotExist: 
 	    return False
 	return True     
+    
+    def is_active_member(self,user): 
+	
+	try: 
+	    membership = Membership.objects.filter(user=user,
+	                                           club=self,
+	                                           valid_thru__gt=datetime.date.today()).get()
+	    return True
+	except Membership.DoesNotExist: 
+	    return False
+	
 
 class Membership(Purchasable): 
     
-    num = m.IntegerField("ID #",null=True,default=None)
+    num = m.IntegerField("ID #",null=True,blank=True,default=None)
     
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
@@ -205,8 +216,8 @@ class Membership(Purchasable):
     user = m.ForeignKey(User,related_name="memberships")
     club = m.ForeignKey("Club",related_name="memberships")
     
-    _anon_f_name = m.CharField(max_length=50)
-    _anon_l_name = m.CharField(max_length=50)
+    _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default=None)
+    _anon_l_name = m.CharField(max_length=50,blank=True,null=True,default=None)
     
     def __unicode__(self):
         return "%s in %s>"%(self.user.username,self.club.safe_name)
@@ -234,8 +245,10 @@ class Membership(Purchasable):
     def save(self): 
 	if not self.num:
 	    try: 
-		Membership.objects.filter(club==self.club, num__max).get()
-	    except Membership.leNotExist: 
+		ret = Membership.objects.filter(club=self.club).aggregate(m.Max('num'))
+		num = ret['num__max']
+		self.num = num+1
+	    except Membership.DoesNotExist: 
 		self.num = 100
 		
 	super(Membership,self).save()
