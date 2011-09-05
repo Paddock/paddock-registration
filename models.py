@@ -79,6 +79,34 @@ class UserProfile(m.Model):
     
 class Purchasable(m.Model): 
     price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")    
+    
+    order = m.ForeignKey("Order",related_name="items",blank=True,null=True)
+    
+class Order(m.Model): 
+    total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
+    coupon = m.OneToOneField("Coupon",related_name="order",null=True,blank=True)
+    
+class Coupon(m.Model):     
+    code = CouponCodeField("code",max_length=20)
+    
+    is_percent = m.BooleanField("%",default=False)   
+    is_giftcard = m.BooleanField("GiftCard",default=False)
+    permanent = m.BooleanField("permanent",default=False)
+    single_use_per_user = m.BooleanField("Once per user", default=False)
+    
+    discount_amount = m.DecimalField("$ discount",
+                                     max_digits=10,
+                                     decimal_places=2,
+                                     default = "0.00")
+    uses_left = m.IntegerField("# uses",default=1)
+    expires = TodayOrLaterField(blank=True,default=None)
+    
+    def clean(self): 
+	pass
+	
+    
+    #user_id = Column(Integer,ForeignKey("tg_user.user_id"))
+    #club_id = Column(Integer,ForeignKey("pdk_club.club_id"))        
 
 class Club(Purchasable):
     
@@ -706,36 +734,3 @@ class Lease(m.Model):
         return "%s to %s"%(self.car.name ,self.user.username)
 
     
-class Transaction(m.Model): 
-    token = m.CharField("Token",max_length=50,blank=True,null=True)
-    payer_id = m.CharField("Payer #",max_length=50,blank=True,null=True)
-    transaction_id = m.CharField("Transac. #",max_length=50,blank=True,null=True)
-    total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
-    
-    created = m.DateTimeField(auto_now_add=True)
-    completed = m.DateTimeField(blank=True,null=True)
-    
-    #coupon_id = Column(Integer,ForeignKey('pdk_coupon.id'))
-    #coupon = relationship("Coupon",backref=backref("transaction", uselist=False))
-    
-class Coupon(m.Model):     
-    code = CouponCodeField("code",max_length=20)
-    
-    is_percent = m.BooleanField("%",default=False)   
-    is_giftcard = m.BooleanField("GiftCard",default=False)
-    permanent = m.BooleanField("permanent",default=False)
-    single_use_per_user = m.BooleanField("Once per user", default=False)
-    
-    discount_amount = m.DecimalField("$ discount",
-                                     max_digits=10,
-                                     decimal_places=2,
-                                     default = "0.00")
-    uses_left = m.IntegerField("# uses",default=1)
-    expires = TodayOrLaterField(blank=True,default=None)
-    
-    def clean(self): 
-	pass
-	
-    
-    #user_id = Column(Integer,ForeignKey("tg_user.user_id"))
-    #club_id = Column(Integer,ForeignKey("pdk_club.club_id"))    
