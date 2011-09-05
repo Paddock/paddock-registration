@@ -172,8 +172,7 @@ class TestRegistration(unittest.TestCase):
         else: 
             self.fail("ValidationError expected")
         
-        self.e2.delete()
-        self.r3.delete()
+       
             
     def testMaxUserRegLimit(self): 
         self.e2 = Event()
@@ -289,5 +288,5 @@ class TestRegistration(unittest.TestCase):
         self.r.save()
         
         reg = Registration.objects.filter(event=e2).get()
-        self.assertEqual(reg.number,self.number)
+        self.assertEqual(reg.number,self.r.number)
        
