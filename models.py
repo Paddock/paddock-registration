@@ -84,13 +84,14 @@ class Purchasable(m.Model):
     
 class Order(m.Model): 
     total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
-    coupon = m.OneToOneField("Coupon",related_name="order",null=True,blank=True)
+    coupon = m.ForeignKey("Coupon",related_name="orders",null=True,blank=True)
     user_prof = m.ForeignKey("UserProfile",related_name="orders")
     
     def calc_total_price(self): 
-        self.total_price = self.items.aggregate(m.Sum('price'))['price__sum']
+        price  = float(self.items.aggregate(m.Sum('price'))['price__sum'])
 	if self.coupon:
-	    self.total_price -= self.coupon.discount(self.total_price)
+	    price  -= self.coupon.discount(price)
+        self.total_price = "%.2f"%price
 	self.save()    
 	   	
     
