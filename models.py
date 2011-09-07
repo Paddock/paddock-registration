@@ -53,9 +53,9 @@ class UserProfile(m.Model):
     
     user = m.OneToOneField(User)
     
-    address = m.CharField('Home Address',max_length=150)
-    state = m.CharField('State',max_length=25)
-    zip_code = m.CharField('Zip Code',max_length=13)
+    address = m.CharField('Home Address',max_length=150,null=True,blank=True)
+    state = m.CharField('State',max_length=25,null=True,blank=True)
+    zip_code = m.CharField('Zip Code',max_length=13,null=True,blank=True)
     
     def __unicode__(self): 
         return self.user.user_name
@@ -85,6 +85,7 @@ class Purchasable(m.Model):
 class Order(m.Model): 
     total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default = "0.00")
     coupon = m.OneToOneField("Coupon",related_name="order",null=True,blank=True)
+    user_prof = m.ForeignKey("UserProfile",related_name="orders")
     
     def calc_total_price(self): 
         self.total_price = self.items.aggregate(m.Sum('price'))['price__sum']
@@ -100,6 +101,7 @@ class Coupon(m.Model):
     #is_giftcard = m.BooleanField("GiftCard",default=False)
     permanent = m.BooleanField("permanent",default=False)
     single_use_per_user = m.BooleanField("Once per user", default=False)
+    user_prof = m.ForeignKey("UserProfile",related_name="coupons",blank=True,null=True)    
     
     discount_amount = m.DecimalField("$ discount",
                                      max_digits=10,
@@ -110,12 +112,26 @@ class Coupon(m.Model):
     
     def is_valid(self,user): 
 	"""check to see if the given user is allowed to use this coupon""" 
-	pass
+	if self.single_use_per_user: 
+	    try: 
+		Order.objects.filter(coupon=self,user_prof=user.get_profile()).get()
+		#it exits, so they have used it
+		return False
+	    except Order.DoesNotExist as err: #then you're ok
+		pass
+	elif self.user_prof and user.get_profile()!=self.user_prof: 
+	    return False
+	elif (not self.permanent) and self.uses_left < 1: #used up
+	    return False
+	elif self.expires < datetime.date.today(): #expired
+	    return False
+	
+	return True
     
     def discount(self,price): 
-	discount = float(discount_amount)
+	discount = float(self.discount_amount)
 	if self.is_percent: #percentage discount
-	    return price*discount
+	    return price*discount/100.0
         
 	#dollar amount
 	if discount >= price:
