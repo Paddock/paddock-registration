@@ -170,8 +170,8 @@ class TestOrder(unittest.TestCase):
         self.o.calc_total_price()
         self.assertEqual(self.o.total_price,'90.00')        
     
-    def test_order_with_coupon(self): 
-        pass
+    
+        
         
         
         
