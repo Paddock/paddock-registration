@@ -356,7 +356,9 @@ class Season(m.Model):
     club = m.ForeignKey('Club',related_name="seasons")
     
     def count_events_with_results(self): 
-        return Event.objects.filter(season=self,regs__results__isnull=False).count() 
+	
+        return Event.objects.filter(season=self).exclude(regs__results__isnull=True).count() 
+    
     def __unicode__(self): 
         return u"%d"%self.year
      
