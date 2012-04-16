@@ -29,17 +29,19 @@ class TestSeason(unittest.TestCase):
         sess.save()
         
         self.e.save()
-    
-    def testCountEventResults(self):    
-        self.assertEqual(0,self.s.count_events_with_results())     
+            
+    def testCountEventResults(self): 
         
-    def testPointsTotals(self): 
+        self.assertEqual(0,self.s.count_events_with_results())     
+
+        #create a bunch of fake results data
         race_class = RaceClass()
         race_class.name = "A"
         race_class.pax = 1
         race_class.club = self.c
         race_class.save()          
         
+        #new event with 1 session
         e = Event()
         e.name = "points event 2"
         e.date = datetime.date.today()
@@ -71,16 +73,22 @@ class TestSeason(unittest.TestCase):
                 run.result = result
                 run.save()     
         
+        #new event with two sessions        
         e = Event()
         e.name = "points event 3"
         e.date = datetime.date.today()
         self.s.events.add(e)
         e.save()
         
-        sess = Session()
-        sess.name = "AM"
-        sess.event = e
-        sess.save()
+        sess1 = Session()
+        sess1.name = "AM"
+        sess1.event = e
+        sess1.save()
+        
+        sess2 = Session()
+        sess2.name = "PM"
+        sess2.event = e
+        sess2.save()
         
         for i in range(0,4): 
             r = Registration()
@@ -92,6 +100,7 @@ class TestSeason(unittest.TestCase):
             r.full_clean()
             r.save()
             
+            #result for first session
             result = Result()
             result.reg = r
             result.session = sess
@@ -101,3 +110,21 @@ class TestSeason(unittest.TestCase):
                 run.base_time = 100.0-i-j
                 run.result = result
                 run.save() 
+            
+            #result for second session    
+            result = Result()
+            result.reg = r
+            result.session = sess
+            result.save()
+            for j in range(0,3): 
+                run = Run()
+                run.base_time = 100.0-i-j
+                run.result = result
+                run.save()     
+                
+                
+       
+        
+        
+                
+        self.assertEqual(2,self.s.count_events_with_results())         
