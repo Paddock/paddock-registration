@@ -30,7 +30,7 @@ class TestSeason(unittest.TestCase):
         
         self.e.save()
             
-    def testCountEventResults(self): 
+    def testCountEventsWithResults(self): 
         
         self.assertEqual(0,self.s.count_events_with_results())     
 
@@ -119,12 +119,9 @@ class TestSeason(unittest.TestCase):
             for j in range(0,3): 
                 run = Run()
                 run.base_time = 100.0-i-j
+                print run.base_time
                 run.result = result
                 run.save()     
-                
-                
-       
-        
-        
+                 
                 
         self.assertEqual(2,self.s.count_events_with_results())         
