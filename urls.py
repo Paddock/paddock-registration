@@ -5,8 +5,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('paddock.views',
-    url(r'^paddock/clubs','clubs'),
-    
-
-
+    url(r'','clubs'),
+    url(r'^clubs$','clubs'),
 )
