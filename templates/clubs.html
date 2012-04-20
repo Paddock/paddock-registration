@@ -36,13 +36,32 @@
       </div>
       <div class="container">
         <div class="row">
-          <div class="span6">
+          <div class="span12">
               Clubs
-          </div>
-          <div class="span6">
-              Events
-          </div>
-        </div>
+              <div class="tabbable tabs-left"> 
+                <ul class="nav nav-tabs">
+                  {% for club in clubs %}
+                      <li><a href="#{{ club.name }}" data-toggle="tab">{{ club.name }}</a></li>
+                  {% endfor %}
+                </ul>
+                <div class="tab-content">
+                  {% for club in clubs %}
+                    <div class="tab-pane" id="{{ club.name}}">
+                      <p>place-holder for some event data for {{ club.name }}</p>
+                    </div>
+                  {% endfor %}  
+                </div>
+              </div>
+            
+          </div><!-- /span6 --> 
+        </div><!-- /row --> 
       </div><!-- /container -->
+      
+      <!-- Le javascript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="{{ STATIC_URL }}/jquery.js"></script>
+      <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tab.js"></script>
+
   </body>
 </html>
