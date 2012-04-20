@@ -2689,8 +2689,7 @@ input[type="submit"].btn.btn-mini {
   clear: both;
 }
 .tab-content {
-  display: table;
-  width: 100%;
+  display: block;
 }
 .tabs-below .nav-tabs,
 .tabs-right .nav-tabs,
