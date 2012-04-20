@@ -1,4 +1,5 @@
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 from paddock.models import Club
 
@@ -8,4 +9,6 @@ def clubs(request):
     
     context = {'clubs':clubs,
                'club_count':len(clubs)}
-    return render_to_response('clubs.html',context)
+    return render_to_response('clubs.html',
+                              context,
+                              context_instance=RequestContext(request))
