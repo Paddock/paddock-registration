@@ -119,7 +119,6 @@ class TestSeason(unittest.TestCase):
             for j in range(0,3): 
                 run = Run()
                 run.base_time = 100.0-i-j
-                print run.base_time
                 run.result = result
                 run.save()     
                  

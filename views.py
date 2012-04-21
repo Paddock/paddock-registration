@@ -7,6 +7,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+#django auth views
+from django.contrib.auth.views import login
+from django.contrib.auth.views import logout
+
 from paddock.models import Club
 
 def clubs(request):
@@ -33,8 +37,10 @@ def new_user(request):
             u.save()
             return HttpResponseRedirect(reverse('paddock.views.clubs'))
         else: 
-            #how to redirect bact to new_user page with errors? 
-            pass
+            form = UserCreationForm(request)
+            render_to_response('paddock/new_user.html',
+                               {'form':form},
+                               context_instance=RequestContext(request))
     else: 
         form = UserCreationForm() #unbound form (no data)        
         return render_to_response('paddock/new_user.html',
