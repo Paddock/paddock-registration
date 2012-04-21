@@ -41,12 +41,20 @@
               <div class="tabbable tabs-left"> 
                 <ul class="nav nav-tabs">
                   {% for club in clubs %}
-                      <li><a href="#{{ club.name }}" data-toggle="tab">{{ club.name }}</a></li>
+                      <li
+                      {% if forloop.first %}
+                          class="active"
+                      {% endif %}                      
+                      ><a href="#{{ club.name }}" data-toggle="tab">{{ club.name }}</a></li>
                   {% endfor %}
                 </ul>
                 <div class="tab-content">
                   {% for club in clubs %}
-                    <div class="tab-pane" id="{{ club.name}}">
+                    <div class="tab-pane 
+                    {% if forloop.first %}
+                        active
+                    {% endif %} 
+                    " id="{{ club.name}}">
                       <p>place-holder for some event data for {{ club.name }}</p>
                     </div>
                   {% endfor %}  
