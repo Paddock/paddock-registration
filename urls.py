@@ -6,6 +6,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('paddock.views',
     #url(r'^$','clubs'),
-    url(r'^clubs/$','paddock/clubs'),
+    url(r'^clubs/$','clubs'),
     
 )
