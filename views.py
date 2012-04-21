@@ -9,6 +9,6 @@ def clubs(request):
     
     context = {'clubs':clubs,
                'club_count':len(clubs)}
-    return render_to_response('clubs.html',
+    return render_to_response('paddock/clubs.html',
                               context,
                               context_instance=RequestContext(request))
