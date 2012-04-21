@@ -12,6 +12,28 @@ class TestCoupon(unittest.TestCase):
     def tearDown(self): 
         for model in m.get_models(): 
             model.objects.all().delete()
+            
+    def test_validcode(self): 
+        self.c = Coupon()
+        self.c.code = "test code"
+        
+        try: 
+            self.c.full_clean()
+        except ValidationError as err: 
+            self.assertEqual("{'code': [u'Spaces not allowed in the code']}",str(err))
+        else: 
+            self.fail("ValidationError expected")
+               
+    def test_expires(self):  
+        self.c = Coupon()
+        self.c.expires = datetime.date.today()
+        self.c.code = "testcode"
+        try: 
+            self.c.full_clean()
+        except ValidationError as err: 
+            self.assertEqual("{'expires': [u'Date must be at least one day from now']}",str(err))
+        else: 
+            self.fail("ValidationError expected")            
     
     def test_discount_calculation(self): 
         c = Coupon()

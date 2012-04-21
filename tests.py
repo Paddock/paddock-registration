@@ -8,13 +8,12 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from paddock.models import find_user
+from django.test.client import Client
 
 from paddock.model_tests.test_club import TestClub
 from paddock.model_tests.test_season import TestSeason
 from paddock.model_tests.test_event import TestEvent, TestEventPointsCalc
 from paddock.model_tests.test_registration import TestRegistration
-from paddock.model_tests.test_coupon import TestCoupon
 from paddock.model_tests.test_dibs import TestDibs
 from paddock.model_tests.test_result import TestResult
 from paddock.model_tests.test_membership import TestMembership
@@ -22,6 +21,21 @@ from paddock.model_tests.test_order_coupon import TestCoupon,TestOrder
 
 
 
+class TestViews(TestCase): 
+    
+    def setUp(self): 
+        self.c = Client()
+        
+    def test_index_views(self):
+        
+        urls = ('/paddock/clubs',)
+        
+        for u in urls: 
+            response = self.c.post(u)
+            self.assertEqual(response.status_code,200)
+        
+
+from paddock.models import find_user
 class TestGeneral(TestCase): 
     
     def setUp(self): 
