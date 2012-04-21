@@ -28,10 +28,11 @@ class TestViews(TestCase):
         
     def test_index_views(self):
         
-        urls = ('/paddock/clubs',)
+        urls = (('/paddock/clubs/',{}),
+               )
         
-        for u in urls: 
-            response = self.c.post(u)
+        for addr,args in urls: 
+            response = self.c.post(addr,args)
             self.assertEqual(response.status_code,200)
         
 
