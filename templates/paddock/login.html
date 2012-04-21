@@ -3,6 +3,8 @@
 
 {% block title %} Racerslane: Login {% endblock %}
 
+{% block nav_login %}{% endblock nav_login %}
+
 {% block content %}
   <div class="container">
     <div class="row">
@@ -22,7 +24,7 @@
             </tr>
           </table>
           <input type="submit" value="login" />
-          <input type="hidden" name="next" value="{{ next }}" /> 
+          <input type="hidden" name="next" value="{{ rediret_feild_name }}" /> 
         </form>
         
       </div><!-- /span12 --> 

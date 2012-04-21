@@ -1,3 +1,5 @@
+{% load url from future %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,6 +33,15 @@
         <div class="navbar-inner">
           <div class="container">
             <a class="brand" href="#"> Racerslane </a>
+            
+            {% block nav_login %} <ul class="nav pull-right">
+              {% if user.is_authenticated %}
+              <li><a>Logged in as {{user.username}}</a></li>
+              <li><a href="{% url 'django.contrib.auth.views.logout' %}">logout</a></li>
+              {% else %}
+              <li><a href="{% url 'django.contrib.auth.views.login' %}">login</a></li>
+              {% endif %}
+            </ul> {% endblock nav_login %}
           </div>
         </div>
       </div> <!-- /navbar -->
