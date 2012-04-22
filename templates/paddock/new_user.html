@@ -1,22 +1,19 @@
 {% extends "paddock/base.html" %}
 {% load url from future %}
 
-{% block title %} Racerslane: Login {% endblock %}
+{% block title %} Racerslane: Sign Up {% endblock %}
 
 {% block nav_login %}{% endblock nav_login %}
 
 {% block content %}
   <div class="container">
     <div class="row">
-      <div class="span12">
-  
-        {% if form.errors %}
-          <p>Your username and password didn’t match. Please try again.</p> 
-        {% endif %}
-          
-        <form method="post" action="{% url 'paddock.views.new_user' %}"> {% csrf_token %}
-          {{ form.as_table }}
-          <input type="submit" value="Register" />
+      <div class="span5">
+          <form method="post" action="{% url 'paddock.views.new_user' %}" class="form-horizontal"> {% csrf_token %}
+          {{ form }}
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
           <input type="hidden" name="next" value="{{ next }}" /> 
         </form>
         
