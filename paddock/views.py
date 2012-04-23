@@ -41,6 +41,6 @@ def new_user(request):
             return HttpResponseRedirect(reverse('paddock.views.clubs'))
     else: 
         form = UserCreationForm() #unbound form (no data)        
-    return render_to_response('paddock/new_user.html',
+    return render_to_response('paddock/registration_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
