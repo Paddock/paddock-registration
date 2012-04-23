@@ -39,6 +39,8 @@ def new_user(request):
             #then create the user from the form data
             u = User.objects.create_user(form.cleaned_data['username'], 
                                          password=form.cleaned_data['password1'])
+            u.is_active = False #only active after email verification
+            
             u.save()
             return HttpResponseRedirect(reverse('paddock.views.clubs'))
     else: 
