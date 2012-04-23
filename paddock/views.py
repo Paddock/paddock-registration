@@ -33,6 +33,8 @@ def new_user(request):
     
     if request.method == 'POST': # If the form has been submitted...
         form = UserCreationForm(request.POST) #bound for, with submitted data
+        print "test", form.is_valid()
+        
         if form.is_valid(): 
             #then create the user from the form data
             u = User.objects.create_user(form.cleaned_data['username'], 
