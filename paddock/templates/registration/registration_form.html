@@ -9,7 +9,7 @@
   <div class="container">
     <div class="row">
       <div class="span5">
-          <form method="post" action="{% url 'paddock.views.new_user' %}" class="form-horizontal"> {% csrf_token %}
+          <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-horizontal"> {% csrf_token %}
           {{ form }}
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Login</button>

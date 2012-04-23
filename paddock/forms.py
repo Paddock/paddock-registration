@@ -1,5 +1,7 @@
+from django import forms
 
-from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
+from django.contrib.auth.forms import AuthenticationForm as AF
+from registration.forms import RegistrationForm as UCF
 from bootstrap.forms import BootstrapMixin, Fieldset
 
 class UserCreationForm(BootstrapMixin, UCF):

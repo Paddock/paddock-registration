@@ -124,11 +124,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'bootstrap',
+    'registration',
     'paddock',
 )
 
+ACCOUNT_ACTIVATION_DAYS = 7
+
 AUTH_PROFILE_MODULE = 'paddock.UserProfile'
-#LOGIN_REDIRECT_URL = '/paddock/clubs'
+LOGIN_REDIRECT_URL = '/paddock/clubs'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
