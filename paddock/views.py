@@ -26,7 +26,7 @@ def clubs(request):
                               context,
                               context_instance=RequestContext(request))
 
-def new_user(request): 
+def register(request): 
     """handles redering of new user form and creation of users"""
     
     #TODO: redirect somewhere else if authenticated user
