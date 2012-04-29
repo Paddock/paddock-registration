@@ -24,3 +24,26 @@ class ActivationForm(BootstrapForm):
                                                  "@/./+/-/_ characters."})
     
     activation_key = forms.fields.CharField(label="Activation key",max_length=40)
+    
+    def clean_username(self):
+        # Since User.username is unique, this check is redundant,
+        # but it sets a nicer error message than the ORM. See #13147.
+        username = self.cleaned_data.get("username")
+        try:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise forms.ValidationError("This username is incorrect")    
+        
+        return username
+    
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        activation_key = self.cleaned_data.get('activation_key')
+
+        user = User.objects.get(username=username)
+        p = user.get_profile()
+        
+        if p.activation_key != activation_key: 
+            raise forms.ValidationError("This activation key is not valid")
+        
+        return self.cleaned_data
