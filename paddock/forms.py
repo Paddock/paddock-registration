@@ -6,11 +6,6 @@ from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationFor
 from bootstrap.forms import BootstrapMixin, Fieldset
 
 class UserCreationForm(BootstrapMixin, UCF):
-    class Meta:
-        model = User
-        layout = (
-            Fieldset("Sign up", "username", "email", "password1","password2" ),
-        )
     
     email = forms.EmailField(widget=forms.TextInput(),
                             max_length=75,

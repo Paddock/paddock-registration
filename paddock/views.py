@@ -33,7 +33,6 @@ def register(request):
     
     if request.method == 'POST': # If the form has been submitted...
         form = UserCreationForm(request.POST) #bound for, with submitted data
-        print "test", form.is_valid()
         
         if form.is_valid(): 
             #then create the user from the form data
@@ -42,9 +41,20 @@ def register(request):
             u.is_active = False #only active after email verification
             
             u.save()
+            
+            profile = u.get_profile()
+                        
+            profile.send_activation_email()
+            
             return HttpResponseRedirect(reverse('paddock.views.clubs'))
     else: 
-        form = UserCreationForm() #unbound form (no data)        
+        form = UserCreationForm() #unbound form (no data)   
+        
+    print "test", form.errors
+        
     return render_to_response('paddock/registration_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
+
+def activate(response): 
+    pass

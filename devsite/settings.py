@@ -1,7 +1,11 @@
 # Django settings for devsite project.
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+#TEMPLATE_DEBUG = DEBUG
+TEMPLATE_DEBUG = True
+
+#FOR Testing
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -129,6 +133,8 @@ INSTALLED_APPS = (
 
 AUTH_PROFILE_MODULE = 'paddock.UserProfile'
 LOGIN_REDIRECT_URL = '/paddock/clubs'
+ACCOUNT_ACTIVATION_DAYS = 7
+DEFAULT_FROM_EMAIL = "noreply@racerslane.com"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
