@@ -13,7 +13,7 @@ from django.contrib.auth.views import login
 from django.contrib.auth.views import logout
 
 #paddodk forms
-from forms import UserCreationForm, AuthenticationForm
+from forms import UserCreationForm, AuthenticationForm, ActivationForm
 
 
 def clubs(request):
@@ -50,11 +50,24 @@ def register(request):
     else: 
         form = UserCreationForm() #unbound form (no data)   
         
-    print "test", form.errors
         
     return render_to_response('paddock/registration_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
 
-def activate(response): 
-    pass
+def activate(request): 
+    
+    form = ActivationForm(request.POST) #bound form
+    if request.method == 'POST': #form submission
+        if form.is_valid(): 
+            pass #check activation on username
+       
+    #link from email
+    if request.GET.get('username') and request.GET.get('activation_key'): 
+        form = ActivationForm(initial={'username': request.user.username})        
+        pass #check activation on username
+
+        
+    return render_to_response('paddock/activate_form.html',
+                              {'form':form},
+                              context_instance=RequestContext(request))

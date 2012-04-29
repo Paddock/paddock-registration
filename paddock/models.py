@@ -115,7 +115,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         username = instance.username
         if isinstance(username, unicode):
             username = username.encode('utf-8')
-        p.activation_key = hashlib.sha1(salt+username).hexdigest()  
+        p.activation_key = hashlib.sha1(salt+username).hexdigest()  #40 characters
         p.save()
         
 post_save.connect(create_user_profile, sender=User)    
