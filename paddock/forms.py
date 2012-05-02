@@ -17,7 +17,11 @@ class AuthenticationForm(BootstrapMixin, AF):
     pass
 
 class ActivationForm(BootstrapForm): 
-    
+    class Meta: 
+        layout = (
+                    Fieldset("Enter the activation code sent to your email", "username", "activation_key", ),
+                )        
+        
     username = forms.RegexField(label="Username", max_length=30,
                                 regex=r'^[\w.@+-]+$',
                                 error_messages = {'invalid': "This value may contain only letters, numbers and "

@@ -14,6 +14,7 @@ from django.core.validators import validate_email
 from django.template.loader import render_to_string
 
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 
 from django.conf import settings 
@@ -76,6 +77,7 @@ class UserProfile(m.Model):
         print self.user.first_name
         
         ctx_dict = {'activation_key': self.activation_key,
+                    'SITE_URL': settings.SITE_URL,
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                     'user':self.user}
         subject = render_to_string('paddock/activation_email_subject.txt',
