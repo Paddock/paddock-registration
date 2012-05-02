@@ -57,17 +57,19 @@ def register(request):
 
 def activate(request): 
     
-    form = ActivationForm(request.POST) #bound form
     if request.method == 'POST': #form submission
+        form = ActivationForm(request.POST) #bound form            
         if form.is_valid(): 
             pass #check activation on username
        
     #link from email
-    if request.GET.get('username') and request.GET.get('activation_key'): 
-        form = ActivationForm(initial={'username': request.user.username})        
-        pass #check activation on username
-
-        
+    elif request.GET.get('username') and request.GET.get('activation_key'): 
+        form = ActivationForm(initial={'username': request.GET.get('username'),
+                                       'activation_key':request.GET.get('activation_key')})        
+        if form.is_valid():
+            pass
+    else:
+        form = ActivationForm()
     return render_to_response('paddock/activate_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
