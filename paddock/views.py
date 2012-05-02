@@ -46,7 +46,7 @@ def register(request):
                         
             profile.send_activation_email()
             
-            return HttpResponseRedirect(reverse('paddock.views.clubs'))
+            return HttpResponseRedirect(reverse('paddock.views.activate'))
     else: 
         form = UserCreationForm() #unbound form (no data)   
         
@@ -56,20 +56,26 @@ def register(request):
                               context_instance=RequestContext(request))
 
 def activate(request): 
-    
+    set_valid = False
+    form = ActivationForm()
     if request.method == 'POST': #form submission
         form = ActivationForm(request.POST) #bound form            
         if form.is_valid(): 
-            pass #check activation on username
+            set_valid = True
        
     #link from email
     elif request.GET.get('username') and request.GET.get('activation_key'): 
         form = ActivationForm(initial={'username': request.GET.get('username'),
                                        'activation_key':request.GET.get('activation_key')})        
         if form.is_valid():
-            pass
-    else:
-        form = ActivationForm()
+            set_valid = True
+            
+    if set_valid: 
+        u = User.objects.get(username=form.cleaned_data['username'])
+        u.is_active = True
+        u.save()
+        return HttpResponseRedirect(reverse('paddock.views.login')) 
+        
     return render_to_response('paddock/activate_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
