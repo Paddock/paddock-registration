@@ -32,7 +32,7 @@ class ActivationForm(BootstrapForm):
         try:
             User.objects.get(username=username)
         except User.DoesNotExist:
-            raise forms.ValidationError("This username is incorrect")    
+            raise forms.ValidationError("This username is incorrect")   
         
         return username
     
