@@ -5,7 +5,10 @@ from django.core.urlresolvers import reverse
 
 
 from django.contrib.auth.models import User
+from django.contrib.sites.models import get_current_site
+
 from paddock.models import Club
+
 
 
 #django auth views
@@ -44,7 +47,7 @@ def register(request):
             
             profile = u.get_profile()
                         
-            profile.send_activation_email()
+            profile.send_activation_email(request)
             
             return HttpResponseRedirect(reverse('paddock.views.activate'))
     else: 
