@@ -1,6 +1,7 @@
 from django import forms
 
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
 from bootstrap.forms import BootstrapForm,BootstrapMixin, Fieldset
@@ -14,7 +15,14 @@ class UserCreationForm(BootstrapMixin, UCF):
     
 
 class AuthenticationForm(BootstrapMixin, AF):
-    pass
+    #monkey patch to adjust error messages
+    error_messages = {
+            'invalid_login': _("Please enter a correct username and password. "
+                               "Note that both fields are case-sensitive."),
+            'no_cookies': _("Your Web browser doesn't appear to have cookies "
+                            "enabled. Cookies are required for logging in."),
+            'inactive': _("This account is inactive. Please check your email for you activation code"),
+        }    
 
 class ActivationForm(BootstrapForm): 
     class Meta: 
