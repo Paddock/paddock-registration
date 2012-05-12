@@ -419,6 +419,8 @@ class Event(m.Model):
     safe_name = m.CharField(max_length=40)
 
     date = m.DateField('Event Date')
+    
+    note = m.TextField('notes')
 
     reg_close = m.DateTimeField('Registration Close Date',blank=True,null=True)
 
@@ -432,6 +434,7 @@ class Event(m.Model):
     reg_limit = m.IntegerField("Reg. Limit", default=0, help_text="Maximum number of registrations allowed. ")
 
     count_points = m.BooleanField("Include this event in season point totals",default=True)
+    multiplier = m.IntegerField("Multiplier on the total number of points an event is worth",default=1)
 
     season = m.ForeignKey('Season',related_name="events")    
 
