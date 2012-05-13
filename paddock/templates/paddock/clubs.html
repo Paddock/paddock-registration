@@ -14,18 +14,27 @@
                 {% if forloop.first %}
                     class="active"
                 {% endif %}                      
-                ><a href="#{{ club.name }}" data-toggle="tab">{{ club.name }}</a></li>
+                ><a href="#{{ club.safe_name }}" data-toggle="tab">{{ club.name }}</a></li>
             {% endfor %}
           </ul>
           <div class="tab-content">
             {% for club in clubs %}
-              <div class="tab-pane 
-              {% if forloop.first %}
-                  active
-              {% endif %} 
-              " id="{{ club.name}}">
-                <p>place-holder for some event data for {{ club.name }}</p>
-              </div>
+              <div class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ club.safe_name }}">
+                <div class="span4">
+                  {% for season in club.sorted_seasons %}
+                    {% if not forloop.first %} </br> {% endif %}
+                    <h3> {{ season.year }} </h3>
+                     <table class="table table-striped">
+                    {% for event in season.upcomming_events %}
+                        <tr style="width: 100%">
+                          <td style="width: 70%"> {{ event.name }}</td>
+                          <td style="width: 30%"> {{ event.date }}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                  {% endfor %}  
+                </div>  <!-- close span12 -->
+              </div>  <!-- close tab-pane -->
             {% endfor %}  
           </div>
         </div>

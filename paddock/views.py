@@ -22,7 +22,7 @@ from forms import UserCreationForm, AuthenticationForm, ActivationForm
 def clubs(request):
     """club index page"""
     clubs = Club.objects.all()
-    
+        
     context = {'clubs':clubs,
                'club_count':len(clubs)}
     return render_to_response('paddock/clubs.html',

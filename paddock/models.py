@@ -227,6 +227,10 @@ class Club(Purchasable):
 
     def __unicode__(self): 
         return self.safe_name
+    
+    @property
+    def sorted_seasons(self): 
+        return self.seasons.order_by('year').reverse().all()
 
     def assign_dibs(self):
         """looks through the most recent events to assign 
@@ -398,6 +402,10 @@ class Season(m.Model):
                                         default=0)    
 
     club = m.ForeignKey('Club',related_name="seasons")
+    
+    @property
+    def upcomming_events(self): 
+        return self.events.order_by('date').reverse().all()
 
     def count_events_with_results(self): 
 
