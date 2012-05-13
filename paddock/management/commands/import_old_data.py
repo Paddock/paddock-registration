@@ -31,15 +31,19 @@ class Command(BaseCommand):
             s = Season()
             
             """"id","year","active","club_name","drop_lowest_events"""
-            
-            s.club = Club.objects.get(_name=line['club_name'])
+            club = Club.objects.get(_name=line['club_name'])
+            s.club = club
             s.year = int(line['year'])
             s.drop_lowest_events = int(line['drop_lowest_events'])
-            
             s.save()
+
+            if bool(int(line['active'])): 
+                club.active_season = s
+            
+            club.save()
             
             season_map[line['id']] = s
-            
+
         for line in csv.DictReader(open('old_data/event.csv','rb')):
             
             """id","name","note","date","registration_close","member_cost",
