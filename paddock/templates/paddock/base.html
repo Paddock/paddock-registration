@@ -19,6 +19,7 @@
           }
       </style>
       <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+      <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
       
       <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
       <!--[if lt IE 9]>
@@ -30,30 +31,36 @@
       
   </head>
   <body>
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container">
-            <a class="brand" href="#"> Racerslane </a>
-            
-            {% block nav_login %} <ul class="nav pull-right">
-              {% if user.is_authenticated %}
-              <li><p class="navbar-text">Logged in as <a>{{user.username}}</a>,</p></li>
-              <li><a href="{% url 'django.contrib.auth.views.logout' %}">logout</a></li>
-              {% else %}
-              <li>
-                
-              </li>
-              <li>
-                <p class="navbar-text"><a href="{% url 'django.contrib.auth.views.login' %}">Login</a>  
-                or 
-                <a href="{% url 'paddock.views.register' %}">Sign Up</a></p>
-              </li>
-              {% endif %}
-            </ul> {% endblock nav_login %}
-          </div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#"> Racerslane </a>
+          
+          {% block nav_login %} <ul class="nav pull-right">
+            {% if user.is_authenticated %}
+            <li><p class="navbar-text">Logged in as <a>{{user.username}}</a>,</p></li>
+            <li><a href="{% url 'django.contrib.auth.views.logout' %}">logout</a></li>
+            {% else %}
+            <li>
+              
+            </li>
+            <li>
+              <p class="navbar-text"><a href="{% url 'django.contrib.auth.views.login' %}">Login</a>  
+              or 
+              <a href="{% url 'paddock.views.register' %}">Sign Up</a></p>
+            </li>
+            {% endif %}
+          </ul> {% endblock nav_login %}
         </div>
-      </div> <!-- /navbar -->
-      {% block content %}{% endblock content%}
-
+      </div>
+    </div> <!-- /navbar -->
+    {% block content %}{% endblock content%}
+    
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ STATIC_URL }}/jquery.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tab.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-collapse.js"></script>
   </body>
 </html>

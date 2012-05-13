@@ -23,15 +23,17 @@
                 <div class="span4">
                   {% for season in club.sorted_seasons %}
                     {% if not forloop.first %} </br> {% endif %}
-                    <h3> {{ season.year }} </h3>
-                     <table class="table table-striped">
-                    {% for event in season.upcomming_events %}
-                        <tr style="width: 100%">
-                          <td style="width: 70%"> {{ event.name }}</td>
-                          <td style="width: 30%"> {{ event.date }}</td>
-                        </tr>
-                    {% endfor %}
-                    </table>
+                    <h3> <a data-toggle="collapse" data-target="#{{ club.safe_name }}_{{ season.year }}">{{ season.year }} </a> </h3>
+                    <div class="collapse" id="{{ club.safe_name }}_{{ season.year }}">                     
+                      <table class="table table-striped">
+                      {% for event in season.upcomming_events %}
+                          <tr style="width: 100%">
+                            <td style="width: 70%"> {{ event.name }}</td>
+                            <td style="width: 30%"> {{ event.date }}</td>
+                          </tr>
+                      {% endfor %}
+                      </table>
+                    </div>
                   {% endfor %}  
                 </div>  <!-- close span12 -->
               </div>  <!-- close tab-pane -->
@@ -43,9 +45,4 @@
   </div><!-- /row --> 
 </div><!-- /container -->
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ STATIC_URL }}/jquery.js"></script>
-<script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tab.js"></script>
 {% endblock content%}
