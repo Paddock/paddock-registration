@@ -4,7 +4,7 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 
 from paddock.models import Registration, User, RaceClass, Event, Car, Club, \
-                           RegDetail, Season, Result, Run, Session
+                           Season, Result, Run, Session
 
 
 class TestResult(unittest.TestCase): 

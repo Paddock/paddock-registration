@@ -248,9 +248,8 @@ class Club(Purchasable):
             return 
 
         #look for all dibs with drivers who have a registration in one of the last N events
-        dibs = Dibs.objects.filter(user__reg_details__regs__event__in=recent_events,
-                                   user__reg_details__regs__isnull=False,
-                                   user__reg_details__regs__results__isnull=False).all()	
+        dibs = Dibs.objects.filter(user_profile__regs__event__in=recent_events,
+                                   user_profile__regs__results__isnull=False).all()	
         for d in dibs: 
             time_held = d.expires-d.created
             months_held = time_held.days/30 #gets the whole number of months held, drops remainder
@@ -263,7 +262,7 @@ class Club(Purchasable):
         #check for new users who earned dibs
         #look for people who have used the same num/class in the last N events and don't already have dibs     
 
-        regs = Registration.objects.values('number','race_class','reg_detail__user').\
+        regs = Registration.objects.values('number','race_class','user_profile').\
             filter(event__in=recent_events,
                    results__isnull=False,
                    race_class__allow_dibs=True).\
@@ -282,10 +281,11 @@ class Club(Purchasable):
 
         #get or create because someone with dibs might have run the last X events and be in this list
         for reg in regs: 
+            up = UserProfile.objects.get(id=reg['user_profile'])
             dibs,created = Dibs.objects.get_or_create(number=reg['number'],
                                                       race_class_id=reg['race_class'],
                                                       club=self,
-                                                      user_id=reg['reg_detail__user'], 
+                                                      user_profile=up, 
                                                       defaults={'expires':expires,'duration':duration})
 
 
@@ -390,7 +390,7 @@ class Dibs(m.Model):
     number = m.IntegerField("Number")    
     race_class = m.ForeignKey('RaceClass',related_name='+')
     club = m.ForeignKey("Club",related_name='dibs')
-    user = m.ForeignKey(User,related_name='dibs')
+    user_profile = m.ForeignKey(UserProfile,related_name='dibs')
 
     def __unicode__(self):
         return "%d %s, for %s"%(self.number,self.race_class.name,self.user.username)
@@ -405,7 +405,7 @@ class Season(m.Model):
     
     @property
     def upcomming_events(self): 
-        return self.events.order_by('date').reverse().all()
+        return self.events.order_by('date').all()
 
     def count_events_with_results(self): 
 
@@ -572,7 +572,8 @@ class Registration(Purchasable):
 
     event = m.ForeignKey("Event",related_name="regs")
 
-    reg_detail = m.ForeignKey("RegDetail",related_name="regs",blank=True,null=True)
+    #reg_detail = m.ForeignKey("RegDetail",related_name="regs",blank=True,null=True)
+    user_profile = m.ForeignKey('UserProfile',related_name="regs",blank=True,null=True)
 
     @property
     def user(self):
@@ -628,8 +629,8 @@ class Registration(Purchasable):
     def associate_with_user(self,user): 
         self._anon_f_name = "N/A"
         self._anon_l_name = "N/A"
-        self.reg_detail = RegDetail()
-        self.reg_detail.user = user
+        #self.reg_detail = RegDetail()
+        self.user_profile = UserProfile.objects.get(user__username=user)
 
     def make_assoc_regs(self): 
         """creates regs for all child events of the event this registration is associated with""" 
@@ -683,15 +684,6 @@ class Registration(Purchasable):
             reg_count = Registration.objects.filter(event=self.event).count()
             if reg_count >= self.event.reg_limit: 
                 raise ValidationError('Only %d registrations are allowed for the event. The event is full'%self.event.reg_limit)
-
-
-class RegDetail(m.Model): 
-
-    user = m.ForeignKey(User,related_name="reg_details")
-    #TODO: transaction = m.ForeignKey("Transaction",related_name="+")
-
-    def __unicode__(self): 
-        return self.user.username   
 
 
 class Session(m.Model): 

@@ -1,7 +1,7 @@
 import csv,datetime
 from django.core.management.base import BaseCommand, CommandError
 
-from paddock.models import Club, Season, Event
+from paddock.models import Club, Season, Event, Registration, UserProfile
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
@@ -44,6 +44,7 @@ class Command(BaseCommand):
             
             season_map[line['id']] = s
 
+        event_map = {}
         for line in csv.DictReader(open('old_data/event.csv','rb')):
             
             """id","name","note","date","registration_close","member_cost",
@@ -61,12 +62,43 @@ class Command(BaseCommand):
             e.non_pre_pay_penalty = float(line['pay_at_event_cost'])
             #e.club = Club.objects.get(_name=line['club_name'])
             e.season = season_map[line['season_id']]
-            e.count_points = bool(line['count_points'])
+            e.count_points = int(line['count_points'])
             e.multiplier = int(line['multiplier'])
             
             #TODO: Location stuff
             
             e.save()
             
+            event_map[line['id']] = e
             
+        for line in csv.DictReader(open('old_data/event.csv')): 
+            
+            """id","number","paid","token","payer_id","transaction_id",
+            "price","class_points","index_points","index_flag","anon_f_name",
+            "anon_l_name","anon_car","driver_user_name","event_id","reg_type_id",
+            "car_id","race_class_id"""
+            
+            for k,v in line: 
+                if v=="NULL": 
+                    line[k] = ""
+            
+            r = Registration()
+            r.number = int(line['number'])
+            r.paid = int(line['paid'])
+            r.price = float(line['price'])
+            r.index_points = int(line['index_points'])
+            r.class_points = int(line['class_points'])
+            r._anon_car = line['anon_car']
+            r._anon_l_name = line['anon_l_name']
+            r._anon_f_name = line['anon_f_name']
+            
+            r.event = event_map[line['event_id']]
+            #TODO reg_type_id
+            #TODO car_id 
+            #TODO race_class_id
+            #TODO remove reg_detail class, and associate reg with UserProfile directly
+            #TODO registrations can be siblings for joint update
+            
+            r.save()
+
             

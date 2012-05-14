@@ -4,7 +4,7 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 from django.db import models as m
 
-from paddock.models import Registration, User, UserProfile, Club, RegDetail,\
+from paddock.models import Registration, User, UserProfile, Club,\
      Coupon, Order, Membership, Season, Event, RaceClass
 
 class TestCoupon(unittest.TestCase):   
@@ -60,16 +60,8 @@ class TestCoupon(unittest.TestCase):
         user2.last_name = "gray"
         user2.username = "tito"
         user2.save()
-        
-        up = UserProfile()
-        up.user = user
-        up.save()
-        
-        up2 = UserProfile()
-        up2.user = user2
-        up2.save()
-        
-        
+
+               
         c = Coupon()
         c.discount_amount = "10.00"
         c.permanent = True
@@ -79,7 +71,7 @@ class TestCoupon(unittest.TestCase):
         
         o = Order()
         o.coupon = c
-        o.user_prof = up
+        o.user_prof = user.get_profile()
         o.save()
         
         self.assertTrue(c.is_valid(user))

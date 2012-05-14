@@ -5,8 +5,8 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 
 from paddock.models import Club, Dibs, User, Season, Event, \
-     Registration, RegDetail, RaceClass, Run, Result, Session, \
-     clean_dibs
+     Registration, RaceClass, Run, Result, Session, \
+     clean_dibs, UserProfile
 
 class TestDibs(unittest.TestCase): 
     
@@ -77,9 +77,7 @@ class TestDibs(unittest.TestCase):
         self.users = [self.u1,self.u2,self.u3]
         
         for i,user in enumerate(self.users): 
-            rd= RegDetail()
-            rd.user = user
-            rd.save()
+            up = user.get_profile()
             for j,event in enumerate(self.events): 
                 if j<=i: 
                     r = Registration()
@@ -87,7 +85,7 @@ class TestDibs(unittest.TestCase):
                     r.race_class = self.race_class
                     r.pax_class = None
                     r.event = event    
-                    r.reg_detail = rd
+                    r.user_profile = up
                     r.save()
                     
                     result = Result()
@@ -115,8 +113,8 @@ class TestDibs(unittest.TestCase):
         
         self.c.assign_dibs()
         
-        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
-        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user_profile=self.u3.get_profile()).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user_profile=self.u3.get_profile()).get()
         self.assertEqual(dibs.number,3)
         self.assertEqual(dibs.race_class,self.race_class)
         self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
@@ -125,10 +123,8 @@ class TestDibs(unittest.TestCase):
         
     def test_no_dibs(self): 
         reg = Registration()
-        rd = RegDetail()
-        rd.user = self.u1
-        rd.save()
-        reg.reg_detail = rd
+        up = UserProfile.objects.get(user=self.u1)
+        reg.user_profile = up
         reg.number = 15
         reg.race_class = self.race_class
         reg.pax_class = None
@@ -161,10 +157,8 @@ class TestDibs(unittest.TestCase):
         
     def test_no_result_reg_dibs(self): 
         reg = Registration()
-        rd = RegDetail()
-        rd.user = self.u2
-        rd.save()
-        reg.reg_detail = rd
+        up = UserProfile.objects.get(user=self.u2)
+        reg.user_profile = up
         reg.number = 15
         reg.race_class = self.race_class
         reg.pax_class = None
@@ -173,8 +167,8 @@ class TestDibs(unittest.TestCase):
         
         self.c.assign_dibs()
         
-        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
-        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user_profile=self.u3.get_profile()).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user_profile=self.u3.get_profile).get()
         self.assertEqual(dibs.number,3)
         self.assertEqual(dibs.race_class,self.race_class)
         self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
@@ -186,7 +180,7 @@ class TestDibs(unittest.TestCase):
         
         dibs = Dibs()
         dibs.club = self.c
-        dibs.user = self.u3
+        dibs.user_profile = self.u3.get_profile()
         dibs.race_class = self.race_class
         dibs.number = 3
         dibs.duration = 30
@@ -196,8 +190,8 @@ class TestDibs(unittest.TestCase):
         dibs.save()
         
         self.c.assign_dibs()       
-        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
-        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user_profile=self.u3.get_profile()).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user_profile=self.u3.get_profile()).get()
         self.assertEqual(dibs.duration,60)
         self.assertEqual(dibs.expires,self.e3.date+datetime.timedelta(days=60))
         
@@ -207,7 +201,7 @@ class TestDibs(unittest.TestCase):
         
         dibs = Dibs()
         dibs.club = self.c
-        dibs.user = self.u1
+        dibs.user_profile = self.u1.get_profile()
         dibs.race_class = self.race_class
         dibs.number = 3
         dibs.duration = 30
@@ -218,7 +212,7 @@ class TestDibs(unittest.TestCase):
         
         self.c.assign_dibs()  
         
-        dibs = Dibs.objects.filter(user=self.u1).get()
+        dibs = Dibs.objects.filter(user_profile=self.u1.get_profile()).get()
         
         self.assertEqual(dibs.expires,self.today-datetime.timedelta(days=5))
         self.assertEqual(dibs.duration,30)
@@ -240,19 +234,19 @@ class TestDibs(unittest.TestCase):
         dibs.duration = 30
         dibs.number = 99
         dibs.race_class = self.race_class
-        dibs.user = self.u2
+        dibs.user_profile = self.u2.get_profile()
         
         dibs.save()
 
         clean_dibs()
         
-        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u3).all()),1) 
-        dibs = Dibs.objects.filter(club=self.c,user=self.u3).get()
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user_profile=self.u3.get_profile()).all()),1) 
+        dibs = Dibs.objects.filter(club=self.c,user_profile=self.u3.get_profile()).get()
         self.assertEqual(dibs.number,3)
         self.assertEqual(dibs.race_class,self.race_class)
         self.assertEqual(dibs.expires,self.e4.date+datetime.timedelta(days=30))
         
-        self.assertEqual(len(self.c.dibs.filter(club=self.c,user=self.u2).all()),0) 
+        self.assertEqual(len(self.c.dibs.filter(club=self.c,user_profile=self.u2.get_profile()).all()),0) 
         
     def test_race_class_allow_dibs(self): 
         
