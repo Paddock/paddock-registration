@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models as m
 
 from paddock.models import Registration, User, RaceClass, Event, Car, Club, \
-                           RegDetail, Season, Session, Result, Run
+                           Season, Session, Result, Run, UserProfile
 
 class TestRegistration(unittest.TestCase): 
     
@@ -50,10 +50,8 @@ class TestRegistration(unittest.TestCase):
         self.r.race_class = self.race_class
         self.r.pax_class = None
         self.r.event = self.e
-        
-        self.reg_detail = RegDetail()
-        self.reg_detail.user = self.user
-        self.reg_detail.save()
+
+        self.user_profile = UserProfile.objects.get(user=self.user)
         
     def tearDown(self): 
         
@@ -118,9 +116,7 @@ class TestRegistration(unittest.TestCase):
     def testWithCar(self): 
         
         self.r.car = self.car
-        self.r.reg_detail = self.reg_detail
-        
-        self.reg_detail.save()
+        self.r.user_profile = self.user_profile
         self.r.save()
         
         self.assertEqual("Justin",self.r.first_name)
@@ -130,8 +126,7 @@ class TestRegistration(unittest.TestCase):
     def testAllowedNumberRaceClass(self): 
         
         self.r.car = self.car
-        self.r.reg_detail = self.reg_detail
-
+        self.r.user_profile = self.user_profile
         self.r.save()        
         
         self.r2 = Registration()
@@ -185,7 +180,7 @@ class TestRegistration(unittest.TestCase):
         self.race_class.save()
         
         self.r.car = self.car
-        self.r.reg_detail = self.reg_detail
+        self.r.user_profile = self.user_profile
         self.r.event = self.e
         self.r.save()        
            
@@ -194,7 +189,7 @@ class TestRegistration(unittest.TestCase):
         self.r2.race_class = self.race_class
         self.r2.pax_class = None
         self.r2.event = self.e2     
-        self.r2.reg_detail = self.reg_detail
+        self.r2.user_profile = self.user_profile
                 
         try: 
             self.r2.full_clean()
