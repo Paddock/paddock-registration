@@ -1,7 +1,8 @@
 import csv,datetime
 from django.core.management.base import BaseCommand, CommandError
 
-from paddock.models import Club, Season, Event, Registration, UserProfile
+from paddock.models import Club, Season, Event, Registration, UserProfile, \
+     RaceClass
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
@@ -70,28 +71,53 @@ class Command(BaseCommand):
             e.save()
             
             event_map[line['id']] = e
+        
+        race_class_map = {}
+        for line in csv.DictReader(open('old_data/raceclass.csv')):
+            """id","pax","name","club_name"""
             
-        for line in csv.DictReader(open('old_data/event.csv')): 
+            
+            club = Club.objects.get(_name=line['club_name'])            
+            
+            
+            r = RaceClass()
+            r.name = line['name']
+            r.pax = float(line['pax'])
+            r.club = club
+            
+            r.save()
+            
+            race_class_map[line['id']] = r
+            
+            
+        for line in csv.DictReader(open('old_data/registration.csv')): 
             
             """id","number","paid","token","payer_id","transaction_id",
             "price","class_points","index_points","index_flag","anon_f_name",
             "anon_l_name","anon_car","driver_user_name","event_id","reg_type_id",
             "car_id","race_class_id"""
             
-            for k,v in line: 
+            for k,v in line.iteritems(): 
                 if v=="NULL": 
                     line[k] = ""
+            if not line['event_id']: 
+                continue 
             
+            rc = race_class_map[line['race_class_id']]
+
             r = Registration()
             r.number = int(line['number'])
             r.paid = int(line['paid'])
-            r.price = float(line['price'])
+            if line['price']:
+                r.price = float(line['price'])
+            else: 
+                r.price = 0.00
             r.index_points = int(line['index_points'])
             r.class_points = int(line['class_points'])
             r._anon_car = line['anon_car']
             r._anon_l_name = line['anon_l_name']
             r._anon_f_name = line['anon_f_name']
-            
+            r.race_class = rc
             r.event = event_map[line['event_id']]
             #TODO reg_type_id
             #TODO car_id 
@@ -100,5 +126,7 @@ class Command(BaseCommand):
             #TODO registrations can be siblings for joint update
             
             r.save()
+            
+            
 
             
