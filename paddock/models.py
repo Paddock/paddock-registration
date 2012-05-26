@@ -92,7 +92,7 @@ class UserProfile(m.Model):
     def get_next_events(self): 
         today = datetime.datetime.today()
         #TODO: get all events that user is registered for, 
-        #      or that are comming up for clubs that you're member of   
+        #      or that are coming up for clubs that you're member of   
         raise NotImplementedError
 
 
@@ -404,12 +404,15 @@ class Season(m.Model):
     club = m.ForeignKey('Club',related_name="seasons")
     
     @property
-    def upcomming_events(self): 
-        return self.events.exclude(regs__results__isnull=False).\
+    def upcoming_events(self): 
+        return self.events.annotate(num_results=m.Count('regs__results')).\
+               filter(num_results=0).\
                filter(date__gt=datetime.date.today()).order_by('date').all()
 
-    def count_events_with_results(self): 
-        return Event.objects.filter(season=self).exclude(regs__results__isnull=True).count() 
+    @property
+    def events_with_results(self): 
+        return self.events.annotate(num_results=m.Count('regs__results')).\
+               filter(num_results__gt=0)
 
     def __unicode__(self): 
         return u"%d"%self.year

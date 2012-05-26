@@ -8,8 +8,9 @@ from paddock.models import Club, Season, Event, Session, \
      RaceClass, Registration, Result, Run
 
 class TestSeasonBasic(django.test.TestCase): 
+    """Test that don't use the test data"""
     
-    def setUp(self): 
+    def setUp(self):        
         self.c = Club()
         self.c.name = "test"
         
@@ -18,110 +19,45 @@ class TestSeasonBasic(django.test.TestCase):
         self.s.club = self.c
         self.s.save()
         
-        self.e = Event()
-        self.e.name = "points event 1"
-        self.e.date = datetime.date.today()
+        e = Event()
+        e.name = "points event 0"
+        e.date = datetime.date.today()-datetime.timedelta(days=10)
         
-        self.s.events.add(self.e)
+        self.s.events.add(e)    
         
-        sess = Session()
-        sess.name = "AM"
-        sess.event = self.e
-        sess.save()
+        e.save()  
         
-        self.e.save()
+        e = Event()
+        e.name = "points event 1"
+        e.date = datetime.date.today()+datetime.timedelta(days=10)
+        
+        self.s.events.add(e)
+        
+        e.save()  
+    
+             
+    
+    def test_upcoming_events(self): 
+        self.assertEqual(1,self.s.upcoming_events.count())
             
-    def testCountEventsWithResults(self): 
         
-        self.assertEqual(0,self.s.count_events_with_results())     
+class TestSeasonWithData(django.test.TestCase): 
+    """test that use the large test dataset""" 
+    
+    fixtures = ['test_data.json']
 
-        #create a bunch of fake results data
-        race_class = RaceClass()
-        race_class.name = "A"
-        race_class.pax = 1
-        race_class.club = self.c
-        race_class.save()          
+    def setUp(self): 
+        self.season = Season.objects.get(club___name="NORA - ASCC", year="2010")
         
-        #new event with 1 session
-        e = Event()
-        e.name = "points event 2"
-        e.date = datetime.date.today()
-        self.s.events.add(e)
-        e.save()
+    
+    
+    def test_events_with_results(self):       
         
-        sess = Session()
-        sess.name = "AM"
-        sess.event = e
-        sess.save()
+        self.assertEqual(16,self.season.events_with_results.count())
         
-        for i in range(0,4): 
-            r = Registration()
-            r.number = i
-            r.race_class = race_class
-            r._anon_f_name = "%d"%(i,)
-            r.pax_class = None
-            r.event = e
-            r.full_clean()
-            r.save()
-            
-            result = Result()
-            result.reg = r
-            result.session = sess
-            result.save()
-            for j in range(0,3): 
-                run = Run()
-                run.base_time = 100.0-i-j
-                run.result = result
-                run.save()     
+        #clear out the results
+        Result.objects.filter(reg__event__season=self.season).delete()
         
-        #new event with two sessions        
-        e = Event()
-        e.name = "points event 3"
-        e.date = datetime.date.today()
-        self.s.events.add(e)
-        e.save()
+        self.assertEqual(0,self.season.events_with_results.count())
         
-        sess1 = Session()
-        sess1.name = "AM"
-        sess1.event = e
-        sess1.save()
-        
-        sess2 = Session()
-        sess2.name = "PM"
-        sess2.event = e
-        sess2.save()
-        
-        for i in range(0,4): 
-            r = Registration()
-            r.number = i
-            r.race_class = race_class
-            r._anon_f_name = "%d"%(i,)
-            r.pax_class = None
-            r.event = e
-            r.full_clean()
-            r.save()
-            
-            #result for first session
-            result = Result()
-            result.reg = r
-            result.session = sess
-            result.save()
-            for j in range(0,3): 
-                run = Run()
-                run.base_time = 100.0-i-j
-                run.result = result
-                run.save() 
-            
-            #result for second session    
-            result = Result()
-            result.reg = r
-            result.session = sess
-            result.save()
-            for j in range(0,3): 
-                run = Run()
-                run.base_time = 100.0-i-j
-                run.result = result
-                run.save()     
                  
-                
-        self.assertEqual(2,self.s.count_events_with_results())         
