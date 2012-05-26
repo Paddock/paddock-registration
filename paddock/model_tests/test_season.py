@@ -1,12 +1,13 @@
 import datetime
 
 from django.utils import unittest
+import django.test
 from django.core.exceptions import ValidationError
 
 from paddock.models import Club, Season, Event, Session, \
      RaceClass, Registration, Result, Run
 
-class TestSeason(unittest.TestCase): 
+class TestSeasonBasic(django.test.TestCase): 
     
     def setUp(self): 
         self.c = Club()

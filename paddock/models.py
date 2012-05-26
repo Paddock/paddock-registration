@@ -428,7 +428,7 @@ class Event(m.Model):
 
     date = m.DateField('Event Date')
     
-    note = m.TextField('notes')
+    note = m.TextField('notes', blank=True)
 
     reg_close = m.DateTimeField('Registration Close Date',blank=True,null=True)
 
@@ -577,7 +577,7 @@ class Registration(Purchasable):
 
     @property
     def user(self):
-        return self.reg_detail.user
+        return self.user_profile.user
 
     #used only for anonymous regs
     _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
@@ -592,23 +592,23 @@ class Registration(Purchasable):
 
     @property
     def first_name(self): 
-        if self.reg_detail: 
-            return self.reg_detail.user.first_name
+        if self.user_profile: 
+            return self.user_profile.user.first_name
         elif self._anon_f_name: 
             return self._anon_f_name
         return "Driver"
 
     @property
     def last_name(self):
-        if self.reg_detail: 
-            return self.user.last_name
+        if self.user_profile: 
+            return self.user_profile.user.last_name
         elif self._anon_l_name: 
             return self._anon_l_name
         return "Not On File" 
 
     def __unicode__(self):
-        if self.reg_detail: 
-            return "%s for %s"%(self.reg_detail.user.username,self.event.name)
+        if self.user_profile: 
+            return "%s for %s"%(self.user_profile.user.username,self.event.name)
         return "anon: %s %s for %s"%(self.first_name,self.last_name,self.event.name)
 
 
@@ -629,14 +629,13 @@ class Registration(Purchasable):
     def associate_with_user(self,user): 
         self._anon_f_name = "N/A"
         self._anon_l_name = "N/A"
-        #self.reg_detail = RegDetail()
         self.user_profile = UserProfile.objects.get(user__username=user)
 
     def make_assoc_regs(self): 
         """creates regs for all child events of the event this registration is associated with""" 
         try: 
-            events = self.event.child_events.all().exclude(regs__reg_detail=self.reg_detail,
-                                                           regs__reg_detail__isnull=False).all()
+            events = self.event.child_events.exclude(regs__user_profile=self.user_profile,
+                                                           regs__user_profile__isnull=False).all()
 
             #only grab child events which don't already have an associated reg
             for event in events: 
@@ -644,7 +643,7 @@ class Registration(Purchasable):
                 reg.number = self.number
                 reg.race_class = self.race_class
                 reg.pax_class = self.pax_class
-                reg.reg_detail = self.reg_detail
+                reg.user_profile = self.user_profile
                 reg.event = event
                 reg.save()
         except Event.DoesNotExist: 
@@ -652,7 +651,7 @@ class Registration(Purchasable):
 
     def update_assoc_regs(self): 
 
-        other_regs = Registration.objects.filter(reg_detail=self.reg_detail)
+        other_regs = Registration.objects.filter(user_profile=self.user_profile)
         for reg in other_regs: 
             reg.number = self.number
             reg.race_class = self.race_class
@@ -665,10 +664,10 @@ class Registration(Purchasable):
             raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
 
         #if necessary, check to make sure user has not already run the max times in this class
-        if self.reg_detail and self.race_class.user_reg_limit:	
+        if self.user_profile and self.race_class.user_reg_limit:	
             reg_count = Registration.objects.filter(event__season__club=self.event.season.club,
-                                                    reg_detail__user=self.reg_detail.user,
-                                                    reg_detail__isnull=False,
+                                                    user_profile__user=self.user_profile.user,
+                                                    user_profile__isnull=False,
                                                     race_class=self.race_class).count()
             if reg_count >= self.race_class.user_reg_limit:
                 raise ValidationError("You have reached the registration limit for %s."%self.race_class.name)
