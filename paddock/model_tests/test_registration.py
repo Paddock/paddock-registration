@@ -204,7 +204,6 @@ class TestRegistration(unittest.TestCase):
         self.race_class.save()
         
         self.r.car = self.car
-        self.r.reg_detail = self.reg_detail
         self.r.event = self.e
         self.r.save()        
                    
@@ -213,7 +212,6 @@ class TestRegistration(unittest.TestCase):
         self.r2.race_class = self.race_class
         self.r2.pax_class = None
         self.r2.event = self.e    
-        self.r2.reg_detail = self.reg_detail
         
         try: 
             self.r2.full_clean()
@@ -227,9 +225,7 @@ class TestRegistration(unittest.TestCase):
         """Check to make sure reg_car gets set to null if a car gets deleted"""
        
         self.r.car = self.car
-        self.r.reg_detail = self.reg_detail
         
-        self.reg_detail.save()
         self.r.save()    
         
         self.assertEqual(self.r.car, self.car)

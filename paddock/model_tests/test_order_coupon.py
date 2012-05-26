@@ -136,19 +136,12 @@ class TestOrder(unittest.TestCase):
         self.user2.last_name = "gray"
         self.user2.username = "tito"
         self.user2.save()
-        
-        self.up = UserProfile()
-        self.up.user = self.user
-        self.up.save()
-        
-        self.up2 = UserProfile()
-        self.up2.user = self.user2
-        self.up2.save()
+    
     
 
     def test_total_price(self): 
         self.o = Order()
-        self.o.user_prof = self.up
+        self.o.user_prof = self.user.get_profile()
         self.o.save()        
         
         item1 = Registration()
