@@ -403,16 +403,12 @@ class Season(m.Model):
 
     club = m.ForeignKey('Club',related_name="seasons")
     
-    @property
     def upcoming_events(self): 
-        return self.events.annotate(num_results=m.Count('regs__results')).\
-               filter(num_results=0).\
-               filter(date__gt=datetime.date.today()).order_by('date').all()
+        return self.events.exclude(date__lt=datetime.date.today()).order_by('date').all()
+        #return self.events.all()
 
-    @property
-    def events_with_results(self): 
-        return self.events.annotate(num_results=m.Count('regs__results')).\
-               filter(num_results__gt=0)
+    def complete_events(self): 
+        return self.events.exclude(date__gte=datetime.date.today()).order_by('-date')
 
     def __unicode__(self): 
         return u"%d"%self.year

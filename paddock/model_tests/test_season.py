@@ -35,7 +35,6 @@ class TestSeasonBasic(django.test.TestCase):
         
         e.save()  
     
-             
     
     def test_upcoming_events(self): 
         self.assertEqual(1,self.s.upcoming_events.count())
@@ -46,18 +45,14 @@ class TestSeasonWithData(django.test.TestCase):
     
     fixtures = ['test_data.json']
 
-    def setUp(self): 
-        self.season = Season.objects.get(club___name="NORA - ASCC", year="2010")
-        
-    
-    
     def test_events_with_results(self):       
+        season = Season.objects.get(club___name="NORA - ASCC", year="2010")
+        self.assertEqual(19,season.complete_events().count())
+        self.assertEqual(0,season.upcoming_events().count())
         
-        self.assertEqual(16,self.season.events_with_results.count())
-        
-        #clear out the results
-        Result.objects.filter(reg__event__season=self.season).delete()
-        
-        self.assertEqual(0,self.season.events_with_results.count())
-        
+        season = Season.objects.get(club___name="NORA - ASCC", year="2011")
+        self.assertEqual(21,season.complete_events().count())
+        self.assertEqual(21,season.complete_events().count())
+        self.assertEqual(0,season.upcoming_events().count()) 
+                         
                  
