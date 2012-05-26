@@ -3,13 +3,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
 
 from paddock.models import Club
-
-
 
 #django auth views
 from django.contrib.auth.views import login

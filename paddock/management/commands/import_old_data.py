@@ -2,7 +2,7 @@ import csv,datetime
 from django.core.management.base import BaseCommand, CommandError
 
 from paddock.models import Club, Season, Event, Registration, UserProfile, \
-     RaceClass
+     RaceClass, Result, Session
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
@@ -89,7 +89,7 @@ class Command(BaseCommand):
             
             race_class_map[line['id']] = r
             
-            
+        registration_map = {}    
         for line in csv.DictReader(open('old_data/registration.csv')): 
             
             """id","number","paid","token","payer_id","transaction_id",
@@ -127,6 +127,38 @@ class Command(BaseCommand):
             
             r.save()
             
+            registration_map[line['id']] = r
+        
+        session_map = {}
+        for line in csv.DictReader(open('old_data/session.csv')):
+            "id","name","event_id","course_id"
             
-
+            try: 
+                event_map[line['event_id']]
+            except: 
+                continue
+            
+            s = Session()
+            s.name = line['name']
+            s.event = event_map[line['event_id']]
+            s.save()
+            
+            session_map[line['id']] = s
+            
+        result_map = {}    
+        for line in csv.DictReader(open('old_data/result.csv')):        
+            "id","registration_id","event_id","sess_id"
+            try: 
+                registration_map[line['registration_id']]
+                session_map[line['sess_id']]
+            except: 
+                continue
+            
+            r = Result()
+            r.reg = registration_map[line['registration_id']]
+            r.session = session_map[line['sess_id']]
+            r.save()
+            
+            result_map[line['id']] = r
+             
             

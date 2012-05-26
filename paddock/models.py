@@ -405,10 +405,10 @@ class Season(m.Model):
     
     @property
     def upcomming_events(self): 
-        return self.events.order_by('date').all()
+        return self.events.exclude(regs__results__isnull=False).\
+               filter(date__gt=datetime.date.today()).order_by('date').all()
 
     def count_events_with_results(self): 
-
         return Event.objects.filter(season=self).exclude(regs__results__isnull=True).count() 
 
     def __unicode__(self): 
@@ -698,10 +698,7 @@ class Result(m.Model):
     best_run = m.OneToOneField("Run",related_name="+",null=True)
     reg = m.ForeignKey("Registration",related_name="results")
 
-    #TODO: Remove null
-    session = m.ForeignKey("Session",related_name="results",null=True) 
-
-    #TODO: make a widget so that a result knows how to render itslf, take options for class/index view
+    session = m.ForeignKey("Session",related_name="results") 
 
     def __unicode__(self): 
         return unicode(self.best_run)
