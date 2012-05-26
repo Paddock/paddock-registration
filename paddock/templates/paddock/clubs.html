@@ -30,29 +30,59 @@
                                 data-parent="#accordion2"> {{ season.year }} 
                         </a> </h3> </div>
                         <div class="accordion-body {% if forloop.first %} in {% endif %} collapse" id="{{ club.safe_name }}_{{ season.year }}">                     
-                          <div class="accordion-inner">                          
-                          <table class="table table-striped table-bordered">
-                            <thead> <tr style="width: 100%"> 
-                              <th style="witdh: 65%">Event</th> 
-                              <th style="witdh: 35%"> Date </th> 
-                            </tr> </thead>
-                            {% for event in season.upcoming_events %}
-                                <tr style="width: 100%">
-                                  <td style="width: 65%"> {{ event.name }}</td>
-                                  <td style="width: 35%"> {{ event.date }}</td>
-                                </tr>
-                            {% endfor %} <!--close event loop -->
-                          </table>
-                          </div>
+                          <div class="accordion-inner"> 
+                          
+                          <ul class="nav nav-pills">
+                            <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_u_events" 
+                            data-toggle="tab">Upcoming Events</a></li>
+                            
+                            <li><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
+                            data-toggle="tab">Finished Events</a></li>
+                          </ul> <!-- close nav-pills -->
+                          
+                          <div class="tab-content">
+                            <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
+                              <table class="table table-striped table-bordered">
+                                <thead> <tr style="width: 100%"> 
+                                  <th style="witdh: 65%">Event</th> 
+                                  <th style="witdh: 35%"> Date </th> 
+                                </tr> </thead>
+                                {% for event in season.upcoming_events %}
+                                    <tr style="width: 100%">
+                                      <td style="width: 65%"> {{ event.name }}</td>
+                                      <td style="width: 35%"> {{ event.date }}</td>
+                                    </tr>
+                                {% endfor %} <!--close event loop -->
+                              </table>
+                            </div> <!-- close tab-pane -->
+                            
+                            <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
+                              <table class="table table-striped table-bordered">
+                                <thead> <tr style="width: 100%"> 
+                                  <th style="witdh: 65%">Event</th> 
+                                  <th style="witdh: 35%"> Date </th> 
+                                </tr> </thead>
+                                {% for event in season.complete_events %}
+                                    <tr style="width: 100%">
+                                      <td style="width: 65%"> {{ event.name }}</td>
+                                      <td style="width: 35%"> {{ event.date }}</td>
+                                    </tr>
+                                {% endfor %} <!--close event loop -->
+                              </table>
+                            </div><!-- close tab-pane -->
+                          </div> <!-- close tab-content -->
+                          
+                          </div> <!-- close accordion-inner -->
                         </div> <!-- close collapse -->
                       </div> <!-- close accordion-group -->
+                      
                     {% endfor %}  <!-- close season loop -->
                   </div> <!-- close accordion -->  
                 </div>  <!-- close span5 -->
               </div>  <!-- close tab-pane -->
             {% endfor %} <!-- close club loop -->
-          </div>
-        </div>
+          </div> <!-- /nav -->
+        </div> <!-- /tabbable --> 
       
     </div><!-- /span12 --> 
   </div><!-- /row --> 

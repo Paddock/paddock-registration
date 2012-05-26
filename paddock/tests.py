@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.test.client import Client
 
 from paddock.model_tests.test_club import TestClub
-from paddock.model_tests.test_season import TestSeasonBasic
+from paddock.model_tests.test_season import TestSeasonBasic, TestSeasonWithData
 from paddock.model_tests.test_event import TestEvent, TestEventPointsCalc
 from paddock.model_tests.test_registration import TestRegistration
 from paddock.model_tests.test_dibs import TestDibs
