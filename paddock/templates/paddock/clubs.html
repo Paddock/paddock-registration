@@ -1,5 +1,5 @@
 {% extends "paddock/base.html" %}
-{% load club_event_table %}
+{% load events_table %}
 
 {% block title %} Racerslane: Clubs {% endblock %}
 
@@ -44,11 +44,11 @@
                               
                               <div class="tab-content">
                                 <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
-                                  {% club_event_table u_events %}
+                                  {% events_table u_events %}
                                 </div> <!-- close tab-pane -->
                                 
                                 <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
-                                  {% club_event_table season.complete_events %}
+                                  {% events_table season.complete_events %}
                                 </div><!-- close tab-pane -->
                               </div> <!-- close tab-content -->
                             {% else %}
@@ -59,7 +59,7 @@
                               
                               <div class="tab-content">
                                 <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_f_events">
-                                  {% club_event_table season.complete_events %}
+                                  {% events_table season.complete_events %}
                                 </div><!-- close tab-pane -->
                               </div> <!-- close tab-content -->
                             {% endif %}
