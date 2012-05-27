@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
 
-from paddock.models import Club
+from paddock.models import Club,Event,Season
 
 #django auth views
 from django.contrib.auth.views import login
@@ -26,8 +26,12 @@ def clubs(request):
                               context,
                               context_instance=RequestContext(request))
 
-def event(request,club_name,event_name): 
+def event(request,club_name,season_year,event_name): 
     """single event page""" 
+    
+    event = Event.objects.get(season__club__safe_name=club_name,
+                              season__year=season_year,
+                              safe_name=event_name)
     
     context = {}
     
