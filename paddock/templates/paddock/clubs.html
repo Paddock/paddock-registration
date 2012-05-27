@@ -33,25 +33,37 @@
                         </a> </h3> </div>
                         <div class="accordion-body {% if forloop.first %} in {% endif %} collapse" id="{{ club.safe_name }}_{{ season.year }}">                     
                           <div class="accordion-inner"> 
-                          
-                          <ul class="nav nav-pills">
-                            <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_u_events" 
-                            data-toggle="tab">Upcoming Events</a></li>
-                            
-                            <li><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
-                            data-toggle="tab">Results</a></li>
-                          </ul> <!-- close nav-pills -->
-                          
-                          <div class="tab-content">
-                            <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
-                              {% club_event_table season.upcoming_events %}
-                            </div> <!-- close tab-pane -->
-                            
-                            <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
-                              {% club_event_table season.complete_events %}
-                            </div><!-- close tab-pane -->
-                          </div> <!-- close tab-content -->
-                          
+                          {% with season.upcoming_events as u_events %}
+                            {%if u_events.count %}
+                              <ul class="nav nav-pills">
+                                <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_u_events" 
+                                data-toggle="tab">Upcoming Events</a></li>
+                                <li><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
+                                data-toggle="tab">Results</a></li>
+                              </ul> <!-- close nav-pills -->
+                              
+                              <div class="tab-content">
+                                <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
+                                  {% club_event_table u_events %}
+                                </div> <!-- close tab-pane -->
+                                
+                                <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
+                                  {% club_event_table season.complete_events %}
+                                </div><!-- close tab-pane -->
+                              </div> <!-- close tab-content -->
+                            {% else %}
+                              <ul class="nav nav-pills">
+                                <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
+                                data-toggle="tab">Results</a></li>
+                              </ul> <!-- close nav-pills -->
+                              
+                              <div class="tab-content">
+                                <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_f_events">
+                                  {% club_event_table season.complete_events %}
+                                </div><!-- close tab-pane -->
+                              </div> <!-- close tab-content -->
+                            {% endif %}
+                          {% endwith %}
                           </div> <!-- close accordion-inner -->
                         </div> <!-- close collapse -->
                       </div> <!-- close accordion-group -->
