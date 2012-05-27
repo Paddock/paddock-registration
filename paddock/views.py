@@ -20,14 +20,21 @@ def clubs(request):
     """club index page"""
     clubs = Club.objects.all()
         
-    context = {'clubs':clubs,
-               'club_count':len(clubs)}
-    
-    for season in clubs[0].sorted_seasons: 
-        print season.complete_events().count()
+    context = {'clubs':clubs}
+
     return render_to_response('paddock/clubs.html',
                               context,
                               context_instance=RequestContext(request))
+
+def event(request,club_name,event_name): 
+    """single event page""" 
+    
+    context = {}
+    
+    return render_to_response('paddock/club_event.html',
+                              context,
+                              context_instance=RequestContext(request))
+    
 
 def register(request): 
     """handles redering of new user form and creation of users"""

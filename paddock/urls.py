@@ -9,6 +9,7 @@ from forms import AuthenticationForm
 urlpatterns = patterns('paddock.views',
     #url(r'^$','clubs'),
     url(r'^clubs/$','clubs'),
+    url(r'^clubs/(?P<club_name>.*)/events/(?P<event_name>.*)$','event'),
     url(r'register/$','register'),
     url(r'activate/','activate'),
     url(r'^login/','login', 
