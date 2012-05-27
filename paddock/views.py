@@ -35,7 +35,7 @@ def event(request,club_name,season_year,event_name):
     
     context = {}
     
-    return render_to_response('paddock/club_event.html',
+    return render_to_response('paddock/event.html',
                               context,
                               context_instance=RequestContext(request))
     
