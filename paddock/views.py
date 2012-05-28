@@ -40,6 +40,13 @@ def event(request,club_name,season_year,event_name):
                               context,
                               context_instance=RequestContext(request))
     
+def event_register(request,club_name,season_year,event_name): 
+    """register for an event""" 
+    
+    context = {}
+    return render_to_response('paddock/event.html',
+                                  context,
+                                  context_instance=RequestContext(request))    
 
 def register(request): 
     """handles redering of new user form and creation of users"""

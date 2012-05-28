@@ -746,17 +746,13 @@ class Run(m.Model):
 class Location(m.Model):
 
     name = m.CharField('Location Name',max_length=100)
-    safe_name = m.CharField(max_length=100)
 
     address = m.CharField('Address',max_length=250)
-
-    lat = m.FloatField('Latitude')
-    lon = m.FloatField('Longitude')
 
     club = m.ForeignKey('Club',related_name='locations')
 
     def __unicode__(self): 
-        return self.safe_name
+        return self.name
 
 def upload_course_to(course,file_name): 
     return os.path.join(course.event.club.safe_name,course.event.safe_name,"")    
