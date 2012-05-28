@@ -1,21 +1,48 @@
 {% extends "paddock/base.html" %}
+{% load url from future %}
+{% load easy_maps_tags %}
 
 {% block title %} Racerslane: {{ club.name }} {{ event.name }} {% endblock %}
 
 {% block content %} 
 
-<div class="span12">
+<div class="row"> 
+  <div class="span12">
+      <h1> {{ club.name }} : {{ event.name }} </h1>
+  </div> <!--/span12-->
+</div> <!--/row-->
 
-  <h1> {{ club.name }} : {{ event.name }} </h1>
-  
-  <h2> Event Info:  </h2>
-  <ul class="unstyled"> 
-    <li>Date: {{ event.date }} </li>
-    <li> Cost: &#36; {{ event.member_price }} (members),  
-    &#36; {{ event.non_member_price }} (non-members) </li>
-    <li> &#36; {{event.non_pre_pay_penalty }} extra if you don't pre-register</li>
-  </ul>
-  <h3>Login to register for the event</h3>
-</div> <!--/span12" -->
+<div class="row">
+  <div class="span6">
+    <h2> Event Info:  </h2>
+    <p><ul class="unstyled"> 
+      <li>Date: {{ event.date }} </li>
+      <li> Cost: &#36; {{ event.member_price }} (members),  
+      &#36; {{ event.non_member_price }} (non-members) </li>
+      <li> &#36; {{event.non_pre_pay_penalty }} extra if you don't pre-register</li>
+    </ul></p>
+    {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
+    {% if user.is_authenticated %}
+      <h3><a href="{{ reg_url }}">Register for the event </a></h3>
+    {% else %}
+      <h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
+      to register for the event</h3>
+    {% endif%}  
+  </div> <!--/span6"-->
+  <div class="span6">
+      {%easy_map event.location.address 400 300 %}
+  </div><!--/span6-->
+</div> <!--/row -->
+
+<div class="row">
+  <div class="span12" style="height:25px">
+  </div><!--/span12-->
+</div> <!--/row-->
+
+<div class="row">
+  <div class="span12">
+      <h3> Registrations </h3>
+  </div> <!--/span12-->
+</div><!--/row -->
 
 {% endblock content %}

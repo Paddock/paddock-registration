@@ -2,7 +2,7 @@ import csv,datetime
 from django.core.management.base import BaseCommand, CommandError
 
 from paddock.models import Club, Season, Event, Registration, UserProfile, \
-     RaceClass, Result, Session
+     RaceClass, Result, Session, Location
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
@@ -26,6 +26,23 @@ class Command(BaseCommand):
             c.renew_cost = line['renewal_cost']
             
             c.save()
+        
+        location_map = {}    
+        for line in csv.DictReader(open("old_data/location.csv")):    
+                    """id","name","address","lat","lng","club_name"""''
+                    club = Club.objects.get(_name=line['club_name'])        
+                    
+                    l = Location()
+                    l.name = line['name']
+                    l.address = line['address']
+                    #l.lat = line['lat']
+                    #l.lon = line['lng']
+                    l.club = club
+                    
+                    l.save()      
+                    
+                    location_map[line['id']] = l
+                    
             
         season_map = {}    
         for line in csv.DictReader(open('old_data/season.csv')): 
@@ -66,7 +83,10 @@ class Command(BaseCommand):
             e.count_points = int(line['count_points'])
             e.multiplier = int(line['multiplier'])
             
-            #TODO: Location stuff
+            print "test", line['location_id']
+            if line['location_id'] != "NULL":
+                print location_map[line['location_id']]
+                e.location = location_map[line['location_id']]
             
             e.save()
             
@@ -160,5 +180,5 @@ class Command(BaseCommand):
             r.save()
             
             result_map[line['id']] = r
-             
             
+        
