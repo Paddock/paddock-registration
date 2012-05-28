@@ -32,8 +32,9 @@ def event(request,club_name,season_year,event_name):
     event = Event.objects.get(season__club__safe_name=club_name,
                               season__year=season_year,
                               safe_name=event_name)
-    
-    context = {}
+    context = {'event': event,
+               'season': event.season, 
+               'club': event.season.club}
     
     return render_to_response('paddock/event.html',
                               context,
