@@ -2,13 +2,23 @@ import csv,datetime
 from django.core.management.base import BaseCommand, CommandError
 
 from paddock.models import Club, Season, Event, Registration, UserProfile, \
-     RaceClass, Result, Session, Location
+     RaceClass, Result, Session, Location, User
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
     
     def handle(self, *args, **options):
         
+        for line in csv.DictReader(open('old_data/driver.csv','rb')): 
+            """user_name","email","verified","activation_code",
+            "f_name","l_name","address","city","state",
+            "zip_code","_password"""
+            
+            u = User.objects.create_user(line['user_name'],line['email'],"test") 
+            
+            u.password = "old_paddock$%s"%line['_password']
+            u.save()
+        exit()
         #read in clubs
         
         club_map = {}

@@ -549,9 +549,6 @@ class Event(m.Model):
     def __unicode__(self): 
         return self.safe_name
 
-
-
-
 class Registration(Purchasable):
     car = m.ForeignKey("Car",related_name="regs",blank=True,null=True,on_delete=m.SET_NULL)
     number = m.IntegerField("Car Number")
