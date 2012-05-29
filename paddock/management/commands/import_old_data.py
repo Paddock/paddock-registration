@@ -14,11 +14,22 @@ class Command(BaseCommand):
             "f_name","l_name","address","city","state",
             "zip_code","_password"""
             
-            u = User.objects.create_user(line['user_name'],line['email'],"test") 
-            
+            u = User()
+            u.username = line['user_name']
+            u.email = line['email']
             u.password = "old_paddock$%s"%line['_password']
+            u.first_name = line['f_name']
+            u.last_name = line['l_name']
+            u.is_active = True
             u.save()
-        exit()
+            
+            up = u.get_profile()
+            up.address = line['address']
+            up.city = line['city']
+            up.state = line['state']
+            up.zip_code = line['zip_code']
+            up.save()
+        
         #read in clubs
         
         club_map = {}
@@ -133,9 +144,15 @@ class Command(BaseCommand):
             if not line['event_id']: 
                 continue 
             
+            
+            
             rc = race_class_map[line['race_class_id']]
 
             r = Registration()
+            
+            if line['driver_user_name'] and line['driver_user_name'] != "NULL": 
+                user = User.objects.get(username=line['driver_user_name'])
+                r.user_profile = user.get_profile()
             r.number = int(line['number'])
             r.paid = int(line['paid'])
             if line['price']:
@@ -144,9 +161,9 @@ class Command(BaseCommand):
                 r.price = 0.00
             r.index_points = int(line['index_points'])
             r.class_points = int(line['class_points'])
-            r._anon_car = line['anon_car']
-            r._anon_l_name = line['anon_l_name']
-            r._anon_f_name = line['anon_f_name']
+            if line['anon_car'] != "NULL": r._anon_car = line['anon_car']
+            if line['anon_l_name'] != "NULL": r._anon_l_name = line['anon_l_name']
+            if line['anon_f_name'] != "NULL": r._anon_f_name = line['anon_f_name']
             r.race_class = rc
             r.event = event_map[line['event_id']]
             #TODO reg_type_id
