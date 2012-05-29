@@ -65,6 +65,7 @@ class UserProfile(m.Model):
     activation_key = m.CharField('activation key', max_length=40)
         
     address = m.CharField('Home Address',max_length=150,null=True,blank=True)
+    city = m.CharField('City',max_length=25,null=True,blank=True)
     state = m.CharField('State',max_length=25,null=True,blank=True)
     zip_code = m.CharField('Zip Code',max_length=13,null=True,blank=True)    
     
