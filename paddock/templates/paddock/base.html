@@ -34,7 +34,7 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#"> Racerslane </a>
+          <a class="brand" href="{% url 'paddock.views.clubs' %}"> Racerslane </a>
           
           {% block nav_login %} <ul class="nav pull-right">
             {% if user.is_authenticated %}
