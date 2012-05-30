@@ -2,7 +2,7 @@ import csv,datetime
 from django.core.management.base import BaseCommand, CommandError
 
 from paddock.models import Club, Season, Event, Registration, UserProfile, \
-     RaceClass, Result, Session, Location, User
+     RaceClass, Result, Session, Location, User, Car
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
@@ -29,6 +29,27 @@ class Command(BaseCommand):
             up.state = line['state']
             up.zip_code = line['zip_code']
             up.save()
+            
+        car_map = {}    
+        for line in csv.DictReader(open('old_data/car.csv','rb')):     
+            """id","nickname","make","model","color","avatar_file_loc",
+            "avatar_thumb_loc","year","owner_user_name"""
+            
+            if line['owner_user_name'] is not "NULL": 
+                try: 
+                    c = Car()
+                    c.name = line['nickname']
+                    c.make = line['make']
+                    c.model = line['model']
+                    c.color = line['color']
+                    c.year = line['year']
+                    c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
+                    c.save()
+                    car_map[line['id']] = c
+                    print "good car: ", line['id']
+                except: 
+                    print "bad car: ", line['id']
+                    
         
         #read in clubs
         
@@ -104,9 +125,7 @@ class Command(BaseCommand):
             e.count_points = int(line['count_points'])
             e.multiplier = int(line['multiplier'])
             
-            print "test", line['location_id']
             if line['location_id'] != "NULL":
-                print location_map[line['location_id']]
                 e.location = location_map[line['location_id']]
             
             e.save()
@@ -145,7 +164,6 @@ class Command(BaseCommand):
                 continue 
             
             
-            
             rc = race_class_map[line['race_class_id']]
 
             r = Registration()
@@ -167,7 +185,10 @@ class Command(BaseCommand):
             r.race_class = rc
             r.event = event_map[line['event_id']]
             #TODO reg_type_id
-            #TODO car_id 
+            try: 
+                if line['car_id'] is not "NULL": r.car = car_map[line['car_id']]
+            except: 
+                continue
             #TODO race_class_id
             #TODO remove reg_detail class, and associate reg with UserProfile directly
             #TODO registrations can be siblings for joint update
