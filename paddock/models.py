@@ -776,16 +776,18 @@ class Car(m.Model):
     make = m.CharField('Make',max_length=40)
     model = m.CharField('Model',max_length=40)
 
-
     avatar = m.ImageField('Picture of your car',upload_to=uplaoad_car_to)
     thumb = m.ImageField('Picture of your car',upload_to=uplaoad_car_to)
 
-    owner = m.ForeignKey(User,related_name="cars")
-
+    user_profile = m.ForeignKey(UserProfile,related_name="cars")
+    
+    @property
+    def user(self): 
+        return self.user_profile.user
+    
     @property
     def car_str(self): 
         return "%s %s %s"%(self.year,self.make,self.model)   
-
 
     def __unicode__(self): 
         return "%d %s %s"%(self.year,self.make,self.model)
