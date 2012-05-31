@@ -21,13 +21,21 @@
       &#36; {{ event.non_member_price }} (non-members) </li>
       <li> &#36; {{event.non_pre_pay_penalty }} extra if you don't pre-register</li>
     </ul></p>
-    {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
-    {% if user.is_authenticated %}
-      <h3><a href="{{ reg_url }}">Register for the event </a></h3>
-    {% else %}
-      <h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
-      to register for the event</h3>
-    {% endif%}  
+    <p><ul class="unstyled"> 
+      <li>{{ reg_count }} drivers raced</li>
+      <li>{{ top_pax_reg.first_name }} {{ top_pax_reg.last_name }} had the fasted index time of xxxx</li>
+    </ul></p>
+    
+    {% if reg_open %}
+      {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
+      {% if user.is_authenticated %}
+        <h3><a href="{{ reg_url }}">Register for the event </a></h3>
+      {% else %}
+        <h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
+        to register for the event</h3>
+      {% endif %}
+    {% endif %}
+    
   </div> <!--/span6"-->
   <div class="span6">
       {%easy_map event.location.address 400 300 13%}
@@ -43,23 +51,34 @@
 
 <div class="row">
   <div class="span12">
-      {% with event.regs.all as regs %}
-        <h3> Registrations: {{ regs.count }} drivers</h3>
-        <table class="table table-striped table-bordered">
-          <thead> <tr style="width: 100%"> 
-            <th>Name</th><th>Car</th><th>Class</th><th>#</th> 
-          </tr> </thead>
-          {% for reg in regs %}
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#class_results" data-toggle="tab">Class Results</a></li>
+        <li><a href="#pax_results" data-toggle="tab">PAX Results</a></li>
+        <li><a href="#season_points" data-toggle="tab">Season Points</a></li>
+      </ul><!--/nav-tabs-->
+      <div class="tab-content">
+        <div class="tab-pane active" id="class_results">
+          <table class="table table-striped table-bordered">
+            <thead> <tr style="width: 100%"> 
+              <th>Name</th><th>Car</th><th>Class</th><th>#</th> 
+            </tr> </thead>
+            {% for reg in regs %}
               <tr style="width: 100%">
                 <td>{{ reg.first_name }} {{ reg.last_name }}</td>
                 <td>{{ reg.car_name }}</td>
                 <td>{{ reg.race_class.name }}</td>
                 <td>{{ reg.number }}</td>
               </tr>
-          {% endfor %} <!--close event loop -->
-        </table>
-      {% endwith %}  
+            {% endfor %} <!--close event loop -->
+          </table>
+        </div><!--/tab-pane-->
+        <div class="tab-pane" id="pax_results">
+        </div><!--/tab-pane-->
+        <div class="tab-pane" id="season_points">
+        </div><!--/tab-pane-->
+      </div><!--/tab-content-->
+    </div><!--/tabbable-->
   </div> <!--/span12-->
 </div><!--/row -->
-
 {% endblock content %}
