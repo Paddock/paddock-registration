@@ -46,9 +46,8 @@ class Command(BaseCommand):
                     c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
                     c.save()
                     car_map[line['id']] = c
-                    print "good car: ", line['id']
-                except: 
-                    print "bad car: ", line['id']
+                except:
+                    continue
                     
         
         #read in clubs
@@ -149,7 +148,8 @@ class Command(BaseCommand):
             
             race_class_map[line['id']] = r
             
-        registration_map = {}    
+        registration_map = {}  
+        count = 0
         for line in csv.DictReader(open('old_data/registration.csv')): 
             
             """id","number","paid","token","payer_id","transaction_id",
@@ -157,11 +157,12 @@ class Command(BaseCommand):
             "anon_l_name","anon_car","driver_user_name","event_id","reg_type_id",
             "car_id","race_class_id"""
             
+            
             for k,v in line.iteritems(): 
-                if v=="NULL": 
-                    line[k] = ""
+                if v=="NULL": line[k] = ""
+                
             if not line['event_id']: 
-                continue 
+                continue            
             
             
             rc = race_class_map[line['race_class_id']]
@@ -179,16 +180,16 @@ class Command(BaseCommand):
                 r.price = 0.00
             r.index_points = int(line['index_points'])
             r.class_points = int(line['class_points'])
-            if line['anon_car'] != "NULL": r._anon_car = line['anon_car']
-            if line['anon_l_name'] != "NULL": r._anon_l_name = line['anon_l_name']
-            if line['anon_f_name'] != "NULL": r._anon_f_name = line['anon_f_name']
+            if line['anon_car'] != "NULL": r._anon_car = line['anon_car'].strip()
+            if line['anon_l_name'] != "NULL": r._anon_l_name = line['anon_l_name'].strip()
+            if line['anon_f_name'] != "NULL": r._anon_f_name = line['anon_f_name'].strip()
             r.race_class = rc
             r.event = event_map[line['event_id']]
             #TODO reg_type_id
             try: 
                 if line['car_id'] is not "NULL": r.car = car_map[line['car_id']]
             except: 
-                continue
+                pass
             #TODO race_class_id
             #TODO remove reg_detail class, and associate reg with UserProfile directly
             #TODO registrations can be siblings for joint update

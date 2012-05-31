@@ -585,7 +585,9 @@ class Registration(Purchasable):
     def car_name(self): 
         if not self.car is None: 
             return "%d %s %s"%(self.car.year, self.car.make, self.car.model)
-        return self._anon_car
+        elif self._anon_car:
+            print self._anon_car
+        return "N/A"
 
     @property
     def first_name(self): 
