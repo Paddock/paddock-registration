@@ -32,9 +32,19 @@ def event(request,club_name,season_year,event_name):
     event = Event.objects.get(season__club__safe_name=club_name,
                               season__year=season_year,
                               safe_name=event_name)
+    
+    top_pax_reg = event.regs.order_by('-index_points')[:1].get()
+    #top_raw = 1
+    
+    regs = event.regs.all()
+    
     context = {'event': event,
                'season': event.season, 
-               'club': event.season.club}
+               'club': event.season.club, 
+               'regs': regs,
+               'reg_count': regs.count(),
+               'top_pax_reg': top_pax_reg,
+               'reg_open':event.reg_open}
     
     return render_to_response('paddock/event.html',
                               context,

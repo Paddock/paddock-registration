@@ -174,6 +174,8 @@ class Command(BaseCommand):
                 r.user_profile = user.get_profile()
             r.number = int(line['number'])
             r.paid = int(line['paid'])
+            r.index_points = line['index_points']
+            r.class_points = line['class_points']
             if line['price']:
                 r.price = float(line['price'])
             else: 

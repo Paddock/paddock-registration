@@ -16,6 +16,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+from django.utils.timezone import now as django_now
+
 from django.conf import settings 
 
 #TODO: need to replace this with some sort of plugin system
@@ -73,8 +75,6 @@ class UserProfile(m.Model):
         return u"User profile for %s" % self.user    
     
     def send_activation_email(self): 
-        
-        print self.user.first_name
         
         ctx_dict = {'activation_key': self.activation_key,
                     'SITE_URL': settings.SITE_URL,
@@ -454,9 +454,9 @@ class Event(m.Model):
                                      blank=True,null=True,
                                      help_text="When drivers register for this event, they will automatically be" 
                                      "registered for all the associated events listed here.")
-
-    #TODO: make a widget which knows how to render events, before registration closes
-    #TODO: make a widget which knows how to render events, after registration closes
+    @property
+    def reg_open(self): 
+        return django_now() < self.reg_close
 
     def allow_number_race_class(self,number,race_class): 
         """Checks to see if the specified number and race_class are available for this event"""
@@ -586,7 +586,7 @@ class Registration(Purchasable):
         if not self.car is None: 
             return "%d %s %s"%(self.car.year, self.car.make, self.car.model)
         elif self._anon_car:
-            print self._anon_car
+            return self._anon_car
         return "N/A"
 
     @property
