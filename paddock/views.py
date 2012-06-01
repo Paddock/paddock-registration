@@ -37,6 +37,7 @@ def event(request,club_name,season_year,event_name):
     #top_raw = 1
     
     regs = event.regs.all()
+    reg_open = event.reg_open
     
     context = {'event': event,
                'season': event.season, 
@@ -44,11 +45,15 @@ def event(request,club_name,season_year,event_name):
                'regs': regs,
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
-               'reg_open':event.reg_open}
-    
-    return render_to_response('paddock/event.html',
+               'reg_open':reg_open}
+    if event.reg_open: 
+        return render_to_response('paddock/upcoming_event.html',
                               context,
                               context_instance=RequestContext(request))
+    else: 
+        return render_to_response('paddock/complete_event.html',
+                                      context,
+                                      context_instance=RequestContext(request))        
     
 def event_register(request,club_name,season_year,event_name): 
     """register for an event""" 

@@ -26,16 +26,6 @@
       <li>{{ top_pax_reg.first_name }} {{ top_pax_reg.last_name }} had the fasted index time of xxxx</li>
     </ul></p>
     
-    {% if reg_open %}
-      {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
-      {% if user.is_authenticated %}
-        <h3><a href="{{ reg_url }}">Register for the event </a></h3>
-      {% else %}
-        <h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
-        to register for the event</h3>
-      {% endif %}
-    {% endif %}
-    
   </div> <!--/span6"-->
   <div class="span6">
       {%easy_map event.location.address 400 300 13%}

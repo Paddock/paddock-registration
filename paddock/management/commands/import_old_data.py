@@ -199,7 +199,7 @@ class Command(BaseCommand):
             r.save()
             
             registration_map[line['id']] = r
-        
+                
         session_map = {}
         for line in csv.DictReader(open('old_data/session.csv')):
             "id","name","event_id","course_id"
@@ -231,5 +231,8 @@ class Command(BaseCommand):
             r.save()
             
             result_map[line['id']] = r
+            
+        """for line in csv.DictReader(open('old_data/run.csv')):
+            pass"""
             
         

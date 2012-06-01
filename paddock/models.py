@@ -618,7 +618,7 @@ class Registration(Purchasable):
 
         self.total_raw_time = sum([res.best_run.calc_time for res in self.results.all() if res.best_run])
         if self.pax_class:
-            pax = self.pax_class.pax
+            pax = self.pax_class.pax*self.race_class.pax
         else: 
             pax = self.race_class.pax
         self.total_index_time = self.total_raw_time*pax
@@ -711,7 +711,7 @@ class Result(m.Model):
             self.save()
             return br
         except IndexError: 
-            return None
+            return 
 
 
 class Run(m.Model):     
