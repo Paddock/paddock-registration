@@ -6,15 +6,26 @@
 {% block title %} Racerslane: {{ club.name }} {{ event.name }} {% endblock %}
 
 {% block head_js %}
+<script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
+<script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
 <script type="text/javascript" charset="utf-8">
   /* Table initialisation */
   $(document).ready(function() {
-      $('#example').dataTable( {
-	      "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+      $('#regs').dataTable( {
+	  "sPaginationType": "bootstrap",
+	  "bPaginate": false,
+	  "aaSorting": [[1,'asc']],
+	  "aoColumns": [{ "aDataSort": [ 0, 1 ] },
+			{ "aDataSort": [ 1, 0 ] },
+		        null,
+			{ "aDataSort": [ 3, 4] },
+			{ "aDataSort": [ 4, 3] },
+		      ],
+	  "oLanguage": {
+	      "sInfo": ""
+	  }	      
+		      
       } );
-  } );
-  $.extend( $.fn.dataTableExt.oStdClasses, {
-    "sWrapper": "dataTables_wrapper form-inline"
   } );
 </script>
 {% endblock %}

@@ -3,11 +3,12 @@
     id="{{table_id}}"
 {% endif %}>
   <thead> <tr style="width: 100%"> 
-    <th>Name</th><th>Car</th><th>Class</th><th>#</th> 
+    <th>First Name</th><th>Last Name</th><th>Car</th><th>Class</th><th>#</th> 
   </tr> </thead>
   {% for reg in regs %}
     <tr style="width: 100%">
-      <td>{{ reg.first_name }} {{ reg.last_name }}</td>
+      <td>{{ reg.first_name }}</td>
+      <td>{{ reg.last_name }}</td>
       <td>{{ reg.car_name }}</td>
       <td>{{ reg.race_class.name }}</td>
       <td>{{ reg.number }}</td>
