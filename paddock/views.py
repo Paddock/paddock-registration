@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
 
+from django.utils.timezone import now as django_now
+
 from paddock.models import Club,Event,Season
 
 #django auth views
@@ -46,7 +48,8 @@ def event(request,club_name,season_year,event_name):
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
                'reg_open':reg_open}
-    if event.reg_open: 
+    
+    if django_now().date() < event.date: 
         return render_to_response('paddock/upcoming_event.html',
                               context,
                               context_instance=RequestContext(request))

@@ -365,7 +365,8 @@ class Membership(Purchasable):
 
 
 class RaceClass(m.Model): 
-    name = m.CharField('Class Name',max_length=4)
+    name = m.CharField('Class Name',max_length=20)
+    abrv = m.CharField('Arbeviation',max_length=4)
     pax = m.FloatField('PAX multiplier')
 
     pax_class = m.BooleanField('PAX Class',default=False)
@@ -380,7 +381,7 @@ class RaceClass(m.Model):
     club = m.ForeignKey('Club',related_name='race_classes')
 
     def __unicode__(self): 
-        return u"%s %1.3f"%(self.name,self.pax)
+        return u"%s %1.3f"%(self.abrv,self.pax)
 
 class Dibs(m.Model): 
     created = m.DateField(auto_now_add=True)
