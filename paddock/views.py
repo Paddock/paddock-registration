@@ -42,7 +42,8 @@ def event(request,club_name,season_year,event_name):
     context = {'event': event,
                'season': event.season, 
                'club': event.season.club, 
-               'regs': regs,
+               'regs': regs.order_by('user_profile__user__last_name',
+                                     'user_profile__user__first_name'),
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
                'reg_open':reg_open}
