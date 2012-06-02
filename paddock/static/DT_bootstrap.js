@@ -17,6 +17,31 @@ $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
 	};
 }
 
+/* sort type for full names with spaces */
+$.fn.dataTableExt.oSort['name-asc']  = function(x,y) {
+    name1 = x.toLowerCase().split(/\s+/); //[0] is first name, [1] is last name
+    name2 = y.toLowerCase().split(/\s+/);
+    //((x < y) ? -1 : ((x > y) ?  1 : 0));
+    if (name1[1] < name2[1]) {
+      return -1;
+    }
+    else if (name1[1] > name2[1]) {
+      return 1;
+    }
+    else {
+      return ((name1[0] < name2[0]) ? -1 : ((name1[0] > name2[0]) ?  1 : 0));
+    }
+};
+
+$.fn.dataTableExt.oSort['name-desc'] = function(x,y) {
+    //((x < y) ?  1 : ((x > y) ? -1 : 0));
+    name1 = x.toLowerCase().split(/\s+/); //[0] is first name, [1] is last name
+    name2 = y.toLowerCase().split(/\s+/);
+    if (name1[1] < name2[1]) {return 1;}
+    else if (name1[1] > name2[1]) {return -1;}
+    else {return ((name1[0] < name2[0]) ? 1 : ((name1[0] > name2[0]) ?  -1 : 0))}
+};
+
 /* Bootstrap style pagination control */
 $.extend( $.fn.dataTableExt.oPagination, {
 	"bootstrap": {
