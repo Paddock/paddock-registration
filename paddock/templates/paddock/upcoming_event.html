@@ -5,13 +5,13 @@
 
 {% block title %} Racerslane: {{ club.name }} {{ event.name }} {% endblock %}
 
-{% block head_js %}
+{% block foot_js %}
 <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
 <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
 <script type="text/javascript" charset="utf-8">
   /* Table initialisation */
   $(document).ready(function() {
-      $('#regs').dataTable( {
+      $('.reg_table').dataTable( {
 	  "sPaginationType": "bootstrap",
 	  "bPaginate": false,
 	  "aaSorting": [[0,'asc']],
@@ -27,7 +27,7 @@
       } );
   } );
 </script>
-{% endblock %}
+{% endblock foot_js%}
 
 {% block content %} 
 
@@ -74,7 +74,7 @@
 <div class="row">
   <div class="span12">
     <h3> {{ reg_count }} drivers registered </h3>
-    {% reg_table regs "regs"%}
+    {% reg_table regs table_class="reg_table"%}
   </div> <!--/span12-->
 </div><!--/row -->
 {% endblock content %}

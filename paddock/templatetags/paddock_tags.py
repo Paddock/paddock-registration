@@ -15,7 +15,8 @@ def directions_bubble(lat,long,name):
             'name': name}
 
 @register.inclusion_tag('paddock/reg_list.html')
-def reg_table(regs,table_id=None):
+def reg_table(regs,table_id=None,table_class=None):
     return {'table_id':table_id,
+            'table_class':table_class,
             'regs':regs}
     

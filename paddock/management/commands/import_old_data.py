@@ -136,11 +136,10 @@ class Command(BaseCommand):
             """id","pax","name","club_name"""
             
             
-            club = Club.objects.get(_name=line['club_name'])            
-            
-            
+            club = Club.objects.get(_name=line['club_name'])                        
             r = RaceClass()
             r.name = line['name']
+            r.abrv = line['name']
             r.pax = float(line['pax'])
             r.club = club
             
@@ -148,6 +147,25 @@ class Command(BaseCommand):
             
             race_class_map[line['id']] = r
             
+        reg_type_map = {}    
+        for line in csv.DictReader(open('old_data/regtype.csv')):
+            """id","name","class_letters","reg_limit","index",
+            "description","club_name"""
+            
+            club = Club.objects.get(_name=line['club_name']) 
+            r = RaceClass()
+            r.pax_class = True
+            r.description = line['description']
+            r.name = line['name']
+            r.abrv = line['class_letters']
+            if line['reg_limit'] != "NULL": r.user_reg_limit = line['reg_limit']
+            r.pax = 1.0
+            r.club = club
+            
+            r.save()
+            
+            reg_type_map[line['id']] = r
+        
         registration_map = {}  
         count = 0
         for line in csv.DictReader(open('old_data/registration.csv')): 
@@ -187,7 +205,10 @@ class Command(BaseCommand):
             if line['anon_f_name'] != "NULL": r._anon_f_name = line['anon_f_name'].strip()
             r.race_class = rc
             r.event = event_map[line['event_id']]
-            #TODO reg_type_id
+            try: 
+                if line['reg_type_id'] is not "NULL": r.pax_class = reg_type_map[line['reg_type_id']]
+            except: 
+                pass
             try: 
                 if line['car_id'] is not "NULL": r.car = car_map[line['car_id']]
             except: 
@@ -234,5 +255,7 @@ class Command(BaseCommand):
             
         """for line in csv.DictReader(open('old_data/run.csv')):
             pass"""
+            
+            
             
         

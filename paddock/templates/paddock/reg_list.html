@@ -1,7 +1,11 @@
 <table class="table table-striped table-bordered" 
 {% if table_id %}
     id="{{table_id}}"
-{% endif %}>
+{% endif %}
+{% if table_class %}
+    class="{{table_class}}"
+{% endif %}
+>
   <thead> <tr style="width: 100%"> 
     <th>Name</th><th>Car</th><th>Class</th><th>#</th> 
   </tr> </thead>
