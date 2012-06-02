@@ -14,12 +14,11 @@
       $('#regs').dataTable( {
 	  "sPaginationType": "bootstrap",
 	  "bPaginate": false,
-	  "aaSorting": [[1,'asc']],
-	  "aoColumns": [{ "aDataSort": [ 0, 1 ] },
-			{ "aDataSort": [ 1, 0 ] },
-		        null,
-			{ "aDataSort": [ 3, 4] },
-			{ "aDataSort": [ 4, 3] },
+	  "aaSorting": [[0,'asc']],
+	  "aoColumns": [{ "sType": "name"},
+		        { "bSortable": false},
+			{ "aDataSort": [ 2, 3] },
+			{ "aDataSort": [ 3, 2] },
 		      ],
 	  "oLanguage": {
 	      "sInfo": ""
