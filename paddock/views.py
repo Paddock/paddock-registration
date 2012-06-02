@@ -39,12 +39,17 @@ def event(request,club_name,season_year,event_name):
     #top_raw = 1
     
     regs = event.regs.all()
+    reg_sets = {}
+    for r in regs: 
+        reg_sets.setdefault(r.pax_class,[]).append(r)        
+        
     reg_open = event.reg_open
     
     context = {'event': event,
                'season': event.season, 
                'club': event.season.club, 
                'regs': regs,
+               'reg_sets':reg_sets,
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
                'reg_open':reg_open}
