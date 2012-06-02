@@ -1,0 +1,17 @@
+{% extends "easy_maps/map.html" %}
+{% load paddock_tags %}
+
+{% block extra_js %}
+    var marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        title: "{{ map.address }}"
+    });
+        
+    var infoWindow = new google.maps.InfoWindow({
+    position: map.getCenter(),
+    content: '{% directions_bubble lat long map.address|escapejs%}'
+    });
+    infoWindow.open(map);
+
+{% endblock %}
