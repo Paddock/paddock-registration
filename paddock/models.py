@@ -458,6 +458,13 @@ class Event(m.Model):
     @property
     def reg_is_open(self): 
         return django_now() < self.reg_close
+    
+    def is_regd(self,user): 
+        try: 
+            self.regs.filter(user_profile=user.get_profile()).get()
+            return True
+        except Registration.DoesNotExist: 
+            return False
 
     def allow_number_race_class(self,number,race_class): 
         """Checks to see if the specified number and race_class are available for this event"""

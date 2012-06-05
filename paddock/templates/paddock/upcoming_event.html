@@ -64,8 +64,10 @@
     {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
     {% if reg_is_open%}
     <h4>Registration is open until {{ event.reg_close }}</h4>
-      {% if user.is_authenticated %}
-	<h2><a href="{{ reg_url }}">Register for the event </a></h3>
+      {% if is_auth and is_regd %}
+	Your Registration
+      {% elif is_auth %}
+	<h3><a href="{{ reg_url }}">Register for the event </a></h3>
       {% else %}
 	<h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
 	to register for the event</h3>

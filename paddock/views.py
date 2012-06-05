@@ -44,6 +44,10 @@ def event(request,club_name,season_year,event_name):
         reg_sets.setdefault(r.pax_class,[]).append(r)        
         
     reg_is_open = event.reg_is_open
+    is_regd = False
+    is_auth = request.user.is_authenticated()
+    if is_auth: 
+        is_regd = event.is_regd(request.user)
     
     context = {'event': event,
                'season': event.season, 
@@ -52,7 +56,9 @@ def event(request,club_name,season_year,event_name):
                'reg_sets':reg_sets,
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
-               'reg_is_open':reg_is_open}
+               'reg_is_open':reg_is_open,
+               'is_regd':is_regd,
+               'is_auth':is_auth}
     
     print 
     if django_now().date() <= event.date: 
