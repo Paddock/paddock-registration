@@ -17,6 +17,8 @@ urlpatterns = patterns('paddock.views',
         {'template_name':'paddock/login.html',
          'authentication_form':AuthenticationForm}),
     url(r'^logout/$','logout',
-        {'next_page':'/paddock/clubs'}),    
+        {'next_page':'/paddock/clubs'}),
+    
     
 )
+

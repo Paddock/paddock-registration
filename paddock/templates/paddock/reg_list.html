@@ -1,8 +1,7 @@
 <table class="table table-striped table-bordered
 {% if table_class %}
     {{table_class}}
-{% endif %}
-" 
+{% endif %}" 
 {% if table_id %}
     id="{{table_id}}"
 {% endif %}
@@ -13,7 +12,13 @@
   {% for reg in regs %}
     <tr style="width: 100%">
       <td>{{ reg.first_name }} {{ reg.last_name }}</td>
-      <td>{{ reg.car_name }}</td>
+      <td>{{ reg.car_name }}
+        {% if reg.car.avatar %}
+          <i class="icon-picture avatar_pic" data-title="{{ reg.car.name }}"
+            href="{{ reg.car.thumb.url }}"           
+          ></i>
+        {% endif %}  
+      </td>
       <td>{{ reg.race_class.name }}</td>
       <td>{{ reg.number }}</td>
     </tr>

@@ -456,7 +456,7 @@ class Event(m.Model):
                                      help_text="When drivers register for this event, they will automatically be" 
                                      "registered for all the associated events listed here.")
     @property
-    def reg_open(self): 
+    def reg_is_open(self): 
         return django_now() < self.reg_close
 
     def allow_number_race_class(self,number,race_class): 
@@ -779,8 +779,8 @@ class Car(m.Model):
     make = m.CharField('Make',max_length=40)
     model = m.CharField('Model',max_length=40)
 
-    avatar = m.ImageField('Picture of your car',upload_to=uplaoad_car_to)
-    thumb = m.ImageField('Picture of your car',upload_to=uplaoad_car_to)
+    avatar = m.ImageField('Picture of your car',upload_to='car_avatars/')
+    thumb = m.ImageField('Picture of your car',upload_to='car_thumbs')
 
     user_profile = m.ForeignKey(UserProfile,related_name="cars")
     
