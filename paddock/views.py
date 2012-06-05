@@ -43,7 +43,7 @@ def event(request,club_name,season_year,event_name):
     for r in regs: 
         reg_sets.setdefault(r.pax_class,[]).append(r)        
         
-    reg_open = event.reg_open
+    reg_is_open = event.reg_is_open
     
     context = {'event': event,
                'season': event.season, 
@@ -52,9 +52,10 @@ def event(request,club_name,season_year,event_name):
                'reg_sets':reg_sets,
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
-               'reg_open':reg_open}
+               'reg_is_open':reg_is_open}
     
-    if django_now().date() < event.date: 
+    print 
+    if django_now().date() <= event.date: 
         return render_to_response('paddock/upcoming_event.html',
                               context,
                               context_instance=RequestContext(request))

@@ -1,5 +1,7 @@
 import csv,datetime
+from os.path import exists
 from django.core.management.base import BaseCommand, CommandError
+from django.core.files import File
 
 from paddock.models import Club, Season, Event, Registration, UserProfile, \
      RaceClass, Result, Session, Location, User, Car
@@ -44,6 +46,10 @@ class Command(BaseCommand):
                     c.color = line['color']
                     c.year = line['year']
                     c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
+                    s_car_id = (line['owner_user_name'],line['nickname'])
+                    if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
+                        c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
+                        c.thumb.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
                     c.save()
                     car_map[line['id']] = c
                 except:

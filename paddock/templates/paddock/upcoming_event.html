@@ -5,12 +5,24 @@
 
 {% block title %} Racerslane: {{ club.name }} {{ event.name }} {% endblock %}
 
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}DT_bootstrap.css">
+{% endblock head_css %}
+
 {% block foot_js %}
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap-popover.js"></script>
 <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
 <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
 <script type="text/javascript" charset="utf-8">
   /* Table initialisation */
   $(document).ready(function() {
+      $('.avatar_pic').popover( {
+          "content": function(){
+	      var img_href = $(this).attr('href')
+              return '<img src="'+img_href+'"/>'
+	  }
+      });
       $('.reg_table').dataTable( {
 	  "sPaginationType": "bootstrap",
 	  "bPaginate": false,
@@ -50,12 +62,17 @@
 
     
     {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
-    {% if user.is_authenticated %}
-      <h3><a href="{{ reg_url }}">Register for the event </a></h3>
+    {% if reg_is_open%}
+    <h4>Registration is open until {{ event.reg_close }}</h4>
+      {% if user.is_authenticated %}
+	<h2><a href="{{ reg_url }}">Register for the event </a></h3>
+      {% else %}
+	<h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
+	to register for the event</h3>
+      {% endif %}
     {% else %}
-      <h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
-      to register for the event</h3>
-    {% endif %}
+       <h4>Registration closed on {{ event.reg_close }}</h4>
+    {% endif %}  
 
     
   </div> <!--/span6"-->
