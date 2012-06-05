@@ -461,8 +461,8 @@ class Event(m.Model):
     
     def is_regd(self,user): 
         try: 
-            self.regs.filter(user_profile=user.get_profile()).get()
-            return True
+            reg = self.regs.filter(user_profile=user.get_profile()).get()
+            return reg
         except Registration.DoesNotExist: 
             return False
 

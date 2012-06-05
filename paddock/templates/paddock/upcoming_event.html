@@ -65,7 +65,10 @@
     {% if reg_is_open%}
     <h4>Registration is open until {{ event.reg_close }}</h4>
       {% if is_auth and is_regd %}
-	Your Registration
+	<p> {{ is_regd.first_name }}, you've registered as {{ is_regd.number }} {{ is_regd.race_class.abrv}}
+	with {{ is_regd.car.name }}<br/></p>
+	<p><img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
+	</p>
       {% elif is_auth %}
 	<h3><a href="{{ reg_url }}">Register for the event </a></h3>
       {% else %}
@@ -85,7 +88,7 @@
   </div><!--/span6-->
 </div> <!--/row -->
 
-<div class="row">
+<div class="row page-header">
   <div class="span12" style="height:25px">
   </div><!--/span12-->
 </div> <!--/row-->
