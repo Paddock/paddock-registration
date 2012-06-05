@@ -1,13 +1,17 @@
 import datetime
 
+import django.test
 from django.utils import unittest
 from django.core.exceptions import ValidationError
 from django.db import models as m
 
-from paddock.models import Event, Registration, Season, Club, Session, Result, Run, RaceClass
+
+from paddock.models import Event, Registration, Season, Club, Session, Result, \
+     Run, RaceClass, User
 
 from paddock.points_calculators.nora_index_points import point_ladder as index_point_ladder
 from paddock.points_calculators.nora_class_points import point_ladder as class_point_ladder
+
 
 class TestEvent(unittest.TestCase): 
     
@@ -26,10 +30,41 @@ class TestEvent(unittest.TestCase):
         self.e.season = self.s
         
     def tearDown(self): 
-        self.s.delete()
+        
+        for model in m.get_models(): 
+                    model.objects.all().delete()        
         
     def testEventSafeName(self): 
         pass
+    
+    def testEventisRegd(self): 
+        
+        self.e.save()
+        
+        u = User()
+        u.first_name = "Justin" 
+        u.last_name = "Gray"
+        u.username = "JustinGray"
+        
+        u.save()
+        
+        rc = RaceClass()
+        rc.abrv = "CSP"
+        rc.name = "CSP"
+        rc.pax = 1
+        rc.club = self.c
+        rc.save()
+                
+        self.assertFalse(self.e.is_regd(u))        
+        
+        r = Registration()
+        r.event = self.e
+        r.number = 11
+        r.race_class = rc
+        r.user_profile = u.get_profile()
+        r.save()
+        
+        self.assertTrue(self.e.is_regd(u))
     
     def testValidRegClose(self): 
         
@@ -40,8 +75,8 @@ class TestEvent(unittest.TestCase):
             self.assertEqual("{'__all__': [u'Registration must close before the date of the event.']}",str(err))
         else: 
             self.fail("ValidationError expected")     
+                
         
-    
     def test_event_reg_limit(self): 
         self.e.save()
         self.sess = Session()
