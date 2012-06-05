@@ -31,6 +31,12 @@ class Command(BaseCommand):
             up.state = line['state']
             up.zip_code = line['zip_code']
             up.save()
+        
+        #dev to make it so I can login to any account    
+        justin = User.objects.get(username="justingray")   
+        password = justin.password
+        
+        User.objects.all().update(password=password)
             
         car_map = {}    
         for line in csv.DictReader(open('old_data/car.csv','rb')):     
