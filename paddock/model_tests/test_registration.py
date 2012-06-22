@@ -42,7 +42,7 @@ class TestRegistration(unittest.TestCase):
         self.car.year = 1990 
         self.car.make = "Mazda"
         self.car.model = "Miata"
-        self.car.owner = self.user
+        self.car.user_profile = self.user.get_profile()
         self.car.save()
         
         self.r = Registration()

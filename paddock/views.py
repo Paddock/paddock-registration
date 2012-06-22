@@ -35,15 +35,20 @@ def event(request,club_name,season_year,event_name):
                               season__year=season_year,
                               safe_name=event_name)
     
+    reg_is_open = event.reg_is_open
+    if reg_is_open: 
+        regs = event.regs.all()
+    else: 
+        regs = event.get_results()
+    
     top_pax_reg = event.regs.order_by('-index_points')[:1].get()
     #top_raw = 1
-    
-    regs = event.regs.all()
+        
     reg_sets = {}
     for r in regs: 
         reg_sets.setdefault(r.pax_class,[]).append(r)        
         
-    reg_is_open = event.reg_is_open
+    
     is_regd = False
     is_auth = request.user.is_authenticated()
     if is_auth: 
@@ -60,7 +65,6 @@ def event(request,club_name,season_year,event_name):
                'is_regd':is_regd,
                'is_auth':is_auth}
     
-    print 
     if django_now().date() <= event.date: 
         return render_to_response('paddock/upcoming_event.html',
                               context,
