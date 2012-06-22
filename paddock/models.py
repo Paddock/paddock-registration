@@ -216,10 +216,10 @@ class Club(Purchasable):
     paypal_email = m.CharField('Paypal Email Address',max_length=100,blank=True,
                                validators=[validate_email])
 
-    address = m.CharField('Mailing Address',max_length=100,blank=True)
-    city = m.CharField('City',max_length=100,blank=True)
-    state = m.CharField('State',max_length=25,blank=True) #USStateField('State')
-    zip_code = m.CharField('Zip Code',max_length=12,blank=True) #USZipCodeField('Zip Code')
+    address = m.CharField('Mailing Address',max_length=100,blank=True,null=True)
+    city = m.CharField('City',max_length=100,blank=True,null=True)
+    state = m.CharField('State',max_length=25,blank=True,null=True) #USStateField('State')
+    zip_code = m.CharField('Zip Code',max_length=12,blank=True,null=True) #USZipCodeField('Zip Code')
 
     events_for_dibs = m.IntegerField("# of events to get dibs",default=3)
 
@@ -370,7 +370,7 @@ class RaceClass(m.Model):
     pax = m.FloatField('PAX multiplier')
 
     pax_class = m.BooleanField('PAX Class',default=False)
-    description = m.TextField("Description",blank=True,default="")
+    description = m.TextField("Description",blank=True,null=True,default="")
     user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
     event_reg_limit = m.IntegerField("Limit per Event",null=True,default=None)
     allow_dibs = m.BooleanField("dibs",default=True)
@@ -429,7 +429,7 @@ class Event(m.Model):
 
     date = m.DateField('Event Date')
     
-    note = m.TextField('notes', blank=True)
+    note = m.TextField('notes', blank=True,null=True)
 
     reg_close = m.DateTimeField('Registration Close Date',blank=True,null=True)
 
@@ -493,14 +493,14 @@ class Event(m.Model):
 
         #find all results from any pax classes
         regs = Registration.objects.filter(event=self).annotate(n_results=m.Count('results')).\
-            filter(n_results=len(self.sessions.all())).all()
+            filter(n_results=self.sessions.all().count()).all()
         #calc all penalty times, index times, 
         for reg in regs: 
             reg.calc_times()
 
         #find all the regs, now ordered by time
         regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
-            event=self,n_results=len(self.sessions.all())).order_by('total_index_time').all()
+            event=self,n_results=self.sessions.all().count()).order_by('total_index_time').all()
 
         #assign index points, sort results into classes, then assign class points
         race_classes = dict()
@@ -529,8 +529,8 @@ class Event(m.Model):
 
     def get_results(self):
         #check if valid points calculations, if not calc_results
-        regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
-            event=self,n_results=len(self.sessions.all())).order_by('total_index_time').\
+        regs = Registration.objects.annotate(n_results=m.Count('results'),n_runs=m.Count('results__best_run')).filter(
+            event=self,n_results=self.sessions.all().count()).order_by('-n_runs','total_index_time').\
             all()
 
         return regs
@@ -623,8 +623,9 @@ class Registration(Purchasable):
         """Finds the lowest time for each associated result, adds them together, then 
         calculates a new combined index time based on the associated race_class or 
         pax_class"""
-
-        self.total_raw_time = sum([res.best_run.calc_time for res in self.results.all() if res.best_run])
+        runs = [res.find_best_run() for res in self.results.all()]
+        
+        self.total_raw_time = sum([r.calc_time for r in runs if r])
         if self.pax_class:
             pax = self.pax_class.pax*self.race_class.pax
         else: 
@@ -707,14 +708,14 @@ class Result(m.Model):
     session = m.ForeignKey("Session",related_name="results") 
 
     def __unicode__(self): 
-        return unicode(self.best_run)
+        return "Result id: %d"%self.pk
 
     def find_best_run(self): 
         #find the best run        
-        try:         
+        try:     
             br =  Run.objects.filter(result=self,
-                                     result__runs__penalty__isnull=True).\
-                order_by('calc_time')[0]
+                  penalty__isnull=True).\
+                  order_by('calc_time','base_time')[0]
             self.best_run = br
             self.save()
             return br
@@ -725,17 +726,15 @@ class Result(m.Model):
 class Run(m.Model):     
     base_time = m.FloatField('Base Time')
     calc_time = m.FloatField('Calculated Time')
-    index_time = m.FloatField('Indexed Time')
 
     cones = m.IntegerField(default=0)
-    penalty = m.CharField(default=None,max_length=10,null=True)
+    penalty = m.CharField(default=None,max_length=10,blank=True,null=True)
 
     result = m.ForeignKey("Result",related_name="runs")
 
-    def _set_times(self): 
+    def _set_times(self):
         self.calc_time = self.base_time+2.0*self.cones
-        self.index_time = self.calc_time*self.result.reg.race_class.pax   
-        return (self.calc_time,self.index_time)
+        return self.calc_time
 
     def save(self): 
         self._set_times()
@@ -747,9 +746,9 @@ class Run(m.Model):
         if self.penalty: 
             return self.penalty
         if self.cones: 
-            return u"3.3f, +%d cones (3.3f)"%(self.calc_time,self.cones,self.index_time)
+            return u"%3.3f, +%d cones"%(self.calc_time,self.cones)
 
-        return u"%3.3f(%3.3f)"%(self.calc_time,self.index_time)
+        return u"%3.3f"%(self.calc_time)
 
 class Location(m.Model):
 
