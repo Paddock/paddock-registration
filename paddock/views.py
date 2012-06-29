@@ -46,7 +46,10 @@ def event(request,club_name,season_year,event_name):
         
     reg_sets = {}
     for r in regs: 
-        reg_sets.setdefault(r.pax_class,[]).append(r)        
+        if r.pax_class: 
+            reg_sets.setdefault(r.pax_class,[]).append(r) 
+        else: 
+            reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
         
     
     is_regd = False
