@@ -7,14 +7,19 @@
 {% if table_id %}
     id="{{table_id}}"
 {% endif %}
->
-  <thead> <tr style="width: 100%"> 
-    <th>#</th><th>Car</th><th>Driver</th><th>Total Time</th><th>Pax Time</th><th>Class Points</th> 
+ style="text-align:left;">
+  <thead> <tr > 
+    <th style="width:10px;">#</th>
+    <th style="width:5em;">Car</th>
+    <th style="width:12em;">Driver</th>
+    <th style="width:5em;">Total Time</th>
+    <th style="width:5em;">Pax Time</th>
+    <th style="width:5em;">Class Points</th> 
   </tr> </thead>
   {% for reg in regs %}
-    <tr style="width: 100%">
+    <tr>
       <td>{{ forloop.counter }}</td>
-      <td>{{ reg.number }} {{ reg.race_class.abrv|rjust:'4'|spacify }}
+      <td>{{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
         {% if reg.car.avatar %}
           <i class="icon-picture avatar_pic" data-title="{{ reg.car.name }}"
             href="{{ reg.car.thumb.url }}"           

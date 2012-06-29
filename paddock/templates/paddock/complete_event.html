@@ -50,7 +50,16 @@
       </ul><!--/nav-tabs-->
       <div class="tab-content">
         <div class="tab-pane active" id="class_results">
-            {% result_table regs table_class="class_results" %}
+            {% for pax_class,reg_set in reg_sets.iteritems %}
+              <h3> {{ pax_class.name|default:"Open Class" }} </h3>
+              {% if pax_class %}
+                {% result_table reg_set table_class="class_results" %}
+              {% else %}
+                {% for race_class,class_set in reg_set.iteritems %}
+                  {% result_table class_set table_class="class_results" %}
+                {% endfor%}
+              {% endif %}
+            {% endfor %}  
         </div><!--/tab-pane-->
         <div class="tab-pane" id="pax_results">
         </div><!--/tab-pane-->
