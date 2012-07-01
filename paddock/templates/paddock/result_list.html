@@ -14,7 +14,11 @@
     <th style="width:12em;">Driver</th>
     <th style="width:5em;">Total Time</th>
     <th style="width:5em;">Pax Time</th>
-    <th style="width:5em;">Class Points</th> 
+    {% if pax %}
+      <th style="width:5em;">Index Points</th> 
+    {% else %}  
+      <th style="width:5em;">Class Points</th> 
+    {% endif %}  
   </tr> </thead>
   {% for reg in regs %}
     <tr>
@@ -29,7 +33,11 @@
       <td>{{ reg.first_name }} {{ reg.last_name }}</td>
       <td>{{ reg.total_raw_time }}</td>
       <td>{{ reg.total_index_time }}</td>
-      <td>{{ reg.class_points }}</td>
+      {% if pax %}
+        <td>{{ reg.index_points }}</td>
+      {% else %} 
+        <td>{{ reg.class_points }}</td>
+      {% endif%}  
     </tr>
   {% endfor %} <!--close event loop -->
 </table>

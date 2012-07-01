@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -50,7 +52,8 @@ def event(request,club_name,season_year,event_name):
             reg_sets.setdefault(r.pax_class,[]).append(r) 
         else: 
             reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
-        
+    
+    reg_sets = OrderedDict(sorted(reg_sets.items(),key=lambda t:t[0],reverse=True))    
     
     is_regd = False
     is_auth = request.user.is_authenticated()
