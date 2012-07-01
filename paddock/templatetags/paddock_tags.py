@@ -34,8 +34,9 @@ def reg_table(regs,table_id=None,table_class=None):
             'regs':regs}
 
 @register.inclusion_tag('paddock/result_list.html')
-def result_table(regs,table_id=None,table_class=None):
+def result_table(regs,table_id=None,table_class=None,pax=False):
     return {'table_id':table_id,
             'table_class':table_class,
-            'regs':regs}
+            'regs':regs,
+            'pax':pax}
     

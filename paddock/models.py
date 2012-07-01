@@ -528,18 +528,17 @@ class Event(m.Model):
         return race_classes
 
     def get_results(self):
-        #check if valid points calculations, if not calc_results
-        open_regs= Registration.objects.annotate(n_results=m.Count('results'),n_runs=m.Count('results__best_run')).filter(
-            event=self,n_results=self.sessions.all().count(),pax_class__isnull=True).\
-            order_by('race_class__abrv','-n_runs','total_index_time').\
-            all()
         
-        regs = Registration.objects.annotate(n_results=m.Count('results'),n_runs=m.Count('results__best_run')).filter(
-            event=self,n_results=self.sessions.all().count()).\
+        n_sessions = self.sessions.all().count()
+        #check if valid points calculations, if not calc_results        
+        
+        regs = Registration.objects.annotate(n_results=m.Count('results'),
+                                            n_runs=m.Count('results__best_run'))\
+            .filter(event=self,n_results=n_sessions).\
             order_by('-n_runs','total_index_time').\
             all()
 
-        return regs | open_regs
+        return regs 
 
     def get_class_results(self,race_class): 
         """Returns a list of lists of all registrations which qualified for points and were in 
