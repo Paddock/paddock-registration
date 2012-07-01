@@ -24,7 +24,10 @@
     </ul></p>
     <p><ul class="unstyled"> 
       <li>{{ reg_count }} drivers raced</li>
-      <li>{{ top_pax_reg.first_name }} {{ top_pax_reg.last_name }} had the fastest index time of xxxx</li>
+      <li>{{ top_pax_reg.first_name }} {{ top_pax_reg.last_name }} had the fastest index time of 
+      {{ top_pax_reg.total_index_time|floatformat:3}} seconds</li>
+      <li>{{ top_raw_reg.first_name }} {{ top_raw_reg.last_name }} had the fastest raw time of 
+      {{ top_raw_reg.total_raw_time|floatformat:3}} seconds</li>
     </ul></p>
     
   </div> <!--/span6"-->

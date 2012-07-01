@@ -43,8 +43,8 @@ def event(request,club_name,season_year,event_name):
     else: 
         regs = event.get_results()
     
-    top_pax_reg = event.regs.order_by('-index_points')[:1].get()
-    #top_raw = 1
+    top_pax_reg = regs[0]
+    top_raw_reg = regs.order_by('-n_runs','total_raw_time')[0]
         
     reg_sets = {}
     for r in regs: 
@@ -67,6 +67,7 @@ def event(request,club_name,season_year,event_name):
                'reg_sets':reg_sets,
                'reg_count': regs.count(),
                'top_pax_reg': top_pax_reg,
+               'top_raw_reg': top_raw_reg,
                'reg_is_open':reg_is_open,
                'is_regd':is_regd,
                'is_auth':is_auth}
