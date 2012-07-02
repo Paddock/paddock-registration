@@ -21,9 +21,10 @@
     {% endif %}  
   </tr> </thead>
   {% for reg in regs %}
-    <tr>
-      <td>{{ forloop.counter }}</td>
-      <td>{{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
+    <tr class="result_row">
+      <td rowspan="2">{{ forloop.counter }}</td>
+      
+      <td><i class="icon-play-circle"></i> {{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
         {% if reg.car.avatar %}
           <i class="icon-picture avatar_pic" data-title="{{ reg.car.name }}"
             href="{{ reg.car.thumb.url }}"           
@@ -37,7 +38,11 @@
         <td>{{ reg.index_points }}</td>
       {% else %} 
         <td>{{ reg.class_points }}</td>
-      {% endif%}  
+      {% endif%}
+      
+    </tr>
+    <tr>
+        <td colspan="5"> Stuff in some cell </td>
     </tr>
   {% endfor %} <!--close event loop -->
 </table>
