@@ -74,3 +74,13 @@
   </div> <!--/span12-->
 </div><!--/row -->
 {% endblock content %}
+
+{% block foot_js %}
+   <script>
+   $(function() {
+    $('.result_row').click(function(){
+      $(this).next().children().toggle();
+    });  
+  });
+  </script>
+{% endblock foot_js%}
