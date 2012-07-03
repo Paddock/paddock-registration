@@ -175,6 +175,13 @@ class Command(BaseCommand):
             
             race_class_map[line['id']] = r
             
+        index_class = RaceClass()
+        index_class.name = 'Index'
+        index_class.abrv = "i"
+        index_class.pax = 1.0
+        index_class.club = club
+        index_class.save()
+        
         reg_type_map = {}    
         for line in csv.DictReader(open('old_data/regtype.csv')):
             """id","name","class_letters","reg_limit","index",
@@ -204,6 +211,7 @@ class Command(BaseCommand):
             "price","class_points","index_points","index_flag","anon_f_name",
             "anon_l_name","anon_car","driver_user_name","event_id","reg_type_id",
             "car_id","race_class_id"""
+            
             for k,v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
@@ -241,6 +249,8 @@ class Command(BaseCommand):
                 if line['reg_type_id']: r.pax_class = reg_type_map[line['reg_type_id']]
             except: 
                 pass
+            
+            if line['index_flag']: r.bump_class = index_class
             try: 
                 if line['car_id']: r.car = car_map[line['car_id']]
             except: 

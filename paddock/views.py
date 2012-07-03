@@ -51,6 +51,8 @@ def event(request,club_name,season_year,event_name):
     for r in regs: 
         if r.pax_class: 
             reg_sets.setdefault(r.pax_class,[]).append(r) 
+        elif r.bump_class: 
+            reg_sets.setdefault(r.bump_class,[]).append(r)
         else: 
             reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
     

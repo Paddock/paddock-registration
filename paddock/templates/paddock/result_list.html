@@ -42,7 +42,17 @@
       
     </tr>
     <tr>
-        <td colspan="5"> Stuff in some cell </td>
+        <td colspan="5" style="display: none;">
+          {% with reg.results.all as results %}
+            {% if results|length > 1 %}
+              {% for r in reg.results.all %}
+                {{r.session.name}}: {{ r.runs.all|join:"," }}
+              {% endfor %}
+            {% else %}
+              test 
+            {% endif %}  
+          {% endwith %}
+        </td>
     </tr>
   {% endfor %} <!--close event loop -->
 </table>
