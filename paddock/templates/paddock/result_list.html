@@ -1,6 +1,6 @@
 {% load paddock_tags %}
 
-<table class="table table-striped table-bordered
+<table class="table table-striped2 table-bordered table-condensed
 {% if table_class %}
     {{table_class}}
 {% endif %}" 
@@ -22,9 +22,9 @@
   </tr> </thead>
   {% for reg in regs %}
     <tr class="result_row">
-      <td rowspan="2">{{ forloop.counter }}</td>
+      <td rowspan="2"><i class="icon-play-circle"></i> {{ forloop.counter }}</td>
       
-      <td><i class="icon-play-circle"></i> {{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
+      <td>{{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
         {% if reg.car.avatar %}
           <i class="icon-picture avatar_pic" data-title="{{ reg.car.name }}"
             href="{{ reg.car.thumb.url }}"           

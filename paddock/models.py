@@ -382,6 +382,12 @@ class RaceClass(m.Model):
 
     def __unicode__(self): 
         return u"%s %1.3f"%(self.abrv,self.pax)
+    
+    def __cmp__(self,other): 
+        if other: 
+            return cmp(self.name,other.name)
+        else: 
+            return 1
 
 class Dibs(m.Model): 
     created = m.DateField(auto_now_add=True)
