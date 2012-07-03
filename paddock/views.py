@@ -47,13 +47,15 @@ def event(request,club_name,season_year,event_name):
     top_raw_reg = regs.order_by('-n_runs','total_raw_time')[0]
         
     reg_sets = {}
+    
     for r in regs: 
         if r.pax_class: 
             reg_sets.setdefault(r.pax_class,[]).append(r) 
         else: 
             reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
     
-    reg_sets = OrderedDict(sorted(reg_sets.items(),key=lambda t:t[0],reverse=True))    
+    reg_sets = OrderedDict(sorted(reg_sets.items(),key=lambda t:t[0],reverse=True))  
+    print reg_sets.keys()
     
     is_regd = False
     is_auth = request.user.is_authenticated()

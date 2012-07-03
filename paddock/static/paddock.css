@@ -1,0 +1,6 @@
+.table-striped2 tbody tr:nth-child(4n-1) td,
+.table-striped2 tbody tr:nth-child(4n-1) th,
+.table-striped2 tbody tr:nth-child(4n) td,
+.table-striped2 tbody tr:nth-child(4n) th{
+  background-color: #f9f9f9;
+}

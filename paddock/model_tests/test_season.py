@@ -37,7 +37,7 @@ class TestSeasonBasic(django.test.TestCase):
     
     
     def test_upcoming_events(self): 
-        self.assertEqual(1,self.s.upcoming_events.count())
+        self.assertEqual(1,len(self.s.upcoming_events()))
             
         
 class TestSeasonWithData(django.test.TestCase): 

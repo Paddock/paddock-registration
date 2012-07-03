@@ -79,6 +79,7 @@
    <script>
    $(function() {
     $('.result_row').click(function(){
+      $(this).find('i').toggleClass("icon-play-circle icon-download");
       $(this).next().children().toggle();
     });  
   });
