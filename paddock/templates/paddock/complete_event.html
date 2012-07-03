@@ -22,6 +22,7 @@
       &#36; {{ event.non_member_price }} (non-members) </li>
       <li> &#36; {{event.non_pre_pay_penalty }} extra if you don't pre-register</li>
     </ul></p>
+    <h3>Event Summary</h3>
     <p><ul class="unstyled"> 
       <li>{{ reg_count }} drivers raced</li>
       <li>{{ top_pax_reg.first_name }} {{ top_pax_reg.last_name }} had the fastest index time of 
@@ -54,7 +55,7 @@
       <div class="tab-content">
         <div class="tab-pane active" id="class_results">
             {% for pax_class,reg_set in reg_sets.iteritems %}
-              <h3> {{ pax_class.name|default:"Open Class" }} </h3>
+              <h3> {{ pax_class.name|default:"Open Classes" }} </h3>
               {% if pax_class %}
                 {% result_table reg_set table_class="class_results" %}
               {% else %}
