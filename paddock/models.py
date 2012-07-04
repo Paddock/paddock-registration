@@ -757,8 +757,10 @@ class Run(m.Model):
         if self.penalty: 
             return self.penalty
         if self.cones: 
-            return u"%3.3f, +%d cones"%(self.calc_time,self.cones)
-
+            if self.cones > 1: 
+                return u"%3.3f +%d cones"%(self.calc_time,self.cones)
+            return u"%3.3f +%d cone"%(self.calc_time,self.cones)
+        
         return u"%3.3f"%(self.calc_time)
 
 class Location(m.Model):
