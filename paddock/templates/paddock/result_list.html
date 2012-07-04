@@ -50,9 +50,12 @@
               {% for r in reg.results.all %}
                 <li>{{r.session.name}}: 
                   {% for run in r.runs.all %}
-                    {{ run }} 
+                    {% ifequal run r.best_run %}
+                      <code>{{ run }}</code>
+                    {% else %}
+                      {{ run }}
+                    {% endifequal %}  
                     {% if not forloop.last %}| {% endif %}
-                    
                   {% endfor%}
                 </li>
               {% endfor %}
