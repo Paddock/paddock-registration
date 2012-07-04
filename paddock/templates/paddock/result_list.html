@@ -43,15 +43,24 @@
     </tr>
     <tr>
         <td colspan="5" style="display: none;">
+          <ul class="unstyled">
+          <li>car: {{ reg.car_name  }}</li>
           {% with reg.results.all as results %}
             {% if results|length > 1 %}
               {% for r in reg.results.all %}
-                {{r.session.name}}: {{ r.runs.all|join:"," }}
+                <li>{{r.session.name}}: 
+                  {% for run in r.runs.all %}
+                    {{ run }} 
+                    {% if not forloop.last %}| {% endif %}
+                    
+                  {% endfor%}
+                </li>
               {% endfor %}
             {% else %}
               test 
             {% endif %}  
           {% endwith %}
+          <ul>
         </td>
     </tr>
   {% endfor %} <!--close event loop -->
