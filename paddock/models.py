@@ -417,6 +417,13 @@ class Season(m.Model):
 
     def complete_events(self): 
         return self.events.exclude(date__gte=datetime.date.today()).order_by('-date')
+    
+    def index_points_as_of(self,date): 
+        """gets a list of (user,points,index_points) as of the given date"""
+        pass
+    
+    def class_points_as_of(self,date): 
+        """gets a dictionary of {race_class:(user,points,class_points)} as of the given date"""  
 
     def __unicode__(self): 
         return u"%d"%self.year
@@ -545,22 +552,6 @@ class Event(m.Model):
             all()
 
         return regs 
-
-    def get_class_results(self,race_class): 
-        """Returns a list of lists of all registrations which qualified for points and were in 
-        a class."""
-        regs = Registration.objects.filter(event=self,
-                                           race_class=race_class).\
-            annotate(result_count=m.Count('results')).\
-            filter(result_count=m.F('n_event__sessions')).\
-            select_related('results').all()
-
-        for reg in regs: 
-            reg.calc_times()
-
-
-        regs.sort(key=lambda reg: reg.total_index_time)
-        return regs
 
     def clean(self): 
         if self.reg_close.date() >= self.date: 
