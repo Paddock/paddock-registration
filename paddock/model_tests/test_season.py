@@ -54,5 +54,7 @@ class TestSeasonWithData(django.test.TestCase):
         self.assertEqual(21,season.complete_events().count())
         self.assertEqual(21,season.complete_events().count())
         self.assertEqual(0,season.upcoming_events().count()) 
-                         
-                 
+ 
+        stuff = season.index_points_as_of()
+        print stuff[0]
+        self.assertEqual(100,len(stuff))
