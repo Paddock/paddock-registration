@@ -73,7 +73,7 @@ class UserProfile(m.Model):
     zip_code = m.CharField('Zip Code',max_length=13,null=True,blank=True)    
     
     def __unicode__(self):
-        return u"User profile for %s" % self.user    
+        return u"%s" % self.user    
     
     def send_activation_email(self): 
         
@@ -419,8 +419,9 @@ class Season(m.Model):
     def complete_events(self): 
         return self.events.exclude(date__gte=datetime.date.today()).order_by('-date')
     
-    def index_points_as_of(self,date=None): 
-        """gets a list of (user,n_events,index_points) as of the given date"""
+    def points_as_of(self,date=None): 
+        """gets a lists of index_points,[(user,n_events,index_points),], and 
+        class_points, [(race_class,[user,n_events,class_points])], as of the given date"""
         
         event_count = self.events.filter(season=self,count_points=True).count()
         if event_count > self.drop_lowest_events: 
@@ -438,23 +439,35 @@ class Season(m.Model):
                                                results__isnull=False,user_profile__isnull=False).\
                 distinct().order_by('-index_points').all()
         
-        reg_sets = dict()
+        index_sets = dict()
+        class_sets = dict()
+        
         for reg in regs: 
             up = reg.user_profile
-            #print "reg,up: ", reg, up
-            reg_sets.setdefault(up,{'n_regs':0,'points':0}) 
+            class_key = reg.race_class
+            if reg.pax_class: 
+                class_key = reg.pax_class
             
-            if reg_sets[up]['n_regs'] < limit: 
-                reg_sets[up]['n_regs'] += 1
-                reg_sets[up]['points'] += reg.index_points
-        return sorted(reg_sets.items(), key=lambda t: t[1]['points'],reverse=True)       
+            index_sets.setdefault(up,{'n_regs':0,'points':0}) 
+            class_sets.setdefault(class_key,dict())
+            
+            if index_sets[up]['n_regs'] < limit: 
+                index_sets[up]['n_regs'] += 1
+                index_sets[up]['points'] += reg.index_points
+                
+                class_sets[class_key].setdefault(up,{'n_regs':0,'points':0})
+                class_sets[class_key][up]['n_regs']+=1
+                class_sets[class_key][up]['points']+=reg.class_points
+                
+        index_points = sorted(index_sets.items(), key=lambda t: t[1]['points'],reverse=True) 
+        class_points = sorted(class_sets.items(), key=lambda t: t[0].abrv) 
+        for i,reg_set in enumerate(class_points):  
+            class_points[i] = (reg_set[0],sorted(reg_set[1].items(), 
+                                                 key=lambda t: t[1]['points'],reverse=True))
+            
         
-            
-        
-            
+        return index_points,class_points 
     
-    def class_points_as_of(self,date): 
-        """gets a dictionary of {race_class:(user,points,class_points)} as of the given date"""  
 
     def __unicode__(self): 
         return u"%d"%self.year
@@ -644,6 +657,7 @@ class Registration(Purchasable):
         elif self._anon_l_name: 
             return self._anon_l_name
         return "Not On File" 
+     
 
     def __unicode__(self):
         if self.user_profile: 
