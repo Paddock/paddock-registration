@@ -429,14 +429,16 @@ class Season(m.Model):
         else: 
             limit = event_count
          
+        q =  Registration.objects.select_related('user_profile','pax_class','race_class'
+                                                 'event__season','results')
         if date: 
-            regs = Registration.objects.filter(event__season=self,event__count_points=True,
-                                               results__isnull=False,user_profile__isnull=False,
-                                               event__date__lte=date).\
+            regs = q.filter(event__season=self,event__count_points=True,
+                            results__isnull=False,user_profile__isnull=False,
+                            event__date__lte=date).\
                 distinct().order_by('-index_points').all()
         else: 
-            regs = Registration.objects.filter(event__season=self,event__count_points=True,
-                                               results__isnull=False,user_profile__isnull=False).\
+            regs = q.filter(event__season=self,event__count_points=True,
+                            results__isnull=False,user_profile__isnull=False).\
                 distinct().order_by('-index_points').all()
         
         index_sets = dict()
