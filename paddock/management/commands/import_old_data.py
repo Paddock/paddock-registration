@@ -2,9 +2,10 @@ import csv,datetime
 from os.path import exists
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
-
+from django.core import serializers
 from paddock.models import Club, Season, Event, Registration, UserProfile, \
      RaceClass, Result, Session, Location, User, Car, Run
+import paddock.models
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
@@ -227,7 +228,7 @@ class Command(BaseCommand):
 
             r = Registration()
             
-            if line['driver_user_name'] and line['driver_user_name']: 
+            if line['driver_user_name']: 
                 user = User.objects.get(username=line['driver_user_name'])
                 r.user_profile = user.get_profile()
             r.number = int(line['number'])
@@ -323,8 +324,6 @@ class Command(BaseCommand):
                 r.result.reg.calc_times()
             except KeyError: 
                 continue
-            
-            
-            
+                      
             
         

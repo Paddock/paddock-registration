@@ -5,6 +5,7 @@ import re
 from copy import copy
 import hashlib
 import random
+from collections import OrderedDict
 
 from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
@@ -418,9 +419,33 @@ class Season(m.Model):
     def complete_events(self): 
         return self.events.exclude(date__gte=datetime.date.today()).order_by('-date')
     
-    def index_points_as_of(self,date): 
-        """gets a list of (user,points,index_points) as of the given date"""
-        pass
+    def index_points_as_of(self,date=None): 
+        """gets a list of (user,n_events,index_points) as of the given date"""
+        
+        event_count = self.events.filter(season=self,count_points=True).count()
+        if event_count > self.drop_lowest_events: 
+            limit = event_count - self.drop_lowest_events
+        else: 
+            limit = event_count 
+         
+        print limit    
+        regs = Registration.objects.filter(event__season=self,event__count_points=True,
+                                           results__isnull=False,user_profile__isnull=False).all()
+        
+        reg_sets = dict()
+        for reg in regs: 
+            up = reg.user_profile
+            #print "reg,up: ", reg, up
+            reg_sets.setdefault(up,{'n_regs':0,'points':0}) 
+            
+            if reg_sets[up]['n_regs'] < limit: 
+                reg_sets[up]['n_regs'] += 1
+                reg_sets[up]['points'] += reg.index_points
+        return sorted(reg_sets.items(), key=lambda t: t[1]['points'],reverse=True)       
+        
+            
+        
+            
     
     def class_points_as_of(self,date): 
         """gets a dictionary of {race_class:(user,points,class_points)} as of the given date"""  
@@ -579,7 +604,6 @@ class Registration(Purchasable):
 
     event = m.ForeignKey("Event",related_name="regs")
 
-    #reg_detail = m.ForeignKey("RegDetail",related_name="regs",blank=True,null=True)
     user_profile = m.ForeignKey('UserProfile',related_name="regs",blank=True,null=True)
 
     @property
