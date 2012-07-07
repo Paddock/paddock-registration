@@ -55,6 +55,26 @@ class TestSeasonWithData(django.test.TestCase):
         self.assertEqual(21,season.complete_events().count())
         self.assertEqual(0,season.upcoming_events().count()) 
  
-        stuff = season.index_points_as_of()
-        print stuff[0]
-        self.assertEqual(100,len(stuff))
+        points = season.index_points_as_of()     
+        self.assertEqual(26629,points[0][1]['points'])
+        self.assertEqual(12,points[0][1]['n_regs'])
+        
+        self.assertEqual(24527,points[2][1]['points'])
+        self.assertEqual(12,points[2][1]['n_regs'])
+        
+        self.assertEqual(20057,points[6][1]['points'])
+        self.assertEqual(10,points[6][1]['n_regs'])        
+           
+        pe8_date = datetime.date(2011,7,17)
+        points = season.index_points_as_of(pe8_date)
+        
+        self.assertEqual(17216,points[0][1]['points'])
+        self.assertEqual(8,points[0][1]['n_regs'])
+        
+        self.assertEqual(14471,points[2][1]['points'])
+        self.assertEqual(7,points[2][1]['n_regs'])
+        
+        self.assertEqual(12676,points[6][1]['points'])
+        self.assertEqual(7,points[6][1]['n_regs'])           
+        
+        

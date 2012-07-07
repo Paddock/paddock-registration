@@ -426,11 +426,17 @@ class Season(m.Model):
         if event_count > self.drop_lowest_events: 
             limit = event_count - self.drop_lowest_events
         else: 
-            limit = event_count 
+            limit = event_count
          
-        print limit    
-        regs = Registration.objects.filter(event__season=self,event__count_points=True,
-                                           results__isnull=False,user_profile__isnull=False).all()
+        if date: 
+            regs = Registration.objects.filter(event__season=self,event__count_points=True,
+                                               results__isnull=False,user_profile__isnull=False,
+                                               event__date__lte=date).\
+                distinct().order_by('-index_points').all()
+        else: 
+            regs = Registration.objects.filter(event__season=self,event__count_points=True,
+                                               results__isnull=False,user_profile__isnull=False).\
+                distinct().order_by('-index_points').all()
         
         reg_sets = dict()
         for reg in regs: 
