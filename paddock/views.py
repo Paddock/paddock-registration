@@ -33,18 +33,18 @@ def clubs(request):
 def event(request,club_name,season_year,event_name): 
     """single event page""" 
     
-    event = Event.objects.get(season__club__safe_name=club_name,
+    event = Event.objects.select_related('regs','season').\
+        get(season__club__safe_name=club_name,
                               season__year=season_year,
                               safe_name=event_name)
     
     reg_is_open = event.reg_is_open
+    index_points = []
+    class_points = []
     if reg_is_open: 
         regs = event.regs.all()
     else: 
         regs = event.get_results()
-    
-    top_pax_reg = regs[0]
-    top_raw_reg = regs.order_by('-n_runs','total_raw_time')[0]
         
     reg_sets = {}
     
@@ -63,6 +63,8 @@ def event(request,club_name,season_year,event_name):
     is_auth = request.user.is_authenticated()
     if is_auth: 
         is_regd = event.is_regd(request.user)
+        
+       
     
     context = {'event': event,
                'season': event.season, 
@@ -70,17 +72,19 @@ def event(request,club_name,season_year,event_name):
                'regs': regs,
                'reg_sets':reg_sets,
                'reg_count': regs.count(),
-               'top_pax_reg': top_pax_reg,
-               'top_raw_reg': top_raw_reg,
                'reg_is_open':reg_is_open,
                'is_regd':is_regd,
                'is_auth':is_auth}
     
-    if django_now().date() <= event.date: 
+    if reg_is_open: 
         return render_to_response('paddock/upcoming_event.html',
                               context,
                               context_instance=RequestContext(request))
     else: 
+        #context['index_points'],context['class_points'] = event.season.points_as_of(event.date) 
+            
+        context['top_pax_reg'] = regs[0]
+        context['top_raw_reg'] = regs.order_by('-n_runs','total_raw_time')[0]        
         return render_to_response('paddock/complete_event.html',
                                       context,
                                       context_instance=RequestContext(request))        
