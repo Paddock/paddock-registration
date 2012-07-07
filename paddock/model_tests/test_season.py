@@ -65,6 +65,11 @@ class TestSeasonWithData(django.test.TestCase):
         self.assertEqual(20057,index_points[6][1]['points'])
         self.assertEqual(10,index_points[6][1]['n_regs'])        
            
+           
+        self.assertEqual("AM",class_points[0][0].abrv)
+        self.assertEqual("AS",class_points[1][0].abrv)
+        self.assertEqual(49,class_points[1][1][0][1]['points'])
+        
         pe8_date = datetime.date(2011,7,17)
         index_points,class_points = season.points_as_of(pe8_date)
         
@@ -75,6 +80,12 @@ class TestSeasonWithData(django.test.TestCase):
         self.assertEqual(7,index_points[2][1]['n_regs'])
         
         self.assertEqual(12676,index_points[6][1]['points'])
-        self.assertEqual(7,index_points[6][1]['n_regs'])           
+        self.assertEqual(7,index_points[6][1]['n_regs']) 
+        
+        
+        self.assertEqual("AM",class_points[0][0].abrv)
+        self.assertEqual("AS",class_points[1][0].abrv)
+        self.assertEqual(43,class_points[1][1][0][1]['points'])        
+        
         
         
