@@ -57,7 +57,6 @@ def event(request,club_name,season_year,event_name):
             reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
     
     reg_sets = OrderedDict(sorted(reg_sets.items(),key=lambda t:t[0],reverse=True))  
-    print reg_sets.keys()
     
     is_regd = False
     is_auth = request.user.is_authenticated()

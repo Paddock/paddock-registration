@@ -28,7 +28,7 @@ from paddock.points_calculators.nora_index_points import calc_points as index_po
 
 
 def urlsafe(name): 
-    safe = re.sub(r'\s','',name)
+    safe = re.sub(r'[\s\W]','',name)
     safe = pathname2url(safe)
     safe = safe.lower()    
 

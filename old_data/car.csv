@@ -1,640 +1,690 @@
-"id","nickname","make","model","color","avatar_file_loc","avatar_thumb_loc","year","owner_user_name"
-"1","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/justingray_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/justingray_miata_thumb","1990","justingray"
-"2","Subaru","Subaru","Impreza 2.5RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Subaru_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Subaru_thumb","2000","Dan00RS"
-"3","Slow","Horse","and Buggy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Slow_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Slow_thumb","1900","Dan00RS"
-"8","WTB: Steering Feel","Mazda","RX-7",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_WTB: Steering Feel_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_WTB: Steering Feel_thumb","1989","Rexpelagi"
-"5","Silence ","Scion","tC",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Silence _avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Silence _thumb","2005","Rexpelagi"
-"6","Elroy","Honda","Insight",NULL,"/home/justinsgray/webapps/paddock/data/avatars/justingray_Elroy_avatar","/home/justinsgray/webapps/paddock/data/avatars/justingray_Elroy_thumb","2000","justingray"
-"7","Z06","Chevy","Corvette Z06",NULL,NULL,NULL,"2002","sslvette38"
-"9","ABlue3","Slow","Mobile",NULL,"/home/justinsgray/webapps/paddock/data/avatars/major_error_ABlue3_avatar","/home/justinsgray/webapps/paddock/data/avatars/major_error_ABlue3_thumb","2007","major_error"
-"10","Silvia","Nissan","240sx",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ki_so_Silvia_avatar","/home/justinsgray/webapps/paddock/data/avatars/ki_so_Silvia_thumb","1989","ki_so"
-"11","Shrieking 3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RcktM3S_Silent but slow_avatar","/home/justinsgray/webapps/paddock/data/avatars/RcktM3S_Silent but slow_thumb","2004","RcktM3S"
-"12","\"S\"","Mini","Cooper S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Mini72_\"S\"_avatar","/home/justinsgray/webapps/paddock/data/avatars/Mini72_\"S\"_thumb","2003","Mini72"
-"13","TR 6","Triumph","TR 6",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Mini72_TR 6_avatar","/home/justinsgray/webapps/paddock/data/avatars/Mini72_TR 6_thumb","1972","Mini72"
-"670","BMW","BMW","330i",NULL,NULL,NULL,"2003","davidlc"
-"671","Miata","Mazdaspeed","MX-5",NULL,NULL,NULL,"2004","KBUDHU"
-"15","Protege","Mazda","Protege MP3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SOGorman35_Protege_avatar","/home/justinsgray/webapps/paddock/data/avatars/SOGorman35_Protege_thumb","2001","SOGorman35"
-"16","TractionLimited","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TCARR_TractionLimited_avatar","/home/justinsgray/webapps/paddock/data/avatars/TCARR_TractionLimited_thumb","1996","TCARR"
-"17","TractionLimited","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Bilge_TractionLimited_avatar","/home/justinsgray/webapps/paddock/data/avatars/Bilge_TractionLimited_thumb","1996","Bilge"
-"19","Storm-O-Matic","Subaru","Impreza L",NULL,"/home/justinsgray/webapps/paddock/data/avatars/96FSP_FSP Monster_avatar","/home/justinsgray/webapps/paddock/data/avatars/96FSP_FSP Monster_thumb","1996","96FSP"
-"20","Dad's Zoom Zoom","Mazda","Miata Special Editio",NULL,"/home/justinsgray/webapps/paddock/data/avatars/96FSP_Dad's Zoom Zoom_avatar","/home/justinsgray/webapps/paddock/data/avatars/96FSP_Dad's Zoom Zoom_thumb","2001","96FSP"
-"21","ZOMG MOTONS","Mitsubishi","Evo 9",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fullboost14_ZOMG MOTONS_avatar","/home/justinsgray/webapps/paddock/data/avatars/fullboost14_ZOMG MOTONS_thumb","2006","fullboost14"
-"22","32 STU PAX MACHINE","Subaru","STi",NULL,"/home/justinsgray/webapps/paddock/data/avatars/shaun_32 STU PAX MACHINE_avatar","/home/justinsgray/webapps/paddock/data/avatars/shaun_32 STU PAX MACHINE_thumb","2007","shaun"
-"23","Audi A4","Audi","A4 Quattro 2.8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dshipley_Audi A4_avatar","/home/justinsgray/webapps/paddock/data/avatars/dshipley_Audi A4_thumb","1998","dshipley"
-"528","Not Lolzlin's Car","Mazda","Miata",NULL,NULL,NULL,"1992","fullboost14"
-"529","VTEC","Honda","Civic Si",NULL,NULL,NULL,"2008","davelamnet"
-"25","angrybitch","Chevy","Corvette",NULL,NULL,NULL,"2002","angryvette"
-"26","Miata","Mazda","MX-5 Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kymbersport_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/kymbersport_Miata_thumb","1994","kymbersport"
-"27","2.5RSlow","Subaru","Impreza 2.5RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sifuspec_2.5RSlow_avatar","/home/justinsgray/webapps/paddock/data/avatars/sifuspec_2.5RSlow_thumb","2005","davelamnet"
-"28","99 SSM","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TeddR_99 SSM_avatar","/home/justinsgray/webapps/paddock/data/avatars/TeddR_99 SSM_thumb","1999","TeddR"
-"30","trav","Ford","Mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/travissmithoh_trav_avatar","/home/justinsgray/webapps/paddock/data/avatars/travissmithoh_trav_thumb","2005","travissmithoh"
-"31","slovett","Chevrolet","Corvette",NULL,NULL,NULL,"1989","bpoling51"
-"32","sloclca","Toyota","Celica GT-S",NULL,NULL,NULL,"2001","bpoling51"
-"33","slowrex","Subaru","Impreza WRX",NULL,NULL,NULL,"2002","bpoling51"
-"34","red miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_red miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_red miata_thumb","1997","MLDEPIETRO"
-"35","silver miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_silver miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_silver miata_thumb","1999","MLDEPIETRO"
-"36","yellow crx","Honda","CRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_yellow crx_avatar","/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_yellow crx_thumb","1988","MLDEPIETRO"
-"37","03SE","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/EaglSct_03SE_avatar","/home/justinsgray/webapps/paddock/data/avatars/EaglSct_03SE_thumb","2003","EaglSct"
-"38","Speed","Mazda","Speed3",NULL,NULL,NULL,"2009","EaglSct"
-"39","Z","Nissan","350z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JP350Z_Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/JP350Z_Z_thumb","2004","JP350Z"
-"40","MCS","MINI","Cooper S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_MCS_avatar","/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_MCS_thumb","2006","jasonsmf"
-"41","Sparky","Tesla","Roadster",NULL,"/home/justinsgray/webapps/paddock/data/avatars/smjones_JustinIsAnAssGoblin_avatar","/home/justinsgray/webapps/paddock/data/avatars/smjones_JustinIsAnAssGoblin_thumb","2008","smjones"
-"42","Stingray","Chevy ","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/thorne1976_Stingray_avatar","/home/justinsgray/webapps/paddock/data/avatars/thorne1976_Stingray_thumb","1976","thorne1976"
-"43","Z","Nissan","350Z GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/msp857_Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/msp857_Z_thumb","2007","msp857"
-"44","Vette","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/racesports_Vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/racesports_Vette_thumb","1994","racesports"
-"45","Vette","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bodatude_Vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/bodatude_Vette_thumb","1994","bodatude"
-"46","Spicy","Mazda","Speed Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/6waggin_Spicy_avatar","/home/justinsgray/webapps/paddock/data/avatars/6waggin_Spicy_thumb","2003","6waggin"
-"47","vette","chevy","corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_vette_thumb","1988","bmwporsche"
-"48","Bimmer","BMW","335d",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_Bimmer_avatar","/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_Bimmer_thumb","2009","bmwporsche"
-"49","honda","Honda","S2000",NULL,NULL,NULL,"2002","jrwiseman"
-"50","lotus","Lotus","Elan",NULL,NULL,NULL,"1966","jrwiseman"
-"51","SpdRacer","Ford","Focus ZX3",NULL,NULL,NULL,"2000","The_Black_Racer"
-"52","vickers","Chevrolet","Beretta Z26",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Vickers_vickers_avatar","/home/justinsgray/webapps/paddock/data/avatars/Vickers_vickers_thumb","1995","Vickers"
-"53","Z28#1","Chevrolet","Camaro Z28",NULL,NULL,NULL,"2000","Vickers"
-"54","Z28#2","Chevorlet ","Camaro Z28",NULL,NULL,NULL,"1992","Vickers"
-"55","vickers1","Chevrolet","Beretta Z26",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/vickers1_vickers1_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/vickers1_vickers1_thumb","1995","vickers1"
-"56","Special_K","Mitsubishi","Eclipse GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Special_K_Special_K_avatar","/home/justinsgray/webapps/paddock/data/avatars/Special_K_Special_K_thumb","2001","Special_K"
-"57","240sxey","Nissan","240sx SE",NULL,NULL,NULL,"1995","Fawks"
-"223","God's favorite car","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tommy68_God's favorite car_avatar","/home/justinsgray/webapps/paddock/data/avatars/tommy68_God's favorite car_thumb","1989","tommy68"
-"59","Brutus","Scion","XA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/cameraboy5_Brutus_avatar","/home/justinsgray/webapps/paddock/data/avatars/cameraboy5_Brutus_thumb","2006","cameraboy5"
-"231","94 Vette","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/davefromcleveland_94 Vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/davefromcleveland_94 Vette_thumb","1994","davefromcleveland"
-"61","Si","Honda","Civic SI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dmosowski_Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/dmosowski_Si_thumb","2008","dmosowski"
-"62","Guinness","Mazda","Miata",NULL,NULL,NULL,"2007","cstock6"
-"63","zx3","Ford"," Focus ZX3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/classictin_zx3_avatar","/home/justinsgray/webapps/paddock/data/avatars/classictin_zx3_thumb","2000","classictin"
-"64","Tornado Red","VW","R32",NULL,"/home/justinsgray/webapps/paddock/data/avatars/20AE3600_Pirate Ship_avatar","/home/justinsgray/webapps/paddock/data/avatars/20AE3600_Pirate Ship_thumb","2004","20AE3600"
-"637","DP","mazda","RX8 ",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Fast_DP_DP_avatar","/home/justinsgray/webapps/paddock/data/avatars/Fast_DP_DP_thumb","2006","Fast_DP"
-"66","MeanM3","BMW","M3",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/meanm3_MeanM3_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/meanm3_MeanM3_thumb","2004","meanm3"
-"101","Victoria","Mazda","MX-5 Miata",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/tripn4days_Victoria_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/tripn4days_Victoria_thumb","2006","tripn4days"
-"100","DO WORK!","Toyota","Corolla S ",NULL,NULL,NULL,"2009","TopGear"
-"69","Golf","Volkswagen","Golf 1.8t",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GreenGolf_Golf_avatar","/home/justinsgray/webapps/paddock/data/avatars/GreenGolf_Golf_thumb","2000","GreenGolf"
-"70","Fifi","Triumph","Spitfire",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fohill_Fifi_avatar","/home/justinsgray/webapps/paddock/data/avatars/fohill_Fifi_thumb","1979","fohill"
-"71","Suby","Subaru","Impreza",NULL,"/home/justinsgray/webapps/paddock/data/avatars/n2x4_Suby_avatar","/home/justinsgray/webapps/paddock/data/avatars/n2x4_Suby_thumb","1995","n2x4"
-"72","Mia","Mazda","Miata",NULL,NULL,NULL,"1990","n2x4"
-"73","R32","Volkswagen","R32",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ZPrime_R32_avatar","/home/justinsgray/webapps/paddock/data/avatars/ZPrime_R32_thumb","2008","ZPrime"
-"504","miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jhtyler_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/jhtyler_miata_thumb","1990","jhtyler"
-"299","WRX","Subaru","Impreza WRX",NULL,NULL,NULL,"2010","jxb176"
-"77","Sentra","Nissan ","Sentra SE-R",NULL,NULL,NULL,"2004","jdavis9881"
-"78","Red","Mazda","RX8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/docgatorx8er_Red_avatar","/home/justinsgray/webapps/paddock/data/avatars/docgatorx8er_Red_thumb","2004","docgatorx8er"
-"79","Jason Shaw","MAZDA","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jason513_Young Wing_avatar","/home/justinsgray/webapps/paddock/data/avatars/jason513_Young Wing_thumb","1997","jason513"
-"80","Track car","Honda","Civic",NULL,"/home/justinsgray/webapps/paddock/data/avatars/honda_luvr_2000_Track car_avatar","/home/justinsgray/webapps/paddock/data/avatars/honda_luvr_2000_Track car_thumb","1997","honda_luvr_2000"
-"744","Todd Swensen","Ford","SVT Focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ToddSwensen_Todd Swensen_avatar","/home/justinsgray/webapps/paddock/data/avatars/ToddSwensen_Todd Swensen_thumb","2002","ToddSwensen"
-"82","Z06","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/xilr8n_Z06_avatar","/home/justinsgray/webapps/paddock/data/avatars/xilr8n_Z06_thumb","2004","xilr8n"
-"83","boosted vdub","volkswagon","GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/streetlegal98_boosted vdub_avatar","/home/justinsgray/webapps/paddock/data/avatars/streetlegal98_boosted vdub_thumb","2003","streetlegal98"
-"84","MS3","Mazda","Mazdaspeed3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/johnheer_MS3_avatar","/home/justinsgray/webapps/paddock/data/avatars/johnheer_MS3_thumb","2007","johnheer"
-"705","Velo","Hyundai","Veloster",NULL,NULL,NULL,"2012","DrEvol"
-"706","Fridge's Mustang","Ford","Mustang GT",NULL,NULL,NULL,"2006","Fridge56Vet"
-"707","NuBe","Volkswagen","New Beetle 1.8T",NULL,"/home/justinsgray/webapps/paddock/data/avatars/charlie44266_NuBe_avatar","/home/justinsgray/webapps/paddock/data/avatars/charlie44266_NuBe_thumb","2002","charlie44266"
-"87","Subaru","Subaru","Impreza WRX STi",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Subaru_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Subaru_thumb","2004","Dirty25RS"
-"88","Mitsu","Mitsubishi","Evo",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Mitsu_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Mitsu_thumb","2003","Dirty25RS"
-"89","Volvo","Volvo","C30 R-Design",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Volvo_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Volvo_thumb","2010","Dirty25RS"
-"390","GT6","Triumph","GT6",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_GT6_avatar","/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_GT6_thumb","1973","jasonsmf"
-"91","George951","Porsche","944 Turbo",NULL,NULL,NULL,"1988","George951"
-"92","silver bugeye","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rszalkowski_silver bugeye_avatar","/home/justinsgray/webapps/paddock/data/avatars/rszalkowski_silver bugeye_thumb","2003","rszalkowski"
-"94","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kschles_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kschles_Miata_thumb","1997","Kschles"
-"95","Z06","Chevrolet","Z06",NULL,NULL,NULL,"2003","Kschles"
-"96","MR2","Toyota","MR2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/schles1234_MR2_avatar","/home/justinsgray/webapps/paddock/data/avatars/schles1234_MR2_thumb","1991","schles1234"
-"97","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/schles1234_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/schles1234_Miata_thumb","1997","schles1234"
-"98","Z06","Chevrolet","Z06",NULL,NULL,NULL,"2003","schles1234"
-"99","Jeff Swensen","Ford ","SVT Focus",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/JTSwensen_Jeff Swensen_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/JTSwensen_Jeff Swensen_thumb","2002","JTSwensen"
-"102","Lil' Bessie","Volkswagen","Rabbit ",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/tripn4days_Lil' Bessie_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/tripn4days_Lil' Bessie_thumb","1981","tripn4days"
-"103","Midlana","home","midengined",NULL,NULL,NULL,"1965","Langan"
-"104","Langan",,,NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/Langan_Langan_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/Langan_Langan_thumb","0","Langan"
-"105","FWDrift","F0RD","Focus ZX3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fsp48_FWDrift_avatar","/home/justinsgray/webapps/paddock/data/avatars/fsp48_FWDrift_thumb","2000","fsp48"
-"106","daily","Honda","Civic",NULL,NULL,NULL,"2000","honda_luvr_2000"
-"107","CP 19","Pontiac","Firebird",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/dasschultz_CP 19_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/dasschultz_CP 19_thumb","1995","dasschultz"
-"210","vader","ford","mustang",NULL,NULL,NULL,"1999","gilly174"
-"109","Evo ","Mitsu","Evo X",NULL,"/home/justinsgray/webapps/paddock/data/avatars/flyinmonkey101_Evo _avatar","/home/justinsgray/webapps/paddock/data/avatars/flyinmonkey101_Evo _thumb","2008","flyinmonkey101"
-"217","Subie","Subaru","STI",NULL,NULL,NULL,"2006","shifterracer"
-"111","crzytrn","chevy","corvette",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/crzytrn1996_crzytrn_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/crzytrn1996_crzytrn_thumb","1996","crzytrn1996"
-"112","Tbird","Ford","Thunderbird Turbocou",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/Fordguy545_Tbird_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/Fordguy545_Tbird_thumb","1988","Fordguy545"
-"113","BlackCurrant","honda","accord",NULL,NULL,NULL,"1998","Solja362"
-"114","052pnt5","Subaru","Impreza RS",NULL,NULL,NULL,"2005","Solja362"
-"115","\"The Beater\"","BMW","325is",NULL,NULL,NULL,"1987","meanm3"
-"388","S2K","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Vyndictive_S2K_avatar","/home/justinsgray/webapps/paddock/data/avatars/Vyndictive_S2K_thumb","2001","Vyndictive"
-"117","FORJUSTIN","mazda miata","mazdaspeed",NULL,NULL,NULL,"2005","fsgray"
-"118","2FORTY","Nissan","240sx",NULL,"/home/justinsgray/webapps/paddock/data/avatars/lawman240sx_2FORTY_avatar","/home/justinsgray/webapps/paddock/data/avatars/lawman240sx_2FORTY_thumb","1992","lawman240sx"
-"119","steve","scion","tc",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tc23_steve_avatar","/home/justinsgray/webapps/paddock/data/avatars/tc23_steve_thumb","2006","tc23"
-"120","The OBS","Subaru","Impreza Wagon",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The OBS_avatar","/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The OBS_thumb","2001","gc8_nate"
-"698","Z","Nissan","350z",NULL,NULL,NULL,"2004","Aphobia"
-"164","MR2","Toyota","MR2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kschles_MR2_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kschles_MR2_thumb","1991","Kschles"
-"122","Broken","Toyota","MR2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_Broken_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_Broken_thumb","1993","powderballz"
-"123","Red Rocket","University of Akron","F-SAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_Red Rocket_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_Red Rocket_thumb","2009","powderballz"
-"124","Seans' Ex","Toyota","MR2",NULL,NULL,NULL,"1993","powderballz"
-"125","$1000 beater ","Ford","ZX2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_$1000 beater _avatar","/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_$1000 beater _thumb","1999","billyboy24d"
-"126","Red","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_Red_avatar","/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_Red_thumb","2003","billyboy24d"
-"127","smurf","mazda","miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/smurfblue_smurf_avatar","/home/justinsgray/webapps/paddock/data/avatars/smurfblue_smurf_thumb","1990","smurfblue"
-"128","A4","Audi","A4",NULL,NULL,NULL,"2006","Kevin"
-"129","Protege","Mazda","Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BillB_Protege_avatar","/home/justinsgray/webapps/paddock/data/avatars/BillB_Protege_thumb","2003","BillB"
-"130","White Honda","Honda","Civic Si",NULL,NULL,NULL,"1989","rgc39"
-"131","Purple People Eater","Mazda","RX-8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bdepietro_Purple People Eater_avatar","/home/justinsgray/webapps/paddock/data/avatars/bdepietro_Purple People Eater_thumb","2005","bdepietro"
-"132","R4","Toyota","Celica GTS",NULL,NULL,NULL,"2001","slazor"
-"648","Backlash","Chevrolet","Camaro SS/RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Backlash_avatar","/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Backlash_thumb","2010","murphdog80"
-"269","Civic","Honda ","Civic",NULL,"/home/justinsgray/webapps/paddock/data/avatars/31rx7_Civic_avatar","/home/justinsgray/webapps/paddock/data/avatars/31rx7_Civic_thumb","1989","31rx7"
-"135","325iTT","BMW","325iC",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Automcdonough_325iTT_avatar","/home/justinsgray/webapps/paddock/data/avatars/Automcdonough_325iTT_thumb","1988","Automcdonough"
-"136","Lemons racer","BMW","325",NULL,NULL,NULL,"1986","Automcdonough"
-"137","Butters","Subaru","Impreza WRX STI",NULL,NULL,NULL,"2005","shwackster"
-"139","Corolla XRS","Toyota","Corolla XRS",NULL,NULL,NULL,"2005","johnblind"
-"140","Mini Cooper","Mini Cooper","S",NULL,NULL,NULL,"2007","rcantwel"
-"141","Civ","Honda","Civic si",NULL,NULL,NULL,"2008","nizzan1984"
-"142","'06 Civic Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bkuhns_'06 Civic Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/bkuhns_'06 Civic Si_thumb","2006","bkuhns"
-"143","Krishna","Subaru","WRX",NULL,NULL,NULL,"2004","ShivaAnnamalai"
-"561","Fierce","Pontiac","Fiero GT",NULL,NULL,NULL,"1988","sludge"
-"617","bimmerdon","BMW","128i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bimmerdon_bimmerdon_avatar","/home/justinsgray/webapps/paddock/data/avatars/bimmerdon_bimmerdon_thumb","2009","bimmerdon"
-"563","wrx","subaru","wrx",NULL,NULL,NULL,"2002","tensazangetsu"
-"145","Hybrid","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Yonco_Hybrid_avatar","/home/justinsgray/webapps/paddock/data/avatars/Yonco_Hybrid_thumb","2006","Yonco"
-"147","bulldog","Mazda","3",NULL,NULL,NULL,"2007","bulldog35"
-"149","not an evo","Mitsubishi","Eclipse",NULL,NULL,NULL,"2000","ArtST21"
-"162","X","Mitsubishi","Evolution X",NULL,"/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Fast shitbox_avatar","/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Fast shitbox_thumb","2008","clipse3gs"
-"152","blue","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_blue_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_blue_thumb","1999","paulk"
-"153","Lenny","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_Lenny_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_Lenny_thumb","1999","paulk"
-"154","Turbo","Subaru ","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_Turbo_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_Turbo_thumb","2005","paulk"
-"155","rx7","Mazda","Rx7",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_rx7_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_rx7_thumb","1981","paulk"
-"156","R Spicy 1","Mazdaspeed","Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/soleil327_R Spicy 1_avatar","/home/justinsgray/webapps/paddock/data/avatars/soleil327_R Spicy 1_thumb","2003","soleil327"
-"157","Silver Bullet","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dan666_Silver Bullet_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dan666_Silver Bullet_thumb","2001","Dan666"
-"158","humpsfrey","ford","focus",NULL,NULL,NULL,"2000","shawn185"
-"442","Scooby Doo","Subaru","Impreza 2.5RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/abest10_Scooby Doo_avatar","/home/justinsgray/webapps/paddock/data/avatars/abest10_Scooby Doo_thumb","2000","abest10"
-"443","3","Mazda","3",NULL,NULL,NULL,"2007","JP350Z"
-"161","MaX","Mazda","Miata",NULL,NULL,NULL,"2008","RichV"
-"163","Clipse","Mitsubishi","Eclipse",NULL,"/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Clipse_avatar","/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Clipse_thumb","2000","clipse3gs"
-"165","MINI","MINI Cooper","S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/davidmthum_MINI_avatar","/home/justinsgray/webapps/paddock/data/avatars/davidmthum_MINI_thumb","2002","davidmthum"
-"166","RADSOL","Pontiac","Solstice",NULL,NULL,NULL,"2007","Radsol"
-"167","MSP",,,NULL,"/home/justinsgray/webapps/paddock/data/avatars/zoomtime_MSP_avatar","/home/justinsgray/webapps/paddock/data/avatars/zoomtime_MSP_thumb","0","zoomtime"
-"168","?","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ro9111_?_avatar","/home/justinsgray/webapps/paddock/data/avatars/ro9111_?_thumb","1999","ro9111"
-"169","Kris","Mitsubishi","Lancer Evolution 10",NULL,NULL,NULL,"2008","Clipse3GT"
-"381","Nice paint","BMW","M3",NULL,NULL,NULL,"1997","TopGear"
-"171","Lemons Car","BMW","325es",NULL,NULL,NULL,"1986","rsafier"
-"172","TDI","VW","Golf TDI",NULL,NULL,NULL,"2010","rsafier"
-"173","01 C5 Corvette","Chevy ","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/markheine_01 C5 Corvette_avatar","/home/justinsgray/webapps/paddock/data/avatars/markheine_01 C5 Corvette_thumb","2001","markheine"
-"174","nissan","nissan ","sentra",NULL,"/home/justinsgray/webapps/paddock/data/avatars/wfschubert_nissan_avatar","/home/justinsgray/webapps/paddock/data/avatars/wfschubert_nissan_thumb","2002","wfschubert"
-"495","Touring",,,NULL,NULL,NULL,"2010","mattrap"
-"496","23","Ford","Focus",NULL,NULL,NULL,"2005","mwyban"
-"497","UDM","BMW","320i",NULL,NULL,NULL,"1979","dym285"
-"498","mazd","Mazda","Mazda3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/thecoldrunner_mazd_avatar","/home/justinsgray/webapps/paddock/data/avatars/thecoldrunner_mazd_thumb","2008","thecoldrunner"
-"176","Focus ZX3","Ford","Focus zx3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ZX3_avatar","/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ZX3_thumb","2002","megz"
-"177","Focus ST","Ford","Focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ST_avatar","/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ST_thumb","2006","megz"
-"178","soslow s14","Nissan","240sx se",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_soslow s14_avatar","/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_soslow s14_thumb","1997","sr7southpaw"
-"179","Sr dirty","Nissan","240sx se",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_Sr dirty_avatar","/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_Sr dirty_thumb","1990","sr7southpaw"
-"180","Daily","Mazda","Protege 5",NULL,NULL,NULL,"2002","GR8R"
-"181","Blue07Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Brad8110_Blue07Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/Brad8110_Blue07Si_thumb","2007","Brad8110"
-"182","evo x","mitsubishi","evo 10",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_evo x_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_evo x_thumb","2008","evodave"
-"183","evo 2.4L","Mitsubishi","evo 8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_evo 2.4L_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_evo 2.4L_thumb","2003","evodave"
-"184","evo orange","mitsubishi","evo 8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_evo orange_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_evo orange_thumb","2003","evodave"
-"185","vr4 ","mitsubishi","galant vr4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_vr4 _avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_vr4 _thumb","1991","evodave"
-"186","se-r","Nissan ","Sentra Se-r",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_se-r_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_se-r_thumb","1991","evodave"
-"187","Porvette","Porsche","944",NULL,NULL,NULL,"1985","pasleb"
-"623","Little Fury","MINI","Cooper",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TCARR_Little Fury_avatar","/home/justinsgray/webapps/paddock/data/avatars/TCARR_Little Fury_thumb","2012","TCARR"
-"189","SS 222","Chevrolet","Camaro SS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_SS 222_avatar","/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_SS 222_thumb","1996","hupcej4x4x454"
-"190","Stealth","Honda","Civic",NULL,NULL,NULL,"1991","GreaseMonkey"
-"193","Trunk Monkey Car","Subaru","Brighton",NULL,"/home/justinsgray/webapps/paddock/data/avatars/megz_Trunk Monkey Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/megz_Trunk Monkey Car_thumb","1996","megz"
-"192","F150","FORD","F150",NULL,NULL,NULL,"1983","PropaneJohn"
-"481","Blaze","Porsche","911-996",NULL,NULL,NULL,"2002","Bandit3212"
-"195","BMW","BMW","330Ci",NULL,NULL,NULL,"2004","terencewei"
-"196","The S","Honda","S2000",NULL,NULL,NULL,"2002","John_Schmitmeyer"
-"197","6th Gen Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JMArnal_6th Gen Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/JMArnal_6th Gen Si_thumb","2010","JMArnal"
-"198","the z","bmw","z3",NULL,NULL,NULL,"2001","berfbong"
-"199","BLW BY U","Pontiac","Trans Am GT",NULL,NULL,NULL,"1994","pasleb"
-"200","928","Porsche","928",NULL,NULL,NULL,"1984","pasleb"
-"201","99","Mazda","Miata Sport",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SteveJanssen_99_avatar","/home/justinsgray/webapps/paddock/data/avatars/SteveJanssen_99_thumb","1999","SteveJanssen"
-"202","03","Mazda","Miata",NULL,NULL,NULL,"2003","SteveJanssen"
-"203","Money Pit","Pontiac","Trans Am",NULL,"/home/justinsgray/webapps/paddock/data/avatars/timberman00_Money Pit_avatar","/home/justinsgray/webapps/paddock/data/avatars/timberman00_Money Pit_thumb","2000","timberman00"
-"605","Dax","Corvette","FRC C5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dax198_Dax_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dax198_Dax_thumb","2000","Dax198"
-"206","Evo","Mitsubishi","Evo IX",NULL,NULL,NULL,"2006","boost247"
-"207","PKT RKT","MINI","COOPER S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Andres_PKT RKT_avatar","/home/justinsgray/webapps/paddock/data/avatars/Andres_PKT RKT_thumb","2003","Andres"
-"208","Yellow Peril","Porsche","GT3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Andres_Yellow Peril_avatar","/home/justinsgray/webapps/paddock/data/avatars/Andres_Yellow Peril_thumb","2007","Andres"
-"209","3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/murcielego_3_avatar","/home/justinsgray/webapps/paddock/data/avatars/murcielego_3_thumb","2008","murcielego"
-"211","Strider","Subaru","WRX STI",NULL,NULL,NULL,"2010","kman"
-"212","Honda","Honda","S2000",NULL,NULL,NULL,"2002","klwiseman"
-"213","Formula v8","Pontiac","Firebird",NULL,NULL,NULL,"1994","formula12"
-"214","Bandit 2","ford","escort",NULL,NULL,NULL,"1995","trezdad"
-"215","Vito","Mitsubishi","Eclipse",NULL,NULL,NULL,"2000","GB_engineering"
-"216","RX7","MAZDA","RX7",NULL,NULL,NULL,"1994","PropaneJohn"
-"551","one","bmw","135i",NULL,NULL,NULL,"2011","vapostol"
-"219","A4","Audi","A4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/zeusbap_A4_avatar","/home/justinsgray/webapps/paddock/data/avatars/zeusbap_A4_thumb","2001","zeusbap"
-"220","Snape","MINI COOPER","S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/WannaMini__Snape_avatar","/home/justinsgray/webapps/paddock/data/avatars/WannaMini__Snape_thumb","2010","WannaMini_"
-"221","Mazda","Mazda","Miata MX-5",NULL,NULL,NULL,"1991","milkmandan"
-"222","Subaru","Subaru","Impreza WRX",NULL,NULL,NULL,"2005","milkmandan"
-"224","miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Lindadepietro_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Lindadepietro_miata_thumb","1997","Lindadepietro"
-"225","Coop","Mazda","Miata",NULL,NULL,NULL,"1995","mdcooper"
-"226","Coop","Mazda","Miata",NULL,NULL,NULL,"2001","mdcooper"
-"227","SpecV","Nissan","SpecV",NULL,NULL,NULL,"2002","grumblj"
-"228","The Bubble","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Cmorris52_The Bubble_avatar","/home/justinsgray/webapps/paddock/data/avatars/Cmorris52_The Bubble_thumb","2007","Cmorris52"
-"229","Devin Z28","Chevrolet","Camaro Z28",NULL,"/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devo_avatar","/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devo_thumb","1998","DevoLS6"
-"230","Devin GTS","Mitsubishi","Lancer GTS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devin GTS_avatar","/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devin GTS_thumb","2008","DevoLS6"
-"232","evo","Mitsubishi","Evo 8",NULL,NULL,NULL,"2004","samstrano"
-"233","mia","mazda","miata",NULL,NULL,NULL,"1990","brittkay"
-"234","suby","subaru","wrx sti",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/Travco_suby_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/Travco_suby_thumb","2004","Travco"
-"235","hblybmr","BMW","325I",NULL,NULL,NULL,"1987","hblybmr"
-"236","meinz3","BMW","Z3  3.0I",NULL,NULL,NULL,"2001","hblybmr"
-"237","John's S2k","Honda","s2000",NULL,NULL,NULL,"2002","Brian_Hoaglin"
-"238","Vibe","Pontiac","Vibe",NULL,"/home/justinsgray/webapps/paddock/data/avatars/lazorbeam_36 HS_avatar","/home/justinsgray/webapps/paddock/data/avatars/lazorbeam_36 HS_thumb","2008","lazorbeam"
-"239","crass autocross1","honda","crx",NULL,NULL,NULL,"1989","crassfab"
-"240","Liz","mazda","miata",NULL,NULL,NULL,"1990","elunder"
-"242","subi","Subaru","STi Limited",NULL,NULL,NULL,"2007","LucasEBacon"
-"243","GT2","Mini Cooper","S",NULL,NULL,NULL,"2007","BretC"
-"244","VTAK NOM NOM NOM","Honda","Civic Si",NULL,NULL,NULL,"1993","kogorman51"
-"245","The Chubber","Honda","Civic CRV-Tec",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Marioracer_The Chubber_avatar","/home/justinsgray/webapps/paddock/data/avatars/Marioracer_The Chubber_thumb","1994","Marioracer"
-"290","M3","BMW","M3",NULL,NULL,NULL,"1995","jaredutz"
-"247","Retired2","Chevy","Camaro",NULL,NULL,NULL,"2001","lfranz"
-"248","SB STI","Suabru","STI",NULL,NULL,NULL,"2007","TopGear"
-"249","MostOverdevelopedBeater","Subaru","Impreza",NULL,NULL,NULL,"1996","Storm"
-"250","For Sale!","Porsche","911",NULL,NULL,NULL,"2000","RDTorley"
-"251","For Sale!","Porsche","911",NULL,NULL,NULL,"2000","RDTorley"
-"252","For Sale!","Porsche","911",NULL,NULL,NULL,"2000","RDTorley"
-"253","Buy my car!","Porsche","996",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RDTorley_Buy my car!_avatar","/home/justinsgray/webapps/paddock/data/avatars/RDTorley_Buy my car!_thumb","2000","RDTorley"
-"254","S2K","Honda","S2000",NULL,NULL,NULL,"2003","jterasaki"
-"514","DFH","Driver","For Hire",NULL,NULL,NULL,"0","davelamnet"
-"515","Andrew's MX-5","Mazda","MX-5",NULL,NULL,NULL,"2006","davelamnet"
-"516","S2000","Honda","S2000",NULL,NULL,NULL,"2008","frankevan"
-"517","Christina","chevy","camaro",NULL,NULL,NULL,"1991","skul"
-"256","Covertible","Ford","Mustang GT",NULL,NULL,NULL,"1994","68rustang"
-"257","Rustang","Ford","Mustang",NULL,NULL,NULL,"1968","68rustang"
-"258","G8","Pontiac","G8 GT",NULL,NULL,NULL,"2008","68rustang"
-"259","ol' faithful","University of Akron","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_ol' faithful_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_ol' faithful_thumb","2010","powderballz"
-"260","HOSracing","Volkswagen","Rabbit GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/HOSracing_HOSracing_avatar","/home/justinsgray/webapps/paddock/data/avatars/HOSracing_HOSracing_thumb","1983","HOSracing"
-"261","philthy","mitsubishi","evolution",NULL,NULL,NULL,"2003","Vision"
-"262","rx7","mazda","rx-7",NULL,NULL,NULL,"1994","Fordguy545"
-"263","123","scion","tc",NULL,NULL,NULL,"2006","mikey"
-"264","Giffs Mazda","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GIFMZDA_Giffs Mazda_avatar","/home/justinsgray/webapps/paddock/data/avatars/GIFMZDA_Giffs Mazda_thumb","1996","GIFMZDA"
-"265","WRX","Subaru","Impreza WRX",NULL,NULL,NULL,"2002","nadnordzok"
-"266","ol'faithful","University of Akron","F-SAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Shane_ol'faithful_avatar","/home/justinsgray/webapps/paddock/data/avatars/Shane_ol'faithful_thumb","2010","Shane"
-"267","white lightning","Subaru ","sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MXracer52_white lightning_avatar","/home/justinsgray/webapps/paddock/data/avatars/MXracer52_white lightning_thumb","2005","MXracer52"
-"268","ptfextreme","subaru","wrx sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ptfextreme_ptfextreme_avatar","/home/justinsgray/webapps/paddock/data/avatars/ptfextreme_ptfextreme_thumb","2006","ptfextreme"
-"355","Blackie","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Blackie_avatar","/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Blackie_thumb","1993","TRT1954"
-"270","G8 GT","Pontiac","G8 GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mosowski_G8 GT_avatar","/home/justinsgray/webapps/paddock/data/avatars/mosowski_G8 GT_thumb","2008","mosowski"
-"271","sexmachine","bmw","335i",NULL,NULL,NULL,"2007","fastaction"
-"272","slomiata","Mazda","Miata",NULL,NULL,NULL,"1993","bpoling51"
-"273","B14CK","Pontiac","Vibe",NULL,NULL,NULL,"2004","B14CK_H4WK"
-"274","Borrowed","Subaru","WRX STi",NULL,NULL,NULL,"2005","PDLTURBO"
-"275","Britney","Subaru","WRX",NULL,NULL,NULL,"2004","PDLTURBO"
-"276","Summer Solstice","Pontiac","Solstice GXP",NULL,NULL,NULL,"2008","patred"
-"277","ZEEOSIX","CHEVROLET","CORVETTE ZO6",NULL,"/home/justinsgray/webapps/paddock/data/avatars/daveL_ZEEOSIX_avatar","/home/justinsgray/webapps/paddock/data/avatars/daveL_ZEEOSIX_thumb","2008","daveL"
-"278","persian","Triumph","TR8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rawtr8_persian_avatar","/home/justinsgray/webapps/paddock/data/avatars/rawtr8_persian_thumb","1980","rawtr8"
-"279","Mazda3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/WorldRally17_Mazda3_avatar","/home/justinsgray/webapps/paddock/data/avatars/WorldRally17_Mazda3_thumb","2006","WorldRally17"
-"280","zippy","Mazda","RX-7",NULL,NULL,NULL,"1979","Marc"
-"281","Formula SAE","Formula SAE",,NULL,"/home/justinsgray/webapps/paddock/data/avatars/rotarysprocket_Formula SAE_avatar","/home/justinsgray/webapps/paddock/data/avatars/rotarysprocket_Formula SAE_thumb","2010","rotarysprocket"
-"282","2010 Formula SAE","Formula SAE",,NULL,"/home/justinsgray/webapps/paddock/data/avatars/timweyer_2010 Formula SAE_avatar","/home/justinsgray/webapps/paddock/data/avatars/timweyer_2010 Formula SAE_thumb","2010","timweyer"
-"283","RED3","Mazda ","3",NULL,NULL,NULL,"2007","97HS"
-"284","POS","UA FSAE",,NULL,"/home/justinsgray/webapps/paddock/data/avatars/mlimbacher_POS_avatar","/home/justinsgray/webapps/paddock/data/avatars/mlimbacher_POS_thumb","2010","mlimbacher"
-"285","MODB","Subaru","Brighton",NULL,NULL,NULL,"1996","nrgjoel"
-"286","Rusty","Mazda","S&$TBOX",NULL,NULL,NULL,"1999","nrgjoel"
-"438","notorque","mazda","rx7 convertible",NULL,NULL,NULL,"1991","daveL"
-"555","'08EvoGSR","Mitsubishi","Lancer Evolution GSR",NULL,NULL,NULL,"2008","zdeast"
-"289","Bill","Ford","Mustang ",NULL,NULL,NULL,"2001","billgoodwin"
-"291","Golf","Volkswagen","Golf",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gmaloy_Golf_avatar","/home/justinsgray/webapps/paddock/data/avatars/gmaloy_Golf_thumb","1995","gmaloy"
-"292","BMW","BMW","330Ci ZHP",NULL,NULL,NULL,"2004","niles"
-"293","red","Mazda","Miata",NULL,NULL,NULL,"1992","marlinbailor"
-"294","white","Toyota","MR2",NULL,NULL,NULL,"1991","marlinbailor"
-"295","#10 Car","Zips Racing","FSAE",NULL,NULL,NULL,"2010","bdimarco50"
-"296","Marylin","Chevrolet","Z06",NULL,NULL,NULL,"2002","Darkhelmet"
-"297","Tempest Touring","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Tempest Touring_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Tempest Touring_thumb","1993","Rexpelagi"
-"298","The Wife's Obsession","Mini","Cooper S",NULL,NULL,NULL,"2010","mbodish"
-"300","STU","Subaru","STi",NULL,NULL,NULL,"2004","Aaron"
-"301","Cobalt","Chevrolet","Cobalt SS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kazinova_Cobalt_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kazinova_Cobalt_thumb","2009","Kazinova"
-"302","Subaru","Subaru","STi",NULL,NULL,NULL,"2004","Simi"
-"303","Miata","Mazda","Miata",NULL,NULL,NULL,"1991","WDodd"
-"304","Lucky","Honda","Civic Si",NULL,NULL,NULL,"1989","Habib88"
-"576","z06","Chevy","Corvette z06",NULL,NULL,NULL,"2004","marka"
-"577","z06","Chevy","Corvette z06",NULL,NULL,NULL,"2004","vanwormerla"
-"583","Evo 9","Mitsubishi","Evo 9 RS",NULL,NULL,NULL,"2006","gausfrank"
-"308","Salsa","Porsche","911 GT3",NULL,NULL,NULL,"2004","tangerine911t"
-"309","Evo 8","Mistubishi","Evo 8",NULL,NULL,NULL,"2004","gausevo8"
-"310","civic","whatever","o'gorman owns",NULL,NULL,NULL,"1993","powderballz"
-"311","The Orange Car","Nissan","350Z",NULL,NULL,NULL,"0","ki_so"
-"312","Black Carbon","Corvette","Z06",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RandyP_Black Carbon_avatar","/home/justinsgray/webapps/paddock/data/avatars/RandyP_Black Carbon_thumb","2008","RandyP"
-"313","Walle","Mitsubishi","Evo 8",NULL,NULL,NULL,"2003","Hillclimbevo"
-"440","philthy","honda","CBR600RR",NULL,"/home/justinsgray/webapps/paddock/data/avatars/philthyphil_philthy_avatar","/home/justinsgray/webapps/paddock/data/avatars/philthyphil_philthy_thumb","2008","philthyphil"
-"315","S10","Chevrolet","S10",NULL,NULL,NULL,"2001","bluezq8"
-"316","RedRacer","Honda","Civic",NULL,NULL,NULL,"1984","garrmark"
-"317","88mphseriousshit","Chevrolet","Corvette Zed",NULL,NULL,NULL,"2020","crystalhelix"
-"318","Mark's Camaro","Chevy","Camaro",NULL,NULL,NULL,"1999","cmkirkham"
-"319","mazda","Mazda","RX-8",NULL,NULL,NULL,"2006","jrwiseman"
-"320","83 car","Formula ","SAE",NULL,NULL,NULL,"2010","RedLimit835"
-"321","Not mine",,"Evo8",NULL,NULL,NULL,"2003","Dan_Foley"
-"322","rex","Subaru","WRX",NULL,NULL,NULL,"2007","stevers"
-"323","lead brick","Ford","F-150",NULL,NULL,NULL,"1978","Fordguy545"
-"422","STi","Subaru","STi",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JimmySTi_STi_avatar","/home/justinsgray/webapps/paddock/data/avatars/JimmySTi_STi_thumb","2011","JimmySTi"
-"423","Slooooooow","Acura","RSXS",NULL,NULL,NULL,"2003","TheFather"
-"424","Claudia","Audi","Coupe Quattro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Claudia_avatar","/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Claudia_thumb","1991","chocalotstarfish"
-"324","Lucky","Honda","Civic",NULL,NULL,NULL,"1989","Ceebee"
-"325","Rx8","Mazda","Rx8",NULL,NULL,NULL,"2006","klwiseman"
-"326","Mazda","Mazda","Rx8",NULL,NULL,NULL,"2006","rjbarrington"
-"327","crass","honda","crx",NULL,NULL,NULL,"1991","Vision"
-"328","MGB44","MG","B",NULL,NULL,NULL,"1971","DMichalak"
-"329","MGB144","MG","B",NULL,NULL,NULL,"1971","TWitherow"
-"330","Tripleshock","Aspen White Subaru","WRX STi",NULL,NULL,NULL,"2005","ralphrdesai"
-"331","Garage queen","Porsche","968",NULL,NULL,NULL,"1994","968crazy"
-"332","Jeff's Mini","Mini","Cooper S",NULL,NULL,NULL,"2003","bobsmith0812"
-"333","Evil Monster","Subaru ","Legacy GT",NULL,NULL,NULL,"2005","what"
-"452","zagnu","mazda","miata",NULL,NULL,NULL,"1990","zagnu"
-"335","Mom's Car","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/pblunder_Mom's Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/pblunder_Mom's Car_thumb","1990","pblunder"
-"486","It's a rental","Honda","s2000",NULL,NULL,NULL,"2002","rookiebiotch"
-"338","ILOVETS","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BuddyL_ILOVETS_avatar","/home/justinsgray/webapps/paddock/data/avatars/BuddyL_ILOVETS_thumb","1994","BuddyL"
-"339","Sean's PAX Machine","Honda","Civic Si",NULL,NULL,NULL,"1993","speedtek"
-"340","My E30","BMW","325is",NULL,"/home/justinsgray/webapps/paddock/data/avatars/speedtek_My E330_avatar","/home/justinsgray/webapps/paddock/data/avatars/speedtek_My E330_thumb","1989","speedtek"
-"342","JetBlack","MINI","COOPER S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/pavarolar_JetBlack_avatar","/home/justinsgray/webapps/paddock/data/avatars/pavarolar_JetBlack_thumb","2005","pavarolar"
-"343","S2000","Honda","S2000 CR",NULL,NULL,NULL,"2008","FastGuy"
-"344","The Race Machine","Toyota","Celica GT-S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jbalser_The Race Machine_avatar","/home/justinsgray/webapps/paddock/data/avatars/jbalser_The Race Machine_thumb","2000","jbalser"
-"345","USS Failboat","Honda","Cibic",NULL,NULL,NULL,"1993","nrgjoel"
-"346","GR8 SCPE","Lotus","Elise",NULL,"/home/justinsgray/webapps/paddock/data/avatars/waydui_GR8 SCPE_avatar","/home/justinsgray/webapps/paddock/data/avatars/waydui_GR8 SCPE_thumb","2005","waydui"
-"347","???","Wright","Flyer I",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_???_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_???_thumb","1903","Rexpelagi"
-"554","Ol' Unreliable","Mazda","Mazdaspeed 6",NULL,NULL,NULL,"2006","daspirate"
-"635","Mazda","Mazda","Miata",NULL,NULL,NULL,"2009","villaroel"
-"350","jay","mazda","miata",NULL,NULL,NULL,"1990","jlunder"
-"351","MacMini","MINI","Cooper S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BetsyMac_MacMini_avatar","/home/justinsgray/webapps/paddock/data/avatars/BetsyMac_MacMini_thumb","2002","BetsyMac"
-"352","blue wrx","Subaru","WRX",NULL,NULL,NULL,"2004","zeb_hall"
-"353","goblin","chevrolet","camaro",NULL,NULL,NULL,"1995","flyingsaturn"
-"354","SPEC c","Subaru","STi",NULL,NULL,NULL,"2010","stockert421"
-"681","Acura","Acura","Integra LS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rodgort42_Acura_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rodgort42_Acura_thumb","1997","Rodgort42"
-"357","supercoupe","Ford","Thunderbird SC",NULL,NULL,NULL,"1989","Fordguy545"
-"358","M3","BMW","M3",NULL,NULL,NULL,"2002","BenHughlett"
-"359","350Z","Nissan","350Z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/aurorabluezoom_350Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/aurorabluezoom_350Z_thumb","2004","aurorabluezoom"
-"360","miata","Mazda","Miata",NULL,NULL,NULL,"2003","czechwd"
-"361","Bri","Subaru","STI",NULL,NULL,NULL,"2010","BrianBlake"
-"362","84 Car","Akron ","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RedLimit835_84 Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/RedLimit835_84 Car_thumb","2010","RedLimit835"
-"363","car","honda","civic",NULL,"/home/justinsgray/webapps/paddock/data/avatars/aaronkeim_car_avatar","/home/justinsgray/webapps/paddock/data/avatars/aaronkeim_car_thumb","1997","aaronkeim"
-"364","YLOZOOM","MAZDA","MIATA",NULL,NULL,NULL,"2002","YLOZOOM"
-"365","VenomClass_1","Honda","Civic SI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/c1run_VenomClass_1_avatar","/home/justinsgray/webapps/paddock/data/avatars/c1run_VenomClass_1_thumb","1999","c1run"
-"366","DTI","pontiac","firebird",NULL,NULL,NULL,"1995","hecklemoser"
-"367","Datsun at heart","Nissan","240SX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BoostLee_Silvia_avatar","/home/justinsgray/webapps/paddock/data/avatars/BoostLee_Silvia_thumb","1997","BoostLee"
-"368","Ow Owdi","Audi ","A4 1.8tqm",NULL,"/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Ow Owdi_avatar","/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Ow Owdi_thumb","1999","chocalotstarfish"
-"369","British Green","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_avatar","/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_thumb","1996","loudecuz"
-"370","British Green","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_avatar","/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_thumb","1996","loudecuz"
-"371","JCW","Mini Cooper","JCW",NULL,NULL,NULL,"2009","Blackbart"
-"372","caliente cooper","Mini Cooper","JCW",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Blackbart_caliente cooper_avatar","/home/justinsgray/webapps/paddock/data/avatars/Blackbart_caliente cooper_thumb","2009","Blackbart"
-"374","Z","Chevrolet","Corvette",NULL,NULL,NULL,"2002","brz06"
-"375","Miata","Mazda","Miata",NULL,NULL,NULL,"1992","Bunniemom"
-"376","silver streak","ford","mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tpaul_silver streak_avatar","/home/justinsgray/webapps/paddock/data/avatars/tpaul_silver streak_thumb","2006","tpaul"
-"383","e46","BMW","330ci",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_e46_avatar","/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_e46_thumb","2001","dbred330ci"
-"380","Ranger","Ford","Ranger",NULL,NULL,NULL,"2000","PropaneJohn"
-"384","My other cars a civic Si","Honda","Civic Si",NULL,NULL,NULL,"2007","tommy68"
-"385","Fiero","Pontiac","Fiero GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/FieroGTP_Fiero_avatar","/home/justinsgray/webapps/paddock/data/avatars/FieroGTP_Fiero_thumb","1985","FieroGTP"
-"386","kermit","honda","civic ex",NULL,NULL,NULL,"1995","nickvangorder"
-"387","Red civic","honda","civic",NULL,NULL,NULL,"1997","zackvangorder"
-"389","celica","toyota","celica",NULL,NULL,NULL,"2000","hilary0110"
-"391","O SO BAD","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/osobadchevy_O SO BAD_avatar","/home/justinsgray/webapps/paddock/data/avatars/osobadchevy_O SO BAD_thumb","1985","osobadchevy"
-"392","O SO BAD2","Pontiac","Trans Am",NULL,NULL,NULL,"1994","osobadchevy"
-"393","Evo","Mitsubishi"," Evo 9",NULL,"/home/justinsgray/webapps/paddock/data/avatars/hilary0110_Evo_avatar","/home/justinsgray/webapps/paddock/data/avatars/hilary0110_Evo_thumb","2006","hilary0110"
-"394","Brian's RX8","Mazda","RX-8",NULL,NULL,NULL,"2005","JMArnal"
-"395","Ric","Mustang","Cobra",NULL,NULL,NULL,"1996","RP_AUTOCROSS"
-"396","BMW","BMW","328i",NULL,NULL,NULL,"1996","funkWerkstuning"
-"399","Miata","Mazda","Miata",NULL,NULL,NULL,"1992","Pfotenhauer"
-"398","Monster","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/LORDEN_Monster_avatar","/home/justinsgray/webapps/paddock/data/avatars/LORDEN_Monster_thumb","1987","LORDEN"
-"400","miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Andrew_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Andrew_miata_thumb","1992","Andrew"
-"401","White Devil","Subaru","Impreza WRX STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/nkelly87_White Devil_avatar","/home/justinsgray/webapps/paddock/data/avatars/nkelly87_White Devil_thumb","2006","nkelly87"
-"402","STi","Subaru","Impreza WRX STi",NULL,NULL,NULL,"2005","BAMF_S14"
-"403","ole reliable","mazda","miata",NULL,NULL,NULL,"1994","miataTED"
-"404","Miata","Mazda","Miata",NULL,NULL,NULL,"1990","jdavis9881"
-"405","grassroots m3","bmw","m3",NULL,NULL,NULL,"1997","fastaction"
-"406","Kiera","Toyota","Mr2",NULL,NULL,NULL,"1987","kubsdnf"
-"407","Rectal Marmalade","bmw","m3",NULL,NULL,NULL,"1998","2apalmer"
-"408","11 GRAND","MAZDA","RX-8",NULL,NULL,NULL,"2004","11GRAND"
-"409","Great White","BMW","325is",NULL,NULL,NULL,"1987","DWC33"
-"476","buzzbomb","BMW ","2002",NULL,"/home/justinsgray/webapps/paddock/data/avatars/oldskoolbmw_buzzbomb_avatar","/home/justinsgray/webapps/paddock/data/avatars/oldskoolbmw_buzzbomb_thumb","1970","oldskoolbmw"
-"411","super306","factory five","MK 2 cobra",NULL,NULL,NULL,"1965","super306"
-"412","alfa 156","Lexus","IS 250 AWD",NULL,NULL,NULL,"2007","alfa156s"
-"413","Miata","Mazda","Miata",NULL,NULL,NULL,"1996","jrmotorsports55"
-"582","Evo 9","Mitsubishi","Evo 9 RS",NULL,NULL,NULL,"2006","kdgaus"
-"584","Cobra","Factory Five","Roadster",NULL,NULL,NULL,"1965","lrosenbeck"
-"415","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/brubaker_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/brubaker_Miata_thumb","1997","brubaker"
-"416","Baby","Ford","Mustang",NULL,NULL,NULL,"1973","brubaker"
-"417","Mistress","Dodge","Ram 2500 MegaCab",NULL,NULL,NULL,"2006","brubaker"
-"418","B*tch","Dodge","Ram 1500",NULL,NULL,NULL,"1997","brubaker"
-"419","M3","BMW","M3",NULL,NULL,NULL,"2005","johnblind"
-"420","Vroom","BMW","M5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/crds_Vroom_avatar","/home/justinsgray/webapps/paddock/data/avatars/crds_Vroom_thumb","2003","crds"
-"421","talon","eagle","talon tsi awd",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rmmiracle_talon_avatar","/home/justinsgray/webapps/paddock/data/avatars/rmmiracle_talon_thumb","1993","rmmiracle"
-"425","Green Machine","Chevy","Camaro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/95streetZ_Green Machine_avatar","/home/justinsgray/webapps/paddock/data/avatars/95streetZ_Green Machine_thumb","1996","95streetZ"
-"426","Speed3","Mazda","Speed3",NULL,NULL,NULL,"2008","WDodd"
-"427","E30","bmw","325i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_E30_avatar","/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_E30_thumb","1989","dbred330ci"
-"428","All Wheel Drive","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ki_so_All Wheel Drive_avatar","/home/justinsgray/webapps/paddock/data/avatars/ki_so_All Wheel Drive_thumb","2011","ki_so"
-"429","mitsu","mitsubishi","3000gt",NULL,NULL,NULL,"1994","jdog2011"
-"430","STI","Subaru","STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Robsti89_STI_avatar","/home/justinsgray/webapps/paddock/data/avatars/Robsti89_STI_thumb","2005","Robsti89"
-"431","GS 123","Chevrolet","Corvette Grand Sport",NULL,"/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_GS 123_avatar","/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_GS 123_thumb","1996","hupcej4x4x454"
-"432","Crx","Honda","CRX Si",NULL,NULL,NULL,"1989","hilary0110"
-"433","understeer-o","Subaru","STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/stevsmif_understeer-o_avatar","/home/justinsgray/webapps/paddock/data/avatars/stevsmif_understeer-o_thumb","2006","stevsmif"
-"434","stang","Ford","Mustang",NULL,NULL,NULL,"2007","akkage"
-"435","9k","honda","s2000",NULL,NULL,NULL,"2000","shifterracer"
-"436","speedy","Mazda","Speed Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rally2003_speedy_avatar","/home/justinsgray/webapps/paddock/data/avatars/rally2003_speedy_thumb","2003","rally2003"
-"437","N3m3sis","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Fierc3_N3m3sis_avatar","/home/justinsgray/webapps/paddock/data/avatars/Fierc3_N3m3sis_thumb","2003","Fierc3"
-"439","Torqueless Wonder","Torqueless","Wonder",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fullboost14_Torqueless Wonder_avatar","/home/justinsgray/webapps/paddock/data/avatars/fullboost14_Torqueless Wonder_thumb","2005","fullboost14"
-"444","Vette","Chevy","Corvette",NULL,NULL,NULL,"2004","Cfinefrock"
-"445","Brian","Ford","Mustang",NULL,NULL,NULL,"1987","BrianT"
-"446","Spec_Vsus","Nissan","Sentra SE-R Spec V",NULL,NULL,NULL,"2011","Spec_Vsus"
-"447","Garage Queen","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Qarage Queen_avatar","/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Qarage Queen_thumb","2004","TRT1954"
-"448","Lancer","Mitsubishi","Lancer",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Goat8it_Lancer_avatar","/home/justinsgray/webapps/paddock/data/avatars/Goat8it_Lancer_thumb","2010","Goat8it"
-"449","Miata","Mazda","Miata",NULL,NULL,NULL,"1990","jglovac"
-"450","S2000","Honda","S2000 CR",NULL,NULL,NULL,"2008","bsetliff2"
-"451","S383","nissan","240sx",NULL,NULL,NULL,"1993","josh"
-"453","MX5","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dw237606_MX5_avatar","/home/justinsgray/webapps/paddock/data/avatars/dw237606_MX5_thumb","2000","dw237606"
-"454","RGG8","Pontiac","G8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/thegreaves_RGG8_avatar","/home/justinsgray/webapps/paddock/data/avatars/thegreaves_RGG8_thumb","2009","thegreaves"
-"455","amsterdamned","Mazda ","rx-8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/blazenblue63_amsterdamned_avatar","/home/justinsgray/webapps/paddock/data/avatars/blazenblue63_amsterdamned_thumb","2007","blazenblue63"
-"674","ROOFLSS","Mazda","Miata MX-5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GazMX5_ROOFLSS_avatar","/home/justinsgray/webapps/paddock/data/avatars/GazMX5_ROOFLSS_thumb","2008","GazMX5"
-"458","bat mobile","subaru","sti",NULL,NULL,NULL,"2006","kyle1853"
-"459","beast","chevy","cobalt ss/sc",NULL,NULL,NULL,"2007","kyle1853"
-"460","animal","chevy","cobalt ss/tc",NULL,NULL,NULL,"2008","kyle1853"
-"461","Fit","Honda","Fit Sport",NULL,NULL,NULL,"2007","suziemartens"
-"463","Vanessa","mazda","miata mx-5",NULL,NULL,NULL,"1996","rook06miata"
-"464","3","Mazda","3",NULL,NULL,NULL,"2010","court"
-"465","charged balt ","chevrolet","cobalt ss/sc",NULL,NULL,NULL,"2006","burkhammert"
-"466","Cayman S","Porsche","Cayman S",NULL,NULL,NULL,"2007","mneidert"
-"467","coon dog","Mazda","Miata",NULL,NULL,NULL,"1994","mbrahler"
-"468","Lil Turd","Pontiac","Fiero",NULL,"/home/justinsgray/webapps/paddock/data/avatars/LilFormula_Lil Turd_avatar","/home/justinsgray/webapps/paddock/data/avatars/LilFormula_Lil Turd_thumb","1988","LilFormula"
-"469","Speed6","Mazda","Mazdaspeed6",NULL,NULL,NULL,"2006","medmeadows"
-"470","Socks","Volkswagen","GLI",NULL,NULL,NULL,"2009","kstrata"
-"471","shelby","ford","mustang",NULL,NULL,NULL,"2007","nighthawk"
-"472","Brians car","Smoking","Dorito",NULL,NULL,NULL,"2006","docgatorx8er"
-"473","Teh Scoobs","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gnobes_Teh Scoobs_avatar","/home/justinsgray/webapps/paddock/data/avatars/gnobes_Teh Scoobs_thumb","2011","gnobes"
-"614","Ghozt","Nizzan","370z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/coop_Ghozt_avatar","/home/justinsgray/webapps/paddock/data/avatars/coop_Ghozt_thumb","2010","coop"
-"475","Alexis","Honda","Civic EX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sasimon19_Alexis_avatar","/home/justinsgray/webapps/paddock/data/avatars/sasimon19_Alexis_thumb","2003","sasimon19"
-"477","screaminyellow","ford","mustang",NULL,NULL,NULL,"2004","screaminyellow"
-"478","Spec","Nissan","Sentra Spec-V",NULL,NULL,NULL,"2003","kman510"
-"479","The Dime","Datsun","510",NULL,NULL,NULL,"1970","kman510"
-"482","Farina","Fiat","Spider 2000",NULL,NULL,NULL,"1982","Bandit3212"
-"485","Puddle of AIDS","Mazda","MX-5",NULL,NULL,NULL,"2006","fullboost14"
-"484","abadsrt","Dodge","Challenger SRT",NULL,NULL,NULL,"2009","jjfoto"
-"488","Subie","Subaru","Impreza wagaon",NULL,NULL,NULL,"1993","SPF14FLY"
-"489","MR. 2","Toyota","MR2",NULL,NULL,NULL,"1988","SPF14FLY"
-"490","GTI","VW","GTI",NULL,NULL,NULL,"2010","Steve_Schmitmeyer"
-"491","Honda","S2000","Honda",NULL,NULL,NULL,"2001","wisemakl"
-"712","Boxster","Porsche","Boxster",NULL,NULL,NULL,"1999","99boxster"
-"493","Civic","Honda","Civic",NULL,NULL,NULL,"2008","groundedrsx"
-"494","beachumz","BMW","325i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Beachumz_Blue_avatar","/home/justinsgray/webapps/paddock/data/avatars/Beachumz_Blue_thumb","2005","Beachumz"
-"499","Tr8","Triumph","Tr8",NULL,NULL,NULL,"1979","JoeToporcer"
-"500","Crossfire","Chrysler","Crossfire",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rarebird13_Crossfire_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rarebird13_Crossfire_thumb","2004","Rarebird13"
-"501","Hasenpfeffer","Volkswagen","Rabbit",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Flyboy1386_Hasenpfeffer_avatar","/home/justinsgray/webapps/paddock/data/avatars/Flyboy1386_Hasenpfeffer_thumb","2007","Flyboy1386"
-"502","NOT a snowflake","Austin Morris","MINI",NULL,NULL,NULL,"1982","Andres"
-"503","STR Miata","Mazda","MX5",NULL,NULL,NULL,"2006","04deamon"
-"505","Saeo","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Saeo_Saeo_avatar","/home/justinsgray/webapps/paddock/data/avatars/Saeo_Saeo_thumb","1999","Saeo"
-"506","Arrrr X7","Mazda","RX-7",NULL,NULL,NULL,"1991","pblunder"
-"507","G35","Infiniti","G35",NULL,NULL,NULL,"2003","bgt678"
-"508","RSX","Acura","RSX Type S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rsx720_RSX_avatar","/home/justinsgray/webapps/paddock/data/avatars/rsx720_RSX_thumb","2005","rsx720"
-"509","Spirit","Ford","Focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Greenenigma1989_Spirit_avatar","/home/justinsgray/webapps/paddock/data/avatars/Greenenigma1989_Spirit_thumb","2010","Greenenigma1989"
-"510","Suki","Subaru","WRX STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jbalser_Suki_avatar","/home/justinsgray/webapps/paddock/data/avatars/jbalser_Suki_thumb","2011","jbalser"
-"511","Slick","Mazda","6 Sport",NULL,NULL,NULL,"2005","chrisfri13"
-"512","Black and Yellow","Honda","Civic",NULL,NULL,NULL,"1992","vtec1992"
-"513","Subaru","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rideac1_Subaru_avatar","/home/justinsgray/webapps/paddock/data/avatars/rideac1_Subaru_thumb","2002","rideac1"
-"518","Yellow Z","Nissan","300zx NA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_thumb","1990","neonreed"
-"519","vette21","chevrolet","corvette z06",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rezzetano21_vette21_avatar","/home/justinsgray/webapps/paddock/data/avatars/rezzetano21_vette21_thumb","2002","rezzetano21"
-"520","SS","Porsche","GT3",NULL,NULL,NULL,"2005","Aaron"
-"521","German","Porsche","GT3",NULL,NULL,NULL,"2005","Simi"
-"522","Night Fury","Mazda","Miata",NULL,NULL,NULL,"1999","sccaracerx"
-"523","rent a ride","rent a ride",,NULL,NULL,NULL,"2009","chocalotstarfish"
-"524","GSX","Mitsubishi","Eclipse",NULL,NULL,NULL,"1991","Luke_Schmitmeyer"
-"525","Stolen Fit","Honda","Fit Sport",NULL,NULL,NULL,"2007","Elly_Schmitmeyer"
-"526","Tony","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/awencil_Tony_avatar","/home/justinsgray/webapps/paddock/data/avatars/awencil_Tony_thumb","2008","awencil"
-"527","Civic","Honda","Civic Si",NULL,NULL,NULL,"2007","richins989"
-"573","Camaro","Chevrolet","Camaro SS",NULL,NULL,NULL,"2011","RobS"
-"574","Legacy","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Ohiowildes_Legacy_avatar","/home/justinsgray/webapps/paddock/data/avatars/Ohiowildes_Legacy_thumb","2009","Ohiowildes"
-"570","Capt Slow","Toyota","Matrix",NULL,NULL,NULL,"2004","Dave"
-"571","CRX Si","Honda","CRX Si",NULL,NULL,NULL,"1991","gmaloy"
-"572","Boxster","Porsche","Boxster S",NULL,NULL,NULL,"2001","rleshleman"
-"569","Brother","Maxda","MX-5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dave_Brother_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dave_Brother_thumb","1996","Dave"
-"566","Goat","Pontiac","GTO",NULL,NULL,NULL,"2004","SableGTO"
-"567","Ram Air","Pontiac","Grand Am",NULL,NULL,NULL,"2001","Vickers"
-"568","Agent Z","Chevrolet","Camaro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kubs_Agent Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kubs_Agent Z_thumb","1994","Kubs"
-"564","Yellow Z","Nissan","300zx NA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_thumb","1990","neonreed"
-"558","Cobalt SS","Chevy","Cobalt SS",NULL,NULL,NULL,"2008","xr1000"
-"559","Bullitt","Ford","Mustang Bullitt",NULL,NULL,NULL,"2001","RJP330"
-"560","Rattrap","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/skiff_rattrap_avatar","/home/justinsgray/webapps/paddock/data/avatars/skiff_rattrap_thumb","1996","skiff"
-"550","VynCar","Honda","S2000",NULL,NULL,NULL,"2001","docgatorx8er"
-"553","GT","Pontiac","Fiero GT",NULL,NULL,NULL,"1988","WorldRally17"
-"549","The Slow One","VW","GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Thethreefitty_The Slow One_avatar","/home/justinsgray/webapps/paddock/data/avatars/Thethreefitty_The Slow One_thumb","2006","Thethreefitty"
-"548","Kaylee","Mitsubishi ","Eclipse GSX",NULL,NULL,NULL,"1990","Millhouse"
-"544","Sol Rider","Pontiac","Solstice GXP",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Arcrider_Sol Rider_avatar","/home/justinsgray/webapps/paddock/data/avatars/Arcrider_Sol Rider_thumb","2008","Arcrider"
-"545","Wing Car","Special","BBR/Phantom DVS-1",NULL,NULL,NULL,"2008","porgue"
-"546","Lotus","Lotus","Europa",NULL,NULL,NULL,"1970","porgue"
-"547","KARL300","Nissan","300ZX NA Convt",NULL,NULL,NULL,"1993","Karl300"
-"575","Legacy","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Acewilde_Legacy_avatar","/home/justinsgray/webapps/paddock/data/avatars/Acewilde_Legacy_thumb","2009","Acewilde"
-"578","DSP","BMW","323is",NULL,"/home/justinsgray/webapps/paddock/data/avatars/econnor_DSP_avatar","/home/justinsgray/webapps/paddock/data/avatars/econnor_DSP_thumb","1998","econnor"
-"579","PAX MASTER","VW","R32",NULL,NULL,NULL,"2004","hreracing"
-"580","Sasha","Chevy","Camaro Z28",NULL,NULL,NULL,"1995","kubsdnf"
-"596","littlered","mazda","mx5",NULL,NULL,NULL,"2006","wlschaefer"
-"597","Black Beast","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sniperm24_Black Beast_avatar","/home/justinsgray/webapps/paddock/data/avatars/sniperm24_Black Beast_thumb","1999","sniperm24"
-"585","Red Rocket","VW","GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gti_speed_Red Rocket_avatar","/home/justinsgray/webapps/paddock/data/avatars/gti_speed_Red Rocket_thumb","2008","gti_speed"
-"586","VipeOut","Dodge Viper","GTS",NULL,NULL,NULL,"1997","JackB"
-"587","mazda3","mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Ilder22_mazda3_avatar","/home/justinsgray/webapps/paddock/data/avatars/Ilder22_mazda3_thumb","2010","Ilder22"
-"588","EVO","Mitsubishi","Evolution",NULL,"/home/justinsgray/webapps/paddock/data/avatars/AutoXBrian_EVO_avatar","/home/justinsgray/webapps/paddock/data/avatars/AutoXBrian_EVO_thumb","2004","AutoXBrian"
-"589","44stx","Nissan","Sentra",NULL,"/home/justinsgray/webapps/paddock/data/avatars/44STX_44stx_avatar","/home/justinsgray/webapps/paddock/data/avatars/44STX_44stx_thumb","2003","44STX"
-"590","Pete's car","Nissan","Sentra SE-R Spec V",NULL,NULL,NULL,"2003","piloti33"
-"591","M3","BMW","M3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SPIN2GST_m3_avatar","/home/justinsgray/webapps/paddock/data/avatars/SPIN2GST_m3_thumb","1996","SPIN2GST"
-"592","BusterToy","Porsche","911",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Joacchim_BusterToy_avatar","/home/justinsgray/webapps/paddock/data/avatars/Joacchim_BusterToy_thumb","1988","Joacchim"
-"593","Yellow car","Pontiac","Solstice",NULL,NULL,NULL,"2007","vippygirl"
-"594","Red / White car","Dodge","Viper",NULL,NULL,NULL,"1997","vippygirl"
-"595","S2K","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TTMartin_S2K_avatar","/home/justinsgray/webapps/paddock/data/avatars/TTMartin_S2K_thumb","2006","TTMartin"
-"598","Sly Dover","Mazda","Miata MX5",NULL,NULL,NULL,"2006","SlyDover"
-"599","KILLER","PONTIAC SOLSTICE","GXP",NULL,NULL,NULL,"2007","FASTEST4"
-"600","Little Red Wagon","Pontiac","Vibe GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/cieglo_Little Red Wagon_avatar","/home/justinsgray/webapps/paddock/data/avatars/cieglo_Little Red Wagon_thumb","2003","cieglo"
-"601","rocket","Mazda","Miata",NULL,NULL,NULL,"1999","ra1708"
-"602","notmyMCS","MINI","CooperS",NULL,NULL,NULL,"2010","jasonsmf"
-"603","goat","pontiac","GTO",NULL,"/home/justinsgray/webapps/paddock/data/avatars/milkman_goat_avatar","/home/justinsgray/webapps/paddock/data/avatars/milkman_goat_thumb","2006","milkman"
-"618","Miatter","Mazda","Miata",NULL,NULL,NULL,"1992","AndelMarie"
-"606","boostedlt1","Chevrolet ","Corvette",NULL,NULL,NULL,"1993","groundsupport"
-"607","Sam","Saturn","Ion",NULL,NULL,NULL,"2003","Crabelsnitch"
-"608","Legacy","Subaru","Legacy GT",NULL,NULL,NULL,"2005","szelagta"
-"609","yellow","Triumph","tr7",NULL,NULL,NULL,"1978","RNeill"
-"610","Mazda 3","Mazda","3 Sport Hatchback",NULL,NULL,NULL,"2011","slazor"
-"611","Silver Bullet","Mazda","3 Sport Hatchback",NULL,NULL,NULL,"2011","h2clean"
-"612","RHOTWHL","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BuddyL_RHOTWHL_avatar","/home/justinsgray/webapps/paddock/data/avatars/BuddyL_RHOTWHL_thumb","1994","BuddyL"
-"613","Diesel","Vw","Golf tdi",NULL,NULL,NULL,"2011","968crazy"
-"615","The Crow","Honda","CR-Z EX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/wmfahrnbach_CompactR-Zero_avatar","/home/justinsgray/webapps/paddock/data/avatars/wmfahrnbach_CompactR-Zero_thumb","2011","wmfahrnbach"
-"616","Porsche","Porsche","C4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/stevermyers_Porsche_avatar","/home/justinsgray/webapps/paddock/data/avatars/stevermyers_Porsche_thumb","2006","stevermyers"
-"619","TR7","Triumph","Tr7",NULL,NULL,NULL,"1978","RussNiell"
-"620","blue sti","subaru","STI",NULL,NULL,NULL,"2011","kpongs"
-"621","Volvo C30 R-Design","Volvo","C30 R-Design",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirtyswife_Volvo C30 R-Design_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirtyswife_Volvo C30 R-Design_thumb","2010","Dirtyswife"
-"622","One Wicked X","Evo X",,NULL,"/home/justinsgray/webapps/paddock/data/avatars/PeteHanna10_WickedX_avatar","/home/justinsgray/webapps/paddock/data/avatars/PeteHanna10_WickedX_thumb","2010","PeteHanna10"
-"624","RX8","Mazda","RX-8",NULL,NULL,NULL,"2005","SOGorman35"
-"625","MX-5","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/komalia_MX-5_avatar","/home/justinsgray/webapps/paddock/data/avatars/komalia_MX-5_thumb","2007","komalia"
-"626","Robert's Civic","Honda","Civic",NULL,NULL,NULL,"1989","BryanR1977"
-"627","Transam ","Pontiac ","Transam WS6",NULL,NULL,NULL,"1999","JeremyP"
-"628","ST Civic","Honda","Civic SI",NULL,NULL,NULL,"1989","drkunze"
-"629","R/T","Dodge","Neon",NULL,NULL,NULL,"1999","Shifter"
-"630","Awesome","University of Akron","F-SAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_Awesome_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_Awesome_thumb","2011","powderballz"
-"631","The Business","Honda","Civic",NULL,NULL,NULL,"1989","ToddKunze"
-"632","awesome","University of Akron","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/musial_awesome_avatar","/home/justinsgray/webapps/paddock/data/avatars/musial_awesome_thumb","2011","musial"
-"633","BC510","Datsun","510",NULL,NULL,NULL,"1969","SRPOWRD"
-"634","SRPOWRD","Nissan","Sentra",NULL,NULL,NULL,"1991","SRPOWRD"
-"636","Blue ","Mazda","Miata",NULL,NULL,NULL,"1995","maxcaprez"
-"639","TDI","Volkswagen","Jetta TDI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jmk222_TDI_avatar","/home/justinsgray/webapps/paddock/data/avatars/jmk222_TDI_thumb","1998","jmk222"
-"640","Dat","Datsun","280Zed",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Music_Dat_avatar","/home/justinsgray/webapps/paddock/data/avatars/Music_Dat_thumb","1978","Music"
-"641","Dark horse","Ford","Mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mustang93_Dark horse_avatar","/home/justinsgray/webapps/paddock/data/avatars/mustang93_Dark horse_thumb","1993","mustang93"
-"667","boosted","toyota","supra",NULL,NULL,NULL,"1987","95mustang"
-"668","Scott Pierce","Mazda","Speed6",NULL,NULL,NULL,"2006","SPierce"
-"669","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/davidlc_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/davidlc_Miata_thumb","2001","davidlc"
-"643","LS","Lincoln","LS",NULL,NULL,NULL,"2000","Lincoln_LS"
-"644","wilie","dodge","neon",NULL,NULL,NULL,"1998","crazedbird1980"
-"645","James","BMW","Z3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/chaquita73_James_avatar","/home/justinsgray/webapps/paddock/data/avatars/chaquita73_James_thumb","2000","chaquita73"
-"646","hackmobile #2","Mitsubishi","Autopilot",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fullboost14_hackmobile #2_avatar","/home/justinsgray/webapps/paddock/data/avatars/fullboost14_hackmobile #2_thumb","2006","fullboost14"
-"647","00Z","Chevrolet","Camaro Z28",NULL,NULL,NULL,"2000","92rs00z28"
-"649","Whiplash","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Whiplash_avatar","/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Whiplash_thumb","1992","murphdog80"
-"650","The3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/eschnei3_The3_avatar","/home/justinsgray/webapps/paddock/data/avatars/eschnei3_The3_thumb","2010","eschnei3"
-"651","03 Cobra","Mustang","SVT Cobra",NULL,"/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_03 Cobra_avatar","/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_03 Cobra_thumb","2003","CraigEnglish"
-"652","bluestreak","pontiac","gtp daytona ",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jbuckygtp_bluestreak_avatar","/home/justinsgray/webapps/paddock/data/avatars/jbuckygtp_bluestreak_thumb","1998","jbuckygtp"
-"653","Purple People Eater","Dodge","Challenger R/T",NULL,"/home/justinsgray/webapps/paddock/data/avatars/eheron_Purple People Eater_avatar","/home/justinsgray/webapps/paddock/data/avatars/eheron_Purple People Eater_thumb","2010","eheron"
-"654","TTZ","Nissan","300Z",NULL,NULL,NULL,"1995","karl44"
-"655","2000 M5","BMW","M5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_2000 M5_avatar","/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_2000 M5_thumb","2000","CraigEnglish"
-"656","Blue Balls","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Domj2006_Blue Balls_avatar","/home/justinsgray/webapps/paddock/data/avatars/Domj2006_Blue Balls_thumb","2002","Domj2006"
-"658","Rex","Honda","CRX SI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/soloracer_Rex_avatar","/home/justinsgray/webapps/paddock/data/avatars/soloracer_Rex_thumb","1988","soloracer"
-"660","mr grip","subaru","wrxsti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mrgrip_mr grip_avatar","/home/justinsgray/webapps/paddock/data/avatars/mrgrip_mr grip_thumb","2004","mrgrip"
-"661","Slowbalt","Chevrolet","Cobalt SS",NULL,NULL,NULL,"2005","Backdrift"
-"662","BLUEBOX","Volvo","240",NULL,NULL,NULL,"1992","eheron"
-"663","REX","HONDA","CRX SI",NULL,NULL,NULL,"1988","MAGOT"
-"664","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Millhouse_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Millhouse_Miata_thumb","1994","Millhouse"
-"665","Evo","Mitusbishi","Evo X",NULL,"/home/justinsgray/webapps/paddock/data/avatars/WickedX_Evo_avatar","/home/justinsgray/webapps/paddock/data/avatars/WickedX_Evo_thumb","2010","WickedX"
-"666","5-0","Mitsubishi","Ralliart",NULL,NULL,NULL,"2009","mfp5011"
-"672",".","Nissan","350Z",NULL,NULL,NULL,"2008","ro9111"
-"673","MD-2","Homemade","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MarkyMark_MD-2_avatar","/home/justinsgray/webapps/paddock/data/avatars/MarkyMark_MD-2_thumb","2012","MarkyMark"
-"699","The Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The Miata_thumb","2003","gc8_nate"
-"676","STi","Subaru","Sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/senna1a_STi_avatar","/home/justinsgray/webapps/paddock/data/avatars/senna1a_STi_thumb","2011","senna1a"
-"677","LS1 BMW","BMW","M3",NULL,NULL,NULL,"1996","SloRice"
-"678","Coupe","Hyundai","Genesis coupe 2.0T",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Jaws0813_Coupe_avatar","/home/justinsgray/webapps/paddock/data/avatars/Jaws0813_Coupe_thumb","2010","Jaws0813"
-"679","Subaru STI","Subaru","WRX STI",NULL,NULL,NULL,"2004","Dirtyswife"
-"680","slick diddly","mazda","rx7",NULL,NULL,NULL,"1988","slickdiddly"
-"682","1994 Mustang GT","Ford","Mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kds94_1994 Mustang GT_avatar","/home/justinsgray/webapps/paddock/data/avatars/kds94_1994 Mustang GT_thumb","1994","kds94"
-"683","Old Black","Honda","Civic",NULL,NULL,NULL,"2010","bdimarco50"
-"684","Fat Man","Acura","TSX",NULL,NULL,NULL,"2010","ljenkins12"
-"685","TC","Toyota","Corolla",NULL,NULL,NULL,"2009","kevinhughes74"
-"686","Lightening","Honda","Civic",NULL,NULL,NULL,"1989","sportmom"
-"687","Miata","Mazda","Mazdaspeed Miata",NULL,NULL,NULL,"2005","63razor"
-"688","No Lotus","WCM Ultralite","S2K",NULL,NULL,NULL,"2006","63razor"
-"689","Hanz Ze Wunder Kar","bmw","325is",NULL,NULL,NULL,"1994","Jwhite325"
-"690","silver bullet","BMW","M3",NULL,NULL,NULL,"2004","m3noob"
-"691","silver surfer","Saab","9-3",NULL,NULL,NULL,"2007","m3noob"
-"692","Miss Roushford","Ford","Mustang RS3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/lgrafton88_Mr. Roushford_avatar","/home/justinsgray/webapps/paddock/data/avatars/lgrafton88_Mr. Roushford_thumb","2012","lgrafton88"
-"693","Das Fuhrer","Audi","90 CS Quattro",NULL,NULL,NULL,"1994","lgrafton88"
-"694","James Rajiah","Ford","SVT Focus",NULL,NULL,NULL,"2002","JamesRajiah"
-"696","bazinga","Subaru","Impreza",NULL,NULL,NULL,"2002","nyaonetwo"
-"697","mustang","Ford","Mustang GT",NULL,NULL,NULL,"2008","sed5014"
-"700","128i","BMW","128i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_128i_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_128i_thumb","2009","Rexpelagi"
-"703","WRX","Subaru","Impreza WRX",NULL,NULL,NULL,"2002","jcarbaugh"
-"704","Mojo","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bakerjd_Mojo_avatar","/home/justinsgray/webapps/paddock/data/avatars/bakerjd_Mojo_thumb","2006","bakerjd"
-"708","Honda s2000","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/buzzsaw_Honda s2000_avatar","/home/justinsgray/webapps/paddock/data/avatars/buzzsaw_Honda s2000_thumb","2004","buzzsaw"
-"709","civic hatch","honda","civic hatch",NULL,NULL,NULL,"2000","2khb"
-"710","Cap'n Rowdy","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/summernightdrive_Cap'n Rowdy_avatar","/home/justinsgray/webapps/paddock/data/avatars/summernightdrive_Cap'n Rowdy_thumb","1990","summernightdrive"
-"711","Z4M Coupe","BMW","Z4M Coupe",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Monkey_Z4M Coupe_avatar","/home/justinsgray/webapps/paddock/data/avatars/Monkey_Z4M Coupe_thumb","2007","Monkey"
-"713","Machiko","Nissan","350z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kman_Machiko_avatar","/home/justinsgray/webapps/paddock/data/avatars/kman_Machiko_thumb","2008","kman"
-"714","Wolfie","Volkswagen","Jetta",NULL,NULL,NULL,"2010","emayer12"
-"715","Liesel","Mitsubishi","Lancer",NULL,NULL,NULL,"2008","jeffatluk"
-"716","Dad's Car","Infinity","G37-S",NULL,NULL,NULL,"2008","TDCaldwell"
-"717","Maxima","Nissan","Maxima",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Bavikati_Maxima_avatar","/home/justinsgray/webapps/paddock/data/avatars/Bavikati_Maxima_thumb","2006","Bavikati"
-"718","blue car","bmw","m3",NULL,NULL,NULL,"2003","billybilly"
-"719","Trans Am","Pontiac","Trans Am",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JamesRajiah_Trans Am_avatar","/home/justinsgray/webapps/paddock/data/avatars/JamesRajiah_Trans Am_thumb","1995","JamesRajiah"
-"720","Shooting Brake (work in progre","Volvo","C30R",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mradamdavis_Shooting Brake (work in progress)_avatar","/home/justinsgray/webapps/paddock/data/avatars/mradamdavis_Shooting Brake (work in progress)_thumb","2012","mradamdavis"
-"721","Dirty 3k","mitsubishi","3000gt",NULL,"/home/justinsgray/webapps/paddock/data/avatars/1DurdyVR4_Dirty 3k_avatar","/home/justinsgray/webapps/paddock/data/avatars/1DurdyVR4_Dirty 3k_thumb","1991","1DurdyVR4"
-"722","larry","BMW","325ix",NULL,NULL,NULL,"1991","clevelandaudio"
-"733","G","Infiniti","G35",NULL,"/home/justinsgray/webapps/paddock/data/avatars/imaxorz_G_avatar","/home/justinsgray/webapps/paddock/data/avatars/imaxorz_G_thumb","2006","imaxorz"
-"725","Trans amer","pontiac ","trans am",NULL,NULL,NULL,"2000","Skeeter302"
-"726","Race Car","MD","MD-2",NULL,NULL,NULL,"2011","Skeeter302"
-"729","GTR","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/wahlstang_GTR_avatar","/home/justinsgray/webapps/paddock/data/avatars/wahlstang_GTR_thumb","2011","wahlstang"
-"730","blackangel","ford","focus",NULL,NULL,NULL,"2010","blackangel11"
-"731","cop","infiniti","g37",NULL,NULL,NULL,"2008","Alsaleh"
-"732","2005 Sti","Subaru","Sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/burken_2005 Sti_avatar","/home/justinsgray/webapps/paddock/data/avatars/burken_2005 Sti_thumb","2005","burken"
-"734","STO1EN","BMW","525i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/LazyboyChair_STO1EN_avatar","/home/justinsgray/webapps/paddock/data/avatars/LazyboyChair_STO1EN_thumb","1995","LazyboyChair"
-"735","2 tons of fun","Dodge","Charger",NULL,"/home/justinsgray/webapps/paddock/data/avatars/66Autoxcharger_2 tons of fun_avatar","/home/justinsgray/webapps/paddock/data/avatars/66Autoxcharger_2 tons of fun_thumb","1966","66Autoxcharger"
-"736","Gold Dust","Dodge","GLH",NULL,NULL,NULL,"1985","66Autoxcharger"
-"737","Little Red","Dodge","GLHT",NULL,NULL,NULL,"1985","66Autoxcharger"
-"738",".","Mazda","Miata",NULL,NULL,NULL,"1990","MattC"
-"739","Magnum","Dodge","Magnum",NULL,NULL,NULL,"2005","jljbtm"
-"740","Grey Ghost","Audi","A4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mach_v_Grey Ghost_avatar","/home/justinsgray/webapps/paddock/data/avatars/mach_v_Grey Ghost_thumb","2002","mach_v"
-"741","car","Mitsubishi","Lancer RA",NULL,NULL,NULL,"2010","alexw3000gt"
-"742","[SRC]SECRETrallyCAR","Subaru","Impreza Outback Spor",NULL,"/home/justinsgray/webapps/paddock/data/avatars/downtmp_[SRC]SECRETrallyCAR_avatar","/home/justinsgray/webapps/paddock/data/avatars/downtmp_[SRC]SECRETrallyCAR_thumb","1999","downtmp"
-"745","Bat Wagon","Mazda","Protege5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Lewis7789_Bat Wagon_avatar","/home/justinsgray/webapps/paddock/data/avatars/Lewis7789_Bat Wagon_thumb","2003","Lewis7789"
-"746","Shamu","Mazda","Mazdaspeed3",NULL,NULL,NULL,"2008","fishdonotbounce"
+"id","nickname","make","model","color","avatar_file_loc","avatar_thumb_loc","year","owner_user_name",
+"1","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/justingray_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/justingray_miata_thumb","1990","justingray",
+"2","Subaru","Subaru","Impreza 2.5RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Subaru_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Subaru_thumb","2000","Dan00RS",
+"3","Slow","Horse","and Buggy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Slow_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dan00RS_Slow_thumb","1900","Dan00RS",
+"8","WTB: Steering Feel","Mazda","RX-7",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_WTB: Steering Feel_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_WTB: Steering Feel_thumb","1989","Rexpelagi",
+"5","Silence ","Scion","tC",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Silence _avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Silence _thumb","2005","Rexpelagi",
+"6","Elroy","Honda","Insight",NULL,"/home/justinsgray/webapps/paddock/data/avatars/justingray_Elroy_avatar","/home/justinsgray/webapps/paddock/data/avatars/justingray_Elroy_thumb","2000","justingray",
+"7","Z06","Chevy","Corvette Z06",NULL,NULL,NULL,"2002","sslvette38",
+"9","ABlue3","Slow","Mobile",NULL,"/home/justinsgray/webapps/paddock/data/avatars/major_error_ABlue3_avatar","/home/justinsgray/webapps/paddock/data/avatars/major_error_ABlue3_thumb","2007","major_error",
+"10","Silvia","Nissan","240sx",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ki_so_Silvia_avatar","/home/justinsgray/webapps/paddock/data/avatars/ki_so_Silvia_thumb","1989","ki_so",
+"11","Shrieking 3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RcktM3S_Silent but slow_avatar","/home/justinsgray/webapps/paddock/data/avatars/RcktM3S_Silent but slow_thumb","2004","RcktM3S",
+"12",""S"","Mini","Cooper S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Mini72_"S"_avatar","/home/justinsgray/webapps/paddock/data/avatars/Mini72_"S"_thumb","2003","Mini72",
+"13","TR 6","Triumph","TR 6",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Mini72_TR 6_avatar","/home/justinsgray/webapps/paddock/data/avatars/Mini72_TR 6_thumb","1972","Mini72",
+"670","BMW","BMW","330i",NULL,NULL,NULL,"2003","davidlc",
+"671","Miata","Mazdaspeed","MX-5",NULL,NULL,NULL,"2004","KBUDHU",
+"15","Protege","Mazda","Protege MP3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SOGorman35_Protege_avatar","/home/justinsgray/webapps/paddock/data/avatars/SOGorman35_Protege_thumb","2001","SOGorman35",
+"16","TractionLimited","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TCARR_TractionLimited_avatar","/home/justinsgray/webapps/paddock/data/avatars/TCARR_TractionLimited_thumb","1996","TCARR",
+"17","TractionLimited","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Bilge_TractionLimited_avatar","/home/justinsgray/webapps/paddock/data/avatars/Bilge_TractionLimited_thumb","1996","Bilge",
+"19","Storm-O-Matic","Subaru","Impreza L",NULL,"/home/justinsgray/webapps/paddock/data/avatars/96FSP_FSP Monster_avatar","/home/justinsgray/webapps/paddock/data/avatars/96FSP_FSP Monster_thumb","1996","96FSP",
+"20","Dad's Zoom Zoom","Mazda","Miata Special Editio",NULL,"/home/justinsgray/webapps/paddock/data/avatars/96FSP_Dad's Zoom Zoom_avatar","/home/justinsgray/webapps/paddock/data/avatars/96FSP_Dad's Zoom Zoom_thumb","2001","96FSP",
+"21","ZOMG MOTONS","Mitsubishi","Evo 9",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fullboost14_ZOMG MOTONS_avatar","/home/justinsgray/webapps/paddock/data/avatars/fullboost14_ZOMG MOTONS_thumb","2006","fullboost14",
+"800","barz","Subaru","BRZ",NULL,NULL,NULL,"2013","shaun",
+"801","Silver B","Mazda","Miata",NULL,NULL,NULL,"2004","matthewjrafferty",
+"802","Hilaryous","Horse","Cart",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bdepietro_Hilaryous_avatar","/home/justinsgray/webapps/paddock/data/avatars/bdepietro_Hilaryous_thumb","1990","bdepietro",
+"23","Audi A4","Audi","A4 Quattro 2.8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dshipley_Audi A4_avatar","/home/justinsgray/webapps/paddock/data/avatars/dshipley_Audi A4_thumb","1998","dshipley",
+"528","Not Lolzlin's Car","Mazda","Miata",NULL,NULL,NULL,"1992","fullboost14",
+"529","VTEC","Honda","Civic Si",NULL,NULL,NULL,"2008","davelamnet",
+"25","angrybitch","Chevy","Corvette",NULL,NULL,NULL,"2002","angryvette",
+"26","Miata","Mazda","MX-5 Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kymbersport_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/kymbersport_Miata_thumb","1994","kymbersport",
+"27","2.5RSlow","Subaru","Impreza 2.5RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sifuspec_2.5RSlow_avatar","/home/justinsgray/webapps/paddock/data/avatars/sifuspec_2.5RSlow_thumb","2005","davelamnet",
+"28","99 SSM","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TeddR_99 SSM_avatar","/home/justinsgray/webapps/paddock/data/avatars/TeddR_99 SSM_thumb","1999","TeddR",
+"30","trav","Ford","Mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/travissmithoh_trav_avatar","/home/justinsgray/webapps/paddock/data/avatars/travissmithoh_trav_thumb","2005","travissmithoh",
+"31","slovett","Chevrolet","Corvette",NULL,NULL,NULL,"1989","bpoling51",
+"32","sloclca","Toyota","Celica GT-S",NULL,NULL,NULL,"2001","bpoling51",
+"33","slowrex","Subaru","Impreza WRX",NULL,NULL,NULL,"2002","bpoling51",
+"34","red miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_red miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_red miata_thumb","1997","MLDEPIETRO",
+"35","silver miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_silver miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_silver miata_thumb","1999","MLDEPIETRO",
+"36","yellow crx","Honda","CRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_yellow crx_avatar","/home/justinsgray/webapps/paddock/data/avatars/MLDEPIETRO_yellow crx_thumb","1988","MLDEPIETRO",
+"37","03SE","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/EaglSct_03SE_avatar","/home/justinsgray/webapps/paddock/data/avatars/EaglSct_03SE_thumb","2003","EaglSct",
+"38","Speed","Mazda","Speed3",NULL,NULL,NULL,"2009","EaglSct",
+"39","Z","Nissan","350z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JP350Z_Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/JP350Z_Z_thumb","2004","JP350Z",
+"40","MCS","MINI","Cooper S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_MCS_avatar","/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_MCS_thumb","2006","jasonsmf",
+"41","Sparky","Tesla","Roadster",NULL,"/home/justinsgray/webapps/paddock/data/avatars/smjones_JustinIsAnAssGoblin_avatar","/home/justinsgray/webapps/paddock/data/avatars/smjones_JustinIsAnAssGoblin_thumb","2008","smjones",
+"42","Stingray","Chevy ","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/thorne1976_Stingray_avatar","/home/justinsgray/webapps/paddock/data/avatars/thorne1976_Stingray_thumb","1976","thorne1976",
+"43","Z","Nissan","350Z GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/msp857_Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/msp857_Z_thumb","2007","msp857",
+"44","Vette","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/racesports_Vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/racesports_Vette_thumb","1994","racesports",
+"45","Vette","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bodatude_Vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/bodatude_Vette_thumb","1994","bodatude",
+"46","Spicy","Mazda","Speed Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/6waggin_Spicy_avatar","/home/justinsgray/webapps/paddock/data/avatars/6waggin_Spicy_thumb","2003","6waggin",
+"47","vette","chevy","corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_vette_thumb","1988","bmwporsche",
+"48","Bimmer","BMW","335d",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_Bimmer_avatar","/home/justinsgray/webapps/paddock/data/avatars/bmwporsche_Bimmer_thumb","2009","bmwporsche",
+"49","honda","Honda","S2000",NULL,NULL,NULL,"2002","jrwiseman",
+"50","lotus","Lotus","Elan",NULL,NULL,NULL,"1966","jrwiseman",
+"51","SpdRacer","Ford","Focus ZX3",NULL,NULL,NULL,"2000","The_Black_Racer",
+"52","vickers","Chevrolet","Beretta Z26",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Vickers_vickers_avatar","/home/justinsgray/webapps/paddock/data/avatars/Vickers_vickers_thumb","1995","Vickers",
+"53","Z28#1","Chevrolet","Camaro Z28",NULL,NULL,NULL,"2000","Vickers",
+"54","Z28#2","Chevorlet ","Camaro Z28",NULL,NULL,NULL,"1992","Vickers",
+"55","vickers1","Chevrolet","Beretta Z26",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/vickers1_vickers1_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/vickers1_vickers1_thumb","1995","vickers1",
+"56","Special_K","Mitsubishi","Eclipse GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Special_K_Special_K_avatar","/home/justinsgray/webapps/paddock/data/avatars/Special_K_Special_K_thumb","2001","Special_K",
+"57","240sxey","Nissan","240sx SE",NULL,NULL,NULL,"1995","Fawks",
+"223","God's favorite car","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tommy68_God's favorite car_avatar","/home/justinsgray/webapps/paddock/data/avatars/tommy68_God's favorite car_thumb","1989","tommy68",
+"59","Brutus","Scion","XA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/cameraboy5_Brutus_avatar","/home/justinsgray/webapps/paddock/data/avatars/cameraboy5_Brutus_thumb","2006","cameraboy5",
+"231","94 Vette","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/davefromcleveland_94 Vette_avatar","/home/justinsgray/webapps/paddock/data/avatars/davefromcleveland_94 Vette_thumb","1994","davefromcleveland",
+"61","Si","Honda","Civic SI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dmosowski_Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/dmosowski_Si_thumb","2008","dmosowski",
+"62","Guinness","Mazda","Miata",NULL,NULL,NULL,"2007","cstock6",
+"63","zx3","Ford"," Focus ZX3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/classictin_zx3_avatar","/home/justinsgray/webapps/paddock/data/avatars/classictin_zx3_thumb","2000","classictin",
+"64","Tornado Red","VW","R32",NULL,"/home/justinsgray/webapps/paddock/data/avatars/20AE3600_Pirate Ship_avatar","/home/justinsgray/webapps/paddock/data/avatars/20AE3600_Pirate Ship_thumb","2004","20AE3600",
+"637","DP","mazda","RX8 ",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Fast_DP_DP_avatar","/home/justinsgray/webapps/paddock/data/avatars/Fast_DP_DP_thumb","2006","Fast_DP",
+"66","MeanM3","BMW","M3",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/meanm3_MeanM3_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/meanm3_MeanM3_thumb","2004","meanm3",
+"101","Victoria","Mazda","MX-5 Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tripn4days_Victoria_avatar","/home/justinsgray/webapps/paddock/data/avatars/tripn4days_Victoria_thumb","2006","tripn4days",
+"100","DO WORK!","Toyota","Corolla S ",NULL,NULL,NULL,"2009","TopGear",
+"69","Golf","Volkswagen","Golf 1.8t",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GreenGolf_Golf_avatar","/home/justinsgray/webapps/paddock/data/avatars/GreenGolf_Golf_thumb","2000","GreenGolf",
+"70","Fifi","Triumph","Spitfire",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fohill_Fifi_avatar","/home/justinsgray/webapps/paddock/data/avatars/fohill_Fifi_thumb","1979","fohill",
+"71","Suby","Subaru","Impreza",NULL,"/home/justinsgray/webapps/paddock/data/avatars/n2x4_Suby_avatar","/home/justinsgray/webapps/paddock/data/avatars/n2x4_Suby_thumb","1995","n2x4",
+"72","Mia","Mazda","Miata",NULL,NULL,NULL,"1990","n2x4",
+"73","R32","Volkswagen","R32",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ZPrime_R32_avatar","/home/justinsgray/webapps/paddock/data/avatars/ZPrime_R32_thumb","2008","ZPrime",
+"504","miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jhtyler_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/jhtyler_miata_thumb","1990","jhtyler",
+"299","WRX","Subaru","Impreza WRX",NULL,NULL,NULL,"2010","jxb176",
+"77","Sentra","Nissan ","Sentra SE-R",NULL,NULL,NULL,"2004","jdavis9881",
+"78","Red","Mazda","RX8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/docgatorx8er_Red_avatar","/home/justinsgray/webapps/paddock/data/avatars/docgatorx8er_Red_thumb","2004","docgatorx8er",
+"79","Jason Shaw","MAZDA","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jason513_Young Wing_avatar","/home/justinsgray/webapps/paddock/data/avatars/jason513_Young Wing_thumb","1997","jason513",
+"80","Track car","Honda","Civic",NULL,"/home/justinsgray/webapps/paddock/data/avatars/honda_luvr_2000_Track car_avatar","/home/justinsgray/webapps/paddock/data/avatars/honda_luvr_2000_Track car_thumb","1997","honda_luvr_2000",
+"744","Todd Swensen","Ford","SVT Focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ToddSwensen_Todd Swensen_avatar","/home/justinsgray/webapps/paddock/data/avatars/ToddSwensen_Todd Swensen_thumb","2002","ToddSwensen",
+"82","Z06","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/xilr8n_Z06_avatar","/home/justinsgray/webapps/paddock/data/avatars/xilr8n_Z06_thumb","2004","xilr8n",
+"83","boosted vdub","volkswagon","GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/streetlegal98_boosted vdub_avatar","/home/justinsgray/webapps/paddock/data/avatars/streetlegal98_boosted vdub_thumb","2003","streetlegal98",
+"84","MS3","Mazda","Mazdaspeed3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/johnheer_MS3_avatar","/home/justinsgray/webapps/paddock/data/avatars/johnheer_MS3_thumb","2007","johnheer",
+"705","Velo","Hyundai","Veloster",NULL,NULL,NULL,"2012","DrEvol",
+"706","Fridge's Mustang","Ford","Mustang GT",NULL,NULL,NULL,"2006","Fridge56Vet",
+"707","NuBe","Volkswagen","New Beetle 1.8T",NULL,"/home/justinsgray/webapps/paddock/data/avatars/charlie44266_NuBe_avatar","/home/justinsgray/webapps/paddock/data/avatars/charlie44266_NuBe_thumb","2002","charlie44266",
+"87","Subaru","Subaru","Impreza WRX STi",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Subaru_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Subaru_thumb","2004","Dirty25RS",
+"88","Mitsu","Mitsubishi","Evo",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Mitsu_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Mitsu_thumb","2003","Dirty25RS",
+"89","Volvo","Volvo","C30 R-Design",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Volvo_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirty25RS_Volvo_thumb","2010","Dirty25RS",
+"390","GT6","Triumph","GT6",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_GT6_avatar","/home/justinsgray/webapps/paddock/data/avatars/jasonsmf_GT6_thumb","1973","jasonsmf",
+"91","George951","Porsche","944 Turbo",NULL,NULL,NULL,"1988","George951",
+"92","silver bugeye","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rszalkowski_silver bugeye_avatar","/home/justinsgray/webapps/paddock/data/avatars/rszalkowski_silver bugeye_thumb","2003","rszalkowski",
+"94","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kschles_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kschles_Miata_thumb","1997","Kschles",
+"95","Z06","Chevrolet","Z06",NULL,NULL,NULL,"2003","Kschles",
+"96","MR2","Toyota","MR2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/schles1234_MR2_avatar","/home/justinsgray/webapps/paddock/data/avatars/schles1234_MR2_thumb","1991","schles1234",
+"97","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/schles1234_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/schles1234_Miata_thumb","1997","schles1234",
+"98","Z06","Chevrolet","Z06",NULL,NULL,NULL,"2003","schles1234",
+"99","Jeff Swensen","Ford ","SVT Focus",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/JTSwensen_Jeff Swensen_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/JTSwensen_Jeff Swensen_thumb","2002","JTSwensen",
+"102","Lil' Bessie","Volkswagen","Rabbit ",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/tripn4days_Lil' Bessie_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/tripn4days_Lil' Bessie_thumb","1981","tripn4days",
+"103","Midlana","home","midengined",NULL,NULL,NULL,"1965","Langan",
+"104","Langan","","",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/Langan_Langan_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/Langan_Langan_thumb","0","Langan",
+"105","FWDrift","F0RD","Focus ZX3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fsp48_FWDrift_avatar","/home/justinsgray/webapps/paddock/data/avatars/fsp48_FWDrift_thumb","2000","fsp48",
+"106","daily","Honda","Civic",NULL,NULL,NULL,"2000","honda_luvr_2000",
+"107","CP 19","Pontiac","Firebird",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/dasschultz_CP 19_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/dasschultz_CP 19_thumb","1995","dasschultz",
+"210","vader","ford","mustang",NULL,NULL,NULL,"1999","gilly174",
+"109","Evo ","Mitsu","Evo X",NULL,"/home/justinsgray/webapps/paddock/data/avatars/flyinmonkey101_Evo _avatar","/home/justinsgray/webapps/paddock/data/avatars/flyinmonkey101_Evo _thumb","2008","flyinmonkey101",
+"217","Subie","Subaru","STI",NULL,NULL,NULL,"2006","shifterracer",
+"111","crzytrn","chevy","corvette",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/crzytrn1996_crzytrn_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/crzytrn1996_crzytrn_thumb","1996","crzytrn1996",
+"112","Tbird","Ford","Thunderbird Turbocou",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/Fordguy545_Tbird_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/Fordguy545_Tbird_thumb","1988","Fordguy545",
+"113","BlackCurrant","honda","accord",NULL,NULL,NULL,"1998","Solja362",
+"114","052pnt5","Subaru","Impreza RS",NULL,NULL,NULL,"2005","Solja362",
+"115",""The Beater"","BMW","325is",NULL,NULL,NULL,"1987","meanm3",
+"388","S2K","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Vyndictive_S2K_avatar","/home/justinsgray/webapps/paddock/data/avatars/Vyndictive_S2K_thumb","2001","Vyndictive",
+"117","FORJUSTIN","mazda miata","mazdaspeed",NULL,NULL,NULL,"2005","fsgray",
+"118","2FORTY","Nissan","240sx",NULL,"/home/justinsgray/webapps/paddock/data/avatars/lawman240sx_2FORTY_avatar","/home/justinsgray/webapps/paddock/data/avatars/lawman240sx_2FORTY_thumb","1992","lawman240sx",
+"119","steve","scion","tc",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tc23_steve_avatar","/home/justinsgray/webapps/paddock/data/avatars/tc23_steve_thumb","2006","tc23",
+"120","The OBS","Subaru","Impreza Wagon",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The OBS_avatar","/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The OBS_thumb","2001","gc8_nate",
+"698","Z","Nissan","350z",NULL,NULL,NULL,"2004","Aphobia",
+"164","MR2","Toyota","MR2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kschles_MR2_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kschles_MR2_thumb","1991","Kschles",
+"122","Broken","Toyota","MR2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_Broken_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_Broken_thumb","1993","powderballz",
+"123","Red Rocket","University of Akron","F-SAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_Red Rocket_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_Red Rocket_thumb","2009","powderballz",
+"124","Seans' Ex","Toyota","MR2",NULL,NULL,NULL,"1993","powderballz",
+"125","$1000 beater ","Ford","ZX2",NULL,"/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_$1000 beater _avatar","/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_$1000 beater _thumb","1999","billyboy24d",
+"126","Red","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_Red_avatar","/home/justinsgray/webapps/paddock/data/avatars/billyboy24d_Red_thumb","2003","billyboy24d",
+"127","smurf","mazda","miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/smurfblue_smurf_avatar","/home/justinsgray/webapps/paddock/data/avatars/smurfblue_smurf_thumb","1990","smurfblue",
+"128","A4","Audi","A4",NULL,NULL,NULL,"2006","Kevin",
+"129","Protege","Mazda","Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BillB_Protege_avatar","/home/justinsgray/webapps/paddock/data/avatars/BillB_Protege_thumb","2003","BillB",
+"130","White Honda","Honda","Civic Si",NULL,NULL,NULL,"1989","rgc39",
+"131","Purple People Eater","Mazda","RX-8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bdepietro_Purple People Eater_avatar","/home/justinsgray/webapps/paddock/data/avatars/bdepietro_Purple People Eater_thumb","2005","bdepietro",
+"132","R4","Toyota","Celica GTS",NULL,NULL,NULL,"2001","slazor",
+"648","Backlash","Chevrolet","Camaro SS/RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Backlash_avatar","/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Backlash_thumb","2010","murphdog80",
+"269","Civic","Honda ","Civic",NULL,"/home/justinsgray/webapps/paddock/data/avatars/31rx7_Civic_avatar","/home/justinsgray/webapps/paddock/data/avatars/31rx7_Civic_thumb","1989","31rx7",
+"135","325iTT","BMW","325iC",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Automcdonough_325iTT_avatar","/home/justinsgray/webapps/paddock/data/avatars/Automcdonough_325iTT_thumb","1988","Automcdonough",
+"136","Lemons racer","BMW","325",NULL,NULL,NULL,"1986","Automcdonough",
+"137","Butters","Subaru","Impreza WRX STI",NULL,NULL,NULL,"2005","shwackster",
+"139","Corolla XRS","Toyota","Corolla XRS",NULL,NULL,NULL,"2005","johnblind",
+"140","Mini Cooper","Mini Cooper","S",NULL,NULL,NULL,"2007","rcantwel",
+"141","Civ","Honda","Civic si",NULL,NULL,NULL,"2008","nizzan1984",
+"142","'06 Civic Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bkuhns_'06 Civic Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/bkuhns_'06 Civic Si_thumb","2006","bkuhns",
+"143","Krishna","Subaru","WRX",NULL,NULL,NULL,"2004","ShivaAnnamalai",
+"561","Fierce","Pontiac","Fiero GT",NULL,NULL,NULL,"1988","sludge",
+"617","bimmerdon","BMW","128i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bimmerdon_bimmerdon_avatar","/home/justinsgray/webapps/paddock/data/avatars/bimmerdon_bimmerdon_thumb","2009","bimmerdon",
+"563","wrx","subaru","wrx",NULL,NULL,NULL,"2002","tensazangetsu",
+"145","Hybrid","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Yonco_Hybrid_avatar","/home/justinsgray/webapps/paddock/data/avatars/Yonco_Hybrid_thumb","2006","Yonco",
+"147","bulldog","Mazda","3",NULL,NULL,NULL,"2007","bulldog35",
+"149","not an evo","Mitsubishi","Eclipse",NULL,NULL,NULL,"2000","ArtST21",
+"162","X","Mitsubishi","Evolution X",NULL,"/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Fast shitbox_avatar","/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Fast shitbox_thumb","2008","clipse3gs",
+"152","blue","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_blue_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_blue_thumb","1999","paulk",
+"153","Lenny","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_Lenny_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_Lenny_thumb","1999","paulk",
+"154","Turbo","Subaru ","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_Turbo_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_Turbo_thumb","2005","paulk",
+"155","rx7","Mazda","Rx7",NULL,"/home/justinsgray/webapps/paddock/data/avatars/paulk_rx7_avatar","/home/justinsgray/webapps/paddock/data/avatars/paulk_rx7_thumb","1981","paulk",
+"156","R Spicy 1","Mazdaspeed","Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/soleil327_R Spicy 1_avatar","/home/justinsgray/webapps/paddock/data/avatars/soleil327_R Spicy 1_thumb","2003","soleil327",
+"157","Silver Bullet","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dan666_Silver Bullet_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dan666_Silver Bullet_thumb","2001","Dan666",
+"158","humpsfrey","ford","focus",NULL,NULL,NULL,"2000","shawn185",
+"442","Scooby Doo","Subaru","Impreza 2.5RS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/abest10_Scooby Doo_avatar","/home/justinsgray/webapps/paddock/data/avatars/abest10_Scooby Doo_thumb","2000","abest10",
+"443","3","Mazda","3",NULL,NULL,NULL,"2007","JP350Z",
+"161","MaX","Mazda","Miata",NULL,NULL,NULL,"2008","RichV",
+"163","Clipse","Mitsubishi","Eclipse",NULL,"/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Clipse_avatar","/home/justinsgray/webapps/paddock/data/avatars/clipse3gs_Clipse_thumb","2000","clipse3gs",
+"165","MINI","MINI Cooper","S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/davidmthum_MINI_avatar","/home/justinsgray/webapps/paddock/data/avatars/davidmthum_MINI_thumb","2002","davidmthum",
+"166","RADSOL","Pontiac","Solstice",NULL,NULL,NULL,"2007","Radsol",
+"167","MSP","","",NULL,"/home/justinsgray/webapps/paddock/data/avatars/zoomtime_MSP_avatar","/home/justinsgray/webapps/paddock/data/avatars/zoomtime_MSP_thumb","0","zoomtime",
+"168","?","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ro9111_?_avatar","/home/justinsgray/webapps/paddock/data/avatars/ro9111_?_thumb","1999","ro9111",
+"169","Kris","Mitsubishi","Lancer Evolution 10",NULL,NULL,NULL,"2008","Clipse3GT",
+"381","Nice paint","BMW","M3",NULL,NULL,NULL,"1997","TopGear",
+"171","Lemons Car","BMW","325es",NULL,NULL,NULL,"1986","rsafier",
+"172","TDI","VW","Golf TDI",NULL,NULL,NULL,"2010","rsafier",
+"173","01 C5 Corvette","Chevy ","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/markheine_01 C5 Corvette_avatar","/home/justinsgray/webapps/paddock/data/avatars/markheine_01 C5 Corvette_thumb","2001","markheine",
+"174","nissan","nissan ","sentra",NULL,"/home/justinsgray/webapps/paddock/data/avatars/wfschubert_nissan_avatar","/home/justinsgray/webapps/paddock/data/avatars/wfschubert_nissan_thumb","2002","wfschubert",
+"495","Touring","","",NULL,NULL,NULL,"2010","mattrap",
+"496","23","Ford","Focus",NULL,NULL,NULL,"2005","mwyban",
+"497","UDM","BMW","320i",NULL,NULL,NULL,"1979","dym285",
+"498","mazd","Mazda","Mazda3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/thecoldrunner_mazd_avatar","/home/justinsgray/webapps/paddock/data/avatars/thecoldrunner_mazd_thumb","2008","thecoldrunner",
+"176","Focus ZX3","Ford","Focus zx3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ZX3_avatar","/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ZX3_thumb","2002","megz",
+"177","Focus ST","Ford","Focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ST_avatar","/home/justinsgray/webapps/paddock/data/avatars/megz_Focus ST_thumb","2006","megz",
+"178","soslow s14","Nissan","240sx se",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_soslow s14_avatar","/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_soslow s14_thumb","1997","sr7southpaw",
+"179","Sr dirty","Nissan","240sx se",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_Sr dirty_avatar","/home/justinsgray/webapps/paddock/data/avatars/sr7southpaw_Sr dirty_thumb","1990","sr7southpaw",
+"788","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GR8R_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/GR8R_Miata_thumb","1995","GR8R",
+"181","Blue07Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Brad8110_Blue07Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/Brad8110_Blue07Si_thumb","2007","Brad8110",
+"182","evo x","mitsubishi","evo 10",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_evo x_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_evo x_thumb","2008","evodave",
+"183","evo 2.4L","Mitsubishi","evo 8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_evo 2.4L_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_evo 2.4L_thumb","2003","evodave",
+"184","evo orange","mitsubishi","evo 8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_evo orange_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_evo orange_thumb","2003","evodave",
+"185","vr4 ","mitsubishi","galant vr4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_vr4 _avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_vr4 _thumb","1991","evodave",
+"186","se-r","Nissan ","Sentra Se-r",NULL,"/home/justinsgray/webapps/paddock/data/avatars/evodave_se-r_avatar","/home/justinsgray/webapps/paddock/data/avatars/evodave_se-r_thumb","1991","evodave",
+"187","Porvette","Porsche","944",NULL,NULL,NULL,"1985","pasleb",
+"623","Little Fury","MINI","Cooper",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TCARR_Little Fury_avatar","/home/justinsgray/webapps/paddock/data/avatars/TCARR_Little Fury_thumb","2012","TCARR",
+"189","SS 222","Chevrolet","Camaro SS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_SS 222_avatar","/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_SS 222_thumb","1996","hupcej4x4x454",
+"190","Stealth","Honda","Civic",NULL,NULL,NULL,"1991","GreaseMonkey",
+"193","Trunk Monkey Car","Subaru","Brighton",NULL,"/home/justinsgray/webapps/paddock/data/avatars/megz_Trunk Monkey Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/megz_Trunk Monkey Car_thumb","1996","megz",
+"192","F150","FORD","F150",NULL,NULL,NULL,"1983","PropaneJohn",
+"481","Blaze","Porsche","911-996",NULL,NULL,NULL,"2002","Bandit3212",
+"195","BMW","BMW","330Ci",NULL,NULL,NULL,"2004","terencewei",
+"196","The S","Honda","S2000",NULL,NULL,NULL,"2002","John_Schmitmeyer",
+"197","6th Gen Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JMArnal_6th Gen Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/JMArnal_6th Gen Si_thumb","2010","JMArnal",
+"198","the z","bmw","z3",NULL,NULL,NULL,"2001","berfbong",
+"199","BLW BY U","Pontiac","Trans Am GT",NULL,NULL,NULL,"1994","pasleb",
+"200","928","Porsche","928",NULL,NULL,NULL,"1984","pasleb",
+"201","99","Mazda","Miata Sport",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SteveJanssen_99_avatar","/home/justinsgray/webapps/paddock/data/avatars/SteveJanssen_99_thumb","1999","SteveJanssen",
+"202","03","Mazda","Miata",NULL,NULL,NULL,"2003","SteveJanssen",
+"203","Money Pit","Pontiac","Trans Am",NULL,"/home/justinsgray/webapps/paddock/data/avatars/timberman00_Money Pit_avatar","/home/justinsgray/webapps/paddock/data/avatars/timberman00_Money Pit_thumb","2000","timberman00",
+"605","Dax","Corvette","FRC C5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dax198_Dax_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dax198_Dax_thumb","2000","Dax198",
+"206","Evo","Mitsubishi","Evo IX",NULL,NULL,NULL,"2006","boost247",
+"207","PKT RKT","MINI","COOPER S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Andres_PKT RKT_avatar","/home/justinsgray/webapps/paddock/data/avatars/Andres_PKT RKT_thumb","2003","Andres",
+"208","Yellow Peril","Porsche","GT3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Andres_Yellow Peril_avatar","/home/justinsgray/webapps/paddock/data/avatars/Andres_Yellow Peril_thumb","2007","Andres",
+"209","3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/murcielego_3_avatar","/home/justinsgray/webapps/paddock/data/avatars/murcielego_3_thumb","2008","murcielego",
+"211","Strider","Subaru","WRX STI",NULL,NULL,NULL,"2010","kman",
+"212","Honda","Honda","S2000",NULL,NULL,NULL,"2002","klwiseman",
+"213","Formula v8","Pontiac","Firebird",NULL,NULL,NULL,"1994","formula12",
+"214","Bandit 2","ford","escort",NULL,NULL,NULL,"1995","trezdad",
+"215","Vito","Mitsubishi","Eclipse",NULL,NULL,NULL,"2000","GB_engineering",
+"216","RX7","MAZDA","RX7",NULL,NULL,NULL,"1994","PropaneJohn",
+"219","A4","Audi","A4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/zeusbap_A4_avatar","/home/justinsgray/webapps/paddock/data/avatars/zeusbap_A4_thumb","2001","zeusbap",
+"804","Sukey's BRG","MINI","Cooper S",NULL,NULL,NULL,"2006","WannaMini_",
+"805","Elise","Elise","",NULL,NULL,NULL,"2005","villaroel",
+"806","Golf","Volkswagen","Golf TDI",NULL,NULL,NULL,"2012","kymbersport",
+"221","Mazda","Mazda","Miata MX-5",NULL,NULL,NULL,"1991","milkmandan",
+"222","Subaru","Subaru","Impreza WRX",NULL,NULL,NULL,"2005","milkmandan",
+"224","miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Lindadepietro_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Lindadepietro_miata_thumb","1997","Lindadepietro",
+"225","Coop","Mazda","Miata",NULL,NULL,NULL,"1995","mdcooper",
+"226","Coop","Mazda","Miata",NULL,NULL,NULL,"2001","mdcooper",
+"227","SpecV","Nissan","SpecV",NULL,NULL,NULL,"2002","grumblj",
+"228","The Bubble","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Cmorris52_The Bubble_avatar","/home/justinsgray/webapps/paddock/data/avatars/Cmorris52_The Bubble_thumb","2007","Cmorris52",
+"229","Devin Z28","Chevrolet","Camaro Z28",NULL,"/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devo_avatar","/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devo_thumb","1998","DevoLS6",
+"230","Devin GTS","Mitsubishi","Lancer GTS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devin GTS_avatar","/home/justinsgray/webapps/paddock/data/avatars/DevoLS6_Devin GTS_thumb","2008","DevoLS6",
+"232","evo","Mitsubishi","Evo 8",NULL,NULL,NULL,"2004","samstrano",
+"233","mia","mazda","miata",NULL,NULL,NULL,"1990","brittkay",
+"234","suby","subaru","wrx sti",NULL,"/home/justinsgray/webapps/paddock_dev/data/avatars/Travco_suby_avatar","/home/justinsgray/webapps/paddock_dev/data/avatars/Travco_suby_thumb","2004","Travco",
+"235","hblybmr","BMW","325I",NULL,NULL,NULL,"1987","hblybmr",
+"236","meinz3","BMW","Z3  3.0I",NULL,NULL,NULL,"2001","hblybmr",
+"237","John's S2k","Honda","s2000",NULL,NULL,NULL,"2002","Brian_Hoaglin",
+"238","Vibe","Pontiac","Vibe",NULL,"/home/justinsgray/webapps/paddock/data/avatars/lazorbeam_36 HS_avatar","/home/justinsgray/webapps/paddock/data/avatars/lazorbeam_36 HS_thumb","2008","lazorbeam",
+"239","crass autocross1","honda","crx",NULL,NULL,NULL,"1989","crassfab",
+"240","Liz","mazda","miata",NULL,NULL,NULL,"1990","elunder",
+"242","subi","Subaru","STi Limited",NULL,NULL,NULL,"2007","LucasEBacon",
+"243","GT2","Mini Cooper","S",NULL,NULL,NULL,"2007","BretC",
+"244","VTAK NOM NOM NOM","Honda","Civic Si",NULL,NULL,NULL,"1993","kogorman51",
+"245","The Chubber","Honda","Civic CRV-Tec",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Marioracer_The Chubber_avatar","/home/justinsgray/webapps/paddock/data/avatars/Marioracer_The Chubber_thumb","1994","Marioracer",
+"290","M3","BMW","M3",NULL,NULL,NULL,"1995","jaredutz",
+"247","Retired2","Chevy","Camaro",NULL,NULL,NULL,"2001","lfranz",
+"248","SB STI","Suabru","STI",NULL,NULL,NULL,"2007","TopGear",
+"249","MostOverdevelopedBeater","Subaru","Impreza",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Storm_MostOverdevelopedBeater_avatar","/home/justinsgray/webapps/paddock/data/avatars/Storm_MostOverdevelopedBeater_thumb","1996","Storm",
+"250","For Sale!","Porsche","911",NULL,NULL,NULL,"2000","RDTorley",
+"251","For Sale!","Porsche","911",NULL,NULL,NULL,"2000","RDTorley",
+"252","For Sale!","Porsche","911",NULL,NULL,NULL,"2000","RDTorley",
+"253","Buy my car!","Porsche","996",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RDTorley_Buy my car!_avatar","/home/justinsgray/webapps/paddock/data/avatars/RDTorley_Buy my car!_thumb","2000","RDTorley",
+"254","S2K","Honda","S2000",NULL,NULL,NULL,"2003","jterasaki",
+"514","DFH","Driver","For Hire",NULL,NULL,NULL,"0","davelamnet",
+"515","Andrew's MX-5","Mazda","MX-5",NULL,NULL,NULL,"2006","davelamnet",
+"516","S2000","Honda","S2000",NULL,NULL,NULL,"2008","frankevan",
+"517","Christina","chevy","camaro",NULL,NULL,NULL,"1991","skul",
+"256","Covertible","Ford","Mustang GT",NULL,NULL,NULL,"1994","68rustang",
+"257","Rustang","Ford","Mustang",NULL,NULL,NULL,"1968","68rustang",
+"258","G8","Pontiac","G8 GT",NULL,NULL,NULL,"2008","68rustang",
+"259","ol' faithful","University of Akron","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_ol' faithful_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_ol' faithful_thumb","2010","powderballz",
+"260","HOSracing","Volkswagen","Rabbit GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/HOSracing_HOSracing_avatar","/home/justinsgray/webapps/paddock/data/avatars/HOSracing_HOSracing_thumb","1983","HOSracing",
+"261","philthy","mitsubishi","evolution",NULL,NULL,NULL,"2003","Vision",
+"262","rx7","mazda","rx-7",NULL,NULL,NULL,"1994","Fordguy545",
+"263","123","scion","tc",NULL,NULL,NULL,"2006","mikey",
+"264","Giffs Mazda","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GIFMZDA_Giffs Mazda_avatar","/home/justinsgray/webapps/paddock/data/avatars/GIFMZDA_Giffs Mazda_thumb","1996","GIFMZDA",
+"265","WRX","Subaru","Impreza WRX",NULL,NULL,NULL,"2002","nadnordzok",
+"266","ol'faithful","University of Akron","F-SAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Shane_ol'faithful_avatar","/home/justinsgray/webapps/paddock/data/avatars/Shane_ol'faithful_thumb","2010","Shane",
+"267","white lightning","Subaru ","sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MXracer52_white lightning_avatar","/home/justinsgray/webapps/paddock/data/avatars/MXracer52_white lightning_thumb","2005","MXracer52",
+"268","ptfextreme","subaru","wrx sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ptfextreme_ptfextreme_avatar","/home/justinsgray/webapps/paddock/data/avatars/ptfextreme_ptfextreme_thumb","2006","ptfextreme",
+"355","Blackie","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Blackie_avatar","/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Blackie_thumb","1993","TRT1954",
+"270","G8 GT","Pontiac","G8 GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mosowski_G8 GT_avatar","/home/justinsgray/webapps/paddock/data/avatars/mosowski_G8 GT_thumb","2008","mosowski",
+"271","sexmachine","bmw","335i",NULL,NULL,NULL,"2007","fastaction",
+"272","slomiata","Mazda","Miata",NULL,NULL,NULL,"1993","bpoling51",
+"273","B14CK","Pontiac","Vibe",NULL,NULL,NULL,"2004","B14CK_H4WK",
+"274","Borrowed","Subaru","WRX STi",NULL,NULL,NULL,"2005","PDLTURBO",
+"275","Britney","Subaru","WRX",NULL,NULL,NULL,"2004","PDLTURBO",
+"276","Summer Solstice","Pontiac","Solstice GXP",NULL,NULL,NULL,"2008","patred",
+"277","ZEEOSIX","CHEVROLET","CORVETTE ZO6",NULL,"/home/justinsgray/webapps/paddock/data/avatars/daveL_ZEEOSIX_avatar","/home/justinsgray/webapps/paddock/data/avatars/daveL_ZEEOSIX_thumb","2008","daveL",
+"278","persian","Triumph","TR8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rawtr8_persian_avatar","/home/justinsgray/webapps/paddock/data/avatars/rawtr8_persian_thumb","1980","rawtr8",
+"279","Mazda3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/WorldRally17_Mazda3_avatar","/home/justinsgray/webapps/paddock/data/avatars/WorldRally17_Mazda3_thumb","2006","WorldRally17",
+"280","zippy","Mazda","RX-7",NULL,NULL,NULL,"1979","Marc",
+"281","Formula SAE","Formula SAE","",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rotarysprocket_Formula SAE_avatar","/home/justinsgray/webapps/paddock/data/avatars/rotarysprocket_Formula SAE_thumb","2010","rotarysprocket",
+"282","2010 Formula SAE","Formula SAE","",NULL,"/home/justinsgray/webapps/paddock/data/avatars/timweyer_2010 Formula SAE_avatar","/home/justinsgray/webapps/paddock/data/avatars/timweyer_2010 Formula SAE_thumb","2010","timweyer",
+"283","RED3","Mazda ","3",NULL,NULL,NULL,"2007","97HS",
+"284","POS","UA FSAE","",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mlimbacher_POS_avatar","/home/justinsgray/webapps/paddock/data/avatars/mlimbacher_POS_thumb","2010","mlimbacher",
+"285","MODB","Subaru","Brighton",NULL,NULL,NULL,"1996","nrgjoel",
+"286","Rusty","Mazda","S&$TBOX",NULL,NULL,NULL,"1999","nrgjoel",
+"438","notorque","mazda","rx7 convertible",NULL,NULL,NULL,"1991","daveL",
+"555","'08EvoGSR","Mitsubishi","Lancer Evolution GSR",NULL,NULL,NULL,"2008","zdeast",
+"289","Bill","Ford","Mustang ",NULL,NULL,NULL,"2001","billgoodwin",
+"291","Golf","Volkswagen","Golf",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gmaloy_Golf_avatar","/home/justinsgray/webapps/paddock/data/avatars/gmaloy_Golf_thumb","1995","gmaloy",
+"292","BMW","BMW","330Ci ZHP",NULL,NULL,NULL,"2004","niles",
+"293","red","Mazda","Miata",NULL,NULL,NULL,"1992","marlinbailor",
+"294","white","Toyota","MR2",NULL,NULL,NULL,"1991","marlinbailor",
+"295","#10 Car","Zips Racing","FSAE",NULL,NULL,NULL,"2010","bdimarco50",
+"296","Marylin","Chevrolet","Z06",NULL,NULL,NULL,"2002","Darkhelmet",
+"297","Tempest Touring","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Tempest Touring_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Tempest Touring_thumb","1993","Rexpelagi",
+"298","The Wife's Obsession","Mini","Cooper S",NULL,NULL,NULL,"2010","mbodish",
+"300","STU","Subaru","STi",NULL,NULL,NULL,"2004","Aaron",
+"301","Cobalt","Chevrolet","Cobalt SS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kazinova_Cobalt_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kazinova_Cobalt_thumb","2009","Kazinova",
+"302","Subaru","Subaru","STi",NULL,NULL,NULL,"2004","Simi",
+"303","Miata","Mazda","Miata",NULL,NULL,NULL,"1991","WDodd",
+"304","Lucky","Honda","Civic Si",NULL,NULL,NULL,"1989","Habib88",
+"576","z06","Chevy","Corvette z06",NULL,NULL,NULL,"2004","marka",
+"577","z06","Chevy","Corvette z06",NULL,NULL,NULL,"2004","vanwormerla",
+"583","Evo 9","Mitsubishi","Evo 9 RS",NULL,NULL,NULL,"2006","gausfrank",
+"308","Salsa","Porsche","911 GT3",NULL,NULL,NULL,"2004","tangerine911t",
+"309","Evo 8","Mistubishi","Evo 8",NULL,NULL,NULL,"2004","gausevo8",
+"310","civic","whatever","o'gorman owns",NULL,NULL,NULL,"1993","powderballz",
+"311","The Orange Car","Nissan","350Z",NULL,NULL,NULL,"0","ki_so",
+"312","Black Carbon","Corvette","Z06",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RandyP_Black Carbon_avatar","/home/justinsgray/webapps/paddock/data/avatars/RandyP_Black Carbon_thumb","2008","RandyP",
+"313","Walle","Mitsubishi","Evo 8",NULL,NULL,NULL,"2003","Hillclimbevo",
+"440","philthy","honda","CBR600RR",NULL,"/home/justinsgray/webapps/paddock/data/avatars/philthyphil_philthy_avatar","/home/justinsgray/webapps/paddock/data/avatars/philthyphil_philthy_thumb","2008","philthyphil",
+"315","S10","Chevrolet","S10",NULL,NULL,NULL,"2001","bluezq8",
+"316","RedRacer","Honda","Civic",NULL,NULL,NULL,"1984","garrmark",
+"317","88mphseriousshit","Chevrolet","Corvette Zed",NULL,NULL,NULL,"2020","crystalhelix",
+"318","Mark's Camaro","Chevy","Camaro",NULL,NULL,NULL,"1999","cmkirkham",
+"319","mazda","Mazda","RX-8",NULL,NULL,NULL,"2006","jrwiseman",
+"320","83 car","Formula ","SAE",NULL,NULL,NULL,"2010","RedLimit835",
+"321","Not mine","","Evo8",NULL,NULL,NULL,"2003","Dan_Foley",
+"322","rex","Subaru","WRX",NULL,NULL,NULL,"2007","stevers",
+"323","lead brick","Ford","F-150",NULL,NULL,NULL,"1978","Fordguy545",
+"422","STi","Subaru","STi",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JimmySTi_STi_avatar","/home/justinsgray/webapps/paddock/data/avatars/JimmySTi_STi_thumb","2011","JimmySTi",
+"423","Slooooooow","Acura","RSXS",NULL,NULL,NULL,"2003","TheFather",
+"424","Claudia","Audi","Coupe Quattro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Claudia_avatar","/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Claudia_thumb","1991","chocalotstarfish",
+"324","Lucky","Honda","Civic",NULL,NULL,NULL,"1989","Ceebee",
+"325","Rx8","Mazda","Rx8",NULL,NULL,NULL,"2006","klwiseman",
+"326","Mazda","Mazda","Rx8",NULL,NULL,NULL,"2006","rjbarrington",
+"327","crass","honda","crx",NULL,NULL,NULL,"1991","Vision",
+"328","MGB44","MG","B",NULL,NULL,NULL,"1971","DMichalak",
+"329","MGB144","MG","B",NULL,NULL,NULL,"1971","TWitherow",
+"330","Tripleshock","Aspen White Subaru","WRX STi",NULL,NULL,NULL,"2005","ralphrdesai",
+"331","Garage queen","Porsche","968",NULL,NULL,NULL,"1994","968crazy",
+"332","Jeff's Mini","Mini","Cooper S",NULL,NULL,NULL,"2003","bobsmith0812",
+"333","Evil Monster","Subaru ","Legacy GT",NULL,NULL,NULL,"2005","what",
+"452","zagnu","mazda","miata",NULL,NULL,NULL,"1990","zagnu",
+"335","Mom's Car","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/pblunder_Mom's Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/pblunder_Mom's Car_thumb","1990","pblunder",
+"486","It's a rental","Honda","s2000",NULL,NULL,NULL,"2002","rookiebiotch",
+"338","ILOVETS","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BuddyL_ILOVETS_avatar","/home/justinsgray/webapps/paddock/data/avatars/BuddyL_ILOVETS_thumb","1994","BuddyL",
+"339","Sean's PAX Machine","Honda","Civic Si",NULL,NULL,NULL,"1993","speedtek",
+"340","My E30","BMW","325is",NULL,"/home/justinsgray/webapps/paddock/data/avatars/speedtek_My E330_avatar","/home/justinsgray/webapps/paddock/data/avatars/speedtek_My E330_thumb","1989","speedtek",
+"342","JetBlack","MINI","COOPER S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/pavarolar_JetBlack_avatar","/home/justinsgray/webapps/paddock/data/avatars/pavarolar_JetBlack_thumb","2005","pavarolar",
+"343","S2000","Honda","S2000 CR",NULL,NULL,NULL,"2008","FastGuy",
+"344","The Race Machine","Toyota","Celica GT-S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jbalser_The Race Machine_avatar","/home/justinsgray/webapps/paddock/data/avatars/jbalser_The Race Machine_thumb","2000","jbalser",
+"345","USS Failboat","Honda","Cibic",NULL,NULL,NULL,"1993","nrgjoel",
+"346","GR8 SCPE","Lotus","Elise",NULL,"/home/justinsgray/webapps/paddock/data/avatars/waydui_GR8 SCPE_avatar","/home/justinsgray/webapps/paddock/data/avatars/waydui_GR8 SCPE_thumb","2005","waydui",
+"347","???","Wright","Flyer I",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_???_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_???_thumb","1903","Rexpelagi",
+"554","Ol' Unreliable","Mazda","Mazdaspeed 6",NULL,NULL,NULL,"2006","daspirate",
+"635","Mazda","Mazda","Miata",NULL,NULL,NULL,"2009","villaroel",
+"350","jay","mazda","miata",NULL,NULL,NULL,"1990","jlunder",
+"351","MacMini","MINI","Cooper S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BetsyMac_MacMini_avatar","/home/justinsgray/webapps/paddock/data/avatars/BetsyMac_MacMini_thumb","2002","BetsyMac",
+"352","blue wrx","Subaru","WRX",NULL,NULL,NULL,"2004","zeb_hall",
+"353","goblin","chevrolet","camaro",NULL,NULL,NULL,"1995","flyingsaturn",
+"354","SPEC c","Subaru","STi",NULL,NULL,NULL,"2010","stockert421",
+"681","Acura","Acura","Integra LS",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rodgort42_Acura_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rodgort42_Acura_thumb","1997","Rodgort42",
+"357","supercoupe","Ford","Thunderbird SC",NULL,NULL,NULL,"1989","Fordguy545",
+"358","M3","BMW","M3",NULL,NULL,NULL,"2002","BenHughlett",
+"359","350Z","Nissan","350Z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/aurorabluezoom_350Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/aurorabluezoom_350Z_thumb","2004","aurorabluezoom",
+"360","miata","Mazda","Miata",NULL,NULL,NULL,"2003","czechwd",
+"361","Bri","Subaru","STI",NULL,NULL,NULL,"2010","BrianBlake",
+"362","84 Car","Akron ","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/RedLimit835_84 Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/RedLimit835_84 Car_thumb","2010","RedLimit835",
+"363","car","honda","civic",NULL,"/home/justinsgray/webapps/paddock/data/avatars/aaronkeim_car_avatar","/home/justinsgray/webapps/paddock/data/avatars/aaronkeim_car_thumb","1997","aaronkeim",
+"364","YLOZOOM","MAZDA","MIATA",NULL,NULL,NULL,"2002","YLOZOOM",
+"365","VenomClass_1","Honda","Civic SI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/c1run_VenomClass_1_avatar","/home/justinsgray/webapps/paddock/data/avatars/c1run_VenomClass_1_thumb","1999","c1run",
+"366","DTI","pontiac","firebird",NULL,NULL,NULL,"1995","hecklemoser",
+"367","Datsun at heart","Nissan","240SX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BoostLee_Silvia_avatar","/home/justinsgray/webapps/paddock/data/avatars/BoostLee_Silvia_thumb","1997","BoostLee",
+"368","Ow Owdi","Audi ","A4 1.8tqm",NULL,"/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Ow Owdi_avatar","/home/justinsgray/webapps/paddock/data/avatars/chocalotstarfish_Ow Owdi_thumb","1999","chocalotstarfish",
+"369","British Green","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_avatar","/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_thumb","1996","loudecuz",
+"370","British Green","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_avatar","/home/justinsgray/webapps/paddock/data/avatars/loudecuz_British Green_thumb","1996","loudecuz",
+"371","JCW","Mini Cooper","JCW",NULL,NULL,NULL,"2009","Blackbart",
+"372","caliente cooper","Mini Cooper","JCW",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Blackbart_caliente cooper_avatar","/home/justinsgray/webapps/paddock/data/avatars/Blackbart_caliente cooper_thumb","2009","Blackbart",
+"374","Z","Chevrolet","Corvette",NULL,NULL,NULL,"2002","brz06",
+"375","Miata","Mazda","Miata",NULL,NULL,NULL,"1992","Bunniemom",
+"376","silver streak","ford","mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tpaul_silver streak_avatar","/home/justinsgray/webapps/paddock/data/avatars/tpaul_silver streak_thumb","2006","tpaul",
+"383","e46","BMW","330ci",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_e46_avatar","/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_e46_thumb","2001","dbred330ci",
+"380","Ranger","Ford","Ranger",NULL,NULL,NULL,"2000","PropaneJohn",
+"384","My other cars a civic Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/tommy68_My other cars a civic Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/tommy68_My other cars a civic Si_thumb","2007","tommy68",
+"385","Fiero","Pontiac","Fiero GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/FieroGTP_Fiero_avatar","/home/justinsgray/webapps/paddock/data/avatars/FieroGTP_Fiero_thumb","1985","FieroGTP",
+"386","kermit","honda","civic ex",NULL,NULL,NULL,"1995","nickvangorder",
+"387","Red civic","honda","civic",NULL,NULL,NULL,"1997","zackvangorder",
+"389","celica","toyota","celica",NULL,NULL,NULL,"2000","hilary0110",
+"391","O SO BAD","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/osobadchevy_O SO BAD_avatar","/home/justinsgray/webapps/paddock/data/avatars/osobadchevy_O SO BAD_thumb","1985","osobadchevy",
+"392","O SO BAD2","Pontiac","Trans Am",NULL,NULL,NULL,"1994","osobadchevy",
+"393","Evo","Mitsubishi"," Evo 9",NULL,"/home/justinsgray/webapps/paddock/data/avatars/hilary0110_Evo_avatar","/home/justinsgray/webapps/paddock/data/avatars/hilary0110_Evo_thumb","2006","hilary0110",
+"394","Brian's RX8","Mazda","RX-8",NULL,NULL,NULL,"2005","JMArnal",
+"395","Ric","Mustang","Cobra",NULL,NULL,NULL,"1996","RP_AUTOCROSS",
+"396","BMW","BMW","328i",NULL,NULL,NULL,"1996","funkWerkstuning",
+"399","Miata","Mazda","Miata",NULL,NULL,NULL,"1992","Pfotenhauer",
+"398","Monster","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/LORDEN_Monster_avatar","/home/justinsgray/webapps/paddock/data/avatars/LORDEN_Monster_thumb","1987","LORDEN",
+"400","miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Andrew_miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Andrew_miata_thumb","1992","Andrew",
+"401","White Devil","Subaru","Impreza WRX STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/nkelly87_White Devil_avatar","/home/justinsgray/webapps/paddock/data/avatars/nkelly87_White Devil_thumb","2006","nkelly87",
+"402","STi","Subaru","Impreza WRX STi",NULL,NULL,NULL,"2005","BAMF_S14",
+"403","ole reliable","mazda","miata",NULL,NULL,NULL,"1994","miataTED",
+"404","Miata","Mazda","Miata",NULL,NULL,NULL,"1990","jdavis9881",
+"405","grassroots m3","bmw","m3",NULL,NULL,NULL,"1997","fastaction",
+"406","Kiera","Toyota","Mr2",NULL,NULL,NULL,"1987","kubsdnf",
+"407","Rectal Marmalade","bmw","m3",NULL,NULL,NULL,"1998","2apalmer",
+"408","11 GRAND","MAZDA","RX-8",NULL,NULL,NULL,"2004","11GRAND",
+"409","Great White","BMW","325is",NULL,NULL,NULL,"1987","DWC33",
+"476","buzzbomb","BMW ","2002",NULL,"/home/justinsgray/webapps/paddock/data/avatars/oldskoolbmw_buzzbomb_avatar","/home/justinsgray/webapps/paddock/data/avatars/oldskoolbmw_buzzbomb_thumb","1970","oldskoolbmw",
+"411","super306","factory five","MK 2 cobra",NULL,NULL,NULL,"1965","super306",
+"412","alfa 156","Lexus","IS 250 AWD",NULL,"/home/justinsgray/webapps/paddock/data/avatars/alfa156s_alfa 156_avatar","/home/justinsgray/webapps/paddock/data/avatars/alfa156s_alfa 156_thumb","2007","alfa156s",
+"413","Miata","Mazda","Miata",NULL,NULL,NULL,"1996","jrmotorsports55",
+"582","Evo 9","Mitsubishi","Evo 9 RS",NULL,NULL,NULL,"2006","kdgaus",
+"584","Cobra","Factory Five","Roadster",NULL,NULL,NULL,"1965","lrosenbeck",
+"415","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/brubaker_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/brubaker_Miata_thumb","1997","brubaker",
+"416","Baby","Ford","Mustang",NULL,NULL,NULL,"1973","brubaker",
+"417","Mistress","Dodge","Ram 2500 MegaCab",NULL,NULL,NULL,"2006","brubaker",
+"418","B*tch","Dodge","Ram 1500",NULL,NULL,NULL,"1997","brubaker",
+"419","M3","BMW","M3",NULL,NULL,NULL,"2005","johnblind",
+"420","Vroom","BMW","M5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/crds_Vroom_avatar","/home/justinsgray/webapps/paddock/data/avatars/crds_Vroom_thumb","2003","crds",
+"421","talon","eagle","talon tsi awd",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rmmiracle_talon_avatar","/home/justinsgray/webapps/paddock/data/avatars/rmmiracle_talon_thumb","1993","rmmiracle",
+"425","Green Machine","Chevy","Camaro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/95streetZ_Green Machine_avatar","/home/justinsgray/webapps/paddock/data/avatars/95streetZ_Green Machine_thumb","1996","95streetZ",
+"426","Speed3","Mazda","Speed3",NULL,NULL,NULL,"2008","WDodd",
+"427","E30","bmw","325i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_E30_avatar","/home/justinsgray/webapps/paddock/data/avatars/dbred330ci_E30_thumb","1989","dbred330ci",
+"428","All Wheel Drive","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/ki_so_All Wheel Drive_avatar","/home/justinsgray/webapps/paddock/data/avatars/ki_so_All Wheel Drive_thumb","2011","ki_so",
+"429","mitsu","mitsubishi","3000gt",NULL,NULL,NULL,"1994","jdog2011",
+"430","STI","Subaru","STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Robsti89_STI_avatar","/home/justinsgray/webapps/paddock/data/avatars/Robsti89_STI_thumb","2005","Robsti89",
+"431","GS 123","Chevrolet","Corvette Grand Sport",NULL,"/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_GS 123_avatar","/home/justinsgray/webapps/paddock/data/avatars/hupcej4x4x454_GS 123_thumb","1996","hupcej4x4x454",
+"432","Crx","Honda","CRX Si",NULL,NULL,NULL,"1989","hilary0110",
+"433","understeer-o","Subaru","STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/stevsmif_understeer-o_avatar","/home/justinsgray/webapps/paddock/data/avatars/stevsmif_understeer-o_thumb","2006","stevsmif",
+"434","stang","Ford","Mustang",NULL,NULL,NULL,"2007","akkage",
+"435","9k","honda","s2000",NULL,NULL,NULL,"2000","shifterracer",
+"436","speedy","Mazda","Speed Protege",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rally2003_speedy_avatar","/home/justinsgray/webapps/paddock/data/avatars/rally2003_speedy_thumb","2003","rally2003",
+"437","N3m3sis","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Fierc3_N3m3sis_avatar","/home/justinsgray/webapps/paddock/data/avatars/Fierc3_N3m3sis_thumb","2003","Fierc3",
+"439","Torqueless Wonder","Torqueless","Wonder",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fullboost14_Torqueless Wonder_avatar","/home/justinsgray/webapps/paddock/data/avatars/fullboost14_Torqueless Wonder_thumb","2005","fullboost14",
+"444","Vette","Chevy","Corvette",NULL,NULL,NULL,"2004","Cfinefrock",
+"445","Brian","Ford","Mustang",NULL,NULL,NULL,"1987","BrianT",
+"446","Spec_Vsus","Nissan","Sentra SE-R Spec V",NULL,NULL,NULL,"2011","Spec_Vsus",
+"447","Garage Queen","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Qarage Queen_avatar","/home/justinsgray/webapps/paddock/data/avatars/TRT1954_Qarage Queen_thumb","2004","TRT1954",
+"448","Lancer","Mitsubishi","Lancer",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Goat8it_Lancer_avatar","/home/justinsgray/webapps/paddock/data/avatars/Goat8it_Lancer_thumb","2010","Goat8it",
+"449","Miata","Mazda","Miata",NULL,NULL,NULL,"1990","jglovac",
+"450","S2000","Honda","S2000 CR",NULL,NULL,NULL,"2008","bsetliff2",
+"451","S383","nissan","240sx",NULL,NULL,NULL,"1993","josh",
+"453","MX5","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/dw237606_MX5_avatar","/home/justinsgray/webapps/paddock/data/avatars/dw237606_MX5_thumb","2000","dw237606",
+"454","RGG8","Pontiac","G8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/thegreaves_RGG8_avatar","/home/justinsgray/webapps/paddock/data/avatars/thegreaves_RGG8_thumb","2009","thegreaves",
+"455","amsterdamned","Mazda ","rx-8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/blazenblue63_amsterdamned_avatar","/home/justinsgray/webapps/paddock/data/avatars/blazenblue63_amsterdamned_thumb","2007","blazenblue63",
+"674","ROOFLSS","Mazda","Miata MX-5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/GazMX5_ROOFLSS_avatar","/home/justinsgray/webapps/paddock/data/avatars/GazMX5_ROOFLSS_thumb","2008","GazMX5",
+"458","bat mobile","subaru","sti",NULL,NULL,NULL,"2006","kyle1853",
+"459","beast","chevy","cobalt ss/sc",NULL,NULL,NULL,"2007","kyle1853",
+"460","animal","chevy","cobalt ss/tc",NULL,NULL,NULL,"2008","kyle1853",
+"461","Fit","Honda","Fit Sport",NULL,NULL,NULL,"2007","suziemartens",
+"463","Vanessa","mazda","miata mx-5",NULL,NULL,NULL,"1996","rook06miata",
+"464","3","Mazda","3",NULL,NULL,NULL,"2010","court",
+"465","charged balt ","chevrolet","cobalt ss/sc",NULL,NULL,NULL,"2006","burkhammert",
+"466","Cayman S","Porsche","Cayman S",NULL,NULL,NULL,"2007","mneidert",
+"467","coon dog","Mazda","Miata",NULL,NULL,NULL,"1994","mbrahler",
+"468","Lil Turd","Pontiac","Fiero",NULL,"/home/justinsgray/webapps/paddock/data/avatars/LilFormula_Lil Turd_avatar","/home/justinsgray/webapps/paddock/data/avatars/LilFormula_Lil Turd_thumb","1988","LilFormula",
+"469","Speed6","Mazda","Mazdaspeed6",NULL,NULL,NULL,"2006","medmeadows",
+"470","Socks","Volkswagen","GLI",NULL,NULL,NULL,"2009","kstrata",
+"471","shelby","ford","mustang",NULL,NULL,NULL,"2007","nighthawk",
+"472","Brians car","Smoking","Dorito",NULL,NULL,NULL,"2006","docgatorx8er",
+"473","Teh Scoobs","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gnobes_Teh Scoobs_avatar","/home/justinsgray/webapps/paddock/data/avatars/gnobes_Teh Scoobs_thumb","2011","gnobes",
+"614","Ghozt","Nizzan","370z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/coop_Ghozt_avatar","/home/justinsgray/webapps/paddock/data/avatars/coop_Ghozt_thumb","2010","coop",
+"475","Alexis","Honda","Civic EX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sasimon19_Alexis_avatar","/home/justinsgray/webapps/paddock/data/avatars/sasimon19_Alexis_thumb","2003","sasimon19",
+"477","screaminyellow","ford","mustang",NULL,NULL,NULL,"2004","screaminyellow",
+"478","Spec","Nissan","Sentra Spec-V",NULL,NULL,NULL,"2003","kman510",
+"479","The Dime","Datsun","510",NULL,NULL,NULL,"1970","kman510",
+"482","Farina","Fiat","Spider 2000",NULL,NULL,NULL,"1982","Bandit3212",
+"485","Puddle of AIDS","Mazda","MX-5",NULL,NULL,NULL,"2006","fullboost14",
+"484","Jennifer","Dodge","Challenger SRT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jjfoto_Jenny_avatar","/home/justinsgray/webapps/paddock/data/avatars/jjfoto_Jenny_thumb","2009","jjfoto",
+"488","Subie","Subaru","Impreza wagaon",NULL,NULL,NULL,"1993","SPF14FLY",
+"489","MR. 2","Toyota","MR2",NULL,NULL,NULL,"1988","SPF14FLY",
+"490","GTI","VW","GTI",NULL,NULL,NULL,"2010","Steve_Schmitmeyer",
+"491","Honda","S2000","Honda",NULL,NULL,NULL,"2001","wisemakl",
+"712","Boxster","Porsche","Boxster",NULL,NULL,NULL,"1999","99boxster",
+"493","Civic","Honda","Civic",NULL,NULL,NULL,"2008","groundedrsx",
+"494","beachumz","BMW","325i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Beachumz_Blue_avatar","/home/justinsgray/webapps/paddock/data/avatars/Beachumz_Blue_thumb","2005","Beachumz",
+"499","Tr8","Triumph","Tr8",NULL,NULL,NULL,"1979","JoeToporcer",
+"500","Crossfire","Chrysler","Crossfire",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rarebird13_Crossfire_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rarebird13_Crossfire_thumb","2004","Rarebird13",
+"501","Hasenpfeffer","Volkswagen","Rabbit",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Flyboy1386_Hasenpfeffer_avatar","/home/justinsgray/webapps/paddock/data/avatars/Flyboy1386_Hasenpfeffer_thumb","2007","Flyboy1386",
+"502","NOT a snowflake","Austin Morris","MINI",NULL,NULL,NULL,"1982","Andres",
+"503","STR Miata","Mazda","MX5",NULL,NULL,NULL,"2006","04deamon",
+"505","Saeo","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Saeo_Saeo_avatar","/home/justinsgray/webapps/paddock/data/avatars/Saeo_Saeo_thumb","1999","Saeo",
+"506","Arrrr X7","Mazda","RX-7",NULL,NULL,NULL,"1991","pblunder",
+"507","G35","Infiniti","G35",NULL,NULL,NULL,"2003","bgt678",
+"508","RSX","Acura","RSX Type S",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rsx720_RSX_avatar","/home/justinsgray/webapps/paddock/data/avatars/rsx720_RSX_thumb","2005","rsx720",
+"509","Spirit","Ford","Focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Greenenigma1989_Spirit_avatar","/home/justinsgray/webapps/paddock/data/avatars/Greenenigma1989_Spirit_thumb","2010","Greenenigma1989",
+"510","Suki","Subaru","WRX STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jbalser_Suki_avatar","/home/justinsgray/webapps/paddock/data/avatars/jbalser_Suki_thumb","2011","jbalser",
+"511","Slick","Mazda","6 Sport",NULL,NULL,NULL,"2005","chrisfri13",
+"512","Black and Yellow","Honda","Civic",NULL,NULL,NULL,"1992","vtec1992",
+"513","Subaru","Subaru","WRX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rideac1_Subaru_avatar","/home/justinsgray/webapps/paddock/data/avatars/rideac1_Subaru_thumb","2002","rideac1",
+"518","Yellow Z","Nissan","300zx NA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_thumb","1990","neonreed",
+"519","vette21","chevrolet","corvette z06",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rezzetano21_vette21_avatar","/home/justinsgray/webapps/paddock/data/avatars/rezzetano21_vette21_thumb","2002","rezzetano21",
+"520","SS","Porsche","GT3",NULL,NULL,NULL,"2005","Aaron",
+"521","German","Porsche","GT3",NULL,NULL,NULL,"2005","Simi",
+"522","Night Fury","Mazda","Miata",NULL,NULL,NULL,"1999","sccaracerx",
+"523","rent a ride","rent a ride","",NULL,NULL,NULL,"2009","chocalotstarfish",
+"524","GSX","Mitsubishi","Eclipse",NULL,NULL,NULL,"1991","Luke_Schmitmeyer",
+"525","Stolen Fit","Honda","Fit Sport",NULL,NULL,NULL,"2007","Elly_Schmitmeyer",
+"526","Tony","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/awencil_Tony_avatar","/home/justinsgray/webapps/paddock/data/avatars/awencil_Tony_thumb","2008","awencil",
+"527","Civic","Honda","Civic Si",NULL,NULL,NULL,"2007","richins989",
+"573","Camaro","Chevrolet","Camaro SS",NULL,NULL,NULL,"2011","RobS",
+"574","Legacy","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Ohiowildes_Legacy_avatar","/home/justinsgray/webapps/paddock/data/avatars/Ohiowildes_Legacy_thumb","2009","Ohiowildes",
+"570","Capt Slow","Toyota","Matrix",NULL,NULL,NULL,"2004","Dave",
+"571","CRX Si","Honda","CRX Si",NULL,NULL,NULL,"1991","gmaloy",
+"572","Boxster","Porsche","Boxster S",NULL,NULL,NULL,"2001","rleshleman",
+"569","Brother","Maxda","MX-5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dave_Brother_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dave_Brother_thumb","1996","Dave",
+"566","Goat","Pontiac","GTO",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SableGTO_Goat_avatar","/home/justinsgray/webapps/paddock/data/avatars/SableGTO_Goat_thumb","2004","SableGTO",
+"567","Ram Air","Pontiac","Grand Am",NULL,NULL,NULL,"2001","Vickers",
+"568","Agent Z","Chevrolet","Camaro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Kubs_Agent Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/Kubs_Agent Z_thumb","1994","Kubs",
+"564","Yellow Z","Nissan","300zx NA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_avatar","/home/justinsgray/webapps/paddock/data/avatars/neonreed_Yellow Z_thumb","1990","neonreed",
+"558","Cobalt SS","Chevy","Cobalt SS",NULL,NULL,NULL,"2008","xr1000",
+"559","Bullitt","Ford","Mustang Bullitt",NULL,NULL,NULL,"2001","RJP330",
+"560","Rattrap","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/skiff_rattrap_avatar","/home/justinsgray/webapps/paddock/data/avatars/skiff_rattrap_thumb","1996","skiff",
+"550","VynCar","Honda","S2000",NULL,NULL,NULL,"2001","docgatorx8er",
+"553","GT","Pontiac","Fiero GT",NULL,NULL,NULL,"1988","WorldRally17",
+"549","The Slow One","VW","GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Thethreefitty_The Slow One_avatar","/home/justinsgray/webapps/paddock/data/avatars/Thethreefitty_The Slow One_thumb","2006","Thethreefitty",
+"548","Kaylee","Mitsubishi ","Eclipse GSX",NULL,NULL,NULL,"1990","Millhouse",
+"544","Sol Rider","Pontiac","Solstice GXP",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Arcrider_Sol Rider_avatar","/home/justinsgray/webapps/paddock/data/avatars/Arcrider_Sol Rider_thumb","2008","Arcrider",
+"545","Wing Car","Special","BBR/Phantom DVS-1",NULL,NULL,NULL,"2008","porgue",
+"546","Lotus","Lotus","Europa",NULL,NULL,NULL,"1970","porgue",
+"547","KARL300","Nissan","300ZX NA Convt",NULL,NULL,NULL,"1993","Karl300",
+"575","Legacy","Subaru","Legacy",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Acewilde_Legacy_avatar","/home/justinsgray/webapps/paddock/data/avatars/Acewilde_Legacy_thumb","2009","Acewilde",
+"578","DSP","BMW","323is",NULL,"/home/justinsgray/webapps/paddock/data/avatars/econnor_DSP_avatar","/home/justinsgray/webapps/paddock/data/avatars/econnor_DSP_thumb","1998","econnor",
+"579","PAX MASTER","VW","R32",NULL,NULL,NULL,"2004","hreracing",
+"580","Sasha","Chevy","Camaro Z28",NULL,NULL,NULL,"1995","kubsdnf",
+"596","littlered","mazda","mx5",NULL,NULL,NULL,"2006","wlschaefer",
+"597","Black Beast","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/sniperm24_Black Beast_avatar","/home/justinsgray/webapps/paddock/data/avatars/sniperm24_Black Beast_thumb","1999","sniperm24",
+"585","Red Rocket","VW","GTI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gti_speed_Red Rocket_avatar","/home/justinsgray/webapps/paddock/data/avatars/gti_speed_Red Rocket_thumb","2008","gti_speed",
+"586","VipeOut","Dodge Viper","GTS",NULL,NULL,NULL,"1997","JackB",
+"587","mazda3","mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Ilder22_mazda3_avatar","/home/justinsgray/webapps/paddock/data/avatars/Ilder22_mazda3_thumb","2010","Ilder22",
+"588","EVO","Mitsubishi","Evolution",NULL,"/home/justinsgray/webapps/paddock/data/avatars/AutoXBrian_EVO_avatar","/home/justinsgray/webapps/paddock/data/avatars/AutoXBrian_EVO_thumb","2004","AutoXBrian",
+"589","44stx","Nissan","Sentra",NULL,"/home/justinsgray/webapps/paddock/data/avatars/44STX_44stx_avatar","/home/justinsgray/webapps/paddock/data/avatars/44STX_44stx_thumb","2003","44STX",
+"590","Pete's car","Nissan","Sentra SE-R Spec V",NULL,NULL,NULL,"2003","piloti33",
+"591","M3","BMW","M3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SPIN2GST_m3_avatar","/home/justinsgray/webapps/paddock/data/avatars/SPIN2GST_m3_thumb","1996","SPIN2GST",
+"592","BusterToy","Porsche","911",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Joacchim_BusterToy_avatar","/home/justinsgray/webapps/paddock/data/avatars/Joacchim_BusterToy_thumb","1988","Joacchim",
+"593","Yellow car","Pontiac","Solstice",NULL,NULL,NULL,"2007","vippygirl",
+"594","VipeOut","Dodge","Viper",NULL,NULL,NULL,"1997","vippygirl",
+"595","S2K","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TTMartin_S2K_avatar","/home/justinsgray/webapps/paddock/data/avatars/TTMartin_S2K_thumb","2006","TTMartin",
+"598","Sly Dover","Mazda","Miata MX5",NULL,NULL,NULL,"2006","SlyDover",
+"599","KILLER","PONTIAC SOLSTICE","GXP",NULL,NULL,NULL,"2007","FASTEST4",
+"600","Little Red Wagon","Pontiac","Vibe GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/cieglo_Little Red Wagon_avatar","/home/justinsgray/webapps/paddock/data/avatars/cieglo_Little Red Wagon_thumb","2003","cieglo",
+"601","rocket","Mazda","Miata",NULL,NULL,NULL,"1999","ra1708",
+"602","notmyMCS","MINI","CooperS",NULL,NULL,NULL,"2010","jasonsmf",
+"603","goat","pontiac","GTO",NULL,"/home/justinsgray/webapps/paddock/data/avatars/milkman_goat_avatar","/home/justinsgray/webapps/paddock/data/avatars/milkman_goat_thumb","2006","milkman",
+"618","Miatter","Mazda","Miata",NULL,NULL,NULL,"1992","AndelMarie",
+"606","boostedlt1","Chevrolet ","Corvette",NULL,NULL,NULL,"1993","groundsupport",
+"607","Sam","Saturn","Ion",NULL,NULL,NULL,"2003","Crabelsnitch",
+"608","Legacy","Subaru","Legacy GT",NULL,NULL,NULL,"2005","szelagta",
+"609","yellow","Triumph","tr7",NULL,NULL,NULL,"1978","RNeill",
+"610","Mazda 3","Mazda","3 Sport Hatchback",NULL,NULL,NULL,"2011","slazor",
+"611","Silver Bullet","Mazda","3 Sport Hatchback",NULL,NULL,NULL,"2011","h2clean",
+"612","RHOTWHL","Chevrolet","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/BuddyL_RHOTWHL_avatar","/home/justinsgray/webapps/paddock/data/avatars/BuddyL_RHOTWHL_thumb","1994","BuddyL",
+"613","Diesel","Vw","Golf tdi",NULL,NULL,NULL,"2011","968crazy",
+"615","The Crow","Honda","CR-Z EX",NULL,"/home/justinsgray/webapps/paddock/data/avatars/wmfahrnbach_CompactR-Zero_avatar","/home/justinsgray/webapps/paddock/data/avatars/wmfahrnbach_CompactR-Zero_thumb","2011","wmfahrnbach",
+"616","Porsche","Porsche","C4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/stevermyers_Porsche_avatar","/home/justinsgray/webapps/paddock/data/avatars/stevermyers_Porsche_thumb","2006","stevermyers",
+"619","TR7","Triumph","Tr7",NULL,NULL,NULL,"1978","RussNiell",
+"620","blue sti","subaru","STI",NULL,NULL,NULL,"2011","kpongs",
+"621","Volvo C30 R-Design","Volvo","C30 R-Design",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirtyswife_Volvo C30 R-Design_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirtyswife_Volvo C30 R-Design_thumb","2010","Dirtyswife",
+"622","One Wicked X","Evo X","",NULL,"/home/justinsgray/webapps/paddock/data/avatars/PeteHanna10_WickedX_avatar","/home/justinsgray/webapps/paddock/data/avatars/PeteHanna10_WickedX_thumb","2010","PeteHanna10",
+"624","RX-8","Mazda","RX-8",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SOGorman35_RX-8_avatar","/home/justinsgray/webapps/paddock/data/avatars/SOGorman35_RX-8_thumb","2005","SOGorman35",
+"625","MX-5","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/komalia_MX-5_avatar","/home/justinsgray/webapps/paddock/data/avatars/komalia_MX-5_thumb","2007","komalia",
+"626","Robert's Civic","Honda","Civic",NULL,NULL,NULL,"1989","BryanR1977",
+"627","Transam ","Pontiac ","Transam WS6",NULL,NULL,NULL,"1999","JeremyP",
+"628","ST Civic","Honda","Civic SI",NULL,NULL,NULL,"1989","drkunze",
+"629","R/T","Dodge","Neon",NULL,NULL,NULL,"1999","Shifter",
+"630","Awesome","University of Akron","F-SAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/powderballz_Awesome_avatar","/home/justinsgray/webapps/paddock/data/avatars/powderballz_Awesome_thumb","2011","powderballz",
+"631","The Business","Honda","Civic",NULL,NULL,NULL,"1989","ToddKunze",
+"632","awesome","University of Akron","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/musial_awesome_avatar","/home/justinsgray/webapps/paddock/data/avatars/musial_awesome_thumb","2011","musial",
+"633","BC510","Datsun","510",NULL,NULL,NULL,"1969","SRPOWRD",
+"634","SRPOWRD","Nissan","Sentra",NULL,NULL,NULL,"1991","SRPOWRD",
+"636","Blue ","Mazda","Miata",NULL,NULL,NULL,"1995","maxcaprez",
+"639","TDI","Volkswagen","Jetta TDI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jmk222_TDI_avatar","/home/justinsgray/webapps/paddock/data/avatars/jmk222_TDI_thumb","1998","jmk222",
+"640","Dat","Datsun","280Zed",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Music_Dat_avatar","/home/justinsgray/webapps/paddock/data/avatars/Music_Dat_thumb","1978","Music",
+"641","Dark horse","Ford","Mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mustang93_Dark horse_avatar","/home/justinsgray/webapps/paddock/data/avatars/mustang93_Dark horse_thumb","1993","mustang93",
+"667","boosted","toyota","supra",NULL,NULL,NULL,"1987","95mustang",
+"668","Scott Pierce","Mazda","Speed6",NULL,NULL,NULL,"2006","SPierce",
+"669","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/davidlc_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/davidlc_Miata_thumb","2001","davidlc",
+"643","LS","Lincoln","LS",NULL,NULL,NULL,"2000","Lincoln_LS",
+"644","wilie","dodge","neon",NULL,NULL,NULL,"1998","crazedbird1980",
+"645","James","BMW","Z3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/chaquita73_James_avatar","/home/justinsgray/webapps/paddock/data/avatars/chaquita73_James_thumb","2000","chaquita73",
+"646","hackmobile #2","Mitsubishi","Autopilot",NULL,"/home/justinsgray/webapps/paddock/data/avatars/fullboost14_hackmobile #2_avatar","/home/justinsgray/webapps/paddock/data/avatars/fullboost14_hackmobile #2_thumb","2006","fullboost14",
+"647","00Z","Chevrolet","Camaro Z28",NULL,NULL,NULL,"2000","92rs00z28",
+"649","Whiplash","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Whiplash_avatar","/home/justinsgray/webapps/paddock/data/avatars/murphdog80_Whiplash_thumb","1992","murphdog80",
+"650","The3","Mazda","3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/eschnei3_The3_avatar","/home/justinsgray/webapps/paddock/data/avatars/eschnei3_The3_thumb","2010","eschnei3",
+"651","03 Cobra","Mustang","SVT Cobra",NULL,"/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_03 Cobra_avatar","/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_03 Cobra_thumb","2003","CraigEnglish",
+"652","bluestreak","pontiac","gtp daytona ",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jbuckygtp_bluestreak_avatar","/home/justinsgray/webapps/paddock/data/avatars/jbuckygtp_bluestreak_thumb","1998","jbuckygtp",
+"653","Purple People Eater","Dodge","Challenger R/T",NULL,"/home/justinsgray/webapps/paddock/data/avatars/eheron_Purple People Eater_avatar","/home/justinsgray/webapps/paddock/data/avatars/eheron_Purple People Eater_thumb","2010","eheron",
+"654","TTZ","Nissan","300Z",NULL,NULL,NULL,"1995","karl44",
+"655","2000 M5","BMW","M5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_2000 M5_avatar","/home/justinsgray/webapps/paddock/data/avatars/CraigEnglish_2000 M5_thumb","2000","CraigEnglish",
+"656","Blue Balls","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Domj2006_Blue Balls_avatar","/home/justinsgray/webapps/paddock/data/avatars/Domj2006_Blue Balls_thumb","2002","Domj2006",
+"658","Rex","Honda","CRX SI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/soloracer_Rex_avatar","/home/justinsgray/webapps/paddock/data/avatars/soloracer_Rex_thumb","1988","soloracer",
+"660","mr grip","subaru","wrxsti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mrgrip_mr grip_avatar","/home/justinsgray/webapps/paddock/data/avatars/mrgrip_mr grip_thumb","2004","mrgrip",
+"661","Slowbalt","Chevrolet","Cobalt SS",NULL,NULL,NULL,"2005","Backdrift",
+"662","BLUEBOX","Volvo","240",NULL,NULL,NULL,"1992","eheron",
+"663","REX","HONDA","CRX SI",NULL,NULL,NULL,"1988","MAGOT",
+"664","Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Millhouse_Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/Millhouse_Miata_thumb","1994","Millhouse",
+"665","Evo","Mitusbishi","Evo X",NULL,"/home/justinsgray/webapps/paddock/data/avatars/WickedX_Evo_avatar","/home/justinsgray/webapps/paddock/data/avatars/WickedX_Evo_thumb","2010","WickedX",
+"666","5-0","Mitsubishi","Ralliart",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mfp5011_5-0_avatar","/home/justinsgray/webapps/paddock/data/avatars/mfp5011_5-0_thumb","2009","mfp5011",
+"672",".","Nissan","350Z",NULL,NULL,NULL,"2008","ro9111",
+"673","MD-2","Homemade","FSAE",NULL,"/home/justinsgray/webapps/paddock/data/avatars/MarkyMark_MD-2_avatar","/home/justinsgray/webapps/paddock/data/avatars/MarkyMark_MD-2_thumb","2012","MarkyMark",
+"699","The Miata","Mazda","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The Miata_avatar","/home/justinsgray/webapps/paddock/data/avatars/gc8_nate_The Miata_thumb","2003","gc8_nate",
+"676","STi","Subaru","Sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/senna1a_STi_avatar","/home/justinsgray/webapps/paddock/data/avatars/senna1a_STi_thumb","2011","senna1a",
+"677","LS1 BMW","BMW","M3",NULL,NULL,NULL,"1996","SloRice",
+"678","Coupe","Hyundai","Genesis coupe 2.0T",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Jaws0813_Coupe_avatar","/home/justinsgray/webapps/paddock/data/avatars/Jaws0813_Coupe_thumb","2010","Jaws0813",
+"679","Subaru STI","Subaru","WRX STI",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Dirtyswife_Subaru STI_avatar","/home/justinsgray/webapps/paddock/data/avatars/Dirtyswife_Subaru STI_thumb","2004","Dirtyswife",
+"680","slick diddly","mazda","rx7",NULL,NULL,NULL,"1988","slickdiddly",
+"682","1994 Mustang GT","Ford","Mustang",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kds94_1994 Mustang GT_avatar","/home/justinsgray/webapps/paddock/data/avatars/kds94_1994 Mustang GT_thumb","1994","kds94",
+"683","Old Black","Honda","Civic",NULL,NULL,NULL,"2010","bdimarco50",
+"684","Fat Man","Acura","TSX",NULL,NULL,NULL,"2010","ljenkins12",
+"685","TC","Toyota","Corolla",NULL,NULL,NULL,"2009","kevinhughes74",
+"686","Lightening","Honda","Civic",NULL,NULL,NULL,"1989","sportmom",
+"687","Miata","Mazda","Mazdaspeed Miata",NULL,NULL,NULL,"2005","63razor",
+"688","No Lotus","WCM Ultralite","S2K",NULL,NULL,NULL,"2006","63razor",
+"689","Hanz Ze Wunder Kar","bmw","325is",NULL,NULL,NULL,"1994","Jwhite325",
+"690","silver bullet","BMW","M3",NULL,NULL,NULL,"2004","m3noob",
+"691","silver surfer","Saab","9-3",NULL,NULL,NULL,"2007","m3noob",
+"692","Miss Roushford","Ford","Mustang RS3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/lgrafton88_Mr. Roushford_avatar","/home/justinsgray/webapps/paddock/data/avatars/lgrafton88_Mr. Roushford_thumb","2012","lgrafton88",
+"693","Das Fuhrer","Audi","90 CS Quattro",NULL,NULL,NULL,"1994","lgrafton88",
+"694","James Rajiah","Ford","SVT Focus",NULL,NULL,NULL,"2002","JamesRajiah",
+"696","bazinga","Subaru","Impreza",NULL,NULL,NULL,"2002","nyaonetwo",
+"697","mustang","Ford","Mustang GT",NULL,NULL,NULL,"2008","sed5014",
+"700","128i","BMW","128i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_128i_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_128i_thumb","2009","Rexpelagi",
+"703","WRX","Subaru","Impreza WRX",NULL,NULL,NULL,"2002","jcarbaugh",
+"704","Mojo","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bakerjd_Mojo_avatar","/home/justinsgray/webapps/paddock/data/avatars/bakerjd_Mojo_thumb","2006","bakerjd",
+"708","Honda s2000","Honda","S2000",NULL,"/home/justinsgray/webapps/paddock/data/avatars/buzzsaw_Honda s2000_avatar","/home/justinsgray/webapps/paddock/data/avatars/buzzsaw_Honda s2000_thumb","2004","buzzsaw",
+"709","civic hatch","honda","civic hatch",NULL,NULL,NULL,"2000","2khb",
+"710","Cap'n Rowdy","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/summernightdrive_Cap'n Rowdy_avatar","/home/justinsgray/webapps/paddock/data/avatars/summernightdrive_Cap'n Rowdy_thumb","1990","summernightdrive",
+"711","Z4M Coupe","BMW","Z4M Coupe",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Monkey_Z4M Coupe_avatar","/home/justinsgray/webapps/paddock/data/avatars/Monkey_Z4M Coupe_thumb","2007","Monkey",
+"713","Machiko","Nissan","350z",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kman_Machiko_avatar","/home/justinsgray/webapps/paddock/data/avatars/kman_Machiko_thumb","2008","kman",
+"714","Wolfie","Volkswagen","Jetta",NULL,NULL,NULL,"2010","emayer12",
+"715","Liesel","Mitsubishi","Lancer",NULL,NULL,NULL,"2008","jeffatluk",
+"716","Dad's Car","Infinity","G37-S",NULL,NULL,NULL,"2008","TDCaldwell",
+"717","Maxima","Nissan","Maxima",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Bavikati_Maxima_avatar","/home/justinsgray/webapps/paddock/data/avatars/Bavikati_Maxima_thumb","2006","Bavikati",
+"718","blue car","bmw","m3",NULL,NULL,NULL,"2003","billybilly",
+"719","Trans Am","Pontiac","Trans Am",NULL,"/home/justinsgray/webapps/paddock/data/avatars/JamesRajiah_Trans Am_avatar","/home/justinsgray/webapps/paddock/data/avatars/JamesRajiah_Trans Am_thumb","1995","JamesRajiah",
+"720","Shooting Brake (work in progre","Volvo","C30R",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mradamdavis_Shooting Brake (work in progress)_avatar","/home/justinsgray/webapps/paddock/data/avatars/mradamdavis_Shooting Brake (work in progress)_thumb","2012","mradamdavis",
+"721","Dirty 3k","mitsubishi","3000gt",NULL,"/home/justinsgray/webapps/paddock/data/avatars/1DurdyVR4_Dirty 3k_avatar","/home/justinsgray/webapps/paddock/data/avatars/1DurdyVR4_Dirty 3k_thumb","1991","1DurdyVR4",
+"722","larry","BMW","325ix",NULL,NULL,NULL,"1991","clevelandaudio",
+"733","G","Infiniti","G35",NULL,"/home/justinsgray/webapps/paddock/data/avatars/imaxorz_G_avatar","/home/justinsgray/webapps/paddock/data/avatars/imaxorz_G_thumb","2006","imaxorz",
+"725","Trans amer","pontiac ","trans am",NULL,NULL,NULL,"2000","Skeeter302",
+"726","Race Car","MD","MD-2",NULL,NULL,NULL,"2011","Skeeter302",
+"729","GTR","Ford","Mustang GT",NULL,"/home/justinsgray/webapps/paddock/data/avatars/wahlstang_GTR_avatar","/home/justinsgray/webapps/paddock/data/avatars/wahlstang_GTR_thumb","2011","wahlstang",
+"731","cop","infiniti","g37",NULL,NULL,NULL,"2008","Alsaleh",
+"732","2005 Sti","Subaru","Sti",NULL,"/home/justinsgray/webapps/paddock/data/avatars/burken_2005 Sti_avatar","/home/justinsgray/webapps/paddock/data/avatars/burken_2005 Sti_thumb","2005","burken",
+"734","STO1EN","BMW","525i",NULL,"/home/justinsgray/webapps/paddock/data/avatars/LazyboyChair_STO1EN_avatar","/home/justinsgray/webapps/paddock/data/avatars/LazyboyChair_STO1EN_thumb","1995","LazyboyChair",
+"735","2 tons of fun","Dodge","Charger",NULL,"/home/justinsgray/webapps/paddock/data/avatars/66Autoxcharger_2 tons of fun_avatar","/home/justinsgray/webapps/paddock/data/avatars/66Autoxcharger_2 tons of fun_thumb","1966","66Autoxcharger",
+"736","Gold Dust","Dodge","GLH",NULL,NULL,NULL,"1985","66Autoxcharger",
+"737","Little Red","Dodge","GLHT",NULL,NULL,NULL,"1985","66Autoxcharger",
+"738",".","Mazda","Miata",NULL,NULL,NULL,"1990","MattC",
+"739","Magnum","Dodge","Magnum",NULL,NULL,NULL,"2005","jljbtm",
+"740","Grey Ghost","Audi","A4",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mach_v_Grey Ghost_avatar","/home/justinsgray/webapps/paddock/data/avatars/mach_v_Grey Ghost_thumb","2002","mach_v",
+"741","car","Mitsubishi","Lancer RA",NULL,"/home/justinsgray/webapps/paddock/data/avatars/alexw3000gt_car_avatar","/home/justinsgray/webapps/paddock/data/avatars/alexw3000gt_car_thumb","2010","alexw3000gt",
+"742","[SRC]SECRETrallyCAR","Subaru","Impreza Outback Spor",NULL,"/home/justinsgray/webapps/paddock/data/avatars/downtmp_[SRC]SECRETrallyCAR_avatar","/home/justinsgray/webapps/paddock/data/avatars/downtmp_[SRC]SECRETrallyCAR_thumb","1999","downtmp",
+"745","Bat Wagon","Mazda","Protege5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Lewis7789_Bat Wagon_avatar","/home/justinsgray/webapps/paddock/data/avatars/Lewis7789_Bat Wagon_thumb","2003","Lewis7789",
+"746","Shamu","Mazda","Mazdaspeed3",NULL,NULL,NULL,"2008","fishdonotbounce",
+"747","evo x","Mitsubishi","Lancer Evo",NULL,"/home/justinsgray/webapps/paddock/data/avatars/solarwater_evo x_avatar","/home/justinsgray/webapps/paddock/data/avatars/solarwater_evo x_thumb","2010","solarwater",
+"748","M","BMW","M5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/SableGTO_M_avatar","/home/justinsgray/webapps/paddock/data/avatars/SableGTO_M_thumb","2006","SableGTO",
+"749","Blackangel","ford","focus",NULL,"/home/justinsgray/webapps/paddock/data/avatars/blackangel11_Blackangel_avatar","/home/justinsgray/webapps/paddock/data/avatars/blackangel11_Blackangel_thumb","2010","blackangel11",
+"750","Green Machine","Chevy","Camaro",NULL,NULL,NULL,"2011","sir574",
+"751","red baron","ford","mustang ",NULL,NULL,NULL,"2012","billR",
+"752","tweety","mazda","miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/flyingsaturn_tweety_avatar","/home/justinsgray/webapps/paddock/data/avatars/flyingsaturn_tweety_thumb","1990","flyingsaturn",
+"753","zoom zoom","Mazada","Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jackson_zoom zoom_avatar","/home/justinsgray/webapps/paddock/data/avatars/jackson_zoom zoom_thumb","1995","jackson",
+"754","Tatiana","Mazda","Speed Miata",NULL,"/home/justinsgray/webapps/paddock/data/avatars/peaches_Tatiana_avatar","/home/justinsgray/webapps/paddock/data/avatars/peaches_Tatiana_thumb","2004","peaches",
+"755","Jamie","Mazda","Miata",NULL,NULL,NULL,"1190","docgatorx8er",
+"756","The Speed","Mazda","MazdaSPEED3",NULL,NULL,NULL,"2012","JMArnal",
+"757","1303T","Volkswagen","Super Beetle",NULL,NULL,NULL,"1974","Superveedub",
+"758","GTI","Volkswagen","GTI GLS 1.8T",NULL,NULL,NULL,"2001","Superveedub",
+"760","evening hawk","mazda","miata",NULL,NULL,NULL,"1993","Zpl2",
+"763","Kale's Car","BMW","E36 M3",NULL,"/home/justinsgray/webapps/paddock/data/avatars/bmwohio_Kale's Car_avatar","/home/justinsgray/webapps/paddock/data/avatars/bmwohio_Kale's Car_thumb","1997","bmwohio",
+"764","Burt ReynoldZ","Subaru","BRZ",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rodgort42_Burt ReynoldZ_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rodgort42_Burt ReynoldZ_thumb","2013","Rodgort42",
+"765","Venom","Chevy","Corvette",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Z06VENOM_Venom_avatar","/home/justinsgray/webapps/paddock/data/avatars/Z06VENOM_Venom_thumb","2003","Z06VENOM",
+"766","P5","Mazda","Protegé5",NULL,NULL,NULL,"2002","n_likoray",
+"767","Neon","Plymouth","Neon ACR",NULL,"/home/justinsgray/webapps/paddock/data/avatars/crayzlair_Neon_avatar","/home/justinsgray/webapps/paddock/data/avatars/crayzlair_Neon_thumb","1997","crayzlair",
+"768","WRX","Subaru","WRX",NULL,NULL,NULL,"2002","BryanR1977",
+"769","Red","Dodge","Viper",NULL,NULL,NULL,"1997","Trin",
+"770","Shelby","Ford","Mustang",NULL,NULL,NULL,"2008","DavidBuschur",
+"771","Frank","BMW","325is",NULL,NULL,NULL,"1994","chhutchins",
+"772","Toyota Celica GTS","Toyota","Celica GTS",NULL,NULL,NULL,"2001","lazorbeam",
+"773","Jetta","VW","Jetta",NULL,"/home/justinsgray/webapps/paddock/data/avatars/jay05_Jetta_avatar","/home/justinsgray/webapps/paddock/data/avatars/jay05_Jetta_thumb","1982","jay05",
+"774","MS3","Mazda","Speed 3",NULL,NULL,NULL,"2009","Evan9999",
+"775","Integra","Acura","Integra GSR",NULL,NULL,NULL,"2001","iandecker",
+"795","Civic","Honda ","Civic Si",NULL,NULL,NULL,"1990","iandecker",
+"777","Evo","Mitsubishi","Evolution",NULL,NULL,NULL,"2006","Ihockey1",
+"796","Subee","Subaru","Impreza",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Turbine_Junkie_Subee_avatar","/home/justinsgray/webapps/paddock/data/avatars/Turbine_Junkie_Subee_thumb","2007","Turbine_Junkie",
+"778","Sh!t Box","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/rtryrkt94_Sh!t Box_avatar","/home/justinsgray/webapps/paddock/data/avatars/rtryrkt94_Sh!t Box_thumb","1990","rtryrkt94",
+"779","RWD Revisited","Scion","FR-S",NULL,NULL,NULL,"2013","fullboost14",
+"780","Otter","Mazda","Miata",NULL,NULL,NULL,"1996","lstanka",
+"781","old red car","Chevrolet","Camaro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/alnoe_old red car_avatar","/home/justinsgray/webapps/paddock/data/avatars/alnoe_old red car_thumb","1967","alnoe",
+"782","Sean","Subaru","STI",NULL,NULL,NULL,"2010","sblake08",
+"783","Si","Honda","Civic Si",NULL,"/home/justinsgray/webapps/paddock/data/avatars/mrcivic84_Si_avatar","/home/justinsgray/webapps/paddock/data/avatars/mrcivic84_Si_thumb","2012","mrcivic84",
+"784","Red Car To Be Named Later","Mazda","Miata MX-5",NULL,"/home/justinsgray/webapps/paddock/data/avatars/kogorman_Red Car To Be Named Later_avatar","/home/justinsgray/webapps/paddock/data/avatars/kogorman_Red Car To Be Named Later_thumb","2001","kogorman",
+"785","WRX","Subaru","WRX",NULL,NULL,NULL,"2011","jrose29",
+"786","S2K","Honda","S2000",NULL,NULL,NULL,"2002","jrose29",
+"787","Emi","Mazda","Miata",NULL,NULL,NULL,"1995","chocalotstarfish",
+"789","Little Red","BMW","325is",NULL,NULL,NULL,"1987","climber",
+"790","Mazda","Mazda","Miata",NULL,NULL,NULL,"1999","mwendolowski",
+"791","Mazda","Mazda","Miata",NULL,NULL,NULL,"1999","jwendolowski",
+"792","Simone","Saturn","Sky",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TheLimit9_Simone_avatar","/home/justinsgray/webapps/paddock/data/avatars/TheLimit9_Simone_thumb","2008","TheLimit9",
+"793","Dad","Chevy","Camaro",NULL,"/home/justinsgray/webapps/paddock/data/avatars/TheLimit9_Dad_avatar","/home/justinsgray/webapps/paddock/data/avatars/TheLimit9_Dad_thumb","2010","TheLimit9",
+"794","Jenny","VW","GTI",NULL,NULL,NULL,"2010","ajn149",
+"797","Zero","Mitsubishi","Zero",NULL,"/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Zero_avatar","/home/justinsgray/webapps/paddock/data/avatars/Rexpelagi_Zero_thumb","2006","Rexpelagi",
+"799","Stinky","","Civic",NULL,NULL,NULL,"1993","rollsroyce1999",
+"807","1FSTZ","NISSAN","370Z",NULL,NULL,NULL,"2012","1FSTZ",

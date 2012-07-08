@@ -1,3 +1,3 @@
-"id","name","class_letters","reg_limit","index","description","club_name"
-"3","Rookie","R","3",NULL,"Must attend novice walk, and will be paired up with an experienced course worker. Must have not had auto-cross experience before. Can only run 3 events, max as a rookie","NORA - ASCC"
-"2","Pro","X",NULL,NULL,"For more advanced drivers who want to compete with others based on the pax-index ","NORA - ASCC"
+"id","name","class_letters","reg_limit","index","description","club_name",
+"3","Rookie","R","3",NULL,"Must attend novice walk, and will be paired up with an experienced course worker. Must have not had auto-cross experience before. Can only run 3 events, max as a rookie","NORA - ASCC",
+"2","Pro","X",NULL,NULL,"For more advanced drivers who want to compete with others based on the pax-index ","NORA - ASCC",
