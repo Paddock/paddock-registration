@@ -54,7 +54,7 @@ class Command(BaseCommand):
                     c.name = line['nickname']
                     c.make = line['make']
                     c.model = line['model']
-                    c.color = line['color']
+                    if line['color']: c.color = line['color']
                     c.year = line['year']
                     c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
                     s_car_id = (line['owner_user_name'],line['nickname'])
@@ -64,6 +64,7 @@ class Command(BaseCommand):
                     c.save()
                     car_map[line['id']] = c
                 except:
+                    print "problem with cars"
                     continue
                     
         

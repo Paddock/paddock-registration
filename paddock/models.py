@@ -830,7 +830,7 @@ def uplaoad_car_to(car,file_name):
 
 class Car(m.Model): 
     name = m.CharField('Nickname',max_length=30)
-    color = m.CharField('Color',max_length=40)
+    color = m.CharField('Color',max_length=40,blank=True,null=True)
     year = m.IntegerField('Year')    
     make = m.CharField('Make',max_length=40)
     model = m.CharField('Model',max_length=40)
