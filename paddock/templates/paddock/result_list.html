@@ -60,7 +60,17 @@
                 </li>
               {% endfor %}
             {% else %}
-              test 
+              {% for r in reg.results.all %}
+                <li>{% for run in r.runs.all %}
+                    {% ifequal run r.best_run %}
+                      <code>{{ run }}</code>
+                    {% else %}
+                      {{ run }}
+                    {% endifequal %}  
+                    {% if not forloop.last %}| {% endif %}
+                  {% endfor%}
+                </li>
+              {% endfor %}
             {% endif %}  
           {% endwith %}
           <ul>
