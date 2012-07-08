@@ -18,9 +18,17 @@
   <script type="text/javascript" charset="utf-8">
    /* Table initialisation */
    $(document).ready(function() {
+      // 'open' an information row when a row is clicked on
+      table = $('.class_results').dataTable();
+   
       $('.result_row').click(function(){
         $(this).find('i').toggleClass("icon-play-circle icon-download");
-        $(this).next().children().toggle();
+        //$(this).next().children().toggle();
+        if ( table.fnIsOpen(this) ) {
+          table.fnClose( this );
+        } else {
+          table.fnOpen( this, "Temporary row opened", "info_row" );
+        }
       });   
       $('.avatar_pic').avatar_popover();
   } );
