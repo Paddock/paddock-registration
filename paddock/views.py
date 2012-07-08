@@ -54,7 +54,8 @@ def event(request,club_name,season_year,event_name):
         elif r.bump_class: 
             reg_sets.setdefault(r.bump_class,[]).append(r)
         else: 
-            reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
+            #reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
+            reg_sets.setdefault(None,[]).append(r)
     
     reg_sets = OrderedDict(sorted(reg_sets.items(),key=lambda t:t[0],reverse=True))  
     

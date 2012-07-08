@@ -10,7 +10,7 @@
     <th>Name</th><th>Car</th><th>Class</th><th>#</th> 
   </tr> </thead>
   {% for reg in regs %}
-    <tr style="width: 100%">
+    <tr style="width: 100%"> 
       <td>{{ reg.first_name }} {{ reg.last_name }}</td>
       <td>{{ reg.car_name }}
         {% if reg.car.avatar %}
