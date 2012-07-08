@@ -14,24 +14,20 @@
 <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-popover.js"></script>
 <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
 <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
+<script src="{{ STATIC_URL }}paddock.js"></script>
 <script type="text/javascript" charset="utf-8">
   /* Table initialisation */
   $(document).ready(function() {
-      $('.avatar_pic').popover( {
-          "content": function(){
-	      var img_href = $(this).attr('href')
-              return '<img src="'+img_href+'"/>'
-	  }
-      });
+      $('.avatar_pic').avatar_popover();
       $('.reg_table').dataTable( {
-	  "sPaginationType": "bootstrap",
 	  "bPaginate": false,
 	  "aaSorting": [[0,'asc']],
-	  "aoColumns": [{ "sType": "name"},
-		        { "bSortable": false},
-			{ "aDataSort": [ 2, 3] },
-			{ "aDataSort": [ 3, 2] },
-		      ],
+	  "aoColumnDefs": [
+	      {"sType": "name", aTargets: [0]},
+	      { "bSortable": false, aTargets:[1]},
+	      { "aDataSort": [ 2, 3], aTargets:[2] },
+	      { "aDataSort": [ 3, 2], aTargets:[3] },
+	  ],
 	  "oLanguage": {
 	      "sInfo": ""
 	  }	      
