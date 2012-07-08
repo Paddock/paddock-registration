@@ -22,7 +22,7 @@
   </tr> </thead>
   {% for reg in regs %}
     <tr class="result_row">
-      <td rowspan="2"><i class="icon-play-circle"></i> {{ forloop.counter }}</td>
+      <td><i class="icon-play-circle"></i> {{ forloop.counter }}</td>
       
       <td>{{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
         {% if reg.car.avatar %}
@@ -41,7 +41,7 @@
       {% endif%}
       
     </tr>
-    <tr>
+    <!--<tr>
         <td colspan="5" style="display: none;">
           <ul class="unstyled">
           <li>car: {{ reg.car_name  }}</li>
@@ -75,6 +75,6 @@
           {% endwith %}
           <ul>
         </td>
-    </tr>
+    </tr> -->
   {% endfor %} <!--close event loop -->
 </table>
