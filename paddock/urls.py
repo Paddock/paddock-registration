@@ -5,6 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 from forms import AuthenticationForm
+from api import v1_api
+
+
 
 urlpatterns = patterns('paddock.views',
     #url(r'^$','clubs'),
@@ -18,7 +21,5 @@ urlpatterns = patterns('paddock.views',
          'authentication_form':AuthenticationForm}),
     url(r'^logout/$','logout',
         {'next_page':'/paddock/clubs'}),
-    
-    
+    url(r'api/',include(v1_api.urls)),
 )
-

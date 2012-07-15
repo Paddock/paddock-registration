@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'bootstrap',
     'easy_maps',
+    'tastypie',
     'paddock',
 )
 

@@ -1,0 +1,19 @@
+<table class="table table-striped table-bordered table-condensed 
+{% if table_class %}{{table_class}}{% endif %}" {% if table_id %}id="{{table_id}}"{% endif %} style="text-align:left;">
+  <thead> 
+    <tr>
+      <th>Driver</th>
+      <th>Points</th>
+      <th>APPE</th>
+      <th># Events</th>
+    </tr> 
+  </thead>
+  {% for up,data in points %}
+    <tr>
+      <td>{{up.user.first_name}} {{up.user.last_name}}</td>
+      <td>{{data.points}}</td>
+      <td>{{data.appe}}</td>
+      <td>{{data.n_regs}}</td>
+    </tr>
+  {% endfor %}
+</table>  

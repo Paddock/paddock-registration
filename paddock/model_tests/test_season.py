@@ -43,9 +43,10 @@ class TestSeasonBasic(django.test.TestCase):
 class TestSeasonWithData(django.test.TestCase): 
     """test that use the large test dataset""" 
     
-    fixtures = ['test_data.json']
+    fixtures = ['test_data.json',]
 
-    def test_events_with_results(self):       
+    def test_events_with_results(self):  
+        print Season.objects.all()
         season = Season.objects.get(club___name="NORA - ASCC", year="2010")
         self.assertEqual(19,season.complete_events().count())
         self.assertEqual(0,season.upcoming_events().count())

@@ -1,14 +1,7 @@
 {% load paddock_tags %}
 
-<table class="table table-striped2 table-bordered table-condensed
-{% if table_class %}
-    {{table_class}}
-{% endif %}" 
-{% if table_id %}
-    id="{{table_id}}"
-{% endif %}
- style="text-align:left;">
-  <thead> <tr > 
+<table class="table table-striped2 table-bordered table-condensed {% if table_class %}{{table_class}}{% endif %}" {% if table_id %} id="{{table_id}}"{% endif %} style="text-align:left;">
+  <thead> <tr> 
     <th style="width:10px;">#</th>
     <th style="width:5em;">Car</th>
     <th style="width:12em;">Driver</th>
@@ -22,7 +15,7 @@
   </tr> </thead>
   {% for reg in regs %}
     <tr class="result_row">
-      <td><i class="icon-play-circle"></i> {{ forloop.counter }}</td>
+      <td rowspan="2"><i class="icon-play-circle"></i> {{ forloop.counter }}</td>
       
       <td>{{ reg.number|ljust:'4'|spacify }}{{ reg.race_class.abrv }}
         {% if reg.car.avatar %}
@@ -41,7 +34,7 @@
       {% endif%}
       
     </tr>
-    <!--<tr>
+    <tr>
         <td colspan="5" style="display: none;">
           <ul class="unstyled">
           <li>car: {{ reg.car_name  }}</li>
@@ -75,6 +68,6 @@
           {% endwith %}
           <ul>
         </td>
-    </tr> -->
+    </tr>
   {% endfor %} <!--close event loop -->
 </table>

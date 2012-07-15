@@ -5,6 +5,8 @@ when you run "manage.py test".
 Replace this with more appropriate tests for your application.
 """
 
+import json
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 
@@ -18,22 +20,29 @@ from paddock.model_tests.test_dibs import TestDibs
 from paddock.model_tests.test_result import TestResult
 from paddock.model_tests.test_membership import TestMembership
 from paddock.model_tests.test_order_coupon import TestCoupon,TestOrder
+from paddock.model_tests.test_api import RegistrationResourceTest
+
 
 
 
 class TestViews(TestCase): 
+    fixtures = ['test_data.json']
     
     def setUp(self): 
         self.c = Client()
         
     def test_index_views(self):
-        
+        from paddock.models import Event
+        print Event.objects.filter(season__year="2012").all()
         urls = (('/paddock/clubs/',{}),
-               )
+                ('/paddock/clubs/noraascc/seasons/2012/events/testntune',{}),
+                )
         
         for addr,args in urls: 
-            response = self.c.post(addr,args)
+            response = self.c.get(addr,args)
             self.assertEqual(response.status_code,200)
+        
+        
         
 
 from paddock.models import find_user
