@@ -39,4 +39,11 @@ def result_table(regs,table_id=None,table_class=None,pax=False):
             'table_class':table_class,
             'regs':regs,
             'pax':pax}
+
+@register.inclusion_tag('paddock/points_list.html')
+def points_table(points,table_id=None,table_class=None,pax=False): 
+    return {'table_id':table_id,
+            'table_class':table_class,
+            'points':points,
+            'pax':pax} 
     

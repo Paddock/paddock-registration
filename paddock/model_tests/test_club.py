@@ -14,7 +14,7 @@ class TestClub(unittest.TestCase):
         c.name = "Some - Racers"
 
         c.full_clean()
-        self.assertEqual("some-racers", c.safe_name)
+        self.assertEqual("someracers", c.safe_name)
 
         c = Club()
         c.name = "some\\racers"

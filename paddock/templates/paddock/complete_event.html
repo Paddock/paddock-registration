@@ -19,16 +19,10 @@
    /* Table initialisation */
    $(document).ready(function() {
       // 'open' an information row when a row is clicked on
-      table = $('.class_results').dataTable();
    
       $('.result_row').click(function(){
         $(this).find('i').toggleClass("icon-play-circle icon-download");
-        //$(this).next().children().toggle();
-        if ( table.fnIsOpen(this) ) {
-          table.fnClose( this );
-        } else {
-          table.fnOpen( this, "Temporary row opened", "info_row" );
-        }
+        $(this).next().children().toggle();
       });   
       $('.avatar_pic').avatar_popover();
   } );
@@ -99,6 +93,20 @@
             {% result_table regs table_class="pax_results" pax=1 %}
         </div><!--/tab-pane-->
         <div class="tab-pane" id="season_points">
+          <div class="row">
+            <div class="span6">
+                <h3>Class Points</h3>
+                {% for race_class,class_results in class_points %}
+                  <h4> {{race_class.abrv}} </h4>
+                  {% points_table class_results table_class="class_points"%}
+                {% endfor %}
+            </div><!--/span6-->
+            <div class="span6">
+                <h3>Index Points</h3>
+                {% points_table index_points table_class="pax_points" pax=1 %}
+            </div><!--/span6-->
+          </div><!-- /row -->
+        
         </div><!--/tab-pane-->
       </div><!--/tab-content-->
     </div><!--/tabbable-->

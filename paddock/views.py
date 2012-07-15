@@ -81,7 +81,7 @@ def event(request,club_name,season_year,event_name):
                               context,
                               context_instance=RequestContext(request))
     else: 
-        #context['index_points'],context['class_points'] = event.season.points_as_of(event.date) 
+        context['index_points'],context['class_points'] = event.season.points_as_of(event.date) 
             
         context['top_pax_reg'] = regs[0]
         context['top_raw_reg'] = regs.order_by('-n_runs','total_raw_time')[0]        

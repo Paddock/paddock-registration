@@ -9,6 +9,7 @@ from collections import OrderedDict
 
 from django.db import models as m
 from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
+from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
@@ -420,8 +421,8 @@ class Season(m.Model):
         return self.events.exclude(date__gte=datetime.date.today()).order_by('-date')
     
     def points_as_of(self,date=None): 
-        """gets a lists of index_points,[(user,n_events,index_points),], and 
-        class_points, [(race_class,[user,n_events,class_points])], as of the given date"""
+        """gets a lists of index_points,[(user,{'n_regs':<int>,'points':<int>,'appe':<int>}),...], and 
+        class_points, [(race_class,[user{'n_regs':<int>,'points':<int>,'appe':<int>},...])], as of the given date"""
         
         event_count = self.events.filter(season=self,count_points=True).count()
         if event_count > self.drop_lowest_events: 
@@ -450,16 +451,18 @@ class Season(m.Model):
             if reg.pax_class: 
                 class_key = reg.pax_class
             
-            index_sets.setdefault(up,{'n_regs':0,'points':0}) 
+            index_sets.setdefault(up,{'n_regs':0,'points':0,'appe':0}) 
             class_sets.setdefault(class_key,dict())
             
             if index_sets[up]['n_regs'] < limit: 
                 index_sets[up]['n_regs'] += 1
                 index_sets[up]['points'] += reg.index_points
+                index_sets[up]['appe'] = int(round(index_sets[up]['points']/float(index_sets[up]['n_regs']),0))
                 
-                class_sets[class_key].setdefault(up,{'n_regs':0,'points':0})
+                class_sets[class_key].setdefault(up,{'n_regs':0,'points':0,'appe':0})
                 class_sets[class_key][up]['n_regs']+=1
                 class_sets[class_key][up]['points']+=reg.class_points
+                class_sets[class_key][up]['appe'] = int(round(class_sets[class_key][up]['points']/float(class_sets[class_key][up]['n_regs'])))
                 
         index_points = sorted(index_sets.items(), key=lambda t: t[1]['points'],reverse=True) 
         class_points = sorted(class_sets.items(), key=lambda t: t[0].abrv) 
@@ -629,12 +632,15 @@ class Registration(Purchasable):
 
     @property
     def user(self):
-        return self.user_profile.user
+        if self.user_profile is not None: 
+            return self.user_profile.user
+        else: 
+            return AnonymousUser()
 
     #used only for anonymous regs
-    _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
-    _anon_l_name = m.CharField(max_length=50,blank=True,null=True,default="N/A")
-    _anon_car = m.CharField(max_length=50,blank=True,null=True,default="N/A")
+    _anon_f_name = m.CharField(max_length=50,default="N/A")
+    _anon_l_name = m.CharField(max_length=50,default="N/A")
+    _anon_car = m.CharField(max_length=50,default="N/A")
 
     @property
     def car_name(self): 
