@@ -4,13 +4,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.views.generic.create_update import create_object, update_object
 
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
 
 from django.utils.timezone import now as django_now
 
-from paddock.models import Club,Event,Season
+from paddock.models import Club,Event,Season,Registration
 
 #django auth views
 from django.contrib.auth.views import login
@@ -93,10 +94,17 @@ def event_register(request,club_name,season_year,event_name):
     """register for an event""" 
     
     context = {}
-    return render_to_response('paddock/event.html',
-                                  context,
-                                  context_instance=RequestContext(request))    
+    
+    return create_object(request, Registration,
+           template_name='paddock/event_reg_form.html',
+           post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
+           extra_context={})    
+    
+    #return render_to_response('paddock/event.html',
+    #                              context,
+    #                              context_instance=RequestContext(request))    
 
+#new user registration
 def register(request): 
     """handles redering of new user form and creation of users"""
     
