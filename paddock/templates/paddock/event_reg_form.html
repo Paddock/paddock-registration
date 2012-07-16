@@ -1,0 +1,27 @@
+{% extends "paddock/base.html" %}
+{% load url from future %}
+{% load easy_maps_tags %}
+{% load paddock_tags %}
+
+{% block title %} Racerslane: {{ club.name }} {{ event.name }} {% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}DT_bootstrap.css">
+{% endblock head_css %}
+
+{% block foot_js %}
+<script src="{{ STATIC_URL }}ember-0.9.8.1.min.js"></script>
+<script src="{{ STATIC_URL }}ember-data.js"></script>
+<script src="{{ STATIC_URL }}paddock.js"></script>
+{% endblock foot_js %}
+
+{% block content %}
+<div id="registration" class="span12">
+  <form action="" method="post">
+    {{ form }}
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+  </form>
+</div><!-- /span12 -->
+{% endblock content%}

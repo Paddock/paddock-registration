@@ -146,6 +146,7 @@ INSTALLED_APPS = (
 )
 
 AUTH_PROFILE_MODULE = 'paddock.UserProfile'
+LOGIN_URL = '/paddock/login/'
 LOGIN_REDIRECT_URL = '/paddock/clubs'
 ACCOUNT_ACTIVATION_DAYS = 7
 DEFAULT_FROM_EMAIL = "noreply@racerslane.com"
