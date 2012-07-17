@@ -8,17 +8,20 @@ from django.views.generic.create_update import create_object, update_object
 
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
-
-from django.utils.timezone import now as django_now
-
-from paddock.models import Club,Event,Season,Registration
-
 #django auth views
 from django.contrib.auth.views import login
 from django.contrib.auth.views import logout
 
+from django.utils.timezone import now as django_now
+
+from django.forms import ModelChoiceField
+
+
+from paddock.models import Club,Event,Season,Registration,Car
+
 #paddodk forms
-from forms import UserCreationForm, AuthenticationForm, ActivationForm
+from paddock.forms import UserCreationForm, AuthenticationForm, ActivationForm,\
+     RegForm
 
 
 def clubs(request):
@@ -92,17 +95,25 @@ def event(request,club_name,season_year,event_name):
     
 def event_register(request,club_name,season_year,event_name): 
     """register for an event""" 
+    up = request.user.get_profile()
     
-    context = {}
+    class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
+        car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
     
-    return create_object(request, Registration,
-           template_name='paddock/event_reg_form.html',
-           post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
-           extra_context={})    
+    event = Event.objects.select_related('season','season__club').\
+            get(season__club__safe_name=club_name,
+                season__year=season_year,
+                safe_name=event_name)
     
-    #return render_to_response('paddock/event.html',
-    #                              context,
-    #                              context_instance=RequestContext(request))    
+    return create_object(request, form_class=UserRegForm,
+            template_name='paddock/event_reg_form.html',
+            post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
+            extra_context={'event':event,
+                           'season':event.season,
+                           'club':event.season.club
+                          })    
+    
+
 
 #new user registration
 def register(request): 

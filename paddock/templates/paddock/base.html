@@ -46,7 +46,7 @@
               
             </li>
             <li>
-              <p class="navbar-text"><a href="{% url 'django.contrib.auth.views.login' %}">Login</a>  
+              <p class="navbar-text"><a href="{% url 'django.contrib.auth.views.login'%}?next={{request.path}}">Login</a>  
               or 
               <a href="{% url 'paddock.views.register' %}">Sign Up</a></p>
             </li>

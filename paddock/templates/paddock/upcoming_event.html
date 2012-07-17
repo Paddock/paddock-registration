@@ -68,7 +68,7 @@
       {% elif is_auth %}
 	<h3><a href="{{ reg_url }}">Register for the event </a></h3>
       {% else %}
-	<h3><a href="{% url 'paddock.views.login' %}&next={{reg_url}}">Login</a>
+	<h3><a href="{% url 'paddock.views.login' %}?next={{reg_url}}">Login</a>
 	to register for the event</h3>
       {% endif %}
     {% else %}
