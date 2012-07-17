@@ -16,7 +16,15 @@
 {% endblock foot_js %}
 
 {% block content %}
+<div class="row">
 <div id="registration" class="span12">
+  <h2>Sign up for {{ club.name }} {{ event.name }} -- {{ event.date }}</h2>
+  
+</div><!-- /span12 -->
+</div><!-- /row -->
+
+<div class="row">
+<div id="registration" class="span3">
   <form action="" method="post">
     {{ form }}
     <div class="form-actions">
@@ -24,4 +32,5 @@
     </div>
   </form>
 </div><!-- /span12 -->
+</div><!-- /row -->
 {% endblock content%}
