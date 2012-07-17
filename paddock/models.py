@@ -531,7 +531,7 @@ class Event(m.Model):
     def allow_number_race_class(self,number,race_class): 
         """Checks to see if the specified number and race_class are available for this event"""
         #check if the number/class is used in this event 
-        reg_check = Event.objects.filter(id=self.id,
+        reg_check = Event.objects.filter(pk=self.pk,
                                          regs__number=number,	                     
                                          regs__race_class=race_class).count()
         if reg_check: 
@@ -628,7 +628,7 @@ class Registration(Purchasable):
     class_points = m.IntegerField(blank=True,null=True, editable=False)
     index_points = m.IntegerField(blank=True,null=True, editable=False)
 
-    event = m.ForeignKey("Event",related_name="regs", editable=False)
+    event = m.ForeignKey("Event",related_name="regs")
 
     user_profile = m.ForeignKey('UserProfile',related_name="regs",blank=True,null=True, editable=False)
     
