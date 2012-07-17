@@ -12,7 +12,10 @@ class RegForm(BootstrapModelForm):
     class Meta: 
         model = Registration
         #fields = ('number','race_class','pax_class')
-        exclude = ['order','price']  
+        exclude = ['order','price','bump_class','checked_in','run_heat',
+                   'work_heat','total_raw_time','total_index_time',
+                   'class_points','index_points','_anon_f_name',
+                   '_anon_l_name','_anon_car']  
         
 
 class UserCreationForm(BootstrapMixin, UCF):

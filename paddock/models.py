@@ -617,20 +617,20 @@ class Registration(Purchasable):
     pax_class  = m.ForeignKey("RaceClass",limit_choices_to={'pax_class':True},
                               verbose_name="Registration Type",
                               related_name="+",blank=True,null=True)
-    bump_class = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True, editable=False)
-    run_heat = m.IntegerField("Run Heat",blank=True,null=True,default=None, editable=False)
-    work_heat = m.IntegerField("Work Heat",blank=True,null=True,default=None, editable=False)
+    bump_class = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
+    run_heat = m.IntegerField("Run Heat",blank=True,null=True,default=None)
+    work_heat = m.IntegerField("Work Heat",blank=True,null=True,default=None)
     checked_in = m.BooleanField("Checked In",default=False,editable=False)
 
-    total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default = None, editable=False)
-    total_index_time = m.FloatField('Total Index Time', blank=True, null=True, default = None, editable=False)
+    total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default = None)
+    total_index_time = m.FloatField('Total Index Time', blank=True, null=True, default = None)
 
     class_points = m.IntegerField(blank=True,null=True, editable=False)
     index_points = m.IntegerField(blank=True,null=True, editable=False)
 
     event = m.ForeignKey("Event",related_name="regs")
 
-    user_profile = m.ForeignKey('UserProfile',related_name="regs",blank=True,null=True, editable=False)
+    user_profile = m.ForeignKey('UserProfile',related_name="regs",blank=True,null=True)
     
     #used only for anonymous regs
     _anon_f_name = m.CharField(max_length=50,default="N/A", editable=False)

@@ -17,7 +17,7 @@ from django.utils.timezone import now as django_now
 from django.forms import ModelChoiceField, IntegerField, HiddenInput
 
 
-from paddock.models import Club,Event,Season,Registration,Car
+from paddock.models import Club,Event,Season,Registration,Car,UserProfile
 
 #paddodk forms
 from paddock.forms import UserCreationForm, AuthenticationForm, ActivationForm,\
@@ -96,7 +96,7 @@ def event(request,club_name,season_year,event_name):
 def event_register(request,club_name,season_year,event_name): 
     """register for an event""" 
     up = request.user.get_profile()
-    e = Event.objects.select_related('season','season__club').\
+    e = Event.objects.select_related('season','season__club','user_profile').\
                 get(season__club__safe_name=club_name,
                     season__year=season_year,
                     safe_name=event_name)    
@@ -104,6 +104,7 @@ def event_register(request,club_name,season_year,event_name):
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
         event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),initial=e.pk,widget=HiddenInput())
+        user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),initial=up.pk)
 
     if request.method == 'POST': # If the form has been submitted...
         form = RegForm(request.POST) #bound for, with submitted data        
