@@ -14,7 +14,7 @@ from django.contrib.auth.views import logout
 
 from django.utils.timezone import now as django_now
 
-from django.forms import ModelChoiceField
+from django.forms import ModelChoiceField, IntegerField, HiddenInput
 
 
 from paddock.models import Club,Event,Season,Registration,Car
@@ -96,21 +96,24 @@ def event(request,club_name,season_year,event_name):
 def event_register(request,club_name,season_year,event_name): 
     """register for an event""" 
     up = request.user.get_profile()
+    e = Event.objects.select_related('season','season__club').\
+                get(season__club__safe_name=club_name,
+                    season__year=season_year,
+                    safe_name=event_name)    
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
-    
-    event = Event.objects.select_related('season','season__club').\
-            get(season__club__safe_name=club_name,
-                season__year=season_year,
-                safe_name=event_name)
+        event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),initial=e.pk,widget=HiddenInput())
+
+    if request.method == 'POST': # If the form has been submitted...
+        form = RegForm(request.POST) #bound for, with submitted data        
     
     return create_object(request, form_class=UserRegForm,
             template_name='paddock/event_reg_form.html',
             post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
-            extra_context={'event':event,
-                           'season':event.season,
-                           'club':event.season.club
+            extra_context={'event':e,
+                           'season':e.season,
+                           'club':e.season.club
                           })    
     
 

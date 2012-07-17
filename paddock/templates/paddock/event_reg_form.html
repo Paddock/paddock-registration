@@ -18,14 +18,20 @@
 {% block content %}
 <div class="row">
 <div id="registration" class="span12">
-  <h2>Sign up for {{ club.name }} {{ event.name }} -- {{ event.date }}</h2>
-  
+  <h3>Sign up for {{ club.name }} {{ event.name }} -- {{ event.date }}</h3>
+  <br/>
+  <ul class="unstyled">
+    <li>Member Price: &#36;{{ event.member_price }} </li>
+    <li>Non-Member Price: &#36;{{ event.non_member_price }} </li>
+    <li>Walk Up Fee: &#36;{{ event.non_pre_pay_penalty }} </li>
+  </ul>
+  <br/>
 </div><!-- /span12 -->
 </div><!-- /row -->
 
 <div class="row">
 <div id="registration" class="span3">
-  <form action="" method="post">
+  <form action="{{ request.path  }}" method="post">{% csrf_token %}
     {{ form }}
     <div class="form-actions">
       <button type="submit" class="btn btn-primary">Register</button>
