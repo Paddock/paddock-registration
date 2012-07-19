@@ -5,13 +5,16 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.views.generic.create_update import create_object, update_object
+from django.views.generic.edit import CreateView
 
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
 #django auth views
 from django.contrib.auth.views import login
 from django.contrib.auth.views import logout
+from django.contrib.auth.decorators import login_required
 
+from django.utils.decorators import method_decorator
 from django.utils.timezone import now as django_now
 
 from django.forms import ModelChoiceField, IntegerField, HiddenInput
@@ -91,7 +94,8 @@ def event(request,club_name,season_year,event_name):
         context['top_raw_reg'] = regs.order_by('-n_runs','total_raw_time')[0]        
         return render_to_response('paddock/complete_event.html',
                                       context,
-                                      context_instance=RequestContext(request))        
+                                      context_instance=RequestContext(request)) 
+    
     
 def event_register(request,club_name,season_year,event_name): 
     """register for an event""" 
@@ -100,22 +104,40 @@ def event_register(request,club_name,season_year,event_name):
                 get(season__club__safe_name=club_name,
                     season__year=season_year,
                     safe_name=event_name)    
+    template_name='paddock/event_reg_form.html'    
+    post_save_redirect = reverse('paddock.views.event',args=[club_name,season_year,event_name])
+    
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
-        event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),initial=e.pk,widget=HiddenInput())
-        user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),initial=up.pk)
+        event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),
+                                 initial=e.pk,widget=HiddenInput())
+        user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
+                                        initial=up.pk,widget=HiddenInput())
 
-    if request.method == 'POST': # If the form has been submitted...
-        form = RegForm(request.POST) #bound for, with submitted data        
-    
-    return create_object(request, form_class=UserRegForm,
-            template_name='paddock/event_reg_form.html',
-            post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
-            extra_context={'event':e,
-                           'season':e.season,
-                           'club':e.season.club
-                          })    
+    if request.method == 'POST':
+        form = UserRegForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_object = form.save()
+
+            msg = ugettext("The %(verbose_name)s was created successfully.") %\
+                                    {"verbose_name": model._meta.verbose_name}
+            messages.success(request, msg, fail_silently=True)
+            return redirect(post_save_redirect, new_object)
+    else:
+        form = UserRegForm()
+
+    # Create the template, context, response
+    context = {
+        'form': form,
+        'event':e,
+        'season':e.season,
+        'club':e.season.club
+    }
+        
+    return render_to_response(template_name,
+                                      context,
+                                      context_instance=RequestContext(request))   
     
 
 

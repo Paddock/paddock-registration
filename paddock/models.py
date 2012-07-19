@@ -616,7 +616,8 @@ class Registration(Purchasable):
                               related_name="+")
     pax_class  = m.ForeignKey("RaceClass",limit_choices_to={'pax_class':True},
                               verbose_name="Registration Type",
-                              related_name="+",blank=True,null=True)
+                              related_name="+",blank=True,null=True,
+                              help_text="If you're not sure, run in Open Class")
     bump_class = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
     run_heat = m.IntegerField("Run Heat",blank=True,null=True,default=None)
     work_heat = m.IntegerField("Work Heat",blank=True,null=True,default=None)

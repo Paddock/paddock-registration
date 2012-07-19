@@ -4,11 +4,16 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext, ugettext_lazy as _
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
+
 from bootstrap.forms import BootstrapModelForm,BootstrapForm,BootstrapMixin, Fieldset
 
-from paddock.models import Registration
+from paddock.models import Registration, RaceClass
 
 class RegForm(BootstrapModelForm): 
+    pax_class = forms.ModelChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
+                label="Registration Series",
+                empty_label = "Open Class")
+    
     class Meta: 
         model = Registration
         #fields = ('number','race_class','pax_class')
