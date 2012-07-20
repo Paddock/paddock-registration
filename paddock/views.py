@@ -10,11 +10,9 @@ from django.views.generic.edit import CreateView
 
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
-from django.contrib.auth.decorators import login_required
 
 #django auth views
-from django.contrib.auth.views import login
-from django.contrib.auth.views import logout
+from django.contrib.auth.views import login as django_login, logout
 from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
@@ -32,6 +30,13 @@ from paddock.forms import UserCreationForm, AuthenticationForm, ActivationForm,\
      RegForm, form_is_for_self
 
 
+
+def login(request,*args,**kwargs):
+    if request.method == 'POST':
+        if not request.POST.get('remember_me', None): 
+            request.session.set_expiry(0)    
+               
+    return django_login(request,*args,**kwargs)
 
 
 def clubs(request):
