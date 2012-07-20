@@ -16,7 +16,7 @@ from django.utils.decorators import available_attrs
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
 
-
+from django.forms import BooleanField
 from bootstrap.forms import BootstrapModelForm,BootstrapForm,BootstrapMixin, Fieldset
 
 from paddock.models import Registration, RaceClass
@@ -70,7 +70,13 @@ class AuthenticationForm(BootstrapMixin, AF):
             'no_cookies': _("Your Web browser doesn't appear to have cookies "
                             "enabled. Cookies are required for logging in."),
             'inactive': _("This account is inactive. Please check your email for you activation code"),
-        }        
+        }  
+    
+    remember_me = BooleanField (
+        label = _( 'Remember Me' ),
+        initial = False,
+        required = False,
+        )
 
 class ActivationForm(BootstrapForm): 
     class Meta: 
