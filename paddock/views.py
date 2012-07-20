@@ -7,8 +7,11 @@ from django.core.urlresolvers import reverse
 from django.views.generic.create_update import create_object, update_object
 from django.views.generic.edit import CreateView
 
+
 from django.contrib.auth.models import User
 from django.contrib.sites.models import get_current_site
+from django.contrib.auth.decorators import login_required
+
 #django auth views
 from django.contrib.auth.views import login
 from django.contrib.auth.views import logout
@@ -16,6 +19,8 @@ from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 from django.utils.timezone import now as django_now
+from django.utils.translation import ugettext
+
 
 from django.forms import ModelChoiceField, IntegerField, HiddenInput
 
@@ -24,7 +29,9 @@ from paddock.models import Club,Event,Season,Registration,Car,UserProfile
 
 #paddodk forms
 from paddock.forms import UserCreationForm, AuthenticationForm, ActivationForm,\
-     RegForm
+     RegForm, form_is_for_self
+
+
 
 
 def clubs(request):
@@ -72,7 +79,6 @@ def event(request,club_name,season_year,event_name):
         is_regd = event.is_regd(request.user)
         
        
-    
     context = {'event': event,
                'season': event.season, 
                'club': event.season.club, 
@@ -96,7 +102,8 @@ def event(request,club_name,season_year,event_name):
                                       context,
                                       context_instance=RequestContext(request)) 
     
-    
+@login_required
+@form_is_for_self(RegForm,'user_profile')
 def event_register(request,club_name,season_year,event_name): 
     """register for an event""" 
     up = request.user.get_profile()
@@ -104,9 +111,6 @@ def event_register(request,club_name,season_year,event_name):
                 get(season__club__safe_name=club_name,
                     season__year=season_year,
                     safe_name=event_name)    
-    template_name='paddock/event_reg_form.html'    
-    post_save_redirect = reverse('paddock.views.event',args=[club_name,season_year,event_name])
-    
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
@@ -119,25 +123,22 @@ def event_register(request,club_name,season_year,event_name):
         form = UserRegForm(request.POST, request.FILES)
         if form.is_valid():
             new_object = form.save()
-
-            msg = ugettext("The %(verbose_name)s was created successfully.") %\
-                                    {"verbose_name": model._meta.verbose_name}
-            messages.success(request, msg, fail_silently=True)
-            return redirect(post_save_redirect, new_object)
+            return HttpResponseRedirect(reverse('paddock.views.event',
+                                                args=[club_name,season_year,event_name]))
     else:
         form = UserRegForm()
 
     # Create the template, context, response
     context = {
-        'form': form,
-        'event':e,
+        'form':  form,
+        'event': e,
         'season':e.season,
-        'club':e.season.club
+        'club':  e.season.club
     }
         
-    return render_to_response(template_name,
-                                      context,
-                                      context_instance=RequestContext(request))   
+    return render_to_response('paddock/event_reg_form.html',
+        context,
+        context_instance=RequestContext(request))   
     
 
 
