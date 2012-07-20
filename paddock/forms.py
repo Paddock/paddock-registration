@@ -1,18 +1,49 @@
+import urlparse
+from functools import wraps
 from django import forms
+from django.conf import settings
+from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
+
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
+
 from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.decorators import available_attrs
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
+
 
 from bootstrap.forms import BootstrapModelForm,BootstrapForm,BootstrapMixin, Fieldset
 
 from paddock.models import Registration, RaceClass
 
+def form_is_for_self(form_class,form_field):
+    """
+    Decorator for views with forms that checks that the user is submitting a form to 
+    edit themselves
+    """
+
+    def decorator(view_func):
+        @wraps(view_func, assigned=available_attrs(view_func))
+        def _wrapped_view(request, *args, **kwargs):
+            if request.method == 'POST': 
+                form = form_class(request.POST)
+                if form.data[form_field]== unicode(request.user.get_profile().pk): 
+                    return view_func(request,*args,**kwargs)
+                else: 
+                    return HttpResponseRedirect(reverse('paddock.views.logout'))
+            return view_func(request,*args,**kwargs)
+        return _wrapped_view
+    return decorator
+
 class RegForm(BootstrapModelForm): 
     pax_class = forms.ModelChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
                 label="Registration Series",
-                empty_label = "Open Class")
+                empty_label = "Open Class", required=False)
     
     class Meta: 
         model = Registration
