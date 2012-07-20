@@ -22,6 +22,7 @@ class TestRegistration(unittest.TestCase):
         
         self.race_class = RaceClass()
         self.race_class.name = "CSP"
+        self.race_class.abrv = "CSP"
         self.race_class.pax = .875
         self.race_class.club = self.c
         self.race_class.save()
@@ -38,6 +39,12 @@ class TestRegistration(unittest.TestCase):
         self.user.username = "justingray"
         self.user.save()
         
+        self.user2 = User()
+        self.user2.first_name = "Eli"
+        self.user2.last_name = "Gray"
+        self.user2.username = "eligray"
+        self.user2.save()        
+        
         self.car = Car()
         self.car.year = 1990 
         self.car.make = "Mazda"
@@ -50,8 +57,10 @@ class TestRegistration(unittest.TestCase):
         self.r.race_class = self.race_class
         self.r.pax_class = None
         self.r.event = self.e
+        
 
         self.user_profile = UserProfile.objects.get(user=self.user)
+        self.user_profile2 = UserProfile.objects.get(user=self.user2)
         
     def tearDown(self): 
         
@@ -167,8 +176,6 @@ class TestRegistration(unittest.TestCase):
         else: 
             self.fail("ValidationError expected")
         
-       
-            
     def testMaxUserRegLimit(self): 
         self.e2 = Event()
         self.e2.name = "test event 2"
@@ -205,10 +212,11 @@ class TestRegistration(unittest.TestCase):
         
         self.r.car = self.car
         self.r.event = self.e
+        self.r.user_profile = self.user_profile
         self.r.save()        
                    
         self.r2 = Registration()
-        self.r2.number = 111
+        self.r2.number = 21
         self.r2.race_class = self.race_class
         self.r2.pax_class = None
         self.r2.event = self.e    
@@ -220,6 +228,23 @@ class TestRegistration(unittest.TestCase):
                              "allowed for an event. The class is full']}",str(err))
         else: 
             self.fail("ValidationError expected") 
+        
+        #test that a user can only register once, regardless of class
+        self.race_class.event_reg_limit = 10
+        self.race_class.save()      
+        
+        self.r2.number = 111
+        self.r2.race_class = self.race_class
+        self.r2.pax_class = None
+        self.r2.event = self.e              
+        self.r2.user_profile = self.user_profile
+        
+        try: 
+            self.r2.full_clean()
+        except ValidationError as err: 
+            self.assertEqual("{'__all__': [u'You have already registered to run as 11 CSP']}",str(err))
+        else: 
+            self.fail("ValidationError expected")         
             
     def testCarDeleteFromReg(self): 
         """Check to make sure reg_car gets set to null if a car gets deleted"""
