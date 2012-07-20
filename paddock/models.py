@@ -727,11 +727,6 @@ class Registration(Purchasable):
     def clean(self): 
         if not self.event.allow_number_race_class(self.number,self.race_class):
             raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
-        check_regs = self.event.regs.select_related('race_class').\
-            filter(user_profile=self.user_profile).all()
-        if check_regs.count(): 
-            reg = check_regs[0]
-            raise ValidationError('You have already registered to run as %d %s'%(reg.number,reg.race_class.abrv))
         #if necessary, check to make sure user has not already run the max times in this class
         if self.user_profile and self.race_class.user_reg_limit:	
             reg_count = Registration.objects.filter(event__season__club=self.event.season.club,
@@ -752,6 +747,13 @@ class Registration(Purchasable):
             reg_count = Registration.objects.filter(event=self.event).count()
             if reg_count >= self.event.reg_limit: 
                 raise ValidationError('Only %d registrations are allowed for the event. The event is full'%self.event.reg_limit)
+
+        check_regs = self.event.regs.select_related('race_class').\
+                    filter(user_profile=self.user_profile).all()
+        
+        if check_regs.count(): 
+            reg = check_regs[0]
+            raise ValidationError('You have already registered to run as %d %s'%(reg.number,reg.race_class.abrv))
 
 
 class Session(m.Model): 
