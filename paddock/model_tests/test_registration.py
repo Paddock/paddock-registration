@@ -136,8 +136,8 @@ class TestRegistration(unittest.TestCase):
         
         self.r.car = self.car
         self.r.user_profile = self.user_profile
-        self.r.save()        
-        
+        self.r.save()     
+                
         self.r2 = Registration()
         self.r2.number = 11
         self.r2.race_class = self.race_class
@@ -150,6 +150,22 @@ class TestRegistration(unittest.TestCase):
             self.assertEqual("{'__all__': [u'11 CSP is already taken, pick another number.']}",str(err))
         else: 
             self.fail("ValidationError expected")
+            
+        #make sure you can save an existing reg
+        self.r2.number = 12
+        self.r2.save()  
+        
+        self.r.number = 12
+        self.r.full_clean()
+        self.r.save()
+        
+        try: 
+            self.r.full_clean()
+        except ValidationError as err: 
+            self.assertEqual("{'__all__': [u'12 CSP is already taken, pick another number.']}",str(err))
+        else: 
+            self.fail("ValidationError expected")        
+        
             
         self.e2 = Event()
         self.e2.name = "test event 2"

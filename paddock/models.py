@@ -749,7 +749,9 @@ class Registration(Purchasable):
                 raise ValidationError('Only %d registrations are allowed for the event. The event is full'%self.event.reg_limit)
 
         check_regs = self.event.regs.select_related('race_class').\
-                    filter(user_profile=self.user_profile,user_profile__isnull=False).all()
+                    filter(user_profile=self.user_profile,
+                           user_profile__isnull=False).\
+                    exclude(pk=self.pk)
         
         if check_regs.count(): 
             reg = check_regs[0]
