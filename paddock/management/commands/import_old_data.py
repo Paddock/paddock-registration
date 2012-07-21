@@ -179,6 +179,7 @@ class Command(BaseCommand):
             
         index_class = RaceClass()
         index_class.name = 'Index'
+        index_class.bump_class = True
         index_class.abrv = "i"
         index_class.pax = 1.0
         index_class.club = club

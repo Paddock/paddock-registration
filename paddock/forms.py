@@ -44,6 +44,10 @@ class RegForm(BootstrapModelForm):
     pax_class = forms.ModelChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
                 label="Registration Series",
                 empty_label = "Open Class", required=False)
+    race_class = forms.ModelChoiceField(queryset=RaceClass.objects.\
+                                        filter(pax_class=False,bump_class=False).\
+                                        order_by('abrv').all(),
+                label="Race Class")
     
     class Meta: 
         model = Registration

@@ -91,13 +91,14 @@ class TestEvent(unittest.TestCase):
         self.race_class.save()        
         
         self.e.reg_limit = 3
+        self.e.save()
         
         for i in range(0,4): 
             try: 
                 self.r = Registration()
                 self.r.number = i
                 self.r.race_class = self.race_class
-                self.r._anon_f_name = "%d"%(i,)
+                self.r._anon_f_name = "random_%d"%(i,)
                 self.r.pax_class = None
                 self.r.event = self.e
                 self.r.full_clean()

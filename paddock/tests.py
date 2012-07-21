@@ -33,7 +33,6 @@ class TestViews(TestCase):
         
     def test_index_views(self):
         from paddock.models import Event
-        print Event.objects.filter(season__year="2012").all()
         urls = (('/paddock/clubs/',{}),
                 ('/paddock/clubs/noraascc/seasons/2012/events/testntune',{}),
                 )
