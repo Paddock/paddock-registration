@@ -539,18 +539,14 @@ class Event(m.Model):
         child_reg_check = self.child_events.all().\
                     filter(regs__number=reg.number,regs__race_class=reg.race_class).count() 
         
-        print "Test, ", reg.pk, reg_check==1
         if reg.pk and reg_check==1 and child_reg_check <=1 : #then it exists, so you need to make sure it's still unique
             return True
             
         #it does not exists, so check if the number/class is used in this event 
-        elif reg_check == 0 and child_reg_check == 0: 
-            return True
-        
         #make sure no one has dibs on that
-        if not self.season.club.check_dibs(reg.number,reg.race_class): 
+        elif reg_check == 0 and child_reg_check == 0 and not self.season.club.check_dibs(reg.number,reg.race_class): 
             return True
-        
+
         return False	
 
     def calc_results(self): 
