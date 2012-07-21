@@ -529,27 +529,29 @@ class Event(m.Model):
         except Registration.DoesNotExist: 
             return False
 
-    def allow_number_race_class(self,number,race_class): 
-        """Checks to see if the specified number and race_class are available for this event"""
-        #check if the number/class is used in this event 
-        reg_check = Event.objects.filter(pk=self.pk,
-                                         regs__number=number,	                     
-                                         regs__race_class=race_class).count()
-        if reg_check: 
-            return False
-
+    def allow_number_race_class(self,reg): 
+        """Checks to see if the specified registration has a unique number and 
+        race_class for the event"""
+        reg_check = self.regs.filter(number=reg.number,	                     
+                                              race_class=reg.race_class).count()  
+        
         #Check if the number/class is used in any child events
-        for event in self.child_events.all(): 
-            reg_check = Event.objects.filter(id=event.id,
-                                             regs__number=number,	                     
-                                             regs__race_class=race_class).count()
-
-            if reg_check: 
-                return False
-
-        if self.season.club.check_dibs(number,race_class): 
-            return False
-        return True	
+        child_reg_check = self.child_events.all().\
+                    filter(regs__number=reg.number,regs__race_class=reg.race_class).count() 
+        
+        print "Test, ", reg.pk, reg_check==1
+        if reg.pk and reg_check==1 and child_reg_check <=1 : #then it exists, so you need to make sure it's still unique
+            return True
+            
+        #it does not exists, so check if the number/class is used in this event 
+        elif reg_check == 0 and child_reg_check == 0: 
+            return True
+        
+        #make sure no one has dibs on that
+        if not self.season.club.check_dibs(reg.number,reg.race_class): 
+            return True
+        
+        return False	
 
     def calc_results(self): 
         #all regs that are valid, from this event
@@ -727,7 +729,7 @@ class Registration(Purchasable):
 
     def clean(self): 
         
-        if not self.event.allow_number_race_class(self.number,self.race_class):
+        if not self.event.allow_number_race_class(self):
             raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
         #if necessary, check to make sure user has not already run the max times in this class
         if self.user_profile and self.race_class.user_reg_limit:	
