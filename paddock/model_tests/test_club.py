@@ -18,7 +18,7 @@ class TestClub(unittest.TestCase):
 
         c = Club()
         c.name = "some\\racers"
-        self.assertEqual("some%5cracers", c.safe_name)
+        self.assertEqual("someracers", c.safe_name)
 
     def testUniqueSafeName(self): 
         c = Club()

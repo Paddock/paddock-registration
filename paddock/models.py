@@ -372,6 +372,7 @@ class RaceClass(m.Model):
     pax = m.FloatField('PAX multiplier')
 
     pax_class = m.BooleanField('PAX Class',default=False)
+    bump_class = m.BooleanField('Bump Class',default=False)
     description = m.TextField("Description",blank=True,null=True,default="")
     user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
     event_reg_limit = m.IntegerField("Limit per Event",null=True,default=None)
@@ -749,7 +750,7 @@ class Registration(Purchasable):
                 raise ValidationError('Only %d registrations are allowed for the event. The event is full'%self.event.reg_limit)
 
         check_regs = self.event.regs.select_related('race_class').\
-                    filter(user_profile=self.user_profile).all()
+                    filter(user_profile=self.user_profile,user_profile__isnull=False).all()
         
         if check_regs.count(): 
             reg = check_regs[0]

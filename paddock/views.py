@@ -5,7 +5,6 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.views.generic.create_update import create_object, update_object
-from django.views.generic.edit import CreateView
 
 
 from django.contrib.auth.models import User
@@ -123,29 +122,15 @@ def event_register(request,club_name,season_year,event_name):
                                  initial=e.pk,widget=HiddenInput())
         user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
                                         initial=up.pk,widget=HiddenInput())
-
-    if request.method == 'POST':
-        form = UserRegForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_object = form.save()
-            return HttpResponseRedirect(reverse('paddock.views.event',
-                                                args=[club_name,season_year,event_name]))
-    else:
-        form = UserRegForm()
-
-    # Create the template, context, response
-    context = {
-        'form':  form,
-        'event': e,
-        'season':e.season,
-        'club':  e.season.club
-    }
         
-    return render_to_response('paddock/event_reg_form.html',
-        context,
-        context_instance=RequestContext(request))   
-    
-
+    return create_object(request,form_class=UserRegForm,
+        post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
+        template_name='paddock/event_reg_form.html',
+        extra_context={
+            'event': e,
+            'season':e.season,
+            'club':  e.season.club
+        })        
 
 #new user registration
 def register(request): 
