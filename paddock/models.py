@@ -726,6 +726,7 @@ class Registration(Purchasable):
 
 
     def clean(self): 
+        
         if not self.event.allow_number_race_class(self.number,self.race_class):
             raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
         #if necessary, check to make sure user has not already run the max times in this class
