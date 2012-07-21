@@ -132,7 +132,6 @@ def event_register(request,club_name,season_year,event_name,username=None):
                                         initial=up.pk,widget=HiddenInput())
         
     if username: 
-        print "TEST"
         reg = e.regs.get(user_profile__user__username=username)
         return update_object(request,form_class=UserRegForm,object_id=reg.pk,
             post_save_redirect=redirect_target,
