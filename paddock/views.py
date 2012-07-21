@@ -108,13 +108,21 @@ def event(request,club_name,season_year,event_name):
     
 @login_required
 @form_is_for_self(RegForm,'user_profile')
-def event_register(request,club_name,season_year,event_name): 
+def event_register(request,club_name,season_year,event_name,username=None): 
     """register for an event""" 
     up = request.user.get_profile()
     e = Event.objects.select_related('season','season__club','user_profile').\
                 get(season__club__safe_name=club_name,
                     season__year=season_year,
                     safe_name=event_name)    
+    redirect_target = reverse('paddock.views.event',args=[club_name,season_year,event_name])
+    form_template = 'paddock/event_reg_form.html'
+    
+    extra_c={
+        'event': e,
+        'season':e.season,
+        'club':  e.season.club
+    }    
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
@@ -123,14 +131,18 @@ def event_register(request,club_name,season_year,event_name):
         user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
                                         initial=up.pk,widget=HiddenInput())
         
+    if username: 
+        print "TEST"
+        reg = e.regs.get(user_profile__user__username=username)
+        return update_object(request,form_class=UserRegForm,object_id=reg.pk,
+            post_save_redirect=redirect_target,
+            template_name=form_template,
+            extra_context=extra_c)
+        
     return create_object(request,form_class=UserRegForm,
-        post_save_redirect=reverse('paddock.views.event',args=[club_name,season_year,event_name]),
-        template_name='paddock/event_reg_form.html',
-        extra_context={
-            'event': e,
-            'season':e.season,
-            'club':  e.season.club
-        })        
+        post_save_redirect=redirect_target,
+        template_name=form_template,
+        extra_context=extra_c)        
 
 #new user registration
 def register(request): 
