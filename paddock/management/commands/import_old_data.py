@@ -322,10 +322,10 @@ class Command(BaseCommand):
                 r.result = result_map[line['result_id']]
                 r.save()
                 
-                
-                r.result.reg.calc_times()
             except KeyError: 
                 continue
                       
             
         
+        for reg in Registration.objects.select_related('results').all(): 
+            reg.calc_times()

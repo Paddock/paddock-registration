@@ -66,9 +66,9 @@
 	<p><img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
 	</p>
 	<p>
-    <a href="{% url 'paddock.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
-    Update your registration	
-	</a>	
+	  <a href="{% url 'paddock.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
+	  Update your registration	
+	  </a>	
 	</p>
       {% elif is_auth %}
 	<h3><a href="{{ reg_url }}">Register for the event </a></h3>
