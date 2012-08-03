@@ -1,6 +1,28 @@
 {% extends "paddock/base.html" %}
 {% load url from future %}
+{% load paddock_tags %}
 
-{% block content %}
-    Test
-{% endblock content %}
+{% block foot_js %}
+    <script src="{{STATIC_URL}}jquery.js"></script>
+    <script src="{{STATIC_URL}}ember-0.9.8.1.min.js"></script>
+    <script src="{{STATIC_URL}}ember-data.js"></script>
+    <script src="{{static_URL}}tastypie_adapter.js"></script>
+    <script src="{{STATIC_URL}}garage.js"></script>
+{% endblock foot_js %}
+
+{% block content %}{% verbatim %}
+<script type="text/x-handlebars" data-template-name="user_info">
+    <ul class="unstyled">
+      <li>First Name: {{ first_name }}</li>
+      <li>Last Name: {{ last_name }}</li>
+      <li>Email Address: {{ email }} </li>
+      <li>Password: {{ password }} </li>
+    </ul>
+</script>
+  <div class="row">
+    <div class="span12" id="user_info">
+        <h2> Your Information </h2>
+        
+    </div><!--/span12-->
+  </div><!--/row-->  
+{% endverbatim %}{% endblock content %}
