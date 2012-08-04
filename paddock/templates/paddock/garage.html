@@ -6,23 +6,47 @@
     <script src="{{STATIC_URL}}jquery.js"></script>
     <script src="{{STATIC_URL}}ember-0.9.8.1.min.js"></script>
     <script src="{{STATIC_URL}}ember-data.js"></script>
-    <script src="{{static_URL}}tastypie_adapter.js"></script>
+    <script src="{{STATIC_URL}}tastypie_adapter.js"></script>
     <script src="{{STATIC_URL}}garage.js"></script>
 {% endblock foot_js %}
 
 {% block content %}{% verbatim %}
-<script type="text/x-handlebars" data-template-name="user_info">
-    <ul class="unstyled">
-      <li>First Name: {{ first_name }}</li>
-      <li>Last Name: {{ last_name }}</li>
-      <li>Email Address: {{ email }} </li>
-      <li>Password: {{ password }} </li>
-    </ul>
-</script>
+  <script type="text/x-handlebars" data-template-name="user_info">
+      <ul class="unstyled">
+        <li>First Name: {{ first_name }}</li>
+        <li>Last Name: {{ last_name }}</li>
+        <li>Email Address: {{ email }} </li>
+        <li>Password: {{ password }} </li>
+      </ul>
+  </script>
+
   <div class="row">
-    <div class="span12" id="user_info">
+    <div class="span6" id="user_info">
         <h2> Your Information </h2>
         
-    </div><!--/span12-->
+    </div><!--/span6-->
   </div><!--/row-->  
+<div class="row">
+  <div class="span6">
+      <h2> Your Cars </h2>
+      <table class="table-striped table-bordered" id="user_cars">
+      <thead>
+        <th>Name</th>
+        <th>Car</th>
+      </thead>
+      
+      <script type="text/x-handlebars">
+      Test
+      {{#each Garage.carsController carBinding="this"}}
+        this
+        <tr>
+          <td>{{car.name}}</td>
+          <td>{{car.year}} {{car.make}} {{car.model}}></td>
+        </tr>
+      {{/each}}
+      </script>
+      
+      </table>
+  </div><!--/span6-->
+</div><!--/row-->    
 {% endverbatim %}{% endblock content %}
