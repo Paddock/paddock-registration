@@ -13,44 +13,62 @@
 
 {% block content %}
   {% verbatim %}
-  <script type="text/x-handlebars" id="user_view">
-      <ul class="unstyled">
-        <li>First Name: {{ first_name }}</li>
-        <li>Last Name: {{ last_name }}</li>
-        <li>Email Address: {{ email }} </li>
-      </ul>
-  </script>
-  
-   <script type="text/x-handlebars" id="car_row">
-      Test
-      {{#each Garage.carsController carBinding="this"}}
-        this
-        <tr>
-          <td>{{car.name}}</td>
-          <td>{{car.year}} {{car.make}} {{car.model}}></td>
-        </tr>
-      {{/each}}
+    <script type="text/x-handlebars" id="user_view">
+        <ul class="unstyled">
+          <li>First Name: {{ first_name }}</li>
+          <li>Last Name: {{ last_name }}</li>
+          <li>Email Address: {{ email }} </li>
+        </ul>
     </script>
-    {% endverbatim %}
+    
+    <script type="text/x-handlebars" id="tbl">
+      <tr>
+        <td>{{car.name}}</td>
+        <td>{{car.year}} {{car.make}} {{car.model}}></td>
+      </tr>
+    </script>
+  {% endverbatim %}
 
   <div class="row">
-    <div class="span6" id="user_info">
-        <h2> Your Information </h2>
-        
+    <div class="span6">
+      <div class="row">
+        <div class="span6" id="user_info">
+            <h2> Your Information </h2>
+            
+        </div><!--/span6-->
+      </div><!--/row-->  
+      <div class="row">
+        <div class="span6">
+            <h2> Your Cars </h2>
+            <table class="table-striped table-bordered" id="cars_table">
+            <thead>
+              <th>Name</th>
+              <th>Car</th>
+            </thead>
+            </table>
+        </div><!--/span6-->
+      </div><!--/row-->   
     </div><!--/span6-->
-  </div><!--/row-->  
-<div class="row">
-  <div class="span6">
-      <h2> Your Cars </h2>
-      <table class="table-striped table-bordered" id="user_cars">
-      <thead>
-        <th>Name</th>
-        <th>Car</th>
-      </thead>
-      
-     
-      
-      </table>
-  </div><!--/span6-->
-</div><!--/row-->    
+    <div class="span6">
+      <div class="row">
+        <div class="span6">
+          <h2>Your Coupons</h2>
+          <table class="table-striped table-bordered" id="coupons_table">
+            <thead>
+              <th>Code</th>
+              <th>Value</th>
+              <th>Expiration</th>
+              <th>Uses Left</th>
+            </thead>
+          </table>
+        </div><!--/span6-->
+      </div><!--/row--> 
+      <div class="row">
+        <div class="span6">
+          <h2>Your Events</h2>
+        </div><!--/span6-->
+      </div><!--/row--> 
+    </div><!--/span6-->
+
+  </div><!--/row-->   
 {% endblock content %}
