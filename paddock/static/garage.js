@@ -37,6 +37,18 @@
   var Coupons = Backbone.Collection.extend({
     model: Coupon,  
   });
+
+  var Event = Backbone.Model.extend({
+    defaults:{
+      name:"Auto-x",
+      date:"01/01/01",
+      registered:false,
+    },
+  });
+
+  var Events = Backbone.Collection.extend({
+    model: Event,
+  });
   
   //////////////////////////////////
   // Views
@@ -57,15 +69,21 @@
     }
   });
   
-  var TableCollectionView  = Backbone.View.extend({
+  var CollectionView  = Backbone.View.extend({
     template: Handlebars.compile("<tr>{{{row}}}</tr>"),
     render: function() {
-      var that = this
-      _.each(this.collection.models,function(item){
+      var that = this;
+      _.each(that.collection.models,function(item){
         var columns = that.row_template(item.toJSON());
         $(that.el).append(that.template({'row':columns}));      
       });    
     },
+  });
+
+  var TableCollectionView = CollectionView;
+
+  var ListCollectionView = CollectionView.extend({
+    template: Handlebars.compile("<li>{{{row}}}</li>"),
   });
   
   CarsView = TableCollectionView.extend({
@@ -88,6 +106,17 @@
       this.render();
     }
   });
+
+  EventsView = ListCollectionView.extend({
+    el: $("#events_list"),
+    row_template: Handlebars.compile("{{name}}, {{date}}"),
+    initialize: function(){
+      this.collection = new Events([new Event, new Event, new Event]);
+      this.render();
+    },
+  });
+
+
   
   
   
@@ -97,5 +126,6 @@
   var user_view = new UserView;
   var cars_view = new CarsView;
   var coupons_view = new CouponsView;
+  var events_view = new EventsView;
   
 })(jQuery);
