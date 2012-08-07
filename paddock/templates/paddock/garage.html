@@ -7,7 +7,13 @@
     <script src="{{STATIC_URL}}underscore-min.js"></script>
     <script src="{{STATIC_URL}}backbone-min.js"></script>
     <script src="{{STATIC_URL}}handlebars-1.0.0.beta6.js"></script>
+
+  <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tooltip.js"></script>
+  <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-popover.js"></script>
+  <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
+  <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
     
+    <script src="{{STATIC_URL}}paddock.js"></script>
     <script src="{{STATIC_URL}}garage.js"></script>
 {% endblock foot_js %}
 
@@ -40,11 +46,7 @@
       <div class="row">
         <div class="span6">
             <h2> Your Cars </h2>
-            <table class="table-striped table-bordered" id="cars_table">
-            <thead>
-              <th>Name</th>
-              <th>Car</th>
-            </thead>
+            <table class="table table-striped table-bordered" id="cars_table">
             </table>
         </div><!--/span6-->
       </div><!--/row-->   
@@ -53,13 +55,7 @@
       <div class="row">
         <div class="span6">
           <h2>Your Coupons</h2>
-          <table class="table-striped table-bordered" id="coupons_table">
-            <thead>
-              <th>Code</th>
-              <th>Value</th>
-              <th>Expiration</th>
-              <th>Uses Left</th>
-            </thead>
+          <table class="table table-striped table-bordered" id="coupons_table">
           </table>
         </div><!--/span6-->
       </div><!--/row--> 

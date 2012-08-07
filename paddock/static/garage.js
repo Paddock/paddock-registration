@@ -17,7 +17,8 @@
   var Car = Backbone.Model.extend({
     defaults:{
       name:"The Red Sea",  
-      desc:"1990 Mazda Miata"
+      desc:"1990 Mazda Miata",
+      thumb:"/media/car_thumbs/Bavikati_Maxima_avatar"
     },
   });
   
@@ -31,6 +32,7 @@
       value:"0.00",
       expiration:"N/A",
       uses:"N/A",
+      club:"NORA-ASCC"
     },
   });
   
@@ -70,17 +72,31 @@
   });
   
   var CollectionView  = Backbone.View.extend({
+    collection:null,
     template: Handlebars.compile("<tr>{{{row}}}</tr>"),
     render: function() {
       var that = this;
-      _.each(that.collection.models,function(item){
-        var columns = that.row_template(item.toJSON());
-        $(that.el).append(that.template({'row':columns}));      
+      _.each(this.collection.models,function(item){
+        var column_vals = that.row_template(item.toJSON());
+        $(that.el).append(that.template({'row':column_vals}));      
       });    
     },
   });
 
-  var TableCollectionView = CollectionView;
+  var TableCollectionView = CollectionView.extend({
+    cols:{},
+    head_row_tmp: Handlebars.compile("<th>{{name}}</th>"),
+    render: function(){
+      var that = this;
+      $(that.el).append("<thead>");
+      _.each(that.cols,function(value,key){
+        $(that.el).append(that.head_row_tmp({"name":value}))
+      });
+      $(that.el).append("</thead>")
+      //hackish way to call parent's render
+      TableCollectionView.__super__.render.apply(that);
+    },
+  });
 
   var ListCollectionView = CollectionView.extend({
     template: Handlebars.compile("<li>{{{row}}}</li>"),
@@ -88,7 +104,14 @@
   
   CarsView = TableCollectionView.extend({
     el: $("#cars_table"),
-    row_template: Handlebars.compile("<td>{{name}}</td><td>{{desc}}</td>"),
+    cols:{"name":"Name",
+          "desc":"Car",
+          "":null
+         },
+    row_template: Handlebars.compile('<td><i class="icon-picture avatar_pic" \
+            data-title="{{ name }}" href="{{ thumb }}"></i> \
+            {{name}}</td><td>{{desc}}</td> \
+            <td><i class="icon-edit"></i><i class="icon-trash"></i></td>'),
     
     initialize: function() {
       var c = new Car;
@@ -99,11 +122,17 @@
   
   CouponsView = TableCollectionView.extend({
     el: $('#coupons_table'),
-    row_template: Handlebars.compile("<td>{{code}}</td><td>{{value}}</td><td>{{expiration}}</td><td>{{uses}}</td>"),
+    cols:{'club':"Club",
+             'code':"Code",
+             'value':"Value",
+             'expiration':'Expiration',
+             'uses':"Uses Left"},
+    row_template: Handlebars.compile("<td>{{club}}<td>{{code}}</td><td>{{value}}</td><td>{{expiration}}</td><td>{{uses}}</td>"),
     initialize: function() {
       var c = new Coupon;
       this.collection = new Coupons([c,c,c]);
       this.render();
+      $(".avatar_pic").avatar_popover();
     }
   });
 
@@ -115,9 +144,6 @@
       this.render();
     },
   });
-
-
-  
   
   
   //////////////////////////////////
