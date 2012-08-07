@@ -2,7 +2,6 @@
 {% load paddock_tags %}
 
 {% block title %} Racerslane: Clubs {% endblock %}
-
 {% block content %}
   <div class="row">
     <div class="span12">
@@ -25,11 +24,11 @@
                     {% for season in club.sorted_seasons %}
                       <div class="accordion-group">
                         <div class="accordion-heading"><h3> <a class="accordion-toggle" 
-                                data-toggle="collapse" 
-                                data-target="#{{ club.safe_name }}_{{ season.year }}" 
-                                data-parent="#accordion2"> {{ season.year }} 
+                          data-toggle="collapse" 
+                          data-target="#{{ club.safe_name }}_{{ season.year }}" 
+                          data-parent="#accordion2"> {{ season.year }} 
                         </a> </h3> </div>
-                        <div class="accordion-body {% if forloop.first %} in {% endif %} collapse" id="{{ club.safe_name }}_{{ season.year }}">                     
+                        <div class="accordion-body {% if forloop.first %} in {% endif %} collapse" id="{{club.safe_name}}_{{season.year}}">                     
                           <div class="accordion-inner"> 
                           {% with season.upcoming_events as u_events %}
                             {%if u_events.count %}
@@ -39,12 +38,11 @@
                                 <li><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
                                 data-toggle="tab">Results</a></li>
                               </ul> <!-- close nav-pills -->
-                              
+                               
                               <div class="tab-content">
                                 <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
                                   {% events_table u_events %}
                                 </div> <!-- close tab-pane -->
-                                
                                 <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
                                   {% events_table season.complete_events %}
                                 </div><!-- close tab-pane -->
