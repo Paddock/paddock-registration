@@ -60,7 +60,7 @@
     el: $("#user_info"),
     model: new User,
     initialize: function(){
-        var source = $("#user_view").html();
+        var source = $("#user_template").html();
         this.template = Handlebars.compile(source);  
         this.render();
     },
@@ -110,6 +110,10 @@
           "desc":"Car",
           "":null
          },
+
+    events: {
+      'click .btn': function(){alert("testing");},
+    } ,    
     row_template: Handlebars.compile('<td><i class="icon-picture avatar_pic" \
             data-title="{{ name }}" href="{{ thumb }}"></i> \
             {{name}}</td><td>{{desc}}</td> \
