@@ -3,35 +3,28 @@
 {% load paddock_tags %}
 
 {% block foot_js %}
-    <script src="{{STATIC_URL}}jquery.js"></script>
-    <script src="{{STATIC_URL}}underscore-min.js"></script>
-    <script src="{{STATIC_URL}}backbone-min.js"></script>
-    <script src="{{STATIC_URL}}handlebars-1.0.0.beta6.js"></script>
+  <script src="{{STATIC_URL}}jquery.js"></script>
+  <script src="{{STATIC_URL}}underscore-min.js"></script>
+  <script src="{{STATIC_URL}}backbone-min.js"></script>
+  <script src="{{STATIC_URL}}handlebars-1.0.0.beta6.js"></script>
 
   <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tooltip.js"></script>
   <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-popover.js"></script>
   <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
   <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
     
-    <script src="{{STATIC_URL}}paddock.js"></script>
-    <script src="{{STATIC_URL}}garage.js"></script>
+  <script src="{{STATIC_URL}}paddock.js"></script>
+  <script src="{{STATIC_URL}}garage.js"></script>
 {% endblock foot_js %}
 
 {% block content %}
   {% verbatim %}
-    <script type="text/x-handlebars" id="user_view">
+    <script type="text/x-handlebars" id="user_template">
         <ul class="unstyled">
           <li>First Name: {{ first_name }}</li>
           <li>Last Name: {{ last_name }}</li>
           <li>Email Address: {{ email }} </li>
         </ul>
-    </script>
-    
-    <script type="text/x-handlebars" id="tbl">
-      <tr>
-        <td>{{car.name}}</td>
-        <td>{{car.year}} {{car.make}} {{car.model}}></td>
-      </tr>
     </script>
   {% endverbatim %}
 
