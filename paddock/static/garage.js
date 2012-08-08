@@ -85,14 +85,16 @@
 
   var TableCollectionView = CollectionView.extend({
     cols:{},
-    head_row_tmp: Handlebars.compile("<th>{{name}}</th>"),
+    add_form:true,
+    head_row_tmp: Handlebars.compile('<th>{{name}}</th>'),
     render: function(){
       var that = this;
-      $(that.el).append("<thead>");
+      var el = $(that.el)
+      el.append("<thead>");
       _.each(that.cols,function(value,key){
-        $(that.el).append(that.head_row_tmp({"name":value}))
+        el.append(that.head_row_tmp({"name":value}))
       });
-      $(that.el).append("</thead>")
+      el.append("</thead>")
       //hackish way to call parent's render
       TableCollectionView.__super__.render.apply(that);
     },
@@ -102,7 +104,7 @@
     template: Handlebars.compile("<li>{{{row}}}</li>"),
   });
   
-  CarsView = TableCollectionView.extend({
+  var CarsView = TableCollectionView.extend({
     el: $("#cars_table"),
     cols:{"name":"Name",
           "desc":"Car",
@@ -117,17 +119,32 @@
       var c = new Car;
       this.collection = new Cars([c,c,c]);
       this.render();
-    }
+    },
+
+    render: function(){
+      var that = this;
+      CarsView.__super__.render.apply(that);
+
+      $(that.el).append('<tr><td><input type="text" style="width:90%" name="name"></td> \
+        <td><input type="text" style="width:90%" name="desc"></td> \
+        <td><button class="btn btn-primary">Add Car</button></td> \
+        </tr>')
+    },
   });
   
   CouponsView = TableCollectionView.extend({
     el: $('#coupons_table'),
+    add_form:false,
     cols:{'club':"Club",
              'code':"Code",
              'value':"Value",
              'expiration':'Expiration',
              'uses':"Uses Left"},
-    row_template: Handlebars.compile("<td>{{club}}<td>{{code}}</td><td>{{value}}</td><td>{{expiration}}</td><td>{{uses}}</td>"),
+    row_template: Handlebars.compile("<td>{{club}}</td> \
+      <td>{{code}}</td> \
+      <td>{{value}}</td> \
+      <td>{{expiration}}</td> \
+      <td>{{uses}}</td>"),
     initialize: function() {
       var c = new Coupon;
       this.collection = new Coupons([c,c,c]);

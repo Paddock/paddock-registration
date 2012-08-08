@@ -1,0 +1,430 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Event",
+				"Events"
+			],
+			[
+				"Colle",
+				"CollectionView"
+			],
+			[
+				"ffd",
+				"ffd_color"
+			],
+			[
+				"dPi_bar_r",
+				"dPi_bar_rqdCt"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "paddock/static/garage.js",
+			"settings":
+			{
+				"buffer_size": 4022,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/static/paddock.js",
+			"settings":
+			{
+				"buffer_size": 246,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/templates/paddock/garage.html",
+			"settings":
+			{
+				"buffer_size": 2282,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/templates/paddock/reg_list.html",
+			"settings":
+			{
+				"buffer_size": 749,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 269.0,
+		"selected_items":
+		[
+			[
+				"git: p",
+				"Git: Push"
+			],
+			[
+				"git: push ",
+				"Git: Push"
+			],
+			[
+				"git: comm	",
+				"Git: Commit"
+			],
+			[
+				"git: add",
+				"Git: Add..."
+			],
+			[
+				"list pac",
+				"Package Control: List Packages"
+			],
+			[
+				"packac",
+				"Package Control: Install Package"
+			],
+			[
+				"git:pu",
+				"Git: Push"
+			],
+			[
+				"git commit",
+				"Git: Commit"
+			],
+			[
+				"git:add	",
+				"Git: Add..."
+			],
+			[
+				"git: stat	",
+				"Git: Status"
+			],
+			[
+				"git: commit",
+				"Git: Commit"
+			],
+			[
+				"git:comm",
+				"Git: Quick Commit"
+			],
+			[
+				"git:stat	",
+				"Git: Status"
+			],
+			[
+				"git: status",
+				"Git: Status"
+			],
+			[
+				"pacak",
+				"Package Control: Install Package"
+			],
+			[
+				"pacak	",
+				"Package Control: Install Package"
+			],
+			[
+				"syntax: dj",
+				"Set Syntax: HTML (Django)"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"paco",
+				"Package Control: Install Package"
+			],
+			[
+				"Pack",
+				"Package Control: Enable Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Enable Package"
+			],
+			[
+				"package control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 453.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/complete_event.html",
+		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Git.sublime-settings",
+		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/garage.html",
+		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/clubs.html",
+		"/Users/jsgray/bspline/geom.py",
+		"/Users/jsgray/bspline/bspline.py",
+		"/Users/jsgray/bspline/test2.py",
+		"/Users/jsgray/bspline/test.py",
+		"/Users/jsgray/bspline/ffd.py",
+		"/Users/jsgray/Downloads/model.tec.1.sd1",
+		"/Users/jsgray/bspline/tmp.py",
+		"/Users/jsgray/openmdao/papers/sdm_2012/conference_presentation.tex",
+		"/Users/jsgray/openmdao/papers/sdm_2012/openmdao_test_framework.tex",
+		"/usr/local/texlive/2010/texmf-dist/tex/latex/minted/minted.sty",
+		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/latex.sublime-build"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"test2.py",
+			"ffd.py",
+			"./",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"log",
+			"avatar_pic",
+			"avatar_popover",
+			"subfig",
+			"shell."
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"avatar_popover",
+			"ax",
+			"subfig",
+			"self."
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "paddock/static/garage.js",
+					"settings":
+					{
+						"buffer_size": 4022,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3132,
+								3132
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1356.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "paddock/static/paddock.js",
+					"settings":
+					{
+						"buffer_size": 246,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								24,
+								38
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "paddock/templates/paddock/garage.html",
+					"settings":
+					{
+						"buffer_size": 2282,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1938,
+								1938
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 285.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "paddock/templates/paddock/reg_list.html",
+					"settings":
+					{
+						"buffer_size": 749,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								447,
+								583
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.git":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"garage.ht",
+				"paddock/templates/paddock/garage.html"
+			],
+			[
+				"garage.html",
+				"paddock/templates/paddock/garage.html"
+			],
+			[
+				"garage.js",
+				"paddock/static/garage.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": false,
+	"side_bar_visible": true,
+	"side_bar_width": 219.0,
+	"status_bar_visible": true
+}
