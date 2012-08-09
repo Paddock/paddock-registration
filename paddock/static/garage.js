@@ -108,10 +108,20 @@
   var CarView = Backbone.View.extend({
     tagName:"tr",
     attributes:{colspan:'3'},
+    events: {
+      'click .icon-trash': 'clear',
+    },
     row_template: Handlebars.compile('<td><i class="icon-picture avatar_pic" \
           data-title="{{ name }}" href="{{ thumb }}"></i> \
           {{name}}</td><td>{{year}} {{make}} {{model}}</td> \
-          <td><i class="icon-edit"></i><i class="icon-trash"></i></td>'),     
+          <td><i class="icon-edit"></i><i class="icon-trash"></i></td>'),  
+    initialize: function(){
+      //this.model.on('change', this.render, this);
+      this.model.on('destroy', this.remove, this);
+    },     
+    clear: function(){
+        this.model.destroy();
+    },
     render: function(){
       var row = this.row_template(this.model.toJSON());
       this.$el.empty();
@@ -132,13 +142,9 @@
       var c = new Car;
       var that = this;
       this.collection = new Cars([c,]);
-      this._carviews = [];
-      this.collection.each(function(car){
-        that._carviews.push(new CarView({'model':car}));
-      });
 
-      _(this).bindAll('add_car');
-      this.collection.bind('add', this.add_car);
+      _(this).bindAll('add');
+      this.collection.bind('add', this.add);
 
       this.render();
     },
@@ -148,8 +154,9 @@
       this.$el.empty();
 
       this.$el.append('<thead><tr><td>Name</td><td>Car</td><td></td></tr></thead>');
-      _(this._carviews).each(function(cv){
-        that.$el.append(cv.render().$el);
+      _(this.collection.models).each(function(car){
+        cv = new CarView({'model':car})
+        that.$el.append(cv.render().el)
       });
       this.$el.append('<tr><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
         '<td><form class="form-inline">'+
@@ -161,11 +168,10 @@
       return this;
     },
 
-    add_car: function(car){
-      var cv = new CarView({'model':car})
-      this._carviews.push(cv);
+    add: function(car){
       this.render();
     },
+
     new_car: function(car){
       var name = this.$('input[name="name"]').val();
       var year = this.$('input[name="year"]').val();
