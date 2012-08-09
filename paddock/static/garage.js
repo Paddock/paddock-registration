@@ -110,17 +110,33 @@
     attributes:{colspan:'3'},
     events: {
       'click .icon-trash': 'clear',
+      'click .icon-edit': 'edit',
+      'click #save_btn': 'save',
+
     },
-    row_template: Handlebars.compile('<td><i class="icon-picture avatar_pic" \
-          data-title="{{ name }}" href="{{ thumb }}"></i> \
-          {{name}}</td><td>{{year}} {{make}} {{model}}</td> \
-          <td><i class="icon-edit"></i><i class="icon-trash"></i></td>'),  
+    row_template: Handlebars.compile('<td class="view"><i class="icon-picture avatar_pic"'+
+          'data-title="{{ name }}" href="{{ thumb }}"></i>'+
+          '{{name}}</td><td class="view">{{year}} {{make}} {{model}}</td>'+
+          '<td class="view"><i class="icon-edit"></i><i class="icon-trash"></i></td>'+ //end view, start form
+          '<td class="editing"><input type="text" style="width:90%" name="name" value="{{name}}"></td>'+
+          '<td class="editing"><form class="form-inline">'+
+          '<input type="text" style="width:4em;" name="year" value="{{year}}">'+
+          '<input type="text" style="width:35%;" name="make" value="{{make}}">'+
+          '<input type="text" style="width:35%;" name="model" value="{{model}}">'+
+          '</form></td>'+
+          '<td class="editing"><button class="btn btn-primary" id="save_btn" style="width:6em;">Save</button></td>'),  
     initialize: function(){
       //this.model.on('change', this.render, this);
       this.model.on('destroy', this.remove, this);
     },     
     clear: function(){
-        this.model.destroy();
+      this.model.destroy();
+    },
+    edit: function(){
+      this.$('.view, .editing').addClass('edit');
+    },
+    save: function(){
+      this.$('.view, .editing').removeClass('edit');
     },
     render: function(){
       var row = this.row_template(this.model.toJSON());
@@ -136,8 +152,17 @@
     tagName:"table",
     className:"table table-striped table-bordered",
     events: {
-      'click .btn': 'new_car',
-    } ,        
+      'click #add_car_btn': 'new_car',
+    } ,      
+
+    new_car_form: Handlebars.compile('<tr><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
+        '<td><form class="form-inline">'+
+        '<input type="text" style="width:4em;" name="year" placeholder="year">'+
+        '<input type="text" style="width:35%;" name="make" placeholder="make">'+
+        '<input type="text" style="width:35%;" name="model" placeholder="model">'+
+        '</form></td>'+
+        '<td><button class="btn btn-primary" id="add_car_btn" style="width:6em;">Add Car</button></td></tr>'), 
+         
     initialize: function() {
       var c = new Car;
       var that = this;
@@ -158,13 +183,7 @@
         cv = new CarView({'model':car})
         that.$el.append(cv.render().el)
       });
-      this.$el.append('<tr><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
-        '<td><form class="form-inline">'+
-        '<input type="text" style="width:4em;" name="year" placeholder="year">'+
-        '<input type="text" style="width:30%;" name="make" placeholder="make">'+
-        '<input type="text" style="width:30%;" name="model" placeholder="model">'+
-        '</form></td>'+
-        '<td><button class="btn btn-primary">Add Car</button></td></tr>')
+      this.$el.append(this.new_car_form());
       return this;
     },
 

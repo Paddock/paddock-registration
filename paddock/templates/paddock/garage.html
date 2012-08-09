@@ -2,6 +2,10 @@
 {% load url from future %}
 {% load paddock_tags %}
 
+{%block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}garage.css">
+{%endblock head_css%}
+
 {% block foot_js %}
   <script src="{{STATIC_URL}}jquery.js"></script>
   <script src="{{STATIC_URL}}underscore-min.js"></script>
