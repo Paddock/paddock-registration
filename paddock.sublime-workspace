@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"cars",
+				"cars_table"
+			],
+			[
 				"Event",
 				"Events"
 			],
@@ -27,7 +31,7 @@
 			"file": "paddock/static/garage.js",
 			"settings":
 			{
-				"buffer_size": 4022,
+				"buffer_size": 6191,
 				"line_ending": "Unix"
 			}
 		},
@@ -43,7 +47,7 @@
 			"file": "paddock/templates/paddock/garage.html",
 			"settings":
 			{
-				"buffer_size": 2282,
+				"buffer_size": 2013,
 				"line_ending": "Unix"
 			}
 		},
@@ -59,9 +63,13 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 269.0,
+		"height": 137.0,
 		"selected_items":
 		[
+			[
+				"project",
+				"Project: Close"
+			],
 			[
 				"git: p",
 				"Git: Push"
@@ -168,6 +176,10 @@
 	},
 	"file_history":
 	[
+		"/Users/jsgray/openmdao/OpenMDAO-Framework/openmdao.gui/src/openmdao/gui/test/functional/test_workspace.py",
+		"/Users/jsgray/web_development/djangodev/paddock/urls.py",
+		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/base.html",
+		"/Users/jsgray/web_development/djangodev/paddock/views.py",
 		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
 		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/complete_event.html",
@@ -206,6 +218,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"new Car",
+			"class",
+			"cars_table",
+			"conole",
 			"log",
 			"avatar_pic",
 			"avatar_popover",
@@ -240,15 +256,15 @@
 					"file": "paddock/static/garage.js",
 					"settings":
 					{
-						"buffer_size": 4022,
+						"buffer_size": 6191,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3132,
-								3132
+								4409,
+								4409
 							]
 						],
 						"settings":
@@ -258,7 +274,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1356.0,
+						"translation.y": 1912.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -294,15 +310,15 @@
 					"file": "paddock/templates/paddock/garage.html",
 					"settings":
 					{
-						"buffer_size": 2282,
+						"buffer_size": 2013,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1938,
-								1938
+								1402,
+								1402
 							]
 						],
 						"settings":
@@ -313,7 +329,7 @@
 							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 285.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -398,6 +414,18 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"urls",
+				"paddock/urls.py"
+			],
+			[
+				"view",
+				"paddock/views.py"
+			],
+			[
+				"base.html",
+				"paddock/templates/paddock/base.html"
+			],
 			[
 				"garage.ht",
 				"paddock/templates/paddock/garage.html"
