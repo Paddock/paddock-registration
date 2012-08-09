@@ -17,7 +17,9 @@
   var Car = Backbone.Model.extend({
     defaults:{
       name:"The Red Sea",  
-      desc:"1990 Mazda Miata",
+      year:"1990",
+      make:"Mazda",
+      model:"Miata",
       thumb:"/media/car_thumbs/Bavikati_Maxima_avatar"
     },
   });
@@ -105,9 +107,10 @@
   
   var CarView = Backbone.View.extend({
     tagName:"tr",
+    attributes:{colspan:'3'},
     row_template: Handlebars.compile('<td><i class="icon-picture avatar_pic" \
           data-title="{{ name }}" href="{{ thumb }}"></i> \
-          {{name}}</td><td>{{desc}}</td> \
+          {{name}}</td><td>{{year}} {{make}} {{model}}</td> \
           <td><i class="icon-edit"></i><i class="icon-trash"></i></td>'),     
     render: function(){
       var row = this.row_template(this.model.toJSON());
@@ -120,42 +123,58 @@
 
   var CarsView = TableCollectionView.extend({
     //el: $("#cars_table"),
+    tagName:"table",
+    className:"table table-striped table-bordered",
     events: {
-      'click .btn': 'add_car',
+      'click .btn': 'new_car',
     } ,        
     initialize: function() {
       var c = new Car;
       var that = this;
-      this.collection = new Cars([c]);
+      this.collection = new Cars([c,]);
       this._carviews = [];
       this.collection.each(function(car){
         that._carviews.push(new CarView({'model':car}));
       });
 
-      _(this).bindAll('render');
-      this.collection.bind('add', this.render);
+      _(this).bindAll('add_car');
+      this.collection.bind('add', this.add_car);
+
       this.render();
     },
-
     render: function(){
       var that = this;
       //var el = $(that.el);
       this.$el.empty();
+
+      this.$el.append('<thead><tr><td>Name</td><td>Car</td><td></td></tr></thead>');
       _(this._carviews).each(function(cv){
         that.$el.append(cv.render().$el);
       });
-      console.log(this.$el.html());
-      this.$el.append('<tr><td><input type="text" style="width:90%" name="name"></td> \
-        <td><input type="text" style="width:90%" name="desc"></td> \
-        <td><button class="btn btn-primary">Add Car</button></td> \
-        </tr>')
+      this.$el.append('<tr><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
+        '<td><form class="form-inline">'+
+        '<input type="text" style="width:4em;" name="year" placeholder="year">'+
+        '<input type="text" style="width:30%;" name="make" placeholder="make">'+
+        '<input type="text" style="width:30%;" name="model" placeholder="model">'+
+        '</form></td>'+
+        '<td><button class="btn btn-primary">Add Car</button></td></tr>')
       return this;
     },
 
-    add_car: function(){
+    add_car: function(car){
+      var cv = new CarView({'model':car})
+      this._carviews.push(cv);
+      this.render();
+    },
+    new_car: function(car){
       var name = this.$('input[name="name"]').val();
-      var desc = this.$('input[name="desc"]').val();
-      var c = new Car({'name':name, 'desc':desc})
+      var year = this.$('input[name="year"]').val();
+      var make = this.$('input[name="make"]').val();
+      var model = this.$('input[name="model"]').val();
+      var c = new Car({'name':name, 
+                       'year':year,
+                       'make':make,
+                       'model':model})
       this.collection.push(c);
     },
   });
@@ -168,14 +187,14 @@
              'value':"Value",
              'expiration':'Expiration',
              'uses':"Uses Left"},
-    row_template: Handlebars.compile("<td>{{club}}</td> \
-      <td>{{code}}</td> \
-      <td>{{value}}</td> \
-      <td>{{expiration}}</td> \
-      <td>{{uses}}</td>"),
+    row_template: Handlebars.compile("<td>{{club}}</td>"+
+      "<td>{{code}}</td> "+
+      "<td>{{value}}</td>"+
+      "<td>{{expiration}}</td>"+
+      "<td>{{uses}}</td>"),
     initialize: function() {
       var c = new Coupon;
-      this.collection = new Coupons([c,c,c]);
+      this.collection = new Coupons([c,]);
       this.render();
     }
   });
@@ -194,7 +213,8 @@
   // App Setup
   //////////////////////////////////
   var user_view = new UserView;
-  var cars_view = new CarsView({'el':$('#cars_table')});
+  var cars_view = new CarsView;
+  $('#cars_table').append(cars_view.el)
   var coupons_view = new CouponsView;
   var events_view = new EventsView;
   
