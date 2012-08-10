@@ -128,6 +128,7 @@
     initialize: function(){
       //this.model.on('change', this.render, this);
       this.model.on('destroy', this.remove, this);
+      this.model.on('change', this.render, this);
     },     
     clear: function(){
       this.model.destroy();
@@ -136,6 +137,12 @@
       this.$('.view, .editing').addClass('edit');
     },
     save: function(){
+      var new_car = {'name':this.$('input[name="name"]').val(),
+                    'year':this.$('input[name="year"]').val(),
+                    'make':this.$('input[name="make"]').val(),
+                    'model':this.$('input[name="model"]').val(),
+                   }
+      this.model.set(new_car);
       this.$('.view, .editing').removeClass('edit');
     },
     render: function(){
@@ -155,11 +162,12 @@
       'click #add_car_btn': 'new_car',
     } ,      
 
-    new_car_form: Handlebars.compile('<tr><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
-        '<td><form class="form-inline">'+
+    new_car_form: Handlebars.compile('<tr id="new_car_form"><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
+        '<td><form class="form-inline ">'+
         '<input type="text" style="width:4em;" name="year" placeholder="year">'+
         '<input type="text" style="width:35%;" name="make" placeholder="make">'+
         '<input type="text" style="width:35%;" name="model" placeholder="model">'+
+        'Avatar Picture: <input type="file" name="avatar">'+
         '</form></td>'+
         '<td><button class="btn btn-primary" id="add_car_btn" style="width:6em;">Add Car</button></td></tr>'), 
          
@@ -192,10 +200,10 @@
     },
 
     new_car: function(car){
-      var name = this.$('input[name="name"]').val();
-      var year = this.$('input[name="year"]').val();
-      var make = this.$('input[name="make"]').val();
-      var model = this.$('input[name="model"]').val();
+      var name = this.$('#new_car_form input[name="name"]').val();
+      var year = this.$('#new_car_form input[name="year"]').val();
+      var make = this.$('#new_car_form input[name="make"]').val();
+      var model = this.$('#new_car_form input[name="model"]').val();
       var c = new Car({'name':name, 
                        'year':year,
                        'make':make,
