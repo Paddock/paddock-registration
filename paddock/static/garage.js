@@ -44,6 +44,7 @@
 
   var Event = Backbone.Model.extend({
     defaults:{
+      club:"NORA-ASCC",
       name:"Auto-x",
       date:"01/01/01",
       registered:false,
@@ -114,9 +115,10 @@
       'click #save_btn': 'save',
 
     },
-    row_template: Handlebars.compile('<td class="view"><i class="icon-picture avatar_pic"'+
-          'data-title="{{ name }}" href="{{ thumb }}"></i>'+
-          '{{name}}</td><td class="view">{{year}} {{make}} {{model}}</td>'+
+    row_template: Handlebars.compile('<td class="view">'+
+          '{{name}}</td><td class="view">{{year}} {{make}} {{model}} '+
+          '<i class="icon-picture avatar_pic"'+
+          'data-title="{{ name }}" href="{{ thumb }}"></i></td>'+
           '<td class="view"><i class="icon-edit"></i><i class="icon-trash"></i></td>'+ //end view, start form
           '<td class="editing"><input type="text" style="width:90%" name="name" value="{{name}}"></td>'+
           '<td class="editing"><form class="form-inline">'+
@@ -154,7 +156,7 @@
     },
   });
 
-  var CarsView = TableCollectionView.extend({
+  var CarsView = Backbone.View.extend({
     //el: $("#cars_table"),
     tagName:"table",
     className:"table table-striped table-bordered",
@@ -167,7 +169,7 @@
         '<input type="text" style="width:4em;" name="year" placeholder="year">'+
         '<input type="text" style="width:35%;" name="make" placeholder="make">'+
         '<input type="text" style="width:35%;" name="model" placeholder="model">'+
-        'Avatar Picture: <input type="file" name="avatar">'+
+        'Avatar Image: <input type="file" name="avatar">'+
         '</form></td>'+
         '<td><button class="btn btn-primary" id="add_car_btn" style="width:6em;">Add Car</button></td></tr>'), 
          
@@ -186,7 +188,7 @@
       //var el = $(that.el);
       this.$el.empty();
 
-      this.$el.append('<thead><tr><td>Name</td><td>Car</td><td></td></tr></thead>');
+      this.$el.append('<thead><tr><th>Name</th><th>Car</th><th></th></tr></thead>');
       _(this.collection.models).each(function(car){
         cv = new CarView({'model':car})
         that.$el.append(cv.render().el)
@@ -232,12 +234,31 @@
     }
   });
 
+
+
   EventsView = ListCollectionView.extend({
-    el: $("#events_list"),
-    row_template: Handlebars.compile("{{name}}, {{date}}"),
+    //el: $("#events_list"),
+    tagName:'table',
+    className:'table table-striped table-bordered',
+    row_template: Handlebars.compile('<tr><td>{{club}}</td>'+
+      '<td>{{name}}</td><td>{{date}}</td></tr>'),
+
     initialize: function(){
       this.collection = new Events([new Event, new Event, new Event]);
       this.render();
+    },
+
+    render: function(){
+      var that = this;
+      //var el = $(that.el);
+      this.$el.empty();
+
+      this.$el.append('<thead><tr><th>Club</th><th>Event</th><th>Date</th></tr></thead>');
+      _(this.collection.models).each(function(event){
+        var data = event.toJSON();
+        that.$el.append(that.row_template(data));
+      });
+      return this;
     },
   });
   
@@ -250,5 +271,6 @@
   $('#cars_table').append(cars_view.el)
   var coupons_view = new CouponsView;
   var events_view = new EventsView;
+  $('#events_list').append(events_view.el)
   
 })(jQuery);
