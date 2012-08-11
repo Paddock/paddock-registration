@@ -148,6 +148,7 @@
                     'model':this.$('input[name="model"]').val(),
                    }
       this.model.set(new_car);
+      this.model.save();
       this.$('.view, .editing').removeClass('edit');
     },
     render: function(){

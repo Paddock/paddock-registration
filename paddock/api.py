@@ -44,6 +44,8 @@ v1_api.register(RegistrationResource())
 class CarResource(ModelResource):
     class Meta: 
         queryset = Car.objects.all()
+        authorization = Authorization() #TODO: Need to add permissions
+
 v1_api.register(CarResource())    
 
 class CouponResource(ModelResource) :
