@@ -1,6 +1,7 @@
 from tastypie import fields, api
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization
+from tastypie.authentication import SessionAuthentication
 
 from paddock.models import Registration, Event, RaceClass, Car, UserProfile, Coupon
 
@@ -44,6 +45,7 @@ v1_api.register(RegistrationResource())
 class CarResource(ModelResource):
     class Meta: 
         queryset = Car.objects.all()
+        authentication= SessionAuthentication()
         authorization = Authorization() #TODO: Need to add permissions
 
 v1_api.register(CarResource())    
@@ -60,6 +62,8 @@ class UserResource(ModelResource):
     class Meta: 
         queryset = UserProfile.objects.select_related('cars','coupons').all()
         excludes = ['activation_key']
+        authentication= SessionAuthentication()
+
 
     def dehydrate(self,bundle): 
         user = bundle.obj.user

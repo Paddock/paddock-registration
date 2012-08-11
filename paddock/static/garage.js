@@ -1,28 +1,10 @@
 (function($){
-
+  
   //////////////////////////////////
   // Models
   //////////////////////////////////
 
-  TastypieModel = Backbone.Model.extend({
-      base_url: function() {
-        var temp_url = Backbone.Model.prototype.url.call(this);
-        return (temp_url.charAt(temp_url.length - 1) == '/' ? temp_url : temp_url+'/');
-      },
-
-      url: function() {
-        return this.base_url();
-      }
-  });
-
-  TastypieCollection = Backbone.Collection.extend({
-      parse: function(response) {
-          this.recent_meta = response.meta || {};
-          return response.objects || response;
-      }
-  });
-
-  var User = TastypieModel.extend({
+  var User = Backbone.Model.extend({
       defaults: {
           first_name:"Justin",
           last_name:"Gray",
@@ -31,7 +13,7 @@
       url: 'paddock/api/v1/user/'+USER_ID,
   });
 
-  var Car = TastypieModel.extend({
+  var Car = Backbone.Model.extend({
     defaults:{
       name:"The Red Sea",  
       year:"1990",
@@ -41,12 +23,12 @@
     },
   });
   
-  var Cars = TastypieCollection.extend({
+  var Cars = Backbone.Collection.extend({
     model: Car,
     url: '/paddock/api/v1/car'
   });
   
-  var Coupon = TastypieModel.extend({
+  var Coupon = Backbone.Model.extend({
     defaults:{
       code:"xxxx",
       value:"0.00",
@@ -56,11 +38,11 @@
     },
   });
   
-  var Coupons = TastypieCollection.extend({
+  var Coupons = Backbone.Collection.extend({
     model: Coupon,  
   });
 
-  var Event = TastypieModel.extend({
+  var Event = Backbone.Model.extend({
     defaults:{
       club:"NORA-ASCC",
       name:"Auto-x",
@@ -69,7 +51,7 @@
     },
   });
 
-  var Events = TastypieCollection.extend({
+  var Events = Backbone.Collection.extend({
     model: Event,
   });
   
