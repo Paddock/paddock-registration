@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'bootstrap',
     'easy_maps',
     'tastypie',
+    'backbone_tastypie',
     'paddock',
 )
 
