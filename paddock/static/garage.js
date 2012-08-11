@@ -3,18 +3,35 @@
   //////////////////////////////////
   // Models
   //////////////////////////////////
-  var User = Backbone.Model.extend({
-  
+
+  TastypieModel = Backbone.Model.extend({
+      base_url: function() {
+        var temp_url = Backbone.Model.prototype.url.call(this);
+        return (temp_url.charAt(temp_url.length - 1) == '/' ? temp_url : temp_url+'/');
+      },
+
+      url: function() {
+        return this.base_url();
+      }
+  });
+
+  TastypieCollection = Backbone.Collection.extend({
+      parse: function(response) {
+          this.recent_meta = response.meta || {};
+          return response.objects || response;
+      }
+  });
+
+  var User = TastypieModel.extend({
       defaults: {
           first_name:"Justin",
           last_name:"Gray",
           email:"justin.s.gray@gmail.com"
       },
-      
+      url: 'paddock/api/v1/user/'+USER_ID,
   });
-  
 
-  var Car = Backbone.Model.extend({
+  var Car = TastypieModel.extend({
     defaults:{
       name:"The Red Sea",  
       year:"1990",
@@ -24,11 +41,12 @@
     },
   });
   
-  var Cars = Backbone.Collection.extend({
+  var Cars = TastypieCollection.extend({
     model: Car,
+    url: '/paddock/api/v1/car'
   });
   
-  var Coupon = Backbone.Model.extend({
+  var Coupon = TastypieModel.extend({
     defaults:{
       code:"xxxx",
       value:"0.00",
@@ -38,11 +56,11 @@
     },
   });
   
-  var Coupons = Backbone.Collection.extend({
+  var Coupons = TastypieCollection.extend({
     model: Coupon,  
   });
 
-  var Event = Backbone.Model.extend({
+  var Event = TastypieModel.extend({
     defaults:{
       club:"NORA-ASCC",
       name:"Auto-x",
@@ -51,28 +69,13 @@
     },
   });
 
-  var Events = Backbone.Collection.extend({
+  var Events = TastypieCollection.extend({
     model: Event,
   });
   
   //////////////////////////////////
   // Views
   //////////////////////////////////
-  
-  var UserView = Backbone.View.extend({
-    el: $("#user_info"),
-    model: new User,
-    initialize: function(){
-        var source = $("#user_template").html();
-        this.template = Handlebars.compile(source);  
-        this.render();
-    },
-    render: function(){
-      var user = this.model.toJSON();
-      $(this.el).append(this.template(user));
-      return this;  
-    }
-  });
   
   var CollectionView  = Backbone.View.extend({
     template: Handlebars.compile("<tr>{{{row}}}</tr>"),
@@ -163,7 +166,6 @@
     events: {
       'click #add_car_btn': 'new_car',
     } ,      
-
     new_car_form: Handlebars.compile('<tr id="new_car_form"><td><input type="text" style="width:90%" name="name" placeholder="name"></td>'+
         '<td><form class="form-inline ">'+
         '<input type="text" style="width:4em;" name="year" placeholder="year">'+
@@ -176,12 +178,10 @@
     initialize: function() {
       var c = new Car;
       var that = this;
-      this.collection = new Cars([c,]);
+      this.collection = new Cars();
 
       _(this).bindAll('add');
       this.collection.bind('add', this.add);
-
-      this.render();
     },
     render: function(){
       var that = this;
@@ -262,13 +262,41 @@
     },
   });
   
-  
+  //main app view
+  var UserView = Backbone.View.extend({
+    el: $("#user_info"),
+    model: new User,
+    initialize: function(){
+        var that = this;
+        var source = $("#user_template").html();
+        this.template = Handlebars.compile(source);  
+        this.cars_view = new CarsView;
+        this.model.fetch({
+          success:function(model,response){
+            that.render();
+            var cars = new Cars();
+            _.each(model.get('cars'),function(c){
+              var car = new Car(c);
+              cars.push(car);
+            });
+            that.cars_view.collection = cars
+            that.cars_view.render();
+            $('#cars_table').append(that.cars_view.el)
+          },
+        });
+    },
+    render: function(){
+      var user = this.model.toJSON();
+      $(this.el).append(this.template(user));
+      return this;  
+    }
+  });
   //////////////////////////////////
   // App Setup
   //////////////////////////////////
   var user_view = new UserView;
-  var cars_view = new CarsView;
-  $('#cars_table').append(cars_view.el)
+  
+  //$('#cars_table').append(cars_view.el)
   var coupons_view = new CouponsView;
   var events_view = new EventsView;
   $('#events_list').append(events_view.el)
