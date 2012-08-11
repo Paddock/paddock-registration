@@ -2,7 +2,7 @@ from tastypie import fields, api
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization
 
-from paddock.models import Registration, Event, RaceClass
+from paddock.models import Registration, Event, RaceClass, Car, UserProfile, Coupon
 
 v1_api = api.Api(api_name='v1')
 
@@ -40,6 +40,33 @@ class RegistrationResource(ModelResource):
         
         return bundle
 v1_api.register(RegistrationResource())
+
+class CarResource(ModelResource):
+    class Meta: 
+        queryset = Car.objects.all()
+v1_api.register(CarResource())    
+
+class CouponResource(ModelResource) :
+    class Meta: 
+        queryset = Coupon.objects.all()  
+        allowed_methods = ['get']
+v1_api.register(CouponResource())    
+
+class UserResource(ModelResource):
+    cars = fields.ToManyField('paddock.api.CarResource','cars',full=True)
+    coupons = fields.ToManyField('paddock.api.CouponResource','coupons')
+    class Meta: 
+        queryset = UserProfile.objects.select_related('cars','coupons').all()
+        excludes = ['activation_key']
+
+    def dehydrate(self,bundle): 
+        user = bundle.obj.user
+        bundle.data['first_name'] = user.first_name
+        bundle.data['last_name'] = user.last_name
+        bundle.data['username'] = user.username
+        
+        return bundle    
+v1_api.register(UserResource())
         
         
         
