@@ -866,7 +866,10 @@ class Car(m.Model):
         return "%s %s %s"%(self.year,self.make,self.model)   
 
     def __unicode__(self): 
-        return "%d %s %s"%(self.year,self.make,self.model)
+        if  self.year and self.make and self.model: 
+            return "%d %s %s"%(self.year,self.make,self.model)
+        else: 
+            return "empty car"
 
 
 class Lease(m.Model): 
