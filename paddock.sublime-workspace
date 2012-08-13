@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"Coup",
+				"CouponResource	(global, class)"
+			],
+			[
+				"Tasty",
+				"TastypieCollection"
+			],
+			[
+				"Tastypie",
+				"TastypieModel"
+			],
+			[
+				"Car",
+				"CarResource	(global, class)"
+			],
+			[
 				"cars",
 				"cars_table"
 			],
@@ -31,15 +47,24 @@
 			"file": "paddock/static/garage.js",
 			"settings":
 			{
-				"buffer_size": 6191,
+				"buffer_size": 8711,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/static/garage.css",
+			"settings":
+			{
+				"buffer_size": 136,
+				"line_ending": "Unix",
+				"name": "garage.css"
 			}
 		},
 		{
 			"file": "paddock/static/paddock.js",
 			"settings":
 			{
-				"buffer_size": 246,
+				"buffer_size": 2168,
 				"line_ending": "Unix"
 			}
 		},
@@ -47,7 +72,7 @@
 			"file": "paddock/templates/paddock/garage.html",
 			"settings":
 			{
-				"buffer_size": 2013,
+				"buffer_size": 2278,
 				"line_ending": "Unix"
 			}
 		},
@@ -56,6 +81,38 @@
 			"settings":
 			{
 				"buffer_size": 749,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/api.py",
+			"settings":
+			{
+				"buffer_size": 2893,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
+			"settings":
+			{
+				"buffer_size": 79131,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/models.py",
+			"settings":
+			{
+				"buffer_size": 34924,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "devsite/settings.py",
+			"settings":
+			{
+				"buffer_size": 6354,
 				"line_ending": "Unix"
 			}
 		}
@@ -176,9 +233,12 @@
 	},
 	"file_history":
 	[
+		"/Users/jsgray/web_development/djangodev/paddock/security.py",
+		"/Users/jsgray/web_development/djangodev/devsite/settings.py",
+		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/login.html",
+		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/base.html",
 		"/Users/jsgray/openmdao/OpenMDAO-Framework/openmdao.gui/src/openmdao/gui/test/functional/test_workspace.py",
 		"/Users/jsgray/web_development/djangodev/paddock/urls.py",
-		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/base.html",
 		"/Users/jsgray/web_development/djangodev/paddock/views.py",
 		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
@@ -204,9 +264,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 95.0,
 		"where_history":
 		[
+			"",
 			"test2.py",
 			"ffd.py",
 			"./",
@@ -218,6 +279,24 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"print",
+			"check:",
+			"print",
+			"check",
+			"Level",
+			"log",
+			"url ",
+			"fetch",
+			"justingray",
+			"hashers",
+			"TastypieCollection",
+			"TastypieModel",
+			"auth",
+			"console",
+			"user",
+			"fetch",
+			"Coupons",
+			"window",
 			"new Car",
 			"class",
 			"cars_table",
@@ -234,6 +313,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Backbone.Collection",
+			"Backbone.Model",
 			"avatar_popover",
 			"ax",
 			"subfig",
@@ -256,15 +337,15 @@
 					"file": "paddock/static/garage.js",
 					"settings":
 					{
-						"buffer_size": 6191,
+						"buffer_size": 8711,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4409,
-								4409
+								7910,
+								7910
 							]
 						],
 						"settings":
@@ -274,30 +355,31 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1912.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "paddock/static/paddock.js",
+					"file": "paddock/static/garage.css",
 					"settings":
 					{
-						"buffer_size": 246,
+						"buffer_size": 136,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								24,
-								38
+								134,
+								134
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"auto_name": "garage.css",
+							"syntax": "Packages/CSS/CSS.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -307,18 +389,45 @@
 				},
 				{
 					"buffer": 2,
-					"file": "paddock/templates/paddock/garage.html",
+					"file": "paddock/static/paddock.js",
 					"settings":
 					{
-						"buffer_size": 2013,
+						"buffer_size": 2168,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1402,
-								1402
+								975,
+								975
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 32.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "paddock/templates/paddock/garage.html",
+					"settings":
+					{
+						"buffer_size": 2278,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1348,
+								1348
 							]
 						],
 						"settings":
@@ -335,7 +444,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
 					"file": "paddock/templates/paddock/reg_list.html",
 					"settings":
 					{
@@ -358,6 +467,118 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "paddock/api.py",
+					"settings":
+					{
+						"buffer_size": 2893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1861,
+								1861
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 435.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
+					"settings":
+					{
+						"buffer_size": 79131,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 30496.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "paddock/models.py",
+					"settings":
+					{
+						"buffer_size": 34924,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								34374,
+								34374
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 12480.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "devsite/settings.py",
+					"settings":
+					{
+						"buffer_size": 6354,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6181,
+								6181
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2010.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -415,16 +636,24 @@
 		"selected_items":
 		[
 			[
+				"setting.",
+				"devsite/settings.py"
+			],
+			[
+				"login.html",
+				"paddock/templates/paddock/login.html"
+			],
+			[
+				"base.html",
+				"paddock/templates/paddock/base.html"
+			],
+			[
 				"urls",
 				"paddock/urls.py"
 			],
 			[
 				"view",
 				"paddock/views.py"
-			],
-			[
-				"base.html",
-				"paddock/templates/paddock/base.html"
 			],
 			[
 				"garage.ht",

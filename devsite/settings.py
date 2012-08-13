@@ -34,7 +34,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.SHA1PasswordHasher',
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
-    'paddock.hashers.PaddockPasswordHasher'
+    'paddock.security.PaddockPasswordHasher'
 )
 
 # Local time zone for this installation. Choices can be found here:
