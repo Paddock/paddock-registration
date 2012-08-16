@@ -20,12 +20,16 @@
       make:"Mazda",
       model:"Miata",
       thumb:"/media/car_thumbs/Bavikati_Maxima_avatar"
+
     },
+    //sync: function(method, model, options){
+    //  alert('test'); 
+    //},
   });
   
   var Cars = Backbone.Collection.extend({
     model: Car,
-    url: '/paddock/api/v1/car'
+    url: '/paddock/api/v1/car',
   });
   
   var Coupon = Backbone.Model.extend({
@@ -153,9 +157,9 @@
         '<td><form class="form-inline ">'+
         '<input type="text" style="width:4em;" name="year" placeholder="year">'+
         '<input type="text" style="width:35%;" name="make" placeholder="make">'+
-        '<input type="text" style="width:35%;" name="model" placeholder="model">'+
-        'Avatar Image: <input type="file" name="avatar">'+
-        '</form></td>'+
+        '<input type="text" style="width:35%;" name="model" placeholder="model"></form>'+
+        '<form id="avatar">Avatar Image: <input type="file" name="avatar"></form>'+
+        '</td>'+
         '<td><button class="btn btn-primary" id="add_car_btn" style="width:6em;">Add Car</button></td></tr>'), 
          
     initialize: function() {

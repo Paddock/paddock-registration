@@ -16,7 +16,7 @@ from django.utils.decorators import available_attrs
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
 
-from django.forms import BooleanField
+from django.forms import BooleanField, Form
 from bootstrap.forms import BootstrapModelForm,BootstrapForm,BootstrapMixin, Fieldset
 
 from paddock.models import Registration, RaceClass
@@ -39,6 +39,10 @@ def form_is_for_self(form_class,form_field):
             return view_func(request,*args,**kwargs)
         return _wrapped_view
     return decorator
+
+class CarAvatarForm(Form): 
+    avatar = forms.ImageField()
+    user_profile = forms.IntegerField()
 
 class RegForm(BootstrapModelForm): 
     pax_class = forms.ModelChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),

@@ -1,10 +1,12 @@
 from collections import OrderedDict
+import json
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.views.generic.create_update import create_object, update_object
+from django.views.decorators.http import require_http_methods
 
 
 from django.contrib.auth.models import User
@@ -26,7 +28,7 @@ from paddock.models import Club,Event,Season,Registration,Car,UserProfile
 
 #paddodk forms
 from paddock.forms import UserCreationForm, AuthenticationForm, ActivationForm,\
-     RegForm, form_is_for_self
+     RegForm, CarAvatarForm, form_is_for_self
 
 
 
@@ -197,3 +199,19 @@ def activate(request):
     return render_to_response('paddock/activate_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+@require_http_methods(['PUT','POST'])
+def car_avatar(request,car_id):
+    """Handles a POST or PUT to a car for an avatar file upload, returns JSON"""
+
+    form = CarAvatarForm(request.POST,request.FILES)
+    if form.is_valid(): 
+        print "TESTING"
+        data = {'avatar_url':'/test','thumb_url':'/test','error':None}
+        return HttpResponse(json.dumps(data),mimetype='application/json')
+    print form.errors
+    data = {'error':'Invalid Image File'}
+    return HttpResponse(json.dumps(data),mimetype='application/json')      
+
