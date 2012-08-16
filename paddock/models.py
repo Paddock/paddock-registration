@@ -842,8 +842,8 @@ class Course(m.Model):
     def __unicode__(self): 
         return self.safe_name
 
-def uplaoad_car_to(car,file_name):
-    return os.path.join(car.owner.username,"cars","")
+def upload_car_to(car,file_name):
+    return "car_thumbs/test.jpg"
 
 class Car(m.Model): 
     name = m.CharField('Nickname',max_length=30)
@@ -852,11 +852,13 @@ class Car(m.Model):
     make = m.CharField('Make',max_length=40)
     model = m.CharField('Model',max_length=40)
 
-    avatar = m.ImageField('Picture of your car',upload_to='car_avatars/')
-    thumb = m.ImageField('Picture of your car',upload_to='car_thumbs')
+    avatar = m.ImageField('Picture of your car',upload_to='car_avatars/test.jpg')
+    thumb = m.ImageField('Picture of your car',upload_to=upload_car_to)
 
     user_profile = m.ForeignKey(UserProfile,related_name="cars")
     
+    
+
     @property
     def user(self): 
         return self.user_profile.user

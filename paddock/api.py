@@ -1,7 +1,7 @@
 from tastypie import fields, api
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization
-from tastypie.authentication import SessionAuthentication
+#from tastypie.authentication import SessionAuthentication
 
 from paddock.models import Registration, Event, RaceClass, Car, UserProfile, Coupon
 from paddock.security import IsOwnerAuthorization
@@ -48,7 +48,8 @@ class CarResource(ModelResource):
     class Meta: 
         queryset = Car.objects.all()
         #authentication= SessionAuthentication()
-        authorization = IsOwnerAuthorization() #TODO: Need to add permissions
+        #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
+        authorization = Authorization()
 
     def dehydrate(self,bundle): 
         bundle.data['username'] = bundle.obj.user_profile.user.username  
@@ -69,8 +70,10 @@ class UserResource(ModelResource):
     class Meta: 
         queryset = UserProfile.objects.select_related('cars','coupons').all()
         excludes = ['activation_key']
-        authentication= SessionAuthentication()
-        authorization= IsOwnerAuthorization()
+        #authentication= SessionAuthentication()
+        #authorization= IsOwnerAuthorization()
+        authorization = Authorization()
+
 
     def dehydrate(self,bundle): 
         user = bundle.obj.user

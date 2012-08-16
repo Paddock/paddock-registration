@@ -8,6 +8,27 @@
         });
     };
 
+    uploadFile = function (target,file, callbackSuccess,callbackFail) {
+        var self = this;
+        var data = new FormData();
+        data.append('file', file);
+        $.ajax({
+            url: target,
+            type: 'POST',
+            data: data,
+            processData: false,
+            cache: false,
+            contentType: false
+        })
+        .done(function () {
+            console.log(file.name + " uploaded successfully");
+            callbackSuccess();
+        })
+        .fail(function () {
+            callbackFail();
+        });
+    };
+
     // monkeypatch to backbone to support CSRF Tokens
 	  var oldSync = Backbone.sync;
 	  Backbone.sync = function(method, model, options){
