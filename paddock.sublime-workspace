@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"Car",
+				"CarForm	(imported, instance)"
+			],
+			[
+				"require",
+				"require_http_methods	(imported, instance)"
+			],
+			[
 				"Coup",
 				"CouponResource	(global, class)"
 			],
@@ -14,10 +22,6 @@
 			[
 				"Tastypie",
 				"TastypieModel"
-			],
-			[
-				"Car",
-				"CarResource	(global, class)"
 			],
 			[
 				"cars",
@@ -96,15 +100,7 @@
 			"file": "/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
 			"settings":
 			{
-				"buffer_size": 79261,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/models.py",
-			"settings":
-			{
-				"buffer_size": 34987,
+				"buffer_size": 79100,
 				"line_ending": "Unix"
 			}
 		},
@@ -121,6 +117,22 @@
 			"settings":
 			{
 				"buffer_size": 2371,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/forms.py",
+			"settings":
+			{
+				"buffer_size": 4947,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "paddock/urls.py",
+			"settings":
+			{
+				"buffer_size": 1277,
 				"line_ending": "Unix"
 			}
 		}
@@ -241,13 +253,15 @@
 	},
 	"file_history":
 	[
+		"/Users/jsgray/web_development/djangodev/paddock/views.py",
+		"/Users/jsgray/web_development/djangodev/paddock.sublime-project",
+		"/Users/jsgray/web_development/djangodev/paddock/models.py",
+		"/Users/jsgray/web_development/djangodev/paddock/urls.py",
 		"/Users/jsgray/web_development/djangodev/devsite/settings.py",
 		"/Users/jsgray/web_development/djangodev/paddock/security.py",
 		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/login.html",
 		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/base.html",
 		"/Users/jsgray/openmdao/OpenMDAO-Framework/openmdao.gui/src/openmdao/gui/test/functional/test_workspace.py",
-		"/Users/jsgray/web_development/djangodev/paddock/urls.py",
-		"/Users/jsgray/web_development/djangodev/paddock/views.py",
 		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
 		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/complete_event.html",
@@ -287,6 +301,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"metho",
 			"session",
 			"print",
 			"check:",
@@ -338,7 +353,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -364,7 +379,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1722.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -513,7 +528,7 @@
 					"file": "/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
 					"settings":
 					{
-						"buffer_size": 79261,
+						"buffer_size": 79100,
 						"regions":
 						{
 						},
@@ -538,34 +553,6 @@
 				},
 				{
 					"buffer": 7,
-					"file": "paddock/models.py",
-					"settings":
-					{
-						"buffer_size": 34987,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								33606,
-								33606
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 12460.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
 					"file": "/Users/jsgray/test.py",
 					"settings":
 					{
@@ -591,7 +578,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 8,
 					"file": "paddock/security.py",
 					"settings":
 					{
@@ -614,6 +601,62 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 405.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "paddock/forms.py",
+					"settings":
+					{
+						"buffer_size": 4947,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1553,
+								1566
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "paddock/urls.py",
+					"settings":
+					{
+						"buffer_size": 1277,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								932,
+								932
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -671,6 +714,26 @@
 		"selected_items":
 		[
 			[
+				"urls",
+				"paddock/urls.py"
+			],
+			[
+				"form",
+				"paddock/forms.py"
+			],
+			[
+				"views",
+				"paddock/views.py"
+			],
+			[
+				"url",
+				"paddock/urls.py"
+			],
+			[
+				"vi",
+				"paddock/views.py"
+			],
+			[
 				"sett",
 				"devsite/settings.py"
 			],
@@ -689,10 +752,6 @@
 			[
 				"base.html",
 				"paddock/templates/paddock/base.html"
-			],
-			[
-				"urls",
-				"paddock/urls.py"
 			],
 			[
 				"view",
