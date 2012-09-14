@@ -10,8 +10,9 @@
           last_name:"Gray",
           email:"justin.s.gray@gmail.com"
       },
-      url: 'paddock/api/v1/user/'+USER_ID,
+      url: 'paddock/api/v1/user/'+USER_ID+"/",
   });
+  user = new User({id:USER_ID}); user.fetch();
 
   var Car = Backbone.Model.extend({
     defaults:{
@@ -19,8 +20,7 @@
       year:"1990",
       make:"Mazda",
       model:"Miata",
-      thumb:"/media/car_thumbs/Bavikati_Maxima_avatar"
-
+      thumb:"/media/car_thumbs/Bavikati_Maxima_avatar",
     },
     //sync: function(method, model, options){
     //  alert('test'); 
@@ -137,6 +137,8 @@
       this.model.set(new_car);
       this.model.save();
       this.$('.view, .editing').removeClass('edit');
+
+      
     },
     render: function(){
       var row = this.row_template(this.model.toJSON());
@@ -159,7 +161,7 @@
         '<input type="text" style="width:4em;" name="year" placeholder="year">'+
         '<input type="text" style="width:35%;" name="make" placeholder="make">'+
         '<input type="text" style="width:35%;" name="model" placeholder="model"></form>'+
-        '<form id="avatar">Avatar Image: <input type="file" name="avatar"></form>'+
+        '<form id="avatar_form">Avatar Image: <input type="file" name="avatar"></form>'+
         '</td>'+
         '<td><button class="btn btn-primary" id="add_car_btn" style="width:6em;">Add Car</button></td></tr>'), 
          
@@ -167,9 +169,7 @@
       var c = new Car;
       var that = this;
       this.collection = new Cars();
-
-      _(this).bindAll('add');
-      this.collection.bind('add', this.add);
+      this.collection.on('add', this.render,this);
     },
     render: function(){
       var that = this;
@@ -185,20 +185,27 @@
       return this;
     },
 
-    add: function(car){
-      this.render();
-    },
-
     new_car: function(car){
       var name = this.$('#new_car_form input[name="name"]').val();
       var year = this.$('#new_car_form input[name="year"]').val();
       var make = this.$('#new_car_form input[name="make"]').val();
       var model = this.$('#new_car_form input[name="model"]').val();
-      var c = new Car({'name':name, 
-                       'year':year,
-                       'make':make,
-                       'model':model})
-      this.collection.push(c);
+      var attrs = {'name':name, 
+                   'year':year,
+                   'make':make,
+                   'model':model,
+                   'user':"/"+user.url}
+
+      this.collection.create(attrs);
+      this.render();
+      var options = {success:function(model,response){
+          var options = {
+            url: '/cars/'+model.id+'/',
+          }
+          this.$(avatar_form).ajaxSubmit(options);
+        },
+
+      }
     },
   });
   
@@ -283,7 +290,6 @@
   // App Setup
   //////////////////////////////////
   var user_view = new UserView;
-  
   //$('#cars_table').append(cars_view.el)
   var coupons_view = new CouponsView;
   var events_view = new EventsView;

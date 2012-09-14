@@ -3,6 +3,9 @@
 	[
 		{
 			"path": "/Users/Justin/paddockdev"
+		},
+		{
+			"path": "/Users/Justin/django-tastypie"
 		}
 	]
 }

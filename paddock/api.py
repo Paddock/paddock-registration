@@ -8,6 +8,26 @@ from paddock.security import IsOwnerAuthorization
 
 v1_api = api.Api(api_name='v1')
 
+class UserResource(ModelResource):
+    cars = fields.ToManyField('paddock.api.CarResource','cars',full=True)
+    coupons = fields.ToManyField('paddock.api.CouponResource','coupons')
+    class Meta: 
+        queryset = UserProfile.objects.all()
+        excludes = ['activation_key']
+        #authentication= SessionAuthentication()
+        #authorization= IsOwnerAuthorization()
+        authorization = Authorization()
+
+
+    def dehydrate(self,bundle): 
+        user = bundle.obj.user
+        bundle.data['first_name'] = user.first_name
+        bundle.data['last_name'] = user.last_name
+        bundle.data['username'] = user.username
+        
+        return bundle    
+v1_api.register(UserResource())
+
 class EventResource(ModelResource): 
     regs = fields.ToManyField('paddock.api.RegistrationResource','regs')
     
@@ -45,6 +65,7 @@ class RegistrationResource(ModelResource):
 v1_api.register(RegistrationResource())
 
 class CarResource(ModelResource):
+    user = fields.ToOneField(UserResource,'user_profile')
     class Meta: 
         queryset = Car.objects.all()
         #authentication= SessionAuthentication()
@@ -64,25 +85,7 @@ class CouponResource(ModelResource) :
         allowed_methods = ['get']
 v1_api.register(CouponResource())    
 
-class UserResource(ModelResource):
-    cars = fields.ToManyField('paddock.api.CarResource','cars',full=True)
-    coupons = fields.ToManyField('paddock.api.CouponResource','coupons')
-    class Meta: 
-        queryset = UserProfile.objects.select_related('cars','coupons').all()
-        excludes = ['activation_key']
-        #authentication= SessionAuthentication()
-        #authorization= IsOwnerAuthorization()
-        authorization = Authorization()
 
-
-    def dehydrate(self,bundle): 
-        user = bundle.obj.user
-        bundle.data['first_name'] = user.first_name
-        bundle.data['last_name'] = user.last_name
-        bundle.data['username'] = user.username
-        
-        return bundle    
-v1_api.register(UserResource())
         
         
         

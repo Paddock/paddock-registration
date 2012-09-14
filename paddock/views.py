@@ -201,7 +201,7 @@ def activate(request):
                               context_instance=RequestContext(request))
 
 from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
+@csrf_exempt #TODO: Remove this major security bug, just for testing
 @require_http_methods(['PUT','POST'])
 def car_avatar(request,car_id):
     """Handles a POST or PUT to a car for an avatar file upload, returns JSON"""
