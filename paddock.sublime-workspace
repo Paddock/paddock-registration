@@ -47,7 +47,7 @@
 			"file": "paddock/static/garage.js",
 			"settings":
 			{
-				"buffer_size": 8817,
+				"buffer_size": 8838,
 				"line_ending": "Unix"
 			}
 		},
@@ -55,7 +55,7 @@
 			"file": "paddock/static/garage.css",
 			"settings":
 			{
-				"buffer_size": 136,
+				"buffer_size": 0,
 				"line_ending": "Unix",
 				"name": "garage.css"
 			}
@@ -93,14 +93,6 @@
 			}
 		},
 		{
-			"file": "/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
-			"settings":
-			{
-				"buffer_size": 79261,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "paddock/models.py",
 			"settings":
 			{
@@ -112,7 +104,7 @@
 			"file": "/Users/jsgray/test.py",
 			"settings":
 			{
-				"buffer_size": 246,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -241,6 +233,7 @@
 	},
 	"file_history":
 	[
+		"/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
 		"/Users/jsgray/web_development/djangodev/devsite/settings.py",
 		"/Users/jsgray/web_development/djangodev/paddock/security.py",
 		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/login.html",
@@ -287,6 +280,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"icon",
 			"session",
 			"print",
 			"check:",
@@ -338,7 +332,7 @@
 	"groups":
 	[
 		{
-			"selected": 7,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -346,15 +340,15 @@
 					"file": "paddock/static/garage.js",
 					"settings":
 					{
-						"buffer_size": 8817,
+						"buffer_size": 8838,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4988,
-								4988
+								3600,
+								3600
 							]
 						],
 						"settings":
@@ -364,7 +358,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1722.0,
+						"translation.y": 1982.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -374,15 +368,15 @@
 					"file": "paddock/static/garage.css",
 					"settings":
 					{
-						"buffer_size": 136,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								134,
-								134
+								0,
+								0
 							]
 						],
 						"settings":
@@ -510,34 +504,6 @@
 				},
 				{
 					"buffer": 6,
-					"file": "/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
-					"settings":
-					{
-						"buffer_size": 79261,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 30496.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
 					"file": "paddock/models.py",
 					"settings":
 					{
@@ -565,19 +531,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 7,
 					"file": "/Users/jsgray/test.py",
 					"settings":
 					{
-						"buffer_size": 246,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								123,
-								123
+								0,
+								0
 							]
 						],
 						"settings":
@@ -591,7 +557,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 8,
 					"file": "paddock/security.py",
 					"settings":
 					{

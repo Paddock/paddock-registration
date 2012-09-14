@@ -122,6 +122,7 @@
       this.model.on('change', this.render, this);
     },     
     clear: function(){
+      this.unbind();
       this.model.destroy();
     },
     edit: function(){

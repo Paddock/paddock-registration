@@ -64,7 +64,6 @@ class Command(BaseCommand):
                     c.save()
                     car_map[line['id']] = c
                 except:
-                    print "problem with cars"
                     continue
                     
         
