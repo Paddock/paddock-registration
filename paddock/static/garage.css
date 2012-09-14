@@ -1,0 +1,15 @@
+td.editing {
+	display:none;
+}
+
+td.editing.edit {
+	display:table-cell;
+}
+
+td.view{
+	display:table-cell;
+}
+
+td.view.edit{
+	display:none;
+}
