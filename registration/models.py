@@ -78,7 +78,7 @@ class UserProfile(m.Model):
     def __unicode__(self):
         return u"%s" % self.user    
     
-    def send_activation_email(self): 
+    def send_activation_email(self,request): 
         
         ctx_dict = {'activation_key': self.activation_key,
                     'SITE_URL': settings.SITE_URL,

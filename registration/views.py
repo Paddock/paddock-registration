@@ -24,12 +24,15 @@ from registration.forms import UserCreationForm, ActivationForm,\
      RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
 
 
-def login(request):
+def login(request, *args, **kwargs):
     if request.method == 'POST':
         if not request.POST.get('remember_me', None): 
             request.session.set_expiry(0)    
+
+    kwargs.update({'template_name': 'registration/login.html',
+                   'authentication_form': AuthenticationForm})
                
-    return django_login(request, authentication_form=AuthenticationForm)
+    return django_login(request, *args, **kwargs)
 
 
 def clubs(request):

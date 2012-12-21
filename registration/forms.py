@@ -71,6 +71,16 @@ class UserCreationForm(UCF):
                             label=("E-mail"),
                             error_messages={'invalid': 'please provide a valid email address'})    
 
+    def __init__(self, *args, **kwargs): 
+        self.helper = FormHelper()
+
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = reverse('registration.views.register')
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+
 
 class AuthenticationForm(AF):
     #monkey patch to adjust error messages
@@ -92,9 +102,10 @@ class AuthenticationForm(AF):
         self.helper = FormHelper()
 
         #self.helper.form_id = 'id-exampleForm'
-        #self.helper.form_class = 'blueForms'
+        self.helper.form_class = 'well form-horizontal'
         self.helper.form_method = 'post'
-        self.helper.form_action = reverse('registration.views.login')
+        #self.helper.form_action = reverse('registration.views.login')
+        self.helper.form_tag = False
 
         self.helper.add_input(Submit('submit', 'Submit'))
         super(AuthenticationForm, self).__init__(*args, **kwargs)
