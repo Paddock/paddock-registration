@@ -1,4 +1,4 @@
-{% extends "paddock/base.html" %}
+{% extends "registration/base.html" %}
 {% load url from future %}
 
 {% block title %} Racerslane: Sign Up {% endblock %}
@@ -7,7 +7,7 @@
   <div class="container">
     <div class="row">
       <div class="span5">
-        <form method="post" action="{% url 'paddock.views.activate' %}" class="form-horizontal"> {% csrf_token %}
+        <form method="post" action="{% url 'registration.views.activate' %}" class="form-horizontal"> {% csrf_token %}
           {{ form }}
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Submit</button>

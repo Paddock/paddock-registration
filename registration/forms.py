@@ -13,7 +13,7 @@ from django.utils.decorators import available_attrs
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
 
-from django.forms import BooleanField, Form
+from django.forms import BooleanField, Form, ModelForm
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -46,7 +46,7 @@ class CarAvatarForm(Form):
     user_profile = forms.IntegerField()
 
 
-class RegForm(BootstrapModelForm): 
+class RegForm(ModelForm): 
     pax_class = forms.ModelChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
                 label="Registration Series",
                 empty_label="Open Class", required=False)
@@ -64,7 +64,7 @@ class RegForm(BootstrapModelForm):
                    '_anon_l_name', '_anon_car']  
         
 
-class UserCreationForm(BootstrapMixin, UCF):
+class UserCreationForm(UCF):
     
     email = forms.EmailField(widget=forms.TextInput(),
                             max_length=75,
@@ -100,7 +100,7 @@ class AuthenticationForm(AF):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
 
-class ActivationForm(BootstrapForm): 
+class ActivationForm(Form): 
     #class Meta: 
         #layout = (
         #            Fieldset("Enter the activation code sent to your email", "username", "activation_key", ),

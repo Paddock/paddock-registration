@@ -150,7 +150,7 @@ INSTALLED_APPS = (
     'registration',
 )
 
-AUTH_PROFILE_MODULE = 'paddock.UserProfile'
+AUTH_PROFILE_MODULE = 'registration.UserProfile'
 LOGIN_URL = '/paddock/login/'
 LOGIN_REDIRECT_URL = '/paddock/clubs'
 ACCOUNT_ACTIVATION_DAYS = 7

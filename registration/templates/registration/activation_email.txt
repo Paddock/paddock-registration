@@ -2,9 +2,9 @@
 Thanks for signing up at Racerslane.com. Your account is not yet active. In order to activate your account, 
 you need to verify your email address. You can do that by clicking the following link: 
 
-{{SITE_URL}}{% url 'paddock.views.activate' %}?username={{user.username}}&code={{activation_key}}
+{{SITE_URL}}{% url 'registration.views.activate' %}?username={{user.username}}&code={{activation_key}}
 
-or, you can go directly to {{SITE_URL}}{% url 'paddock.views.activate' %} and type in the following information
+or, you can go directly to {{SITE_URL}}{% url 'registration.views.activate' %} and type in the following information
 yourself: 
 
 username: {{user.username}}

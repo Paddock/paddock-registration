@@ -1,4 +1,4 @@
-{% extends "paddock/base.html" %}
+{% extends "registration/base.html" %}
 {% load url from future %}
 {% load easy_maps_tags %}
 {% load paddock_tags%}
@@ -57,7 +57,7 @@
 
 
     
-    {% url 'paddock.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
+    {% url 'registration.views.event_register' club.safe_name season.year event.safe_name as reg_url%}
     {% if reg_is_open%}
     <h4>Registration is open until {{ event.reg_close }}</h4>
       {% if is_auth and is_regd %}
@@ -66,14 +66,14 @@
 	<p><img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
 	</p>
 	<p>
-	  <a href="{% url 'paddock.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
+	  <a href="{% url 'registration.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
 	  Update your registration	
 	  </a>	
 	</p>
       {% elif is_auth %}
 	<h3><a href="{{ reg_url }}">Register for the event </a></h3>
       {% else %}
-	<h3><a href="{% url 'paddock.views.login' %}?next={{reg_url}}">Login</a>
+	<h3><a href="{% url 'registration.views.login' %}?next={{reg_url}}">Login</a>
 	to register for the event</h3>
       {% endif %}
     {% else %}
@@ -83,7 +83,7 @@
     
   </div> <!--/span6"-->
   <div class="span6">
-      {%easy_map event.location.address 400 300 11 using 'paddock/directions.html'%}
+      {%easy_map event.location.address 400 300 11 using 'registration/directions.html'%}
       <p>This event will be held at <strong>{{ event.location.name }}</strong></p>
       <p>{{ event.location.address }}</p>
   </div><!--/span6-->

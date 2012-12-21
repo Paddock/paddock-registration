@@ -57,7 +57,7 @@ class IsOwnerAuthorization(Authorization):
         if not hasattr(bundle.request, 'user'):
             return False
 
-        print bundle
+        #print bundle
         if not bundle.request.user.username == bundle.data['username']: 
             return False    
 

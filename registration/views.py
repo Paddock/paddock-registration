@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 #from django.contrib.sites.models import get_current_site
 
 #django auth views
-from django.contrib.auth.views import login as django_login
+from django.contrib.auth.views import login as django_login,logout
 from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
@@ -202,9 +202,9 @@ def car_avatar(request, car_id):
 
     form = CarAvatarForm(request.POST, request.FILES)
     if form.is_valid(): 
-        print "TESTING"
+        #print "TESTING"
         data = {'avatar_url': '/test', 'thumb_url': '/test', 'error': None}
         return HttpResponse(json.dumps(data), mimetype='application/json')
-    print form.errors
+    #print form.errors
     data = {'error': 'Invalid Image File'}
     return HttpResponse(json.dumps(data), mimetype='application/json')      

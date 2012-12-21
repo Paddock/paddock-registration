@@ -6,7 +6,7 @@
     <th style="witdh: 35%"> Date </th> 
   </tr> </thead>
   {% for event in events %}
-      {% url 'paddock.views.event' event.season.club.safe_name event.season.year event.safe_name as the_url %}
+      {% url 'registration.views.event' event.season.club.safe_name event.season.year event.safe_name as the_url %}
       <tr style="width: 100%">
         <td style="width: 65%"> <a href={{ the_url }}> {{ event.name }}</a></td>
         <td style="width: 35%"> {{ event.date }}</td>
