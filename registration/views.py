@@ -21,15 +21,15 @@ from django.forms import ModelChoiceField, HiddenInput
 from registration.models import Club, Event, Car, UserProfile
 
 from registration.forms import UserCreationForm, ActivationForm,\
-     RegForm, CarAvatarForm, form_is_for_self
+     RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
 
 
-def login(request, *args, **kwargs):
+def login(request):
     if request.method == 'POST':
         if not request.POST.get('remember_me', None): 
             request.session.set_expiry(0)    
                
-    return django_login(request, *args, **kwargs)
+    return django_login(request, authentication_form=AuthenticationForm)
 
 
 def clubs(request):
@@ -66,11 +66,13 @@ def event(request, club_name, season_year, event_name):
         elif r.bump_class: 
             reg_sets.setdefault(r.bump_class, []).append(r)
         else: 
-            #reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
-            reg_sets.setdefault(None, []).append(r)
+            if reg_is_open: 
+                reg_sets.setdefault(None, []).append(r)
+            else: 
+                reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
     
     reg_sets = OrderedDict(sorted(reg_sets.items(), key=lambda t: t[0], reverse=True))  
-    
+    print [(k,len(v)) for k,v in reg_sets.iteritems()]
     is_regd = False
     is_auth = request.user.is_authenticated()
     if is_auth: 
@@ -92,7 +94,6 @@ def event(request, club_name, season_year, event_name):
                               context_instance=RequestContext(request))
     else: 
         context['index_points'], context['class_points'] = event.season.points_as_of(event.date) 
-            
         context['top_pax_reg'] = regs[0]
         context['top_raw_reg'] = regs.order_by('-n_runs', 'total_raw_time')[0]        
         return render_to_response('registration/complete_event.html',
