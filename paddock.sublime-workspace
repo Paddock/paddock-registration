@@ -4,219 +4,50 @@
 		"selected_items":
 		[
 			[
-				"Coup",
-				"CouponResource	(global, class)"
+				"auth",
+				"authentication"
 			],
 			[
-				"Tasty",
-				"TastypieCollection"
-			],
-			[
-				"Tastypie",
-				"TastypieModel"
-			],
-			[
-				"Car",
-				"CarResource	(global, class)"
-			],
-			[
-				"cars",
-				"cars_table"
-			],
-			[
-				"Event",
-				"Events"
-			],
-			[
-				"Colle",
-				"CollectionView"
-			],
-			[
-				"ffd",
-				"ffd_color"
-			],
-			[
-				"dPi_bar_r",
-				"dPi_bar_rqdCt"
+				"cs",
+				"csrf_exempt"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "paddock/static/garage.js",
-			"settings":
-			{
-				"buffer_size": 8838,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/static/garage.css",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix",
-				"name": "garage.css"
-			}
-		},
-		{
-			"file": "paddock/static/paddock.js",
-			"settings":
-			{
-				"buffer_size": 2736,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/templates/paddock/garage.html",
-			"settings":
-			{
-				"buffer_size": 2278,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/templates/paddock/reg_list.html",
-			"settings":
-			{
-				"buffer_size": 749,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/api.py",
-			"settings":
-			{
-				"buffer_size": 2981,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/models.py",
-			"settings":
-			{
-				"buffer_size": 34987,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/Users/jsgray/test.py",
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "paddock/security.py",
-			"settings":
-			{
-				"buffer_size": 2371,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 137.0,
+		"height": 227.0,
 		"selected_items":
 		[
-			[
-				"project",
-				"Project: Close"
-			],
-			[
-				"git: p",
-				"Git: Push"
-			],
-			[
-				"git: push ",
-				"Git: Push"
-			],
-			[
-				"git: comm	",
-				"Git: Commit"
-			],
-			[
-				"git: add",
-				"Git: Add..."
-			],
-			[
-				"list pac",
-				"Package Control: List Packages"
-			],
-			[
-				"packac",
-				"Package Control: Install Package"
-			],
-			[
-				"git:pu",
-				"Git: Push"
-			],
-			[
-				"git commit",
-				"Git: Commit"
-			],
-			[
-				"git:add	",
-				"Git: Add..."
-			],
-			[
-				"git: stat	",
-				"Git: Status"
-			],
-			[
-				"git: commit",
-				"Git: Commit"
-			],
-			[
-				"git:comm",
-				"Git: Quick Commit"
-			],
-			[
-				"git:stat	",
-				"Git: Status"
-			],
-			[
-				"git: status",
-				"Git: Status"
-			],
 			[
 				"pacak",
 				"Package Control: Install Package"
 			],
 			[
-				"pacak	",
+				"install",
 				"Package Control: Install Package"
 			],
 			[
-				"syntax: dj",
-				"Set Syntax: HTML (Django)"
+				"pacakage",
+				"Package Control: Remove Package"
+			],
+			[
+				"pacakge",
+				"Package Control: Disable Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
 			],
 			[
 				"packa",
-				"Package Control: Install Package"
-			],
-			[
-				"paco",
-				"Package Control: Install Package"
-			],
-			[
-				"Pack",
 				"Package Control: Enable Package"
-			],
-			[
-				"Package Control: ",
-				"Package Control: Enable Package"
-			],
-			[
-				"package control: ",
-				"Package Control: Install Package"
 			]
 		],
-		"width": 453.0
+		"width": 593.0
 	},
 	"console":
 	{
@@ -233,46 +64,22 @@
 	},
 	"file_history":
 	[
-		"/Users/jsgray/web_development/django-tastypie/tastypie/resources.py",
-		"/Users/jsgray/web_development/djangodev/devsite/settings.py",
-		"/Users/jsgray/web_development/djangodev/paddock/security.py",
-		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/login.html",
-		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/base.html",
-		"/Users/jsgray/openmdao/OpenMDAO-Framework/openmdao.gui/src/openmdao/gui/test/functional/test_workspace.py",
-		"/Users/jsgray/web_development/djangodev/paddock/urls.py",
-		"/Users/jsgray/web_development/djangodev/paddock/views.py",
-		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
-		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/complete_event.html",
-		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/Git.sublime-settings",
-		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/garage.html",
-		"/Users/jsgray/web_development/djangodev/paddock/templates/paddock/clubs.html",
-		"/Users/jsgray/bspline/geom.py",
-		"/Users/jsgray/bspline/bspline.py",
-		"/Users/jsgray/bspline/test2.py",
-		"/Users/jsgray/bspline/test.py",
-		"/Users/jsgray/bspline/ffd.py",
-		"/Users/jsgray/Downloads/model.tec.1.sd1",
-		"/Users/jsgray/bspline/tmp.py",
-		"/Users/jsgray/openmdao/papers/sdm_2012/conference_presentation.tex",
-		"/Users/jsgray/openmdao/papers/sdm_2012/openmdao_test_framework.tex",
-		"/usr/local/texlive/2010/texmf-dist/tex/latex/minted/minted.sty",
-		"/Users/jsgray/Library/Application Support/Sublime Text 2/Packages/User/latex.sublime-build"
+		"/Users/justin/webdev/paddock-registration/paddock.sublime-project",
+		"/Users/justin/webdev/django-tastypie/paddock.sublime-project",
+		"/Users/justin/work/flowstation/canteraFS.py",
+		"/Users/justin/work/flowstation/open",
+		"/Users/justin/webdev/student_log_dajango/log/roster_parser.py",
+		"/Users/justin/webdev/student_log_dajango/log/tests.py"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 37.0
 	},
 	"find_in_files":
 	{
 		"height": 0.0,
 		"where_history":
 		[
-			"",
-			"test2.py",
-			"ffd.py",
-			"./",
-			""
 		]
 	},
 	"find_state":
@@ -280,35 +87,29 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"icon",
-			"session",
-			"print",
-			"check:",
-			"print",
-			"check",
-			"Level",
-			"log",
-			"url ",
-			"fetch",
-			"justingray",
-			"hashers",
-			"TastypieCollection",
-			"TastypieModel",
-			"auth",
-			"console",
-			"user",
-			"fetch",
-			"Coupons",
-			"window",
-			"new Car",
-			"class",
-			"cars_table",
-			"conole",
-			"log",
-			"avatar_pic",
-			"avatar_popover",
-			"subfig",
-			"shell."
+			"reacta",
+			"settings",
+			"statsic",
+			"default",
+			".log",
+			"static",
+			"extend",
+			"headers",
+			"test",
+			"headers",
+			"http",
+			"xhr",
+			"CSRF",
+			"DjangoAuthorization",
+			"klasses",
+			"Authorization(",
+			"authorization = Authorization() ",
+			"login",
+			"static",
+			"authen",
+			"csrf",
+			"control",
+			"            "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -316,12 +117,8 @@
 		"regex": false,
 		"replace_history":
 		[
-			"Backbone.Collection",
-			"Backbone.Model",
-			"avatar_popover",
-			"ax",
-			"subfig",
-			"self."
+			"Authorization",
+			"authorization = DjangoAuthorization() "
 		],
 		"reverse": false,
 		"show_context": true,
@@ -332,258 +129,13 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "paddock/static/garage.js",
-					"settings":
-					{
-						"buffer_size": 8838,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3600,
-								3600
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1982.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "paddock/static/garage.css",
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "garage.css",
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "paddock/static/paddock.js",
-					"settings":
-					{
-						"buffer_size": 2736,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								386,
-								386
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "paddock/templates/paddock/garage.html",
-					"settings":
-					{
-						"buffer_size": 2278,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1348,
-								1348
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"word_wrap": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "paddock/templates/paddock/reg_list.html",
-					"settings":
-					{
-						"buffer_size": 749,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								447,
-								583
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "paddock/api.py",
-					"settings":
-					{
-						"buffer_size": 2981,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2535,
-								2535
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 555.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "paddock/models.py",
-					"settings":
-					{
-						"buffer_size": 34987,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								33606,
-								33606
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 12460.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "/Users/jsgray/test.py",
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "paddock/security.py",
-					"settings":
-					{
-						"buffer_size": 2371,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1418,
-								1418
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 405.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
+			]
+		},
+		{
+			"sheets":
+			[
 			]
 		}
 	],
@@ -593,7 +145,7 @@
 	},
 	"input":
 	{
-		"height": 31.0
+		"height": 0.0
 	},
 	"layout":
 	{
@@ -604,6 +156,12 @@
 				0,
 				1,
 				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
 			]
 		],
 		"cols":
@@ -614,21 +172,14 @@
 		"rows":
 		[
 			0.0,
+			0.5,
 			1.0
 		]
 	},
 	"menu_visible": true,
-	"output.exec":
-	{
-		"height": 100.0
-	},
-	"output.git":
-	{
-		"height": 100.0
-	},
 	"replace":
 	{
-		"height": 64.0
+		"height": 66.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -637,44 +188,124 @@
 		"selected_items":
 		[
 			[
-				"sett",
-				"devsite/settings.py"
+				"flows",
+				"flowstation.py"
 			],
 			[
-				"secur",
-				"paddock/security.py"
+				"intera",
+				"log/static/student_log/app/partials/interaction.html"
 			],
 			[
-				"setting.",
-				"devsite/settings.py"
+				"login.htm",
+				"log/templates/log/login.html"
 			],
 			[
-				"login.html",
-				"paddock/templates/paddock/login.html"
-			],
-			[
-				"base.html",
-				"paddock/templates/paddock/base.html"
+				"vie",
+				"log/views.py"
 			],
 			[
 				"urls",
-				"paddock/urls.py"
+				"log/urls.py"
+			],
+			[
+				"urls.p",
+				"student_log/urls.py"
+			],
+			[
+				"views",
+				"log/views.py"
+			],
+			[
+				"url",
+				"student_log/urls.py"
+			],
+			[
+				"import",
+				"log/management/commands/import_old_data.py"
+			],
+			[
+				"sett",
+				"student_log/settings.py"
+			],
+			[
+				"setting",
+				"student_log/settings.py"
+			],
+			[
+				"wsg",
+				"wsgi.py"
+			],
+			[
+				"search",
+				"log/static/student_log/app/partials/search.html"
+			],
+			[
+				"class",
+				"log/static/student_log/app/partials/class.html"
+			],
+			[
+				"contro",
+				"log/static/student_log/app/js/controllers.js"
+			],
+			[
+				"inter",
+				"log/static/student_log/app/partials/interaction.html"
+			],
+			[
+				"direc",
+				"log/static/student_log/app/js/directives.js"
+			],
+			[
+				"tasty",
+				"log/static/student_log/app/js/tastypie-resource.js"
+			],
+			[
+				"authen",
+				"log/authentication.py"
+			],
+			[
+				"mod",
+				"log/models.py"
+			],
+			[
+				"inde",
+				"log/static/student_log/app/index.html"
+			],
+			[
+				"contor",
+				"log/static/student_log/app/js/controllers.js"
+			],
+			[
+				"forms",
+				"log/forms.py"
+			],
+			[
+				"base",
+				"log/templates/log/base.html"
+			],
+			[
+				"index",
+				"log/static/student_log/app/index.html"
+			],
+			[
+				"log",
+				"log/templates/log/login.html"
+			],
+			[
+				"verb",
+				"log/verbatim.py"
+			],
+			[
+				"classes",
+				"log/static/student_log/app/partials/classes.html"
+			],
+			[
+				"form",
+				"log/forms.py"
 			],
 			[
 				"view",
-				"paddock/views.py"
-			],
-			[
-				"garage.ht",
-				"paddock/templates/paddock/garage.html"
-			],
-			[
-				"garage.html",
-				"paddock/templates/paddock/garage.html"
-			],
-			[
-				"garage.js",
-				"paddock/static/garage.js"
+				"log/views.py"
 			]
 		],
 		"width": 0.0
@@ -687,10 +318,10 @@
 		],
 		"width": 380.0
 	},
-	"show_minimap": false,
+	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": false,
 	"side_bar_visible": true,
-	"side_bar_width": 219.0,
+	"side_bar_width": 178.0,
 	"status_bar_visible": true
 }
