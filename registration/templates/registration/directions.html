@@ -1,17 +1,39 @@
-{% extends "easy_maps/map.html" %}
+{% with map.latitude|stringformat:"f" as lat %}
+{% with map.longitude|stringformat:"f" as long %}
 {% load paddock_tags %}
 
-{% block extra_js %}
-    var marker = new google.maps.Marker({
-        position: latlng,
-        map: map,
-        title: "{{ map.address }}"
-    });
-        
-    var infoWindow = new google.maps.InfoWindow({
-    position: map.getCenter(),
-    content: '{% directions_bubble lat long map.address|escapejs%}'
-    });
-    infoWindow.open(map);
+<!-- Giving the div an id="map_canvas" fix problems with twitter bootstrap affecting
+google maps -->
+ <div ng-app="demoApp">
+    <section id="directives-map" ng-controller="MapCtrl">
+        <div id="map_canvas" ui-map="myMap" class="map"
+          ui-map-center="{{lat}},{{long}}"
+          ui-options="mapOptions">
+        </div>
+     
+    <div ui-map-info-window="myInfoWindow">
+        <h4>Get Directions<h4>
+        <form action="http://maps.google.com/maps" method="get" target="_blank">
+            <input type="text" size=20 maxlength=40 name="saddr" id="saddr" value="" placeholder="Starting Address"/><br>
+            <input class="btn btn-primary" value="Get Directions" TYPE="submit">
+            <input type="hidden" name="daddr" value="{{ lat }},{{ long }}"/>
+        </form>
 
-{% endblock %}
+    </div>    
+    </section>
+ </div>   
+
+  <script>
+      var map_center_coords = [{{lat}},{{long}}]
+  </script>
+ 
+  <style>
+  #directives-map .map {
+    height: {{height}}px;
+    width:  {{width}}px;
+  }
+  </style>
+
+{% endwith %}
+{% endwith %}
+
