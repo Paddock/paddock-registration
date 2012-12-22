@@ -7,6 +7,7 @@
 {%endblock head_css%}
 
 {% block foot_js %}
+  {%block.super%}
   <script type="text/javascript">
       var USER_ID = {{request.user.pk}};
   </script>
@@ -19,7 +20,7 @@
   <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
   <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
     
-  <script src="{{STATIC_URL}}paddock.js"></script>
+  {#<script src="{{STATIC_URL}}paddock.js"></script>#}
   <script src="{{STATIC_URL}}garage.js"></script>
 {% endblock foot_js %}
 
@@ -34,36 +35,8 @@
     </script>
   {% endverbatim %}
 
-  <div class="row">
-    <div class="span6">
-      <div class="row">
-        <div class="span6" id="user_info">
-            <h2> Your Information </h2>
-            
-        </div><!--/span6-->
-      </div><!--/row-->  
-      <div class="row">
-        <div class="span6" id="cars_table">
-            <h2> Your Cars </h2>
-        </div><!--/span6-->
-      </div><!--/row-->   
-    </div><!--/span6-->
-    <div class="span6">
-      <div class="row">
-        <div class="span6">
-          <h2>Your Coupons</h2>
-          <table class="table table-striped table-bordered" id="coupons_table">
-          </table>
-        </div><!--/span6-->
-      </div><!--/row--> 
-      <div class="row">
-        <div class="span6">
-          <h2>Your Events</h2>
-          <ul class="unstyled" id="events_list">
-          </ul>
-        </div><!--/span6-->
-      </div><!--/row--> 
-    </div><!--/span6-->
+  <div class="row" ng-app="garage">
+    <div class="span6" ng-view></div><!--/span6-->
 
   </div><!--/row-->   
 {% endblock content %}

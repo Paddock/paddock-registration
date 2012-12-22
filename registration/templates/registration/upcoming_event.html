@@ -10,71 +10,31 @@
 {% endblock head_css %}
 
 {% block foot_js %}
+  {{block.super}}
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
   <script src="{{ STATIC_URL }}DataTables-1.9.1/media/js/jquery.dataTables.min.js"></script>
   <script src="{{ STATIC_URL }}DT_bootstrap.js"></script>
+
+
   <script type="text/javascript" charset="utf-8">
   /* Table initialisation */
   $(document).ready(function() {
-      $('.avatar_pic').avatar_popover();
       $('.reg_table').dataTable( {
-    "bPaginate": false,
-    "aaSorting": [[0,'asc']],
-    "aoColumnDefs": [
-        {"sType": "name", aTargets: [0]},
-        { "bSortable": false, aTargets:[1]},
-        { "aDataSort": [ 2, 3], aTargets:[2] },
-        { "aDataSort": [ 3, 2], aTargets:[3] },
-    ],
-    "oLanguage": {
-        "sInfo": ""
-    }	      
-          
-      } );
+        "bPaginate": false,
+        "aaSorting": [[0,'asc']],
+        "aoColumnDefs": [
+            {"sType": "name", aTargets: [0]},
+            { "bSortable": false, aTargets:[1]},
+            { "aDataSort": [ 2, 3], aTargets:[2] },
+            { "aDataSort": [ 3, 2], aTargets:[3] },
+        ],
+        "oLanguage": {
+            "sInfo": ""
+        }	      
+    } );
   } );
 
-  angular.module('mapApp', ['ui']);
-
-    function MapCtrl($scope) {
-
-      $scope.myMarkers = [];
-
-      pnt = new google.maps.LatLng();
-      $scope.mapOptions = {
-        zoom: 11,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      }; 
-
-      $scope.setCenter = function(pnt) {
-        var marker = new google.maps.Marker({
-          map: $scope.myMap,
-          position: pnt
-          });
-        google.maps.event.addListener(marker, 'click',function() {
-          $scope.myInfoWindow.open($scope.myMap, marker);
-        });
-        $scope.myMap.setCenter(pnt);
-        };
-
-
-    }
-    
-
-    var app = angular.module('ui.directives');
-
-    app.directive('uiMapCenter', [function(){
-        return {
-        priority: 0,
-        restrict: 'A',
-        //doesn't work as E for unknown reason
-        link: function (scope, elm, attrs) {
-            var coords = attrs.uiMapCenter.split(",");
-            var center = new google.maps.LatLng(coords[0],coords[1]);
-            scope.setCenter(center); 
-        }
-      };
-    }]);
   </script>
 {% endblock foot_js%}
 

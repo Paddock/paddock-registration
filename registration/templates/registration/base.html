@@ -1,79 +1,13 @@
-{% load url from future %}
+{% extends "paddock-common/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-      <meta charset="utf-8">
-      <title>{% block title %}Racerslane.com{% endblock %}</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="description" content="Racerslane.com is an 
-            online motorsports event registration and payment system">
-      <meta name="author" content="Justin Gray">
-      
-      
-      <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
-      <link href="{{ STATIC_URL }}angular/angular-ui.min.css" rel="stylesheet">
+{%block foot_js%}
+  <script src="{{ STATIC_URL }}registration/registration.js"></script>
+  <script src="{{ STATIC_URL }}registration/registration-directives.js"></script>
+{%endblock foot_js%}
 
-      <link href="{{ STATIC_URL }}paddock.css" rel="stylesheet">
-      <style type="text/css">
-          body {
-            padding-top:60px;
-            padding-bottom:40px;
-          }
-      </style>
-      <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css">
-      
-      {% block head_css %}{% endblock head_css %}
-      
-      <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-      <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-      <![endif]-->
-
-      <!-- Le fav and touch icons -->
-  </head>
-  <body>
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="{% url 'registration.views.clubs' %}"> Racerslane </a>
-          {% if user.is_authenticated %}
-          <ul class="nav"> <li><a href="{%url 'garage' user.username%}">My Garage</a></li></ul>
-          {%endif%}
-          {% block nav_login %} <ul class="nav pull-right">
-            {% if user.is_authenticated %}
-            <li><p class="navbar-text">Logged in as <a>{{user.username}}</a>,</p></li>
-            <li><a href="{% url 'registration.views.logout' %}">logout</a></li>
-            {% else %}
-            <li>
-              
-            </li>
-            <li>
-              <p class="navbar-text"><a href="{% url 'registration.views.login'%}?next={{request.path}}">Login</a>  
-              or 
-              <a href="{% url 'registration.views.register' %}">Sign Up</a></p>
-            </li>
-            {% endif %}
-          </ul> {% endblock nav_login %}
-        </div>
-      </div>
-    </div> <!-- /navbar -->
-    
-    <div class="container">
-    {% block content %}{% endblock content%}
+{% block container %}
+    <div class="container" ng-app="registration">
+      {%block content%}
+      {%endblock content%}
     </div><!-- /container -->
-    
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{ STATIC_URL }}jquery.js"></script>
-    <script src="{{ STATIC_URL }}paddock.js"></script> <!--paddock plugins for jquery -->
-
-    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-    <script src="{{ STATIC_URL }}angular/angular.min.js"></script>
-    <script src="{{ STATIC_URL }}angular/angular-ui.min.js"></script>
-    <script src="{{ STATIC_URL }}angular/angular-ui-ieshiv.min.js"></script>
-    {% block foot_js %}{% endblock foot_js %}
-
-  </body>
-</html>
+{% endblock container%}

@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'easy_maps',
     'tastypie',
+    'paddock-common',
     'registration',
 )
 
