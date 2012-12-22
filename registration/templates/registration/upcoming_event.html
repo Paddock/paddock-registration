@@ -19,20 +19,62 @@
   $(document).ready(function() {
       $('.avatar_pic').avatar_popover();
       $('.reg_table').dataTable( {
-	  "bPaginate": false,
-	  "aaSorting": [[0,'asc']],
-	  "aoColumnDefs": [
-	      {"sType": "name", aTargets: [0]},
-	      { "bSortable": false, aTargets:[1]},
-	      { "aDataSort": [ 2, 3], aTargets:[2] },
-	      { "aDataSort": [ 3, 2], aTargets:[3] },
-	  ],
-	  "oLanguage": {
-	      "sInfo": ""
-	  }	      
-		      
+    "bPaginate": false,
+    "aaSorting": [[0,'asc']],
+    "aoColumnDefs": [
+        {"sType": "name", aTargets: [0]},
+        { "bSortable": false, aTargets:[1]},
+        { "aDataSort": [ 2, 3], aTargets:[2] },
+        { "aDataSort": [ 3, 2], aTargets:[3] },
+    ],
+    "oLanguage": {
+        "sInfo": ""
+    }	      
+          
       } );
   } );
+
+  angular.module('mapApp', ['ui']);
+
+    function MapCtrl($scope) {
+
+      $scope.myMarkers = [];
+
+      pnt = new google.maps.LatLng();
+      $scope.mapOptions = {
+        zoom: 11,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }; 
+
+      $scope.setCenter = function(pnt) {
+        var marker = new google.maps.Marker({
+          map: $scope.myMap,
+          position: pnt
+          });
+        google.maps.event.addListener(marker, 'click',function() {
+          $scope.myInfoWindow.open($scope.myMap, marker);
+        });
+        $scope.myMap.setCenter(pnt);
+        };
+
+
+    }
+    
+
+    var app = angular.module('ui.directives');
+
+    app.directive('uiMapCenter', [function(){
+        return {
+        priority: 0,
+        restrict: 'A',
+        //doesn't work as E for unknown reason
+        link: function (scope, elm, attrs) {
+            var coords = attrs.uiMapCenter.split(",");
+            var center = new google.maps.LatLng(coords[0],coords[1]);
+            scope.setCenter(center); 
+        }
+      };
+    }]);
   </script>
 {% endblock foot_js%}
 
@@ -60,20 +102,20 @@
     {% if reg_is_open%}
     <h4>Registration is open until {{ event.reg_close }}</h4>
       {% if is_auth and is_regd %}
-	<p> {{ is_regd.first_name }}, you've registered as {{ is_regd.number }} {{ is_regd.race_class.abrv}}
-	with {{ is_regd.car.name }}<br/></p>
-	<p><img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
-	</p>
-	<p>
-	  <a href="{% url 'registration.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
-	  Update your registration	
-	  </a>	
-	</p>
+  <p> {{ is_regd.first_name }}, you've registered as {{ is_regd.number }} {{ is_regd.race_class.abrv}}
+  with {{ is_regd.car.name }}<br/></p>
+  <p><img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
+  </p>
+  <p>
+    <a href="{% url 'registration.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
+    Update your registration	
+    </a>	
+  </p>
       {% elif is_auth %}
-	<h3><a href="{{ reg_url }}">Register for the event </a></h3>
+  <h3><a href="{{ reg_url }}">Register for the event </a></h3>
       {% else %}
-	<h3><a href="{% url 'registration.views.login' %}?next={{reg_url}}">Login</a>
-	to register for the event</h3>
+  <h3><a href="{% url 'registration.views.login' %}?next={{reg_url}}">Login</a>
+  to register for the event</h3>
       {% endif %}
     {% else %}
        <h4>Registration closed on {{ event.reg_close }}</h4>
@@ -82,7 +124,7 @@
     
   </div> <!--/span6"-->
   <div class="span6">
-      {%easy_map event.location.address 400 300 11 using 'registration/directions.html'%}
+      {%easy_map event.location.address 400 400 11 using 'registration/directions.html'%}
       <p>This event will be held at <strong>{{ event.location.name }}</strong></p>
       <p>{{ event.location.address }}</p>
   </div><!--/span6-->
