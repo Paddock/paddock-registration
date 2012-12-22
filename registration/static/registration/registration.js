@@ -2,8 +2,6 @@ var reg_app = angular.module('registration',['registration.directives','ui']);
 
 function MapCtrl($scope) {
 
-    $scope.myMarkers = [];
-
     pnt = new google.maps.LatLng();
     $scope.mapOptions = {
       zoom: 11,
@@ -11,6 +9,7 @@ function MapCtrl($scope) {
     }; 
 
     $scope.setCenter = function(pnt) {
+      console.log("test");
       var marker = new google.maps.Marker({
         map: $scope.myMap,
         position: pnt

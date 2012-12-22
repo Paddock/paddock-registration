@@ -24,7 +24,6 @@
         $(this).find('i').toggleClass("icon-play-circle icon-download");
         $(this).next().children().toggle();
       });   
-      $('.avatar_pic').avatar_popover();
   } );
   </script>
 {% endblock foot_js%}
@@ -57,7 +56,7 @@
     
   </div> <!--/span6"-->
   <div class="span6">
-      {%easy_map event.location.address 400 300 13%}
+      {%easy_map event.location.address 400 400 13 using 'registration/directions.html'%}
       <p>This event was held at <strong>{{ event.location.name }}</strong></p>
       <p>{{ event.location.address }}</p>
   </div><!--/span6-->
