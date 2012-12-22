@@ -200,19 +200,3 @@ def activate(request):
     return render_to_response('registration/activate_form.html',
                               {'form': form},
                               context_instance=RequestContext(request))
-
-
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt  #TODO: Remove this major security bug, just for testing
-@require_http_methods(['PUT', 'POST'])
-def car_avatar(request, car_id):
-    """Handles a POST or PUT to a car for an avatar file upload, returns JSON"""
-
-    form = CarAvatarForm(request.POST, request.FILES)
-    if form.is_valid(): 
-        #print "TESTING"
-        data = {'avatar_url': '/test', 'thumb_url': '/test', 'error': None}
-        return HttpResponse(json.dumps(data), mimetype='application/json')
-    #print form.errors
-    data = {'error': 'Invalid Image File'}
-    return HttpResponse(json.dumps(data), mimetype='application/json')      
