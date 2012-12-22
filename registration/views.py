@@ -5,24 +5,24 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.core import serializers
 from django.views.generic.create_update import create_object, update_object
 from django.views.decorators.http import require_http_methods
 
 from django.contrib.auth.models import User
-#from django.contrib.sites.models import get_current_site
-
-#django auth views
 from django.contrib.auth.views import login as django_login,logout
 from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
-
 
 from registration.models import Club, Event, Car, UserProfile
 
 from registration.forms import UserCreationForm, ActivationForm,\
      RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
 
+
+JSON = serializers.get_serializer('json')
+toJSON = JSON() #need an instance of the serializer
 
 def login(request, *args, **kwargs):
     if request.method == 'POST':
@@ -60,7 +60,7 @@ def event(request, club_name, season_year, event_name):
         regs = event.regs.all()
     else: 
         regs = event.get_results()
-        
+
     reg_sets = {}
     
     for r in regs: 
@@ -73,9 +73,13 @@ def event(request, club_name, season_year, event_name):
                 reg_sets.setdefault(None, []).append(r)
             else: 
                 reg_sets.setdefault(None,{}).setdefault(r.race_class,[]).append(r)
+
+
     
     reg_sets = OrderedDict(sorted(reg_sets.items(), key=lambda t: t[0], reverse=True))  
-    print [(k,len(v)) for k,v in reg_sets.iteritems()]
+
+
+
     is_regd = False
     is_auth = request.user.is_authenticated()
     if is_auth: 

@@ -12,6 +12,8 @@
       
       
       <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet">
+      <link href="{{ STATIC_URL }}angular/angular-ui.min.css" rel="stylesheet">
+
       <link href="{{ STATIC_URL }}paddock.css" rel="stylesheet">
       <style type="text/css">
           body {
@@ -19,7 +21,6 @@
             padding-bottom:40px;
           }
       </style>
-      <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css">
       <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css">
       
       {% block head_css %}{% endblock head_css %}
@@ -69,8 +70,9 @@
     <script src="{{ STATIC_URL }}paddock.js"></script> <!--paddock plugins for jquery -->
 
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-    <!--<script src="{{ STATIC_URL }}bootstrap/js/bootstrap-tab.js"></script>
-    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap-collapse.js"></script>-->
+    <script src="{{ STATIC_URL }}angular/angular.min.js"></script>
+    <script src="{{ STATIC_URL }}angular/angular-ui.min.js"></script>
+    <script src="{{ STATIC_URL }}angular/angular-ui-ieshiv.min.js"></script>
     {% block foot_js %}{% endblock foot_js %}
   </body>
 </html>
