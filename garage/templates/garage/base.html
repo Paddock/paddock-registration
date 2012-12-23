@@ -1,0 +1,14 @@
+{% extends "paddock-common/base.html" %}
+
+{%block foot_js%}
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script src="{{ STATIC_URL }}registration/registration.js"></script>
+  <script src="{{ STATIC_URL }}registration/registration-directives.js"></script>
+{%endblock foot_js%}
+
+{% block container %}
+    <div class="container" ng-app="registration">
+      {%block content%}
+      {%endblock content%}
+    </div><!-- /container -->
+{% endblock container%}

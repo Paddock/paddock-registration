@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'tastypie',
     'paddock-common',
     'registration',
+    'garage'
 )
 
 AUTH_PROFILE_MODULE = 'registration.UserProfile'

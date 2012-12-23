@@ -38,7 +38,7 @@
         <div class="container">
           <a class="brand" href="{% url 'registration.views.clubs' %}"> Racerslane </a>
           {% if user.is_authenticated %}
-          <ul class="nav"> <li><a href="{%url 'garage' user.username%}">My Garage</a></li></ul>
+          <ul class="nav"> <li><a href="{%url 'admin_user' user.username%}">My Garage</a></li></ul>
           {%endif%}
           {% block nav_login %} <ul class="nav pull-right">
             {% if user.is_authenticated %}
