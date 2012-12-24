@@ -22,8 +22,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 @require_http_methods(['GET'])
 def admin_user(request, username): 
-    context = {}
-    
+    context = {'js_target':'users'}
+
     return render_to_response('garage/base.html',
                               context,
                               context_instance=RequestContext(request))

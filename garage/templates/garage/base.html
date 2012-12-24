@@ -2,13 +2,18 @@
 
 {%block foot_js%}
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-  <script src="{{ STATIC_URL }}registration/registration.js"></script>
-  <script src="{{ STATIC_URL }}registration/registration-directives.js"></script>
+  <script src="{{ STATIC_URL }}angular/tastypie-resource.js"></script>
+
+  <script src="{{ STATIC_URL }}garage/{{js_target}}.js"></script>
+  <script>
+      var STATIC_URL = {{STATIC_URL}};
+  </script>
 {%endblock foot_js%}
 
 {% block container %}
-    <div class="container" ng-app="registration">
+    <div class="container" ng-app="{{js_target}}">
       {%block content%}
+          <div ng-view></div>
       {%endblock content%}
     </div><!-- /container -->
 {% endblock container%}
