@@ -1,1 +1,104 @@
-<h1> Testing Testing 123</h1>
+<div class="row">
+    <div class="span6"><!--first column-->
+        <div class="row garage-pane">
+            <div class="garage-pane-header"><h3>Profile</h3></div>
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="firstname">First Name</label>
+                    <div class="controls">
+                      <input type="text" placeholder="John">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="lastname">Last Name</label>
+                    <div class="controls">
+                      <input type="text" placeholder="Doe">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="email">email</label>
+                    <div class="controls">
+                      <input type="text" placeholder="john.doe@someplace.com">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form> 
+        </div> 
+
+        <div class="row garage-pane">
+            <div class="garage-pane-header">
+                <h3>Cars <a href="#newCarModal" role="button" class="btn btn-success" data-toggle="modal"><i class="icon-white icon-plus"></i></a></h3>
+            </div>
+            <div class="garage-pane-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr><th>Nickname</th><th>Car</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>xxxxx</td><td>1990 Mazda Miata</td>
+                            <td>
+                                <a class="btn btn-primary"><i class="icon-edit icon-white"></i></button>
+                                <a class="btn btn-warning"><i class="icon-trash icon-white"></i></button>
+                            </td>
+                        </tr>
+                        <tr><td>xxxxx</td><td>1990 Mazda Miata</td><td></td></tr>
+                        <tr><td>xxxxx</td><td>1990 Mazda Miata</td><td></td></tr>                    
+                    </tbody>
+                </table>
+            </div> 
+            
+
+            <div id="newCarModal"class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="newCarForm" aria-hidden="true">
+                <div class="model header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 label="newCarForm"> Add a New Car </h4>
+                </div>
+                <div class="model body">
+                    <form class="form-horizontal">
+                        <div class="control-group>"><label class="control-label" for="inputEmail">name</label><div class="controls">
+                            <input type="text">
+                        </div></div>    
+                        <div class="control-group>"><label class="control-label" for="inputEmail">year</label><div class="controls">
+                            <input type="text">
+                        </div></div>    
+                        <div class="control-group>"><label class="control-label" for="inputEmail">make</label><div class="controls">
+                            <input type="text">
+                        </div></div>    
+                        <div class="control-group>"><label class="control-label" for="inputEmail">model</label><div class="controls">
+                            <input type="text">
+                        </div></div>
+                        <div class="control-group"><div class="controls">
+                          <button type="submit" class="btn">Save</button>
+                        </div></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row garage-pane">
+            <div class="garage-pane-header"><h3>Coupons</h3></div>
+            <div class="garage-pane-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr><th>Code</th><th>Discount</th><th>Exipiration</th><th>Uses Left</th></tr>
+                    </thead>
+
+                    <tbody>
+                        <tr/><td>jg-free</td><td>100.00</td><td>N/A</td><td>N/A</td><tr/>
+                        <tr/><td>jg-free</td><td>100.00</td><td>N/A</td><td>N/A</td><tr/>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!--/first column-->
+    <div class="span6"><!--second column-->
+        <div class="row garage-pane">
+            <div class="garage-pane-header"><h3>Upcoming Events</h3></div>
+            <div class="garage-pane-body"></div>
+        <div>
+    </div><!--/second column-->
+</div>
