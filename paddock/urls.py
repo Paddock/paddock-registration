@@ -8,7 +8,7 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     # Examples:
-    url(r'^paddock/', include('registration.urls')),
+    url(r'^', include('registration.urls')),
     url(r'^garage/', include('garage.urls'))
 
 )

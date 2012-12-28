@@ -4,9 +4,11 @@
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="{{ STATIC_URL }}angular/tastypie-resource.js"></script>
 
+  <script src="{{ STATIC_URL }}garage/services.js"></script>
   <script src="{{ STATIC_URL }}garage/{{js_target}}.js"></script>
   <script>
       var STATIC_URL = {{STATIC_URL}};
+      var USER_ID = {{user.pk}};
   </script>
 {%endblock foot_js%}
 

@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('tpResource', ['ng']).
+angular.module('tpResource', ['ng','ngCookies']).
   factory('$resource', ['$cookies','$http', '$parse', function($cookies,$http, $parse) {
     var DEFAULT_ACTIONS = {
       'get':    {method:'GET'},

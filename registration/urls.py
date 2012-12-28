@@ -12,5 +12,5 @@ urlpatterns = patterns('registration.views',
     url(r'^activate/', 'activate'),
     url(r'^login/', 'login'),
     url(r'^logout/$', 'logout',
-        {'next_page': '/paddock/clubs'}),
+        {'next_page': '/clubs'}),
 )

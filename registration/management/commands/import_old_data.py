@@ -4,73 +4,82 @@ from os.path import exists
 from django.core.management.base import BaseCommand
 from django.core.files import File
 from registration.models import Club, Season, Event, Registration, \
-     RaceClass, Result, Session, Location, User, Car, Run
+     RaceClass, Result, Session, Location, User, Car, Run, Coupon
 
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
     
     def handle(self, *args, **options):
-        
-        for line in csv.DictReader(open('old_data/driver.csv', 'rb')): 
+        reader = csv.DictReader(open('old_data/driver.csv', 'rU'))
+        for line in reader: 
             """user_name","email","verified","activation_code",
             "f_name","l_name","address","city","state",
             "zip_code","_password"""
             for k, v in line.iteritems(): 
                 if v == "NULL": 
-                    line[k] = None            
-            u = User()
-            u.username = line['user_name']
-            u.email = line['email']
-            u.password = "old_paddock$%s"%line['_password']
-            u.first_name = line['f_name']
-            u.last_name = line['l_name']
-            u.is_active = True
-            u.save()
-            
-            up = u.get_profile()
-            up.address = line['address']
-            up.city = line['city']
-            up.state = line['state']
-            up.zip_code = line['zip_code']
-            up.save()
-        
+                    line[k] = None   
+            try:                  
+                u = User()
+                u.username = line['user_name']
+                u.email = line['email']
+                u.password = "old_paddock$%s"%line['_password']
+                u.first_name = line['f_name']
+                u.last_name = line['l_name']
+                u.is_active = True
+                u.save()
+                
+                up = u.get_profile()
+                up.address = line['address']
+                up.city = line['city']
+                up.state = line['state']
+                up.zip_code = line['zip_code']
+                up.save()
+            except Exception as err: 
+                print repr(line)
+                print 'line %d:'%(reader.line_num,)
+                raise err
         #dev to make it so I can login to any account    
         justin = User.objects.get(username="justingray")   
         password = justin.password
         
         User.objects.all().update(password=password)
             
-        car_map = {}    
-        for line in csv.DictReader(open('old_data/car.csv', 'rb')):     
-            """id","nickname","make","model","color","avatar_file_loc",
-            "avatar_thumb_loc","year","owner_user_name"""
-            for k,v in line.iteritems(): 
-                if v == "NULL": 
-                    line[k] = None            
-            if line['owner_user_name']: 
-                try: 
-                    c = Car()
-                    c.name = line['nickname']
-                    c.make = line['make']
-                    c.model = line['model']
-                    if line['color']: c.color = line['color']
-                    c.year = line['year']
-                    c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
-                    s_car_id = (line['owner_user_name'],line['nickname'])
-                    if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
-                        c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
-                        c.thumb.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
-                    c.save()
-                    car_map[line['id']] = c
-                except:
-                    continue
+        car_map = {}
+        reader = csv.DictReader(open('old_data/car.csv', 'rb'))
+        try: 
+            for line in reader:     
+                """id","nickname","make","model","color","avatar_file_loc",
+                "avatar_thumb_loc","year","owner_user_name"""
+                for k,v in line.iteritems(): 
+                    if v == "NULL": 
+                        line[k] = None            
+                if line['owner_user_name']: 
+                    try: 
+                        c = Car()
+                        c.name = line['nickname']
+                        c.make = line['make']
+                        c.model = line['model']
+                        if line['color']: c.color = line['color']
+                        c.year = line['year']
+                        c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
+                        s_car_id = (line['owner_user_name'],line['nickname'])
+                        if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
+                            c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
+                            c.thumb.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
+                        c.save()
+                        car_map[line['id']] = c
+                    except:
+                        continue
+        except Exception as err: 
+            print repr(line)
+            print 'line %d:'%(reader.line_num,)            
                     
         
         #read in clubs
         
         club_map = {}
-        for line in csv.DictReader(open('old_data/club.csv','rb')): 
+        for line in csv.DictReader(open('old_data/club.csv','rU')): 
             for k,v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
@@ -129,7 +138,7 @@ class Command(BaseCommand):
             season_map[line['id']] = s
 
         event_map = {}
-        for line in csv.DictReader(open('old_data/event.csv','rb')):
+        for line in csv.DictReader(open('old_data/event.csv','rU')):
             
             """id","name","note","date","registration_close","member_cost",
             "non_member_cost","pay_at_event_cost","location_id","club_name",
@@ -323,8 +332,20 @@ class Command(BaseCommand):
                 
             except KeyError: 
                 continue
-                      
-            
+
+        for line in csv.DictReader(open('old_data/coupon.csv')):    
+            """coupon_code","club_name","discount_amount","uses_left","expires",
+            "permanent","driver_user_name","registration_id"""    
+            for k,v in line.iteritems(): 
+                if v == "NULL": 
+                    line[k] = None
+
+            c = Coupon()
+            c.code = line['coupon_code']
+            c.permenant = line['permanent']
+            c.uses_left = line['uses_left']
+            c.discount_amount = line['discount_amount']
+            c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
         
         for reg in Registration.objects.select_related('results').all(): 
             reg.calc_times()

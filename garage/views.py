@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
 
-from registration.models import Club, Event, Car, UserProfile
+from registration.models import Club, Event, Car, UserProfile, User
 
 from registration.forms import UserCreationForm, ActivationForm,\
      RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
@@ -22,7 +22,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 @require_http_methods(['GET'])
 def admin_user(request, username): 
-    context = {'js_target':'users'}
+    user = User.objects.get(username=username)
+
+    context = {'js_target':'users',
+               'user': user}
 
     return render_to_response('garage/base.html',
                               context,
