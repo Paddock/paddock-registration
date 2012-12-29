@@ -42,7 +42,7 @@ class CarResource(ModelResource):
 
     class Meta: 
         queryset = Car.objects.all()
-        #authentication= SessionAuthentication()
+        authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
         authorization = Authorization()
 
