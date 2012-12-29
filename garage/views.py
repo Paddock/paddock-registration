@@ -20,6 +20,7 @@ from registration.forms import UserCreationForm, ActivationForm,\
 from django.views.decorators.csrf import csrf_exempt
 
 
+@login_required
 @require_http_methods(['GET'])
 def admin_user(request, username): 
     user = User.objects.get(username=username)

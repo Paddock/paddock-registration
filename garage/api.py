@@ -20,7 +20,7 @@ class UserResource(ModelResource):
 
 class UserProfileResource(ModelResource):
     cars = fields.ToManyField('garage.api.CarResource', 'cars', full=True,null=True,blank=True)
-    coupons = fields.ToManyField('garage.api.CouponResource', 'coupons')
+    coupons = fields.ToManyField('garage.api.CouponResource', 'coupons',full=True,null=True,blank=True)
     user = fields.ToOneField('garage.api.UserResource', 'user', 'profile',full=True)
 
     class Meta: 

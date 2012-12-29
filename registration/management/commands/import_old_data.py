@@ -19,61 +19,73 @@ class Command(BaseCommand):
             for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None   
-            try:                  
-                u = User()
-                u.username = line['user_name']
-                u.email = line['email']
-                u.password = "old_paddock$%s"%line['_password']
-                u.first_name = line['f_name']
-                u.last_name = line['l_name']
-                u.is_active = True
-                u.save()
-                
-                up = u.get_profile()
-                up.address = line['address']
-                up.city = line['city']
-                up.state = line['state']
-                up.zip_code = line['zip_code']
-                up.save()
-            except Exception as err: 
-                print repr(line)
-                print 'line %d:'%(reader.line_num,)
-                raise err
+                             
+            u = User()
+            u.username = line['user_name']
+            u.email = line['email']
+            u.password = "old_paddock$%s"%line['_password']
+            u.first_name = line['f_name']
+            u.last_name = line['l_name']
+            u.is_active = True
+            u.save()
+            
+            up = u.get_profile()
+            up.address = line['address']
+            up.city = line['city']
+            up.state = line['state']
+            up.zip_code = line['zip_code']
+            up.save()
+            
         #dev to make it so I can login to any account    
         justin = User.objects.get(username="justingray")   
         password = justin.password
         
         User.objects.all().update(password=password)
+
+        for line in csv.DictReader(open('old_data/coupon.csv')):    
+            """coupon_code","club_name","discount_amount","uses_left","expires",
+            "permanent","driver_user_name","registration_id"""    
+            for k,v in line.iteritems(): 
+                if v == "NULL": 
+                    line[k] = None
             
+            c = Coupon()
+            c.code = line['coupon_code']
+            print "test: ",line['coupon_code'], bool(float(line['permanent']))
+            c.permanent = bool(line['permanent'])
+            c.uses_left = line['uses_left']
+            c.discount_amount = line['discount_amount']
+            if line['expires']: 
+                c.expires = datetime.datetime.strptime(line['expires'], '%Y-%m-%d %H:%M:%S')
+            if line['driver_user_name']:
+                c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
+            c.save()
+
         car_map = {}
         reader = csv.DictReader(open('old_data/car.csv', 'rb'))
-        try: 
-            for line in reader:     
-                """id","nickname","make","model","color","avatar_file_loc",
-                "avatar_thumb_loc","year","owner_user_name"""
-                for k,v in line.iteritems(): 
-                    if v == "NULL": 
-                        line[k] = None            
-                if line['owner_user_name']: 
-                    try: 
-                        c = Car()
-                        c.name = line['nickname']
-                        c.make = line['make']
-                        c.model = line['model']
-                        if line['color']: c.color = line['color']
-                        c.year = line['year']
-                        c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
-                        s_car_id = (line['owner_user_name'],line['nickname'])
-                        if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
-                            c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
-                            c.thumb.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
-                        c.save()
-                        car_map[line['id']] = c
-                    except:
-                        continue
-        except Exception as err: 
-            print repr(line)
-            print 'line %d:'%(reader.line_num,)            
+        for line in reader:     
+            """id","nickname","make","model","color","avatar_file_loc",
+            "avatar_thumb_loc","year","owner_user_name"""
+            for k,v in line.iteritems(): 
+                if v == "NULL": 
+                    line[k] = None            
+            if line['owner_user_name']: 
+                try: 
+                    c = Car()
+                    c.name = line['nickname']
+                    c.make = line['make']
+                    c.model = line['model']
+                    if line['color']: c.color = line['color']
+                    c.year = line['year']
+                    c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
+                    s_car_id = (line['owner_user_name'],line['nickname'])
+                    if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
+                        c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
+                        c.thumb.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
+                    c.save()
+                    car_map[line['id']] = c
+                except:
+                    continue         
                     
         
         #read in clubs
@@ -333,19 +345,6 @@ class Command(BaseCommand):
             except KeyError: 
                 continue
 
-        for line in csv.DictReader(open('old_data/coupon.csv')):    
-            """coupon_code","club_name","discount_amount","uses_left","expires",
-            "permanent","driver_user_name","registration_id"""    
-            for k,v in line.iteritems(): 
-                if v == "NULL": 
-                    line[k] = None
 
-            c = Coupon()
-            c.code = line['coupon_code']
-            c.permenant = line['permanent']
-            c.uses_left = line['uses_left']
-            c.discount_amount = line['discount_amount']
-            c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
-        
         for reg in Registration.objects.select_related('results').all(): 
             reg.calc_times()

@@ -162,7 +162,7 @@ class Coupon(m.Model):
                                      decimal_places=2,
                                      default="0.00")
     uses_left = m.IntegerField("# uses", default=1)
-    expires = TodayOrLaterField(blank=True, default=None)
+    expires = TodayOrLaterField(null=True, blank=True, default=None)
 
     def is_valid(self, user): 
         """check to see if the given user is allowed to use this coupon""" 
