@@ -1,13 +1,11 @@
 var app = angular.module('users',['ui','tpResource','garage.services'])
 
 app.controller('user_admin', function user($scope,Profile){
-    $scope.profile = Profile.get({userId:USER_ID},function(){
-        console.log($scope.profile)
-    });
+    $scope.profile = Profile.get({userId:USER_ID});
 
     $scope.save_user = function(){
         //console.log('Saving: ',$scope.user.first_name)
-        
+        Profile.save($scope.profile)
     }
 });
 

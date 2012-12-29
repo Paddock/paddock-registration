@@ -51,7 +51,6 @@ class Command(BaseCommand):
             
             c = Coupon()
             c.code = line['coupon_code']
-            print "test: ",line['coupon_code'], bool(float(line['permanent']))
             c.permanent = bool(line['permanent'])
             c.uses_left = line['uses_left']
             c.discount_amount = line['discount_amount']

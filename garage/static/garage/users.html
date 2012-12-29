@@ -89,7 +89,7 @@
                     <tbody>
                         <tr ng-repeat="coupon in profile.coupons">
                             <td>{{coupon.code}}</td>
-                            <td>{{coupon.discount_amount}}</td>
+                            <td>{{coupon.discount_amount | currency }}</td>
                             <td>{{coupon.expires|| "N/A"}}</td>
                             <td>{{{'false':coupon.uses_left,'true':"N/A"}[coupon.permanent]}}</td>
                         <tr>

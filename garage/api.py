@@ -31,6 +31,9 @@ class UserProfileResource(ModelResource):
         #authorization= IsOwnerAuthorization()
         authorization = Authorization()
 
+    def apply_authorization_limits(self, request, object_list):
+        return object_list.filter(user=request.user)    
+
 v1_api.register(UserProfileResource())
 
 
