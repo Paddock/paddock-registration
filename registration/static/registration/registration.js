@@ -1,4 +1,4 @@
-var reg_app = angular.module('registration',['registration.directives','ui']);
+var reg_app = angular.module('registration',['paddock.directives','ui']);
 
 function MapCtrl($scope) {
 
@@ -9,7 +9,6 @@ function MapCtrl($scope) {
     }; 
 
     $scope.setCenter = function(pnt) {
-      console.log("test");
       var marker = new google.maps.Marker({
         map: $scope.myMap,
         position: pnt

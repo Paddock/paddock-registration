@@ -14,9 +14,7 @@
       <td>{{ reg.first_name }} {{ reg.last_name }}</td>
       <td>{{ reg.car_name }}
         {% if reg.car.avatar %}
-          <i class="icon-picture avatar_pic" data-title="{{ reg.car.name }}"
-            href="{{ reg.car.thumb.url }}"           
-          ></i>
+          <avatar-popover href="{{reg.car.thumb.url}}" data-title="{{reg.car.name}}">
         {% endif %}  
       </td>
       <td>{{ reg.race_class.name }}</td>

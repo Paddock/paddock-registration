@@ -31,7 +31,7 @@
 
         <div class="row garage-pane">
             <div class="garage-pane-header">
-                <h3>Cars <a href="#newCarModal" role="button" class="btn btn-success" data-toggle="modal"><i class="icon-white icon-plus"></i></a></h3>
+                <h3>Cars <button role="button" class="btn btn-success" ng-click="new_car()"><i class="icon-white icon-plus"></i></a></h3>
             </div>
             <div class="garage-pane-body">
                 <table class="table table-striped">
@@ -40,9 +40,9 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="car in profile.cars">
-                            <td>{{car.name}}</td><td>{{car.year}} {{car.make}} {{car.model}}</td>
+                            <td>{{car.name}} <avatar-popover ng-ref="car.thumb" ng-data-title="car.name"></avatar-popover></td><td>{{car.year}} {{car.make}} {{car.model}}</td>
                             <td>
-                                <a class="btn btn-primary"><i class="icon-edit icon-white"></i></button>
+                                <a class="btn btn-primary" ng-click="edit_car(car)"><i class="icon-edit icon-white"></i></button>
                                 <a class="btn btn-warning" ng-click="del_car(car)">
                                     <i class="icon-trash icon-white"></i>
                                 </button>
@@ -51,29 +51,30 @@
                     </tbody>
                 </table>
             </div> 
-            
 
-            <div id="newCarModal"class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="newCarForm" aria-hidden="true">
+
+            <div ui-modal ng-model="car_modal_show" id="newCarModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="newCarForm" aria-hidden="true">
                 <div class="model header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                     <h4 label="newCarForm"> Add a New Car </h4>
                 </div>
                 <div class="model body">
                     <form class="form-horizontal">
-                        <div class="control-group>"><label class="control-label" for="inputEmail">name</label><div class="controls">
-                            <input type="text">
+                        <div class="control-group>"><label class="control-label">name</label><div class="controls">
+                            <input type="text" ng-model="edit_car_target.name">
                         </div></div>    
-                        <div class="control-group>"><label class="control-label" for="inputEmail">year</label><div class="controls">
-                            <input type="text">
+                        <div class="control-group>"><label class="control-label">year</label><div class="controls">
+                            <input type="text" ng-model="edit_car_target.year">
                         </div></div>    
-                        <div class="control-group>"><label class="control-label" for="inputEmail">make</label><div class="controls">
-                            <input type="text">
+                        <div class="control-group>"><label class="control-label">make</label><div class="controls">
+                            <input type="text" ng-model="edit_car_target.make">
                         </div></div>    
-                        <div class="control-group>"><label class="control-label" for="inputEmail">model</label><div class="controls">
-                            <input type="text">
+                        <div class="control-group>"><label class="control-label">model</label><div class="controls">
+                            <input type="text" ng-model="edit_car_target.model">
                         </div></div>
                         <div class="control-group"><div class="controls">
-                          <button type="submit" class="btn">Save</button>
+                          <button type="submit" class="btn" ng-click="save_car()">Save</button>
+                          <button type="submit" class="btn" ng-click="cancel_edit_car()">Cancel</button>
                         </div></div>
                     </form>
                 </div>

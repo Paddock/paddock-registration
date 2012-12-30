@@ -16,17 +16,28 @@ angular.module('ui.directives').directive('uiMapCenter', [function(){
 // Paddock directives
 /////////////////////////////////////////////////
 
-var app = angular.module('registration.directives',[]);
+var app = angular.module('paddock.directives',[]);
 
-app.directive('avatarPic', [function(){
+app.directive('avatarPopover', [function(){
     return {
-    restrict: 'AC',
+    restrict: 'E',
     link: function (scope, elm, attrs) {
+        if (attrs.ngRef){
+            var target = scope.$eval(attrs.ngRef);
+        }else {
+            var target = attrs.href;
+        }
+
+        if (attrs.ngDataTitle){
+            var title = scope.$eval(attrs.ngDataTitle);
+        }else{
+            var title = attrs.dataTitle;
+        }
+        elm.html('<i class="icon-picture avatar_pic" data-title="'+title+'"></i>')
         elm.popover( {
             trigger: 'hover',
             content: function(){
-            var img_href = $(this).attr('href')
-                return '<img src="'+img_href+'">'    
+                return '<img src="'+target+'">'    
             },
             html:true
         });

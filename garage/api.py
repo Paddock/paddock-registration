@@ -45,6 +45,11 @@ class CarResource(ModelResource):
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
         authorization = Authorization()
+        fields = ['id','name','make','model','year','thumb','avatar']
+        always_return_data = True
+
+    def obj_create(self, bundle, request=None, **kwargs):
+        return super(CarResource, self).obj_create(bundle, request, user_profile=request.user.get_profile())
 
 v1_api.register(CarResource())    
 
