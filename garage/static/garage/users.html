@@ -39,7 +39,7 @@
                         <tr><th>Nickname</th><th>Car</th><th></th></tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="car in profile.cars">
+                        <tr ng-repeat="car in profile.cars | filter:{'provisional':false}">
                             <td>{{car.name}} <avatar-popover ui-if="car.thumb" ng-ref="car.thumb" ng-data-title="car.name"></avatar-popover></td><td>{{car.year}} {{car.make}} {{car.model}}</td>
                             <td>
                                 <a class="btn btn-primary" ng-click="edit_car(car)"><i class="icon-edit icon-white"></i></button>
@@ -69,11 +69,12 @@
                         </div>
                         <div class="span2">
                             <div class="row">
+                                {{_submit_avatar_first}}
                                 <img ng-show="avatar_preview" id="avatar-preview" style="padding-bottom:10px;">
                                 <img ng-hide="avatar_preview" ng-src="{{avatar_url}}" style="padding-bottom:10px;">
                             </div>
                             <div class="row">
-                                    <form id="avatar_form" ajax-file-form="upload_status,upload_msg,car_upload_success()" action="/garage/car_avatar/{{edit_car_target.id}}" method="POST" enctype="multipart/form-data">
+                                    <form id="avatar_form" action="/garage/car_avatar/{{edit_car_target.id}}" method="POST" enctype="multipart/form-data">
                                         <div class="control-group {{upload_status}}">
                                             <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf}}"/>
                                             <div class="controls">

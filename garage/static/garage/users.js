@@ -12,18 +12,9 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
 
     $scope.csrf = $cookies.csrftoken;
 
-    //setup for upload preview
-    $("#avatar_upload").change( function(e) {
-        var file = this.files[0];
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $scope.$apply('avatar_preview = true');
-            $('#avatar-preview').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(file);
-    });
+    $scope._submit_avatar_first = false;
 
-
+    
     $scope.save_user = function(){
         //console.log('Saving: ',$scope.user.first_name)
         Profile.save($scope.profile)
@@ -61,11 +52,49 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     }
 
     $scope.save_car = function() {
+        if($scope._submit_avatar_first) {
+            avatar_form.submit(); // submits the form for the avatar file
+            // success of this trigger save_car_fields
+        }
+        else {
+            $scope.save_car_fields();
+        }
+        
+    }
+
+    //setup for upload preview
+    $("#avatar_upload").change( function(e) {
+        $scope._submit_avatar_first=true;
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $scope.$apply('avatar_preview = true');
+            $('#avatar-preview').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    });
+    var avatar_form = $('#avatar_form');
+    avatar_form.ajaxForm({
+        success: function(resp,status,xhr,element){
+          $scope.edit_car_target.avatar = resp.avatar;
+          $scope.edit_car_target.thumb = resp.thumb;
+          $scope.save_car_fields();
+        },
+        error: function(resp,status,xhr,element){
+          
+        },
+        dataType: 'json'
+    })
+
+    $scope.save_car_fields = function() {
         $scope.edit_car_target.provisional=false;
-        $('#avatar_form').submit(); // submits the form for the avatar file
+        
         //strip any hack strings from the links
-        $scope.edit_car_target.avatar = $scope.edit_car_target.avatar.replace(/#[0-9]+\b/,'');
-        $scope.edit_car_target.thumb =  $scope.edit_car_target.thumb.replace(/#[0-9]+\b/,'');
+        if ($scope.edit_car_target.avatar){
+            $scope.edit_car_target.avatar = $scope.edit_car_target.avatar.replace(/#[0-9]+\b/,'');
+            $scope.edit_car_target.thumb =  $scope.edit_car_target.thumb.replace(/#[0-9]+\b/,'');
+        }
+
         Car.save($scope.edit_car_target,function(car){
             if ($scope.edit_car_index<0){
                 $scope.profile.cars.push(car);
@@ -77,12 +106,14 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
                 $scope.profile.cars[$scope.edit_car_index].thumb =  car.thumb + "#" + new Date().getTime();
                 console.log($scope.profile.cars[$scope.edit_car_index].avatar); 
             }
+
+            $scope.edit_car_target = null; 
+            $scope.car_modal_show = false;
         });
         
 
 
-        $scope.edit_car_target = null; 
-        $scope.car_modal_show = false;
+        
     }
 
     $scope.cancel_edit_car = function(){

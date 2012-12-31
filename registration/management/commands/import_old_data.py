@@ -71,6 +71,7 @@ class Command(BaseCommand):
             if line['owner_user_name']: 
                 try: 
                     c = Car()
+                    c.provisional = False;
                     c.name = line['nickname']
                     c.make = line['make']
                     c.model = line['model']
