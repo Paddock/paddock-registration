@@ -45,7 +45,7 @@ class CarResource(ModelResource):
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
         authorization = Authorization()
-        fields = ['id','name','make','model','year','thumb','avatar']
+        fields = ['id','name','make','model','year','thumb','avatar','provisional']
         always_return_data = True
 
     def obj_create(self, bundle, request=None, **kwargs):

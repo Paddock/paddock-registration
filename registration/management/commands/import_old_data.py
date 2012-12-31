@@ -80,7 +80,7 @@ class Command(BaseCommand):
                     s_car_id = (line['owner_user_name'],line['nickname'])
                     if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
                         c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
-                        c.thumb.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
+                        c.thumb.save('%s_%s_thumb'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
                     c.save()
                     car_map[line['id']] = c
                 except:

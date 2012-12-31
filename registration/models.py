@@ -10,6 +10,8 @@ from django.db import models as m
 from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.core.files.storage import FileSystemStorage
+
 
 from django.template.loader import render_to_string
 
@@ -62,6 +64,14 @@ class CouponCodeField(m.CharField):
 
         if " " in value: 
             raise ValidationError("Spaces not allowed in the code")
+
+class OverwriteStorage(FileSystemStorage):
+    def _save(self, name, content):
+        if self.exists(name):
+            self.delete(name)
+        return super(OverwriteStorage, self)._save(name, content)
+    def get_available_name(self, name):
+        return name            
 
 
 class UserProfile(m.Model): 
@@ -848,18 +858,17 @@ class Course(m.Model):
     def __unicode__(self): 
         return self.safe_name
 
-def upload_car_to(car,file_name):
-    return "car_thumbs/test.jpg"
-
 class Car(m.Model): 
-    name = m.CharField('Nickname',max_length=30)
+    name = m.CharField('Nickname',max_length=30,blank=True,null=True)
     color = m.CharField('Color',max_length=40,blank=True,null=True)
-    year = m.IntegerField('Year')    
-    make = m.CharField('Make',max_length=40)
-    model = m.CharField('Model',max_length=40)
+    year = m.IntegerField('Year',blank=True,null=True)    
+    make = m.CharField('Make',max_length=40,blank=True,null=True)
+    model = m.CharField('Model',max_length=40,blank=True,null=True)
 
-    avatar = m.ImageField('Picture of your car',upload_to='car_avatars/test.jpg')
-    thumb = m.ImageField('Picture of your car',upload_to=upload_car_to)
+    provisional = m.BooleanField('provisional',default=True)
+
+    avatar = m.ImageField('Picture of your car',upload_to='car_avatars',storage=OverwriteStorage(),blank=True,null=True)
+    thumb = m.ImageField('Thumbnail of your car',upload_to='car_thumbs',storage=OverwriteStorage(),blank=True,null=True)
 
     user_profile = m.ForeignKey(UserProfile,related_name="cars")
     

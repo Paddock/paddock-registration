@@ -40,7 +40,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="car in profile.cars">
-                            <td>{{car.name}} <avatar-popover ng-ref="car.thumb" ng-data-title="car.name"></avatar-popover></td><td>{{car.year}} {{car.make}} {{car.model}}</td>
+                            <td>{{car.name}} <avatar-popover ui-if="car.thumb" ng-ref="car.thumb" ng-data-title="car.name"></avatar-popover></td><td>{{car.year}} {{car.make}} {{car.model}}</td>
                             <td>
                                 <a class="btn btn-primary" ng-click="edit_car(car)"><i class="icon-edit icon-white"></i></button>
                                 <a class="btn btn-warning" ng-click="del_car(car)">
@@ -53,30 +53,49 @@
             </div> 
 
 
-            <div ui-modal ng-model="car_modal_show" id="newCarModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="newCarForm" aria-hidden="true">
-                <div class="model header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                    <h4 label="newCarForm"> Add a New Car </h4>
+            <div ui-modal ng-model="car_modal_show" class="modal hide fade" tabindex="-1" role="dialog">
+                <div class="modal-header">
+                    <h4 label="newCarForm"> {{car_form_title}} </h4>
                 </div>
-                <div class="model body">
-                    <form class="form-horizontal">
-                        <div class="control-group>"><label class="control-label">name</label><div class="controls">
-                            <input type="text" ng-model="edit_car_target.name">
-                        </div></div>    
-                        <div class="control-group>"><label class="control-label">year</label><div class="controls">
-                            <input type="text" ng-model="edit_car_target.year">
-                        </div></div>    
-                        <div class="control-group>"><label class="control-label">make</label><div class="controls">
-                            <input type="text" ng-model="edit_car_target.make">
-                        </div></div>    
-                        <div class="control-group>"><label class="control-label">model</label><div class="controls">
-                            <input type="text" ng-model="edit_car_target.model">
-                        </div></div>
-                        <div class="control-group"><div class="controls">
-                          <button type="submit" class="btn" ng-click="save_car()">Save</button>
-                          <button type="submit" class="btn" ng-click="cancel_edit_car()">Cancel</button>
-                        </div></div>
-                    </form>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="span3">
+                            <form class="form">
+                                <label>Name</label><input type="text" ng-model="edit_car_target.name">
+                                <label>year</label><input type="text" ng-model="edit_car_target.year">
+                                <label>make</label><input type="text" ng-model="edit_car_target.make">
+                                <label>model</label><input type="text" ng-model="edit_car_target.model">
+                            </form>
+                        </div>
+                        <div class="span2">
+                            <div class="row">
+                                <img ng-show="avatar_preview" id="avatar-preview" style="padding-bottom:10px;">
+                                <img ng-hide="avatar_preview" ng-src="{{avatar_url}}" style="padding-bottom:10px;">
+                            </div>
+                            <div class="row">
+                                    <form id="avatar_form" ajax-file-form="upload_status,upload_msg,car_upload_success()" action="/garage/car_avatar/{{edit_car_target.id}}" method="POST" enctype="multipart/form-data">
+                                        <div class="control-group {{upload_status}}">
+                                            <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf}}"/>
+                                            <div class="controls">
+                                                <span class="btn btn-success fileinput-button">
+                                                <i ng-class="{'icon-plus icon-white':edit_car_index<0,'icon-edit icon-white':edit_car_index>=0}"></i>
+                                                <span>Avatar Pic</span><input id="avatar_upload" type="file" name="file"></span>
+                                                <span class="help-inline"></span>
+                                            </div>
+                                        </div><div class="control-group"> 
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="icon-upload icon-white"></i>
+                                                <span>Delete</span>
+                                            </button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn" ng-click="save_car()">Save</button>
+                    <button type="submit" class="btn" ng-click="cancel_edit_car()">Cancel</button>
                 </div>
             </div>
         </div>
