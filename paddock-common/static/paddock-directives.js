@@ -45,53 +45,53 @@ app.directive('avatarPopover', [function(){
   };
 }]);
 
-app.directive('ajaxFileForm',function(){
+app.directive('tabs', function() {
     return {
-      restrict:"A",
-      scope:false,
-      link: function(scope,element,attrs){
+      restrict: 'E',
+      transclude: true,
+      scope: {},
+      controller: function($scope, $element) {
+        var panes = $scope.panes = [];
 
-          var file_input = $($(element).find('input[type=file]')[0])
-          
-          var attr_set = attrs.ajaxFileForm.split(',');
-          var status_class_var = attr_set[0];
-          var status_msg_var = attr_set[1];
-          if (attr_set.length > 2) { //third one is success callback
-            var success_cb = attr_set[2];
-          }else {
-            var success_cb = null;
-          }
-
-
-          $(file_input).bind('change',function(){
-            scope.$apply(status_class_var+"=''");
-            scope.$apply(status_msg_var+"=''");
-            //element.submit();
+        $scope.select = function(pane) {
+          angular.forEach(panes, function(pane) {
+            pane.selected = false;
           });
-          
+          pane.selected = true;
+        }
 
-          element.ajaxForm({
-            success: function(resp,status,xhr,element){
-              var msg = resp.msg;
-              scope.$apply(status_class_var+"=''");
-              scope.$apply(status_msg_var+"='"+msg+"'");
-              if(success_cb){
-                scope.$apply(success_cb);
-              }
-            },
-            error: function(resp,status,xhr,element){
-              
-              var msg = angular.fromJson(resp.responseText).msg;
-              scope.$apply(status_class_var+"='error'");
-              scope.$apply(status_msg_var+"='"+msg+"'");
-           
-              //var err_msg = resp.responseText
-            },
-            dataType: 'json'
-        })
-      } 
-  }
-});
-
+        this.addPane = function(pane) {
+          if (panes.length == 0) $scope.select(pane);
+          panes.push(pane);
+        }
+      },
+      template:
+        '<div class="tabbable">' +
+          '<ul class="nav nav-tabs">' +
+            '<li ng-repeat="pane in panes" ng-class="{active:pane.selected}">'+
+              '<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
+            '</li>' +
+          '</ul>' +
+          '<div class="tab-content" ng-transclude></div>' +
+        '</div>',
+      replace: true
+    };
+  })
+  
+app.directive('pane', function() {
+    return {
+      require: '^tabs',
+      restrict: 'E',
+      transclude: true,
+      scope: { title: '@' },
+      link: function(scope, element, attrs, tabsCtrl) {
+        tabsCtrl.addPane(scope);
+      },
+      template:
+        '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
+        '</div>',
+      replace: true
+    };
+  })
 
 

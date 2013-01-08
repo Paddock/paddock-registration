@@ -154,7 +154,7 @@ class TestOrder(unittest.TestCase):
         item1.save()
         
         item2 = Membership()
-        item2.user = self.user
+        item2.user_prof = self.user.get_profile()
         item2.club = self.c
         item2.num = 1
         item2.start = datetime.date.today() - datetime.timedelta(days=300)

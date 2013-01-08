@@ -4,7 +4,8 @@ from os.path import exists
 from django.core.management.base import BaseCommand
 from django.core.files import File
 from registration.models import Club, Season, Event, Registration, \
-     RaceClass, Result, Session, Location, User, Car, Run, Coupon
+     RaceClass, Result, Session, Location, User, Car, Run, Coupon, \
+     Membership
 
 
 class Command(BaseCommand): 
@@ -60,6 +61,7 @@ class Command(BaseCommand):
                 c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
             c.save()
 
+
         car_map = {}
         reader = csv.DictReader(open('old_data/car.csv', 'rb'))
         for line in reader:     
@@ -92,6 +94,9 @@ class Command(BaseCommand):
         
         club_map = {}
         for line in csv.DictReader(open('old_data/club.csv','rU')): 
+            """"name","web_link","process_payments","points_calc_type",
+            "membership_cost","renewal_cost","membership_terms","paypal_email",
+            "index_point_method","address","city","state","zip_code","""
             for k,v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
@@ -106,8 +111,38 @@ class Command(BaseCommand):
             c.membership_terms = line['membership_terms']
             c.new_member_cost = line['membership_cost']
             c.renew_cost = line['renewal_cost']
-            
+
             c.save()
+
+            club_map[line['name']] = c
+
+        membership_map = {}
+        reader = csv.DictReader(open('old_data/membership.csv', 'rb'))
+        for line in reader: 
+            """"id","club_name","number","start_date","valid_thru_date",
+            "price","paid","token","payer_id","transaction_id","anon_f_name",
+            "anon_l_name","driver_user_name"""
+            
+            for k,v in line.iteritems(): 
+                if v == "NULL": 
+                    line[k] = None 
+
+            m = Membership()
+            m.num = line['number']
+
+            m.start = datetime.datetime.strptime(line['start_date'], '%Y-%m-%d %H:%M:%S')
+            m.valid_thru = datetime.datetime.strptime(line['valid_thru_date'], '%Y-%m-%d %H:%M:%S')
+            
+            try: 
+                m.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
+            except User.DoesNotExist: 
+                continue    
+            m.club = club_map[line['club_name']]
+            
+            m._anon_f_name = line['anon_f_name']
+            m._anon_l_name = line['anon_l_name']
+
+            m.save()
         
         location_map = {}    
         for line in csv.DictReader(open("old_data/location.csv")):    

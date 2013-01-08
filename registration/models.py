@@ -107,8 +107,19 @@ class UserProfile(m.Model):
     def get_next_events(self): 
         #today = datetime.datetime.today()
         #TODO: get all events that user is registered for, 
-        #      or that are coming up for clubs that you're member of   
-        raise NotImplementedError
+        #      or that are coming up for clubs that you're member of  
+        ret = None
+        for m in self.memberships.all(): 
+            e = m.club.upcoming_events()
+            if e!=None:
+                if ret!=None: 
+                    ret | e
+                else: 
+                    ret = e   
+
+        return ret.order_by('date')    
+
+
 
     def is_member(self, club): 
         today = datetime.datetime.today()
@@ -216,7 +227,7 @@ class Club(Purchasable):
         self.safe_name = urlsafe(name) 
 
     _name = m.CharField('Club Name', max_length=100)
-    safe_name = m.CharField("safe_name", max_length=100, primary_key=True) 
+    safe_name = m.CharField("safe_name", max_length=100, primary_key=True, unique=True) 
 
     created = m.DateTimeField(auto_now_add=True)
     last_mod = m.DateTimeField(auto_now=True)
@@ -307,8 +318,6 @@ class Club(Purchasable):
                                                       user_profile=up, 
                                                       defaults={'expires': expires, 'duration': duration})
 
-
-
     def check_dibs(self, number, race_class): 
         """Checks to see if anyone has dibs on the given number/race_class for a club.
         returns True if someone has dibs on the number/race_class
@@ -326,12 +335,17 @@ class Club(Purchasable):
     def is_active_member(self,user): 
 
         try: 
-            membership = Membership.objects.filter(user=user,
+            membership = Membership.objects.filter(user_prof=user.get_profile(),
                                                    club=self,
                                                    valid_thru__gt=datetime.date.today()).get()
             return True
         except Membership.DoesNotExist: 
             return False
+
+    def upcoming_events(self): 
+        if self.active_season: 
+            return self.active_season.upcoming_events()
+        return None      
 
 
 class Membership(Purchasable): 
@@ -341,7 +355,7 @@ class Membership(Purchasable):
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
 
-    user = m.ForeignKey(User,related_name="memberships")
+    user_prof = m.ForeignKey('UserProfile',related_name="memberships")
     club = m.ForeignKey("Club",related_name="memberships")
 
     _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default=None)

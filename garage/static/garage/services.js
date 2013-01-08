@@ -11,3 +11,9 @@ mod.factory('Car', function($resource){
     query: {method:'GET', params:{carId:""}, isArray:true}
   });
 });
+
+mod.factory('Club', function($resource){
+    return $resource('/garage/api/v1/clubs/:clubId', {}, {
+      query: {method: 'GET', params:{clubId:''}, isArray:true}
+    });
+});

@@ -1,8 +1,15 @@
 {% extends "paddock-common/base.html" %}
 
+{% block head_css %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fullcalendar/fullcalendar.css">
+{% endblock head_css %}
+
 {%block foot_js%}
   <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="{{ STATIC_URL }}jquery.form.js"></script>
+
+  <script src="{{ STATIC_URL }}fullcalendar/fullcalendar.min.js"></script>
+
   <script src="{{ STATIC_URL }}angular/tastypie-resource.js"></script>
   <script src="{{ STATIC_URL }}paddock-directives.js"></script>
 

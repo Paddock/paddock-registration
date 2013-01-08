@@ -19,7 +19,6 @@ from registration.model_tests.test_dibs import TestDibs
 from registration.model_tests.test_result import TestResult
 from registration.model_tests.test_membership import TestMembership
 from registration.model_tests.test_order_coupon import TestCoupon,TestOrder
-from registration.model_tests.test_api import RegistrationResourceTest
 
 from registration.models import find_user
 
@@ -31,9 +30,9 @@ class TestViews(TestCase):
         self.c = Client()
         
     def test_index_views(self):
-        urls = (('/paddock/clubs/', {}),
-                ('/paddock/clubs/noraascc/seasons/2012/events/testntune', {}),
-                )
+        urls = (('/clubs/', {}),
+                ('/clubs/noraascc/seasons/2012/events/testntune', {}),
+               )
         
         for addr, args in urls: 
             response = self.c.get(addr, args)

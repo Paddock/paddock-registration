@@ -1,7 +1,26 @@
 var app = angular.module('users',['ngCookies','ui','tpResource','paddock.directives','garage.services'])
 
 app.controller('user_admin', function user($scope,$cookies,Profile,Car){
-    $scope.profile = Profile.get({userId:USER_ID});
+    $scope.profile = Profile.get({userId:USER_ID},function(){
+        var races = [];
+        angular.forEach($scope.profile.upcoming_events,function(e){
+            data = {id:e.id,
+                    title:e.name,
+                    start:e.date,
+                    url:e.url,
+                    club:e.club_name
+                   };
+            races.push(data);
+        })
+        
+        var start_date = new Date(races[0].start);
+        $('#calendar').fullCalendar({
+            events: races,
+            year: start_date.getFullYear(),
+            month: start_date.getMonth(),
+            day: start_date.getDay()}
+        );
+    });
 
     $scope.edit_car_target = null; //used to assign car to edit modal
     $scope.car_modal_show = false;
@@ -13,6 +32,8 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     $scope.csrf = $cookies.csrftoken;
 
     $scope._submit_avatar_first = false;
+
+
 
     
     $scope.save_user = function(){
@@ -110,10 +131,6 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
             $scope.edit_car_target = null; 
             $scope.car_modal_show = false;
         });
-        
-
-
-        
     }
 
     $scope.cancel_edit_car = function(){

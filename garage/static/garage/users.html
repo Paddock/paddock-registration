@@ -124,7 +124,17 @@
     <div class="span6"><!--second column-->
         <div class="row garage-pane">
             <div class="garage-pane-header"><h3>Upcoming Events</h3></div>
-            <div class="garage-pane-body"></div>
+            <div class="garage-pane-body">
+                <!--<table class="table table-striped table-bordered">
+                    <tbody>
+                        <tr ng-repeat="event in profile.upcoming_events"> 
+                            <td>{{event.club_name}}: {{event.name}}</td>
+                            <td>{{event.date}}</td>
+                        </tr>
+                    </tbody>
+                </table>-->
+                <div id="calendar"></div>
+            </div>
         <div>
     </div><!--/second column-->
 </div>

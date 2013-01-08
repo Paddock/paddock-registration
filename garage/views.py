@@ -37,10 +37,20 @@ def admin_user(request, username):
                               context,
                               context_instance=RequestContext(request))
 
-
+#TODO Permissions for user to access this? 
+@login_required
 @require_http_methods(['GET'])
-def admin_club(request, user_id): 
-    return HttpResponse()
+def admin_club(request, clubname): 
+
+    #club = Club.objects.get(safe_name=clubname)
+    club = Club.objects.get(safe_name="noraascc")
+    context = {'js_target': 'clubs',
+               'club': club,
+               'user': request.user }
+
+    return render_to_response('garage/base.html',
+                              context,
+                              context_instance=RequestContext(request))
 
 
 @require_http_methods(['POST'])

@@ -48,3 +48,7 @@
   direction: ltr;
   cursor: pointer;
 }
+
+.tab-content {
+    padding-left: 30px;
+}

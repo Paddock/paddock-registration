@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"avat",
+				"avatar_upload"
+			],
+			[
+				"avata",
+				"avatar_file"
+			],
+			[
+				"login",
+				"login_required"
+			],
+			[
+				"User",
+				"UserCreationForm"
+			],
+			[
 				"auth",
 				"authentication"
 			],
@@ -15,16 +31,72 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "garage/api.py",
+			"settings":
+			{
+				"buffer_size": 2672,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "garage/static/garage/users.js",
+			"settings":
+			{
+				"buffer_size": 5030,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "garage/templates/garage/base.html",
+			"settings":
+			{
+				"buffer_size": 1000,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "registration/models.py",
+			"settings":
+			{
+				"buffer_size": 36007,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "garage/static/garage/users.html",
+			"settings":
+			{
+				"buffer_size": 7417,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 227.0,
+		"height": 27.0,
 		"selected_items":
 		[
 			[
 				"pacak",
 				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Disable Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
 			],
 			[
 				"install",
@@ -41,13 +113,9 @@
 			[
 				"pack",
 				"Package Control: Install Package"
-			],
-			[
-				"packa",
-				"Package Control: Enable Package"
 			]
 		],
-		"width": 593.0
+		"width": 579.0
 	},
 	"console":
 	{
@@ -64,10 +132,104 @@
 	},
 	"file_history":
 	[
+		"/Users/justin/webdev/paddock-registration/paddock-common/templates/paddock-common/base.html",
+		"/Users/justin/webdev/paddock-registration/registration/models.py",
+		"/Users/justin/webdev/paddock-registration/registration/management/commands/import_old_data.py",
+		"/Users/justin/webdev/paddock-registration/old_data/club.csv",
+		"/Users/justin/webdev/paddock-registration/old_data/membership.csv",
+		"/Users/justin/webdev/paddock-registration/garage/tests.py",
+		"/Users/justin/webdev/paddock-registration/registration/tests.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_api.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_membership.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_order_coupon.py",
+		"/Users/justin/webdev/paddock-registration/garage/test.py",
+		"/Users/justin/webdev/paddock-registration/garage/views.py",
+		"/Users/justin/webdev/paddock-registration/paddock-common/static/paddock.css",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/reg_list.html",
+		"/Users/justin/webdev/paddock-registration/garage/api.py",
+		"/Users/justin/webdev/paddock-registration/paddock-common/static/paddock-directives.js",
+		"/Users/justin/webdev/paddock-registration/registration/management/commands/db_cleanup.py",
+		"/Users/justin/webdev/paddock-registration/garage/static/garage/users.js",
+		"/Users/justin/webdev/paddock-registration/garage/static/garage/users.html",
+		"/Users/justin/webdev/paddock-registration/garage/urls.py",
+		"/Users/justin/webdev/paddock-registration/paddock/settings.py",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/base.html",
+		"/Users/justin/webdev/paddock-registration/garage/templates/garage/base.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/result_list.html",
+		"/Users/justin/webdev/paddock-registration/registration/static/registration/registration.js",
+		"/Users/justin/webdev/paddock-registration/registration/security.py",
+		"/Users/justin/webdev/paddock-registration/paddock/urls.py",
+		"/Users/justin/webdev/paddock-registration/registration/urls.py",
+		"/Users/justin/webdev/paddock-registration/garage/static/garage/services.js",
+		"/Users/justin/webdev/paddock-registration/registration/static/registration/registration-directives.js",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/points_list.html",
+		"/Users/justin/webdev/paddock-registration/paddock-common/static/angular/tastypie-resource.js",
+		"/Users/justin/webdev/paddock-registration/registration/views.py",
+		"/Users/justin/webdev/paddock-registration/paddock-common/static/angular/angular.min.js",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/garage.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/complete_event.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/upcoming_event.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/clubs.html",
+		"/Users/justin/webdev/paddock-registration/registration/api.py",
+		"/Users/justin/webdev/paddock-registration/registration/static/garage.js",
+		"/Users/justin/webdev/paddock-registration/registration/static/angular/tastypie-resource.js",
+		"/Users/justin/webdev/paddock-registration/registration/static/paddock.js",
+		"/Users/justin/webdev/paddock-registration/paddock/static/test.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/directions.html",
+		"/Users/justin/webdev/paddock-registration/registration/static/paddock.css",
+		"/Users/justin/webdev/paddock-registration/registration/static/paddock-directives.js",
+		"/Users/justin/.virtualenvs/webdev_python/lib/python2.7/site-packages/easy_maps/templates/easy_maps/map.html",
+		"/Users/justin/webdev/paddock-registration/registration/static/DataTables-1.9.1/media/unit_testing/tests_onhold/1_dom/iDisplayLength.js",
+		"/Users/justin/webdev/paddock-registration/registration/static/DataTables-1.9.1/media/unit_testing/performance/page.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/registration_form.html",
+		"/Users/justin/webdev/paddock-registration/registration/forms.py",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/login.html",
+		"/Users/justin/webdev/paddock-registration/registration/static/DataTables-1.9.1/media/unit_testing/tests_onhold/4_server-side/aoSearchCols.js",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/event_reg_form.html",
+		"/Users/justin/webdev/paddock-registration/registration/templatetags/paddock_tags.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_season.py",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/events_table.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/activation_email.txt",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/activate_form.html",
+		"/Users/justin/webdev/paddock-registration/registration/templates/registration/activation_email_subject.txt",
+		"/Users/justin/webdev/paddock-registration/paddock/fixtures/test_data.json",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_event.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_result.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_registration.py",
+		"/Users/justin/webdev/student_log_dajango/log/forms.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_dibs.py",
+		"/Users/justin/webdev/paddock-registration/registration/model_tests/test_club.py",
+		"/Users/justin/Library/Application Support/Sublime Text 2/Packages/User/SublimeLinter.sublime-settings",
+		"/Users/justin/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/Users/justin/Library/Application Support/Sublime Text 2/Packages/SublimeLinter/SublimeLinter.sublime-settings",
+		"/Users/justin/Library/Application Support/Sublime Text 2/Packages/User/HTML (Django).sublime-settings",
+		"/Users/justin/webdev/paddock-registration/paddock.sublime-workspace",
+		"/Users/justin/webdev/paddock-registration/manage.py",
+		"/Users/justin/webdev/paddock-registration/paddock/wsgi.py",
 		"/Users/justin/webdev/paddock-registration/paddock.sublime-project",
 		"/Users/justin/webdev/django-tastypie/paddock.sublime-project",
 		"/Users/justin/work/flowstation/canteraFS.py",
 		"/Users/justin/work/flowstation/open",
+		"/Users/justin/webdev/student_log_dajango/log/static/student_log/app/lib/angular/angular-loader.js",
+		"/Users/justin/webdev/student_log_dajango/wsgi.py",
+		"/Users/justin/webdev/student_log_dajango/log/templates/log/base.html",
+		"/Users/justin/webdev/student_log_dajango/log/templates/log/login.html",
+		"/Users/justin/webdev/student_log_dajango/student_log/urls.py",
+		"/Users/justin/webdev/student_log_dajango/log/static/student_log/app/js/controllers.js",
+		"/Users/justin/webdev/student_log_dajango/log/models.py",
+		"/Users/justin/webdev/student_log_dajango/log/static/student_log/app/index.html",
+		"/Users/justin/webdev/student_log_dajango/log/static/student_log/app/js/tastypie-resource.js",
+		"/Users/justin/webdev/student_log_dajango/log/authentication.py",
+		"/Users/justin/webdev/student_log_dajango/log/views.py",
+		"/Users/justin/webdev/student_log_dajango/student_log/settings.py",
+		"/Users/justin/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/justin/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/justin/webdev/student_log_dajango/log/static/student_log/app/partials/class.html",
+		"/Users/justin/webdev/student_log_dajango/log/static/student_log/app/partials/classes.html",
+		"/Users/justin/webdev/student_log_dajango/log/verbatim.py",
+		"/Users/justin/webdev/student_log_dajango/log/templates/log/index.html",
+		"/Users/justin/webdev/student_log_dajango/log.sublime-project",
+		"/Users/justin/Desktop/test.js",
 		"/Users/justin/webdev/student_log_dajango/log/roster_parser.py",
 		"/Users/justin/webdev/student_log_dajango/log/tests.py"
 	],
@@ -77,9 +239,26 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 95.0,
 		"where_history":
 		[
+			"*.py",
+			"*.js",
+			"*.py",
+			"/Users/justin/webdev/paddock-registration/*.py",
+			"/Users/justin/webdev/paddock-registration",
+			"/Users/justin/webdev/paddock-registration/registration/templates",
+			"",
+			"/Users/justin/webdev/paddock-registration/registration/templates/registration",
+			"./ *.py",
+			"./*.py",
+			"./registration/templates/registration/*.py",
+			"/registration/templates/registration/*.py",
+			"./registration/templates/*.py",
+			"registration/templates/*.py",
+			"registration/*.py",
+			"*.py",
+			""
 		]
 	},
 	"find_state":
@@ -87,6 +266,110 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"club_map",
+			"user",
+			"membership",
+			"membershi",
+			"Memberships",
+			"Membership",
+			"class UserProfile",
+			"profile",
+			"repeat",
+			"profile",
+			"user",
+			"src",
+			"avatar_url",
+			"log",
+			"avatar_upload",
+			"uploaded",
+			"car_thumbs",
+			"/test_",
+			"test_",
+			"test_%d",
+			"test_%s",
+			"test_",
+			"car_avatars",
+			"Activation",
+			"UserCreation",
+			"ngModel_var",
+			"Pic",
+			"STATIC_URL",
+			"log",
+			"class Car",
+			"log",
+			".log(",
+			"avatarg",
+			"upcoming",
+			"date",
+			"paddock/",
+			"'rb'",
+			"driver_user_nam",
+			"user",
+			"class Coupon",
+			"isOwner",
+			"'registration.",
+			"cars",
+			"user",
+			"first_nam",
+			"cookies",
+			"User",
+			"garage",
+			"RequestContext",
+			"render_to_response",
+			"require",
+			"Authen",
+			"accordion2",
+			"accordion",
+			"accordian2\naccordion2",
+			"accordian2",
+			"center",
+			"avatar_pic",
+			"MapCtrl",
+			"mapApp",
+			"base.html",
+			"base.hrml",
+			"garage",
+			"setcenter",
+			"event",
+			"google",
+			"extra",
+			"json",
+			"send",
+			"paddock.views",
+			"popover",
+			"avatar",
+			"paddock.js",
+			"bootstrap-",
+			"print",
+			"paddock",
+			"      ",
+			"paddock/",
+			"paddock",
+			"paddockr",
+			"paddock",
+			"registration",
+			"AUTH_PROFILE_MODULE",
+			"test_api",
+			"paddock/",
+			"paddock",
+			"UserProfile",
+			"models",
+			"paddockreg",
+			"paddock",
+			"paddock.",
+			"class_points",
+			"index_points",
+			"AuthenticationForm",
+			"paddock",
+			"paddock.",
+			"paddock",
+			"paddock/",
+			"paddock.",
+			"Bootstrap",
+			"student_log",
+			"backbone",
+			"paddockred",
+			"devsite",
 			"reacta",
 			"settings",
 			"statsic",
@@ -117,6 +400,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"'rU'",
+			"'garage.",
+			"registration/",
+			"registration.",
 			"Authorization",
 			"authorization = DjangoAuthorization() "
 		],
@@ -129,13 +416,155 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "garage/api.py",
+					"settings":
+					{
+						"buffer_size": 2672,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								388,
+								388
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "garage/static/garage/users.js",
+					"settings":
+					{
+						"buffer_size": 5030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								727,
+								727
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "garage/templates/garage/base.html",
+					"settings":
+					{
+						"buffer_size": 1000,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								792,
+								792
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 3,
+					"file": "registration/models.py",
+					"settings":
+					{
+						"buffer_size": 36007,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4041,
+								4041
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 599.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "garage/static/garage/users.html",
+					"settings":
+					{
+						"buffer_size": 7417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7329,
+								7337
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/HTML (Django).tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 734.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -158,21 +587,21 @@
 				1
 			],
 			[
+				1,
 				0,
-				1,
-				1,
-				2
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.5,
 			1.0
 		]
 	},
@@ -188,6 +617,298 @@
 		"selected_items":
 		[
 			[
+				"base.h",
+				"paddock-common/templates/paddock-common/base.html"
+			],
+			[
+				"base",
+				"paddock-common/templates/paddock-common/base.html"
+			],
+			[
+				"base.",
+				"garage/templates/garage/base.html"
+			],
+			[
+				"users.html",
+				"garage/static/garage/users.html"
+			],
+			[
+				"users.js",
+				"garage/static/garage/users.js"
+			],
+			[
+				"club.cs",
+				"old_data/club.csv"
+			],
+			[
+				"member",
+				"old_data/membership.csv"
+			],
+			[
+				"import",
+				"registration/management/commands/import_old_data.py"
+			],
+			[
+				"api.p",
+				"garage/api.py"
+			],
+			[
+				"mod",
+				"registration/models.py"
+			],
+			[
+				"model",
+				"registration/models.py"
+			],
+			[
+				"coupon",
+				"registration/model_tests/test_order_coupon.py"
+			],
+			[
+				"test_cou",
+				"registration/model_tests/test_order_coupon.py"
+			],
+			[
+				"test_mem",
+				"registration/model_tests/test_membership.py"
+			],
+			[
+				"tests.",
+				"garage/tests.py"
+			],
+			[
+				"test",
+				"registration/tests.py"
+			],
+			[
+				"test_api",
+				"registration/model_tests/test_api.py"
+			],
+			[
+				"test.py",
+				"registration/tests.py"
+			],
+			[
+				"db_clean",
+				"registration/management/commands/db_cleanup.py"
+			],
+			[
+				"impor",
+				"registration/management/commands/import_old_data.py"
+			],
+			[
+				"settings.py",
+				"paddock/settings.py"
+			],
+			[
+				"views",
+				"garage/views.py"
+			],
+			[
+				"urls",
+				"garage/urls.py"
+			],
+			[
+				"base.html",
+				"garage/templates/garage/base.html"
+			],
+			[
+				"reg_list",
+				"registration/templates/registration/reg_list.html"
+			],
+			[
+				"result_list",
+				"registration/templates/registration/result_list.html"
+			],
+			[
+				"direct",
+				"paddock-common/static/paddock-directives.js"
+			],
+			[
+				"list.html",
+				"registration/templates/registration/reg_list.html"
+			],
+			[
+				"users.hm",
+				"garage/static/garage/users.html"
+			],
+			[
+				"paddock-d",
+				"paddock-common/static/paddock-directives.js"
+			],
+			[
+				"registr.js",
+				"registration/static/registration/registration.js"
+			],
+			[
+				"directive",
+				"registration/static/registration/registration-directives.js"
+			],
+			[
+				"list.",
+				"registration/templates/registration/points_list.html"
+			],
+			[
+				"tasty",
+				"paddock-common/static/angular/tastypie-resource.js"
+			],
+			[
+				"setting",
+				"paddock/settings.py"
+			],
+			[
+				"test_ap",
+				"registration/model_tests/test_api.py"
+			],
+			[
+				"api.",
+				"garage/api.py"
+			],
+			[
+				"tastypi",
+				"paddock-common/static/angular/tastypie-resource.js"
+			],
+			[
+				"serv",
+				"garage/static/garage/services.js"
+			],
+			[
+				".css",
+				"paddock-common/static/paddock.css"
+			],
+			[
+				"users",
+				"garage/static/garage/users.html"
+			],
+			[
+				"users.",
+				"garage/static/garage/users.html"
+			],
+			[
+				"views.",
+				"garage/views.py"
+			],
+			[
+				"url",
+				"paddock/urls.py"
+			],
+			[
+				"view",
+				"garage/views.py"
+			],
+			[
+				"urls.p",
+				"garage/urls.py"
+			],
+			[
+				"clubs.html",
+				"registration/templates/registration/clubs.html"
+			],
+			[
+				"registr",
+				"registration/static/registration/registration.js"
+			],
+			[
+				"registration-dire",
+				"registration/static/registration/registration-directives.js"
+			],
+			[
+				"compl",
+				"registration/templates/registration/complete_event.html"
+			],
+			[
+				"upcom",
+				"registration/templates/registration/upcoming_event.html"
+			],
+			[
+				"registration.js",
+				"registration/static/registration/registration.js"
+			],
+			[
+				"directions",
+				"registration/templates/registration/directions.html"
+			],
+			[
+				"paddock.css",
+				"registration/static/paddock.css"
+			],
+			[
+				"sett",
+				"paddock/settings.py"
+			],
+			[
+				"paddock.js",
+				"registration/static/paddock.js"
+			],
+			[
+				"upcomm",
+				"registration/templates/registration/upcoming_event.html"
+			],
+			[
+				"garage.h",
+				"registration/templates/registration/garage.html"
+			],
+			[
+				"api",
+				"registration/api.py"
+			],
+			[
+				"garage.js",
+				"registration/static/garage.js"
+			],
+			[
+				"dire",
+				"registration/templates/registration/directions.html"
+			],
+			[
+				"models",
+				"registration/models.py"
+			],
+			[
+				"modle",
+				"registration/static/DataTables-1.9.1/media/unit_testing/tests_onhold/1_dom/iDisplayLength.js"
+			],
+			[
+				"upcp",
+				"registration/static/DataTables-1.9.1/media/unit_testing/performance/page.html"
+			],
+			[
+				"login.h",
+				"registration/templates/registration/login.html"
+			],
+			[
+				"forms",
+				"registration/forms.py"
+			],
+			[
+				"vase",
+				"registration/static/DataTables-1.9.1/media/unit_testing/tests_onhold/4_server-side/aoSearchCols.js"
+			],
+			[
+				"result",
+				"registration/templates/registration/result_list.html"
+			],
+			[
+				"paddock_tags",
+				"registration/templatetags/paddock_tags.py"
+			],
+			[
+				"form",
+				"registration/forms.py"
+			],
+			[
+				"seting",
+				"paddock/settings.py"
+			],
+			[
+				"test_ev",
+				"registration/model_tests/test_event.py"
+			],
+			[
+				"settin",
+				"paddock/settings.py"
+			],
+			[
 				"flows",
 				"flowstation.py"
 			],
@@ -202,34 +923,6 @@
 			[
 				"vie",
 				"log/views.py"
-			],
-			[
-				"urls",
-				"log/urls.py"
-			],
-			[
-				"urls.p",
-				"student_log/urls.py"
-			],
-			[
-				"views",
-				"log/views.py"
-			],
-			[
-				"url",
-				"student_log/urls.py"
-			],
-			[
-				"import",
-				"log/management/commands/import_old_data.py"
-			],
-			[
-				"sett",
-				"student_log/settings.py"
-			],
-			[
-				"setting",
-				"student_log/settings.py"
 			],
 			[
 				"wsg",
@@ -256,16 +949,8 @@
 				"log/static/student_log/app/js/directives.js"
 			],
 			[
-				"tasty",
-				"log/static/student_log/app/js/tastypie-resource.js"
-			],
-			[
 				"authen",
 				"log/authentication.py"
-			],
-			[
-				"mod",
-				"log/models.py"
 			],
 			[
 				"inde",
@@ -274,14 +959,6 @@
 			[
 				"contor",
 				"log/static/student_log/app/js/controllers.js"
-			],
-			[
-				"forms",
-				"log/forms.py"
-			],
-			[
-				"base",
-				"log/templates/log/base.html"
 			],
 			[
 				"index",
@@ -298,14 +975,6 @@
 			[
 				"classes",
 				"log/static/student_log/app/partials/classes.html"
-			],
-			[
-				"form",
-				"log/forms.py"
-			],
-			[
-				"view",
-				"log/views.py"
 			]
 		],
 		"width": 0.0
@@ -322,6 +991,6 @@
 	"show_open_files": true,
 	"show_tabs": false,
 	"side_bar_visible": true,
-	"side_bar_width": 178.0,
+	"side_bar_width": 198.0,
 	"status_bar_visible": true
 }

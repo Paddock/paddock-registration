@@ -27,7 +27,7 @@ class TestMembership(unittest.TestCase):
         self.user2.save()
         
         m= Membership()
-        m.user = self.user1
+        m.user_prof = self.user1.get_profile()
         m.club = self.c
         m.num = 1
         m.start = datetime.date.today() - datetime.timedelta(days=300)
@@ -46,7 +46,7 @@ class TestMembership(unittest.TestCase):
         self.assertFalse(self.c.is_active_member(self.user2))
         
         m= Membership()
-        m.user = self.user2
+        m.user_prof = self.user2.get_profile()
         m.club = self.c
         m.num = 2
         m.start = datetime.date.today() - datetime.timedelta(days=300)
@@ -61,7 +61,7 @@ class TestMembership(unittest.TestCase):
     
     def test_duplicate_id(self): 
         m= Membership()
-        m.user = self.user2
+        m.user_prof = self.user2.get_profile()
         m.club = self.c
         m.num = 1
         m.start = datetime.date.today() - datetime.timedelta(days=300)
@@ -77,7 +77,7 @@ class TestMembership(unittest.TestCase):
     
     def test_auto_increment_number(self): 
         m= Membership()
-        m.user = self.user2
+        m.user_prof = self.user2.get_profile()
         m.club = self.c
         m.start = datetime.date.today() - datetime.timedelta(days=300)
         m.valid_thru = datetime.date.today()
