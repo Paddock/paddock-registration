@@ -11,7 +11,7 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
                     club:e.club_name
                    };
             races.push(data);
-        })
+        });
         
         var start_date = new Date(races[0].start);
         $('#calendar').fullCalendar({
@@ -38,30 +38,31 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     
     $scope.save_user = function(){
         //console.log('Saving: ',$scope.user.first_name)
-        Profile.save($scope.profile)
-    }
+        Profile.save($scope.profile);
+    };
 
     $scope.del_car = function(car){
         //console.log(car);
         var i = $scope.profile.cars.indexOf(car);
         var car_id = $scope.profile.cars[i].id;
         //console.log(i)
-        Car.delete({'carId':car_id},function(){
-            $scope.profile.cars.splice(i,1)
+        Car.remove({'carId':car_id},function(){
+            $scope.profile.cars.splice(i,1);
         });
-    }
+    };
 
     $scope.new_car = function(){
         $scope.avatar_preview = false;
         $scope.avatar_url = STATIC_URL +'garage/avatar-placeholder.png';
         $scope.car_form_title ='Add a New Car';
         $scope.edit_car_index = -1;
-        var new_car = {name:null,year:null,make:null,model:null,provisional:true}
+        var new_car = {name:null, year:null, make:null,
+            model:null, provisional:true};
         Car.save(new_car,function(car){
             $scope.edit_car_target = car;
-        })
+        });
         $scope.car_modal_show=true;
-    }
+    };
 
     $scope.edit_car = function(car){
         $scope.avatar_preview = false;

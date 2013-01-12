@@ -13,7 +13,7 @@ mod.factory('Car', function($resource){
 });
 
 mod.factory('Club', function($resource){
-    return $resource('/garage/api/v1/clubs/:clubId', {}, {
+    return $resource('/garage/api/v1/club/:clubId', {}, {
       query: {method: 'GET', params:{clubId:''}, isArray:true}
     });
 });

@@ -438,6 +438,10 @@ class Dibs(m.Model):
 
 
 class Season(m.Model): 
+
+    class Meta: 
+        ordering = ['-year']
+
     year = m.IntegerField(default=None)
     drop_lowest_events = m.IntegerField('# of Events to drop from points calculations',
                                         default=0)    
@@ -509,6 +513,10 @@ class Season(m.Model):
         return u"%d"%self.year
 
 class Event(m.Model): 
+
+    class Meta: 
+        ordering = ['date']
+
     @property
     def name(self): 
         return self._name
