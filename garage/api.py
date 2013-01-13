@@ -6,7 +6,7 @@ from tastypie.authorization import Authorization,DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
 
 from registration.models import Registration, Event, RaceClass, Car, \
-    UserProfile, User, Coupon, Club, Season
+    UserProfile, User, Coupon, Club, Season, Location
 
 v1_api = api.Api(api_name='v1')
 
@@ -70,13 +70,36 @@ class ClubResource(ModelResource):
     #active_season = fields.ToOneField('garage.api.SeasonResource', 'active_season', 
     #    'club', full=True, blank=True, null=True)
     seasons = fields.ToManyField('garage.api.SeasonResource', 'seasons', 'club', full=True)
-
+    locations = fields.ToManyField('garage.api.LocationResource', 'locations', 
+        'club', full=True , blank=True, null=True)
     class Meta:
         queryset = Club.objects.all()
         resource_name = 'club'
         excludes = ['_name']
 
 v1_api.register(ClubResource())
+
+class EventResource(ModelResource): 
+
+    name = fields.CharField(attribute='_name')
+    date = fields.DateField(attribute='date')
+    location = fields.ToOneField('garage.api.LocationResource', 'location', 
+        'club', full=True , blank=True, null=True)
+
+    class Meta: 
+        queryset = Event.objects.all()
+        excludes = ['_name']
+
+    def dehydrate(self, bundle): 
+        bundle.data['club_name'] = bundle.obj.season.club.name
+        bundle.data['url'] = reverse('registration.views.event',
+            kwargs={'club_name': bundle.obj.season.club.safe_name,
+            'season_year': bundle.obj.season.year,
+            'event_name': bundle.obj.safe_name})
+
+        return bundle 
+
+v1_api.register(EventResource())
 
 
 class SeasonResource(ModelResource):
@@ -98,21 +121,13 @@ class CouponResource(ModelResource):
         queryset = Coupon.objects.all()  
         allowed_methods = ['get']
 
-
-class EventResource(ModelResource): 
-
-    name = fields.CharField(attribute='_name')
-    date = fields.DateField(attribute='date')
+class LocationResource(ModelResource): 
 
     class Meta: 
-        queryset = Event.objects.all()
-        excludes = ['_name']
+        queryset = Location.objects.all()
 
-    def dehydrate(self, bundle): 
-        bundle.data['club_name'] = bundle.obj.season.club.name
-        bundle.data['url'] = reverse('registration.views.event',
-            kwargs={'club_name': bundle.obj.season.club.safe_name,
-            'season_year': bundle.obj.season.year,
-            'event_name': bundle.obj.safe_name})
 
-        return bundle 
+
+
+
+

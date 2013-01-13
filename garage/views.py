@@ -1,6 +1,7 @@
 import json
 import StringIO
 import os
+import zipfile
 
 from PIL import Image 
 
@@ -12,7 +13,9 @@ from django.core import serializers
 from django.core.files.uploadedfile import UploadedFile
 from django.core.files.base import ContentFile,File
 from django.core.files.temp import NamedTemporaryFile
+from django.core.mail import send_mail
 from django.views.decorators.http import require_http_methods
+from django.conf import settings
 
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login,logout
@@ -23,6 +26,8 @@ from django.forms import ModelChoiceField, HiddenInput
 from registration.models import Club, Event, Car, UserProfile, User
 
 from django.views.decorators.csrf import csrf_exempt
+
+from garage.utils import reg_txt, reg_dat
 
 
 @login_required
@@ -52,7 +57,45 @@ def admin_club(request, clubname):
                               context,
                               context_instance=RequestContext(request))
 
+@login_required
+@require_http_methods(['POST'])
+def email_regd_drivers(request, event_id):
+    e = Event.objects.get(pk=event_id)
+    emails = e.regs.filter(user_profile__isnull=False).\
+        select_related('user_profile__user').\
+        values_list('user_profile__user__email',flat=True).\
+        all()
+    
+    subject = request.POST['subject']
+    body =  request.POST['body']
+    
+    send_mail(subject,body,settings.DEFAULT_FROM_EMAIL,emails)
+    
+    return HttpResponse(status=200)
 
+@login_required
+@require_http_methods(['GET'])
+def reg_data_files(request,event_id): 
+
+    e = Event.objects.select_related().get(pk=event_id)
+    
+    out_file = StringIO.StringIO()
+    z = zipfile.ZipFile(out_file,'w')
+
+    dat = reg_dat(e.regs.all())
+    txt = reg_txt(e.regs.all())
+
+    z.writestr('pre_reg.dat',dat)
+    z.writestr('pre_reg.txt',txt)
+
+    z.close()
+    out_file.seek(0)
+    response = HttpResponse(status=200, mimetype="application/x-zip-compressed",
+        content=out_file)
+    response['Content-Disposition'] = 'filename="pre_reg.zip"'
+    return response
+
+@login_required
 @require_http_methods(['POST'])
 def car_avatar(request, car_id):
     """Handles a POST or PUT to a car for an avatar file upload, returns JSON"""

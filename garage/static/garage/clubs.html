@@ -2,17 +2,64 @@
   <div class="modal-header">
     <h3>{{event_modal_title}}</h3>
   </div>
-  <div class="modal-body">
-    <form class="form">
-        <label>Name</label><input type="text" ng-model="edit_event_target.name">
-        <label>Date</label><input ng-model="edit_event_target.date" ui-date>
-    </form>
-  </div>
+  <div class="modal-body"><form class="form">
+    <div class="row">
+        <div class="span3">
+            <label>Name</label><input type="text" ng-model="edit_event_target.name">
+            <label>Date</label><input ng-model="edit_event_target.date" ui-date>
+            <label class="inline-checkbox">Registration closes 12AM {{edit_event_target.date | date:'shortDate'}} 
+                <input type="checkbox" ng-model="default_reg_close">
+            </label>    
+            <div ui-if="!default_reg_close"><label>Reg Close</label><input ng-model="edit_event_target.reg_close" ui-date="{maxDate:edit_event_target.date}"></div>
+
+            <label>Notes</label><textarea ng-model="edit_event_target.note" rows=3></textarea>
+         </div>
+         <div class="span2">
+            <label class="inline-checkbox">Points event 
+                <input type="checkbox" ng-model="edit_event_target.count_points">
+            </label>  
+            <label>Member Price</label>
+            <div class="input-prepend">
+              <span class="add-on">$</span>
+              <input class="span1" type="text" ng-model="edit_event_target.member_price">
+            </div>
+            <label>Non Member Price</label>
+            <div class="input-prepend">
+              <span class="add-on">$</span>
+              <input class="span1" type="text" ng-model="edit_event_target.non_member_price">
+            </div>
+            <label>Late Reg Penalty</label>
+            <div class="input-prepend">
+              <span class="add-on">$</span>
+              <input class="span1" type="text" ng-model="edit_event_target.non_pre_pay_penalty">
+            </div>
+            <label>Location</label>
+            <select ng-model="edit_event_location" ng-options="l.id as l.name for l in club.locations">
+            </select>
+         </div>
+    </div>
+  </form></div>
   <div class="modal-footer">
     <a href="#" class="btn" ng-click="cancel_save_event()">Close</a>
     <a href="#" class="btn btn-primary" ng-click="save_event()">Save changes</a>
   </div>
 </div>
+
+<div ui-modal class="modal hide fade" ng-model="show_event_msg_modal" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        <h3>Email drivers for {{event_msg_target.name}}</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form">
+            <label>Subject</label><input type="text" ng-model="event_msg_subject">
+            <label>Message</label><textarea rows="6"class="span4" ng-model="event_msg_body"></textarea>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" ng-click="show_event_msg_modal=false">Close</a>
+        <a href="#" class="btn btn-primary" ng-click="send_event_msg(event_msg_target)">Send</a>
+    </div>
+</div>  
 
 <div class="row"><div class="span10">
     <h2> Admin Panel for {{club.name}} </h2>
@@ -23,25 +70,35 @@
                     <div class="accordion-group" ng-repeat="season in club.seasons">
                         <div class="accordion-heading">
                           <a class="accordion-toggle" data-toggle="collapse" data-parent="#seasons" href="#collapse{{$index}}}">
-                            {{season.year}}
+                            <h4>{{season.year}}</h4> 
                           </a>
                         </div>
                         <div id="collapse{{$index}}" class="accordion-body collapse" ng-class="{'in':$first}">
                           <div class="accordion-inner">
+                            Drop Lowest Events: <select class="lonley input-mini"ng-model="season.drop_lowest_events" ng-options="n for n in [0,1,2,3,4,5]"></select>
                             <table class="table table-bordered table-striped">
                                 <thead><tr>
                                     <th>Event</th>
                                     <th>Date</th>
-                                    <th style="width:8em;"></th>
+                                    <th style="width:12em;"></th>
                                 </tr></thead>
                                 <tbody><tr ng-repeat="event in season.events">
                                     <td>{{event.name}}</td>
-                                    <td>{{event.date}}</td>
+                                    <td>{{event.date | date:'mediumDate'}}</td>
                                     <td>
-                                        <button class="btn btn-primary" type="button" ng-click="edit_event(event)">
+                                        <button class="btn btn-primary btn-mini" type="button" ng-click="edit_event(event)">
                                           <i class="icon icon-white icon-edit"></i>
                                         </button>
-                                        <button class="btn btn-warning" type="button">
+                                        <a ng-href="/garage/event/{{event.id}}/reg_files" class="btn btn-info btn-mini">
+                                          <i class="icon icon-white icon-download-alt "></i>
+                                        </a>
+                                        <button class="btn btn-success btn-mini" type="button" ng-click="upload_results(event)">
+                                          <i class="icon icon-white icon-th"></i>
+                                        </button>
+                                        <button class="btn btn-warning btn-mini" type="button" ng-click="build_event_msg(event)">
+                                          <i class="icon icon-white icon-envelope"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-mini" type="button" ng-click="delete_event(season,event)">
                                           <i class="icon icon-white icon-trash"></i>
                                         </button>
                                     </td>
@@ -53,15 +110,18 @@
                 </div>
                 <div class="span3">
                     <ul class="unstyled">
-                        <li><button class="btn btn-primary">
+                        <li>
+                            <button class="btn btn-success" ng-click="new_event(new_event_season)">
+                            <i class="icon icon-white icon-plus"></i>
+                            New Event
+                            </button>
+                            <select class="lonely input-small" ng-model="new_event_season" ng-options="s as s.year for s in club.seasons"></select>
+                        </li>
+                        <li><button class="btn btn-success" ng-click="new_season()">
                         <i class="icon icon-white icon-plus"></i>
                         New Season
                         </button></li>
-                        <li><button class="btn btn-success" ng-click="new_event()">
-                        <i class="icon icon-white icon-plus"></i>
-                        New Event
-                        </button></li>
-
+                    </ul>
                 </div>
             </div>
         </pane>

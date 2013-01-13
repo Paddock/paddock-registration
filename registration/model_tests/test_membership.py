@@ -32,6 +32,7 @@ class TestMembership(unittest.TestCase):
         m.num = 1
         m.start = datetime.date.today() - datetime.timedelta(days=300)
         m.valid_thru = datetime.date.today()+datetime.timedelta(days=1)
+        m.paid = True
         
         m.full_clean()
         m.save()
@@ -86,3 +87,8 @@ class TestMembership(unittest.TestCase):
         m.save()
         
         self.assertEqual(m.num,2)
+
+    def test_is_member(self):
+        up = self.user1.get_profile()
+
+        self.assertTrue(up.is_member(self.c))

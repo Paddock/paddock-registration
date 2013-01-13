@@ -119,17 +119,15 @@ class UserProfile(m.Model):
 
         return ret.order_by('date')    
 
-
-
     def is_member(self, club): 
-        today = datetime.datetime.today()
-        for m in self.memberships: 
-            if m.club == club and m.paid and m.valid_thru_date >= today: 
+        today = datetime.date.today()
+        for m in self.memberships.all(): 
+            if m.club == club and m.paid and m.valid_thru >= today: 
                 return m
         return False    
 
     def is_registered(self, event): 
-        for r in self.registrations:
+        for r in self.registrations.all():
             if r.event == event: 
                 return r
         return False
@@ -154,6 +152,7 @@ post_save.connect(create_user_profile, sender=User)
 class Purchasable(m.Model): 
     price = m.DecimalField("$", max_digits=10, decimal_places=2, default="0.00")    
     order = m.ForeignKey("Order", related_name="items", blank=True, null=True)
+    paid = m.BooleanField('paid', default=False)
 
 
 class Order(m.Model): 

@@ -132,7 +132,10 @@ class Command(BaseCommand):
 
             m.start = datetime.datetime.strptime(line['start_date'], '%Y-%m-%d %H:%M:%S')
             m.valid_thru = datetime.datetime.strptime(line['valid_thru_date'], '%Y-%m-%d %H:%M:%S')
-            
+            m.paid = bool(line['paid'])
+            if line['price']!=None:
+                m.price = float(line['price'])
+
             try: 
                 m.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
             except User.DoesNotExist: 
@@ -273,17 +276,17 @@ class Command(BaseCommand):
             for k,v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
-            
-            for k,v in line.iteritems(): 
-                if v=="NULL": line[k] = ""
                 
             if not line['event_id']: 
                 continue            
             
-            
             rc = race_class_map[line['race_class_id']]
 
             r = Registration()
+
+            r.paid = bool(line['paid'])
+            if line['price']!=None:
+                r.price = float(line['price'])
             
             if line['driver_user_name']: 
                 user = User.objects.get(username=line['driver_user_name'])
