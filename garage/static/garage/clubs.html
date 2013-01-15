@@ -125,6 +125,9 @@
                 </div>
             </div>
         </pane>
+        <pane title="Members"></pane>
+        <pane title="Coupons"></pane>
+        <pane title="Race Setup"></pane>
         <pane title="Club Info">
             <div class="row">
                 <div class="span4"><!--first column-->
@@ -133,38 +136,44 @@
                             <h3> General </h3>
                         </div>
                         <div class="garage-pane-body">
-                            
+                            <form class="form">
+                                <label>Process Payments <input type="checkbox" ng-model="club.process_payments"></label>
+                                <span ui-if="club.process_payments"><label>Paypal Email</label><input type="text" ng-model="club.paypal_email"></span>
+                                <label>Mebership Price </label>
+                                <div class="input-prepend">
+                                  <span class="add-on">$</span>
+                                  <input class="span1" type="text" ng-model="club.new_member_cost">
+                                </div>
+                                <label>Membership Renewal Price </label>
+                                <div class="input-prepend">
+                                  <span class="add-on">$</span>
+                                  <input class="span1" type="text" ng-model="club.renew_cost">
+                                </div>
+                                <label>Membership Terms</label>
+                                <textarea ng-model="club.membership_terms" class = "span4" rows="5"></textarea>
+                                <label>Mailing Address</label>
+                                <input type="text" class="span4" ng-model="club.address" placeholder="address">
+                                <input type="text" class="span4" ng-model="club.city" placeholder="city">
+                                <input type="text" class="span1" ng-model="club.state" placeholder="state">
+                                <input type="text" class="span2" ng-model="club.zip_code" placeholder="zip code">
+                            </form>
+                                <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
-                    <div class="row garage-pane">
-                        <div class="garage-pane-header">
-                            <h3> Coupons </h3>
-                        </div>
-                        <div class="garage-pane-body">
-                            
-                        </div>
-                    </div>
-                    <div class="row garage-pane">
-                        <div class="garage-pane-header">
-                            <h3> Payment Details </h3>
-                        </div>
-                        <div class="garage-pane-body">
-                            
-                        </div>
-                    </div>
+                    
                 </div>
                 <div class="span5"><!--second column-->
                     <div class="row garage-pane">
                         <div class="garage-pane-header">
-                            <h3> Membership </h3>
+                            <h3> Club Officers </h3>
                         </div>
                         <div class="garage-pane-body">
-                            
+                            <p>Users who have admin
+                                access to your club:</p>
                         </div>
                     </div>
                 </div>
             </div>
         </pane>
-        <pane title="Race Setup"></pane>
     </tabs>
 </div></div>

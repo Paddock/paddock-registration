@@ -15,11 +15,15 @@
 
   <script src="{{ STATIC_URL }}garage/services.js"></script>
   <script src="{{ STATIC_URL }}garage/{{js_target}}.js"></script>
+
+
+
   <script>
       var STATIC_URL = {{STATIC_URL}};
       var USER_ID = {{user.pk}};
       var CLUB_ID = "{{club.pk}}";
   </script>
+
 {%endblock foot_js%}
 
 {% block container %}

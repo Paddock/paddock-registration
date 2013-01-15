@@ -216,16 +216,7 @@ class Coupon(m.Model):
 
 class Club(Purchasable):
 
-    @property
-    def name(self): 
-        return self._name
-
-    @name.setter
-    def name(self, name): 
-        self._name = name
-        self.safe_name = urlsafe(name) 
-
-    _name = m.CharField('Club Name', max_length=100)
+    name = m.CharField('Club Name', max_length=100)
     safe_name = m.CharField("safe_name", max_length=100, primary_key=True, unique=True) 
 
     created = m.DateTimeField(auto_now_add=True)
@@ -256,6 +247,14 @@ class Club(Purchasable):
 
     def __unicode__(self): 
         return self.safe_name
+
+    def full_clean(self,*args,**kwargs):
+        self.safe_name = urlsafe(self.name)
+        super(Club,self).full_clean(*args,**kwargs) 
+
+    def save(self,*args,**kwargs):
+        self.safe_name = urlsafe(self.name)
+        super(Club,self).save(*args,**kwargs)       
     
     @property
     def sorted_seasons(self): 
@@ -516,15 +515,7 @@ class Event(m.Model):
     class Meta: 
         ordering = ['date']
 
-    @property
-    def name(self): 
-        return self._name
-    @name.setter
-    def name(self,name): 
-        self._name = name
-        self.safe_name = urlsafe(name)
-
-    _name = m.CharField('Name',max_length=40)
+    name = m.CharField('Name',max_length=40)
     safe_name = m.CharField(max_length=40)
 
     date = m.DateField('Event Date')
@@ -565,6 +556,15 @@ class Event(m.Model):
             return reg
         except Registration.DoesNotExist: 
             return False
+
+    #do this in clean and save because sometimes clean is not called??
+    def full_clean(self,*args,**kwargs): 
+        self.safe_name = urlsafe(self.name)
+        super(Event,self).full_clean(*args,**kwargs)
+
+    def save(self,*args,**kwargs): 
+        self.safe_name = urlsafe(self.name)
+        super(Event,self).save(*args,**kwargs)        
 
     def allow_number_race_class(self,reg): 
         """Checks to see if the specified registration has a unique number and 

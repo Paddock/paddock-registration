@@ -153,7 +153,7 @@ class Command(BaseCommand):
                 for k,v in line.iteritems(): 
                     if v == "NULL": 
                         line[k] = None                
-                club = Club.objects.get(_name=line['club_name'])        
+                club = Club.objects.get(name=line['club_name'])        
                 
                 l = Location()
                 l.name = line['name']
@@ -174,7 +174,7 @@ class Command(BaseCommand):
             for k,v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
-            club = Club.objects.get(_name=line['club_name'])
+            club = Club.objects.get(name=line['club_name'])
             s.club = club
             s.year = int(line['year'])
             s.drop_lowest_events = int(line['drop_lowest_events'])
@@ -201,11 +201,11 @@ class Command(BaseCommand):
             e.name = line['name']
             e.note = line['note']
             e.date = datetime.datetime.strptime(line['date'], '%Y-%m-%d %H:%M:%S')
-            e.reg_close = datetime.datetime.strptime(line['registration_close'], '%Y-%m-%d %H:%M:%S')
+            e.reg_close = line['registration_close']+"-05:00"
             e.member_price = float(line['member_cost'])
             e.non_member_price = float(line['non_member_cost'])
             e.non_pre_pay_penalty = float(line['pay_at_event_cost'])
-            #e.club = Club.objects.get(_name=line['club_name'])
+            #e.club = Club.objects.get(name=line['club_name'])
             e.season = season_map[line['season_id']]
             e.count_points = int(line['count_points'])
             e.multiplier = int(line['multiplier'])
@@ -224,7 +224,7 @@ class Command(BaseCommand):
                 if v == "NULL": 
                     line[k] = None            
             
-            club = Club.objects.get(_name=line['club_name'])                        
+            club = Club.objects.get(name=line['club_name'])                        
             r = RaceClass()
             r.name = line['name']
             r.abrv = line['name']
@@ -250,7 +250,7 @@ class Command(BaseCommand):
             for k,v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
-            club = Club.objects.get(_name=line['club_name']) 
+            club = Club.objects.get(name=line['club_name']) 
             r = RaceClass()
             r.pax_class = True
             r.description = line['description']

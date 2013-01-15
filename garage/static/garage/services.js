@@ -17,3 +17,15 @@ mod.factory('Club', function($resource){
       query: {method: 'GET', params:{clubId:''}, isArray:true}
     });
 });
+
+mod.factory('Season', function($resource){
+    return $resource('/garage/api/v1/season/:seasonId', {}, {
+      query: {method: 'GET', params:{seasonId:''}, isArray:true}
+    });
+});
+
+mod.factory('Event', function($resource){
+    return $resource('/garage/api/v1/event/:eventId', {}, {
+      query: {method: 'GET', params:{eventId:''}, isArray:true}
+    });
+});

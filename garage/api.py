@@ -66,7 +66,7 @@ v1_api.register(CarResource())
 
 class ClubResource(ModelResource):
 
-    name = fields.CharField(attribute='_name')
+    name = fields.CharField(attribute='name')
     #active_season = fields.ToOneField('garage.api.SeasonResource', 'active_season', 
     #    'club', full=True, blank=True, null=True)
     seasons = fields.ToManyField('garage.api.SeasonResource', 'seasons', 'club', full=True)
@@ -75,29 +75,35 @@ class ClubResource(ModelResource):
     class Meta:
         queryset = Club.objects.all()
         resource_name = 'club'
-        excludes = ['_name']
 
 v1_api.register(ClubResource())
 
 class EventResource(ModelResource): 
 
-    name = fields.CharField(attribute='_name')
-    date = fields.DateField(attribute='date')
-    location = fields.ToOneField('garage.api.LocationResource', 'location', 
-        'club', full=True , blank=True, null=True)
-
-    class Meta: 
-        queryset = Event.objects.all()
-        excludes = ['_name']
-
-    def dehydrate(self, bundle): 
-        bundle.data['club_name'] = bundle.obj.season.club.name
-        bundle.data['url'] = reverse('registration.views.event',
+    def get_url(self,bundle): 
+        return reverse('registration.views.event',
             kwargs={'club_name': bundle.obj.season.club.safe_name,
             'season_year': bundle.obj.season.year,
             'event_name': bundle.obj.safe_name})
 
-        return bundle 
+    name = fields.CharField(attribute='name')
+    date = fields.DateField(attribute='date')
+    location = fields.ToOneField('garage.api.LocationResource', 'location', 
+        blank=True, null=True)
+    season = fields.ToOneField('garage.api.SeasonResource','season')
+    club_name = fields.CharField(null=True,readonly=True)
+    url = fields.CharField(null=True,readonly=True)
+
+    class Meta: 
+        authentication = SessionAuthentication()
+        authorization = Authorization()
+        queryset = Event.objects.select_related().all()
+
+    def dehydrate(self,bundle): 
+        bundle.data['club_name'] = bundle.obj.season.club.name
+        bundle.data['url'] = self.get_url(bundle)
+        return bundle    
+  
 
 v1_api.register(EventResource())
 
@@ -107,12 +113,25 @@ class SeasonResource(ModelResource):
     events = fields.ToManyField('garage.api.EventResource','events','season',
         full=True,null=True,blank=True)
 
+    club = fields.ToOneField('garage.api.ClubResource','club','season')
+
     class Meta: 
         queryset = Season.objects.all()
+        authentication = SessionAuthentication()
+        authorization = Authorization()
         always_return_data = True
+
+    def save_m2m(self,bundle): 
+        pass    
 
 v1_api.register(SeasonResource())
 
+class LocationResource(ModelResource): 
+
+    class Meta: 
+        queryset = Location.objects.all()
+
+v1_api.register(LocationResource())        
 
 # No URI for these, so they don't need to be protected
 class CouponResource(ModelResource):
@@ -121,10 +140,7 @@ class CouponResource(ModelResource):
         queryset = Coupon.objects.all()  
         allowed_methods = ['get']
 
-class LocationResource(ModelResource): 
 
-    class Meta: 
-        queryset = Location.objects.all()
 
 
 
