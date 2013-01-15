@@ -6,7 +6,7 @@ from tastypie.authorization import Authorization,DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
 
 from registration.models import Registration, Event, RaceClass, Car, \
-    UserProfile, User, Coupon, Club, Season, Location
+    UserProfile, User, Coupon, Club, Season, Location, Membership
 
 v1_api = api.Api(api_name='v1')
 
@@ -69,14 +69,25 @@ class ClubResource(ModelResource):
     name = fields.CharField(attribute='name')
     #active_season = fields.ToOneField('garage.api.SeasonResource', 'active_season', 
     #    'club', full=True, blank=True, null=True)
-    seasons = fields.ToManyField('garage.api.SeasonResource', 'seasons', 'club', full=True)
+    seasons = fields.ToManyField('garage.api.SeasonResource', 'seasons', 'club', 
+        full=True, readonly=True)
     locations = fields.ToManyField('garage.api.LocationResource', 'locations', 
-        'club', full=True , blank=True, null=True)
+        'club', full=True , blank=True, null=True, readonly=True)
+    memberships = fields.ToManyField('garage.api.MembershipResource','memberships','club')
+    
     class Meta:
         queryset = Club.objects.all()
         resource_name = 'club'
 
 v1_api.register(ClubResource())
+
+class MembershipResource(ModelResource):
+
+    club = fields.ToOneField('garage.api.ClubResource','club','memberships')
+    user_prof = fields.ToOneField('garage.api.UserProfileResource','user_prof')
+
+    class Meta: 
+        queryset = Membership.objects.select_related(depth=1).all()
 
 class EventResource(ModelResource): 
 
