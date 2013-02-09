@@ -116,8 +116,9 @@ class UserProfile(m.Model):
                     ret | e
                 else: 
                     ret = e   
-
-        return ret.order_by('date')    
+        if ret != None: 
+            return ret.order_by('date')   
+        return False     
 
     def is_member(self, club): 
         today = datetime.date.today()
@@ -175,7 +176,8 @@ class Coupon(m.Model):
     #is_giftcard = m.BooleanField("GiftCard",default=False)
     permanent = m.BooleanField("permanent", default=False)
     single_use_per_user = m.BooleanField("Once per user", default=False)
-    user_prof = m.ForeignKey("UserProfile", related_name="coupons", blank=True, null=True)    
+    user_prof = m.ForeignKey("UserProfile", related_name="coupons", blank=True, null=True)  
+    club = m.ForeignKey("Club", related_name="coupons")  
 
     discount_amount = m.DecimalField("$ discount",
                                      max_digits=10,
@@ -348,35 +350,35 @@ class Club(Purchasable):
 
 class Membership(Purchasable): 
 
-    num = m.IntegerField("ID #",null=True,blank=True,default=None)
+    num = m.IntegerField("ID #", null=True, blank=True, default=None)
 
     start = m.DateField("Member Since")
     valid_thru = m.DateField("Valid Through")
 
-    user_prof = m.ForeignKey('UserProfile',related_name="memberships")
+    user_prof = m.ForeignKey('UserProfile', related_name="memberships")
     club = m.ForeignKey("Club",related_name="memberships")
 
-    _anon_f_name = m.CharField(max_length=50,blank=True,null=True,default=None)
-    _anon_l_name = m.CharField(max_length=50,blank=True,null=True,default=None)
+    _anon_f_name = m.CharField(max_length=50, blank=True, null=True, default=None)
+    _anon_l_name = m.CharField(max_length=50, blank=True, null=True, default=None)
 
     def __unicode__(self):
-        return "%s in %s>"%(self.user.username,self.club.safe_name)
+        return "%s in %s>"%(self.user.username, self.club.safe_name)
 
     @property    
     def f_name(self):
-        if self.user: 
-            return self.user.f_name
+        if self.user_prof: 
+            return self.user_prof.user.first_name
         return self._anon_f_name
 
     @property 
     def l_name(self): 
-        if self.user: 
-            return self.user.l_name
+        if self.user_prof: 
+            return self.user_prof.user.last_name
         return self._anon_l_name   
 
     def clean(self): 
         try: 
-            Membership.objects.filter(club=self.club,num=self.num).get()
+            Membership.objects.filter(club=self.club, num=self.num).get()
         except Membership.DoesNotExist: 
             pass
         else: 

@@ -43,25 +43,6 @@ class Command(BaseCommand):
         
         User.objects.all().update(password=password)
 
-        for line in csv.DictReader(open('old_data/coupon.csv')):    
-            """coupon_code","club_name","discount_amount","uses_left","expires",
-            "permanent","driver_user_name","registration_id"""    
-            for k,v in line.iteritems(): 
-                if v == "NULL": 
-                    line[k] = None
-            
-            c = Coupon()
-            c.code = line['coupon_code']
-            c.permanent = bool(line['permanent'])
-            c.uses_left = line['uses_left']
-            c.discount_amount = line['discount_amount']
-            if line['expires']: 
-                c.expires = datetime.datetime.strptime(line['expires'], '%Y-%m-%d %H:%M:%S')
-            if line['driver_user_name']:
-                c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
-            c.save()
-
-
         car_map = {}
         reader = csv.DictReader(open('old_data/car.csv', 'rb'))
         for line in reader:     
@@ -115,6 +96,25 @@ class Command(BaseCommand):
             c.save()
 
             club_map[line['name']] = c
+
+        for line in csv.DictReader(open('old_data/coupon.csv')):    
+            """coupon_code","club_name","discount_amount","uses_left","expires",
+            "permanent","driver_user_name","registration_id"""    
+            for k,v in line.iteritems(): 
+                if v == "NULL": 
+                    line[k] = None
+            
+            c = Coupon()
+            c.code = line['coupon_code']
+            c.permanent = bool(line['permanent'])
+            c.club = club_map[line['club_name']]
+            c.uses_left = line['uses_left']
+            c.discount_amount = line['discount_amount']
+            if line['expires']: 
+                c.expires = datetime.datetime.strptime(line['expires'], '%Y-%m-%d %H:%M:%S')
+            if line['driver_user_name']:
+                c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
+            c.save()    
 
         membership_map = {}
         reader = csv.DictReader(open('old_data/membership.csv', 'rb'))

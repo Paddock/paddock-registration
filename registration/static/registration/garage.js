@@ -10,18 +10,18 @@
           last_name:"Gray",
           email:"justin.s.gray@gmail.com"
       },
-      url: 'paddock/api/v1/user/'+USER_ID+"/",
+      url: 'paddock/api/v1/user/'+USER_ID+"/"
   });
   user = new User({id:USER_ID}); user.fetch();
 
   var Car = Backbone.Model.extend({
     defaults:{
-      name:"The Red Sea",  
+      name:"The Red Sea",
       year:"1990",
       make:"Mazda",
       model:"Miata",
-      thumb:"/media/car_thumbs/Bavikati_Maxima_avatar",
-    },
+      thumb:"/media/car_thumbs/Bavikati_Maxima_avatar"
+    }
     //sync: function(method, model, options){
     //  alert('test'); 
     //},
@@ -29,7 +29,7 @@
   
   var Cars = Backbone.Collection.extend({
     model: Car,
-    url: '/paddock/api/v1/car',
+    url: '/paddock/api/v1/car'
   });
   
   var Coupon = Backbone.Model.extend({
@@ -39,11 +39,11 @@
       expiration:"N/A",
       uses:"N/A",
       club:"NORA-ASCC"
-    },
+    }
   });
   
   var Coupons = Backbone.Collection.extend({
-    model: Coupon,  
+    model: Coupon
   });
 
   var Event = Backbone.Model.extend({

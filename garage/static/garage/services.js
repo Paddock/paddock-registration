@@ -29,3 +29,15 @@ mod.factory('Event', function($resource){
       query: {method: 'GET', params:{eventId:''}, isArray:true}
     });
 });
+
+mod.factory('Membership', function($resource){
+    return $resource('/garage/api/v1/membership/:mId', {}, {
+      query: {method: 'GET', params:{mId:''}, isArray:true}
+    });
+});
+
+mod.factory('Coupon', function($resource){
+  return $resource('/garage/api/v1/coupon/:couponId', {}, {
+    query: {method: 'GET', params:{couponId:''}, isArray:true}
+  });
+});

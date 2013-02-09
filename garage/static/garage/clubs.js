@@ -1,13 +1,25 @@
 var app = angular.module('clubs',['ngCookies', 'ui', 'tpResource',
-    'paddock.directives', 'garage.services']);
+    'paddock.directives', 'garage.services', 'ngGrid']);
 
-app.controller('club_admin', function club_admin($scope,$cookies,$http,
-    Profile,Club,Season,Event){
+app.controller('club_admin', function club_admin($scope, $cookies, $http,
+    Profile,Club,Season,Event,Membership,Coupon){
+
     $scope.csrf = $cookies.csrftoken;
+    $scope.selected_members = [];
+    $scope.edit_membership = false;
+    $scope.gridOptions = { data: 'memberships',
+      selectedItems: $scope.selected_members,
+      showColumnMenu: false,
+      columnDefs: [ {field:'num', displayName:'#', width: '50px'},
+          {field:'username', displayName:'User'},
+          {field: 'real_name', displayName: 'Name'}
+      ]
+    };
 
     $scope.profile = Profile.get({userId:USER_ID},function(){
         //console.log($scope.profile);
     });
+
     $scope.club = Club.get({clubId:CLUB_ID},function(){
         //console.log($scope.club);
         $scope.location_map = {};
@@ -25,6 +37,9 @@ app.controller('club_admin', function club_admin($scope,$cookies,$http,
 
         });
 
+        $scope.memberships = $scope.club.memberships;
+
+        $scope.coupons = $scope.club.coupons;
     });
 
     $scope.show_edit_event = false;
@@ -50,40 +65,39 @@ app.controller('club_admin', function club_admin($scope,$cookies,$http,
     $scope.delete_event = function(season,event) {
         if(confirm("You're about to delete "+event.name+". You will lose all the event data, including results!" )){
             
-            Event.delete({'eventId':event.id},function(){
+            Event.delete({'eventId':event.id}, function(){
                 var i = season.events.indexOf(event);
                 season.events.splice(i,1);
             });
-            
         }
     };
 
     $scope.build_event_msg = function(event) {
         $scope.event_msg_target = event;
         $scope.show_event_msg_modal = true;
-    }
+    };
 
     $scope.send_event_msg = function(event) {
         $http({method:'POST',url:'/garage/event/'+event.id+'/email_drivers',
             data:$.param({'subject':$scope.event_msg_subject,
                 'body':$scope.event_msg_body}),
-            headers:{'X-CSRFToken':$scope.csrf},
+            headers:{'X-CSRFToken':$scope.csrf}
         });
         $scope.show_event_msg_modal = false;
-    }
-    
+    };
+
     $scope.edit_event = function(event) {
         $scope.edit_event_target = angular.copy(event);
         $scope.event_modal_title = 'Edit ' + event.name;
         $scope.edit_event_target.date = new Date(event.date);
         $scope.edit_event_target.reg_close = new Date(event.reg_close);
-        $scope.edit_event_location = event.location
+        $scope.edit_event_location = event.location;
         $scope.show_event_modal = true;
     };
 
     $scope.new_event = function(season) {
-        $scope.edit_event_target = {season:season}
-        $scope.event_modal_title = 'New Event'
+        $scope.edit_event_target = {season:season};
+        $scope.event_modal_title = 'New Event';
         $scope.default_reg_close = true;
         $scope.show_event_modal = true;
     };
@@ -102,13 +116,52 @@ app.controller('club_admin', function club_admin($scope,$cookies,$http,
             
             $scope.edit_event_target.reg_close = midnight;
         }
-        var i = $scope.location_map[$scope.edit_event_location]
+        var i = $scope.location_map[$scope.edit_event_location];
         $scope.edit_event_target.location = $scope.club.locations[i].resource_uri;
         $scope.show_event_modal = false;
 
-        //don't need to manually update the data, because angular seems 
+        //don't need to manually update the data, because angular seems
         //to re-load it at the end of the save from the modal
-        Event.save($scope.edit_event_target)
+        Event.save($scope.edit_event_target);
+    };
+
+    $scope.save_club_info = function(){
+        Club.save($scope.club);
+    };
+
+    $scope.new_membership = function(username) {
+        $http.post('/garage/clubs/'+$scope.club.safe_name+'/membership/',
+            data=$.param({'username':username}),
+            config={headers: {'X-CSRFToken':$scope.csrf}}).success(function(membership){
+                var l = $scope.club.memberships.length;
+                var index = -1;
+                for (var i = 0; i < l; i++) {
+                    if ($scope.club.memberships[i].id == membership.id){
+                        index = i;
+                        break;
+                    }
+                }
+                if (index < 0){
+                    $scope.club.memberships.push(membership);
+                }
+                $scope.selected_members.push(membership);
+            });
+    };
+
+    $scope.save_membership = function(membership) {
+        Membership.save(membership);
+    };
+
+    $scope.save_coupon = function(coupon) {
+        console.log("TEST");
+        Coupon.save(coupon);
+    };
+
+    $scope.delete_coupon = function(coupon) {
+        Coupon.delete({'couponId':coupon.id}, function(){
+            var i = $scope.coupons.indexOf(coupon);
+            $scope.coupons.splice(i,1);
+        });
     };
 
 });

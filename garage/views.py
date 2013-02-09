@@ -2,6 +2,7 @@ import json
 import StringIO
 import os
 import zipfile
+import datetime
 
 from PIL import Image 
 
@@ -23,10 +24,12 @@ from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
 
-from registration.models import Club, Event, Car, UserProfile, User
+from registration.models import Club, Event, Car, UserProfile, User, find_user, \
+    Membership
 
 from django.views.decorators.csrf import csrf_exempt
 
+from garage.api import MembershipResource
 from garage.utils import reg_txt, reg_dat
 
 
@@ -102,10 +105,9 @@ def car_avatar(request, car_id):
 
     car = Car.objects.get(pk=car_id)
 
-
     if request.FILES == None:
             msg = "No Files uploaded!"
-            return HttpResponse(content=json.dumps({'msg':msg}), 
+            return HttpResponse(content=json.dumps({'msg': msg}),
                                 mimetype="application/json",
                                 status=415)
 
@@ -114,24 +116,24 @@ def car_avatar(request, car_id):
 
     avatar_img = Image.open(uploaded)
 
-    avatar_img.thumbnail((400,400),Image.ANTIALIAS)
+    avatar_img.thumbnail((400, 400), Image.ANTIALIAS)
     avatar_file = NamedTemporaryFile()
-    avatar_img.save(avatar_file,'JPEG')
+    avatar_img.save(avatar_file, 'JPEG')
     name = '%d_avatar.jpg'%car.pk
     if os.path.exists(name): 
-      os.remove(name)
-    car.avatar.save(name,File(avatar_file))
+        os.remove(name)
+    car.avatar.save(name, File(avatar_file))
     avatar_file.close()
 
     uploaded.seek(0)
     thumb_img = Image.open(uploaded)
-    thumb_img.thumbnail((100,100),Image.ANTIALIAS)
+    thumb_img.thumbnail((100, 100), Image.ANTIALIAS)
     thumb_file = NamedTemporaryFile()
-    thumb_img.save(thumb_file,'JPEG')
+    thumb_img.save(thumb_file, 'JPEG')
     name = '%d_thumb.jpg'%car.pk
     if os.path.exists(name): 
-      os.remove(name)
-    car.thumb.save(name,File(thumb_file))
+        os.remove(name)
+    car.thumb.save(name, File(thumb_file))
     thumb_file.close()
 
     uploaded.close()
@@ -141,4 +143,39 @@ def car_avatar(request, car_id):
     data['avatar'] = car.avatar.url
     data['thumb'] = car.thumb.url
     return HttpResponse(json.dumps(data), mimetype='application/json')
+
+
+@login_required
+def search_users(request, query): 
+    """Query against user database and returns possible matches"""
+
+    results = [{'first_name':u.first_name, 'last_name': u.last_name, 'username': u.username} for u in find_user(query)]
+
+    return HttpResponse(json.dumps(results), mimetype='application/json')
+
+
+@login_required
+@require_http_methods(['POST'])
+def new_membership(request, clubname): 
+    """create a new membership for the given user and club"""
+
+    username = request.POST['username']
+
+    u = User.objects.get(username=username)
+    up = u.get_profile()
+    c = Club.objects.get(safe_name=clubname)
+
+    try: 
+        m = Membership.objects.get(club=c, user_prof=up)
+    except Membership.DoesNotExist: 
+        m = Membership()
+        m.club = c
+        m.user_prof = up
+        m.start = datetime.date.today()
+        m.valid_thru = m.start + datetime.timedelta(days=365.2425)
+        m.save()
+
+    mr = MembershipResource()
+    mr_bundle = mr.build_bundle(obj=m, request=request)
+    return HttpResponse(mr.serialize(None, mr.full_dehydrate(mr_bundle),'application/json'), mimetype='application/json')
 

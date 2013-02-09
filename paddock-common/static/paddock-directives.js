@@ -22,22 +22,24 @@ app.directive('avatarPopover', [function(){
     return {
     restrict: 'E',
     link: function (scope, elm, attrs) {
+        var target = null;
         if (attrs.ngRef){
-            var target = scope.$eval(attrs.ngRef);
+            target = scope.$eval(attrs.ngRef);
         }else {
-            var target = attrs.href;
+            target = attrs.href;
         }
 
+        var title = null;
         if (attrs.ngDataTitle){
-            var title = scope.$eval(attrs.ngDataTitle);
+            title = scope.$eval(attrs.ngDataTitle);
         }else{
-            var title = attrs.dataTitle;
+            title = attrs.dataTitle;
         }
-        elm.html('<i class="icon-picture avatar_pic" data-title="'+title+'"></i>')
+        elm.html('<i class="icon-picture avatar_pic" data-title="'+title+'"></i>');
         elm.popover( {
             trigger: 'hover',
             content: function(){
-                return '<img src="'+target+'">'    
+                return '<img src="'+target+'">';
             },
             html:true
         });
@@ -58,12 +60,12 @@ app.directive('tabs', function() {
             pane.selected = false;
           });
           pane.selected = true;
-        }
+        };
 
         this.addPane = function(pane) {
-          if (panes.length == 0) $scope.select(pane);
+          if (panes.length === 0) $scope.select(pane);
           panes.push(pane);
-        }
+        };
       },
       template:
         '<div class="tabbable">' +
@@ -76,7 +78,7 @@ app.directive('tabs', function() {
         '</div>',
       replace: true
     };
-  })
+  });
   
 app.directive('pane', function() {
     return {
@@ -92,6 +94,33 @@ app.directive('pane', function() {
         '</div>',
       replace: true
     };
-  })
+  });
+
+app.directive('autoUsername', function($http) {
+    var find_uname = /&lt;(\S+)&gt;/;
+    find_uname.compile(find_uname);
+    return function(scope, iElement, iAttrs) {
+        var autocomplete = iElement.typeahead({
+          updater: function(item){ //pull the username out of the results
+            var match = find_uname.exec(item);
+            scope.$apply(iAttrs.ngModel+'="'+match[1]+'"');
+            return match[1];
+          }
+        });
+        scope.$watch(iAttrs.ngModel,function(query){
+          if(!query || query.length < 3) {
+            return ;
+          }
+          $http.get('/garage/search_users/'+query).success(function(data){
+            var values = [];
+            angular.forEach(data,function(user){
+              var entry = sprintf("&lt;%s&gt; %s %s",user.username, user.first_name, user.last_name);
+              values.push(entry);
+            });
+            autocomplete.data('typeahead').source = values;
+          });
+        });
+    };
+});
 
 

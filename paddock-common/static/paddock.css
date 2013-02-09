@@ -5,13 +5,16 @@
   background-color: #f9f9f9;
 }
 
+.thin {
+  margin: 0;
+}
+
 .garage-pane {
     border: 2px solid #D4D4D4;
     border-radius: 4px;
     margin: 15px;
     padding: 0px;
     color: #777;
-    
 }
 
 .garage-pane-header {
@@ -23,7 +26,6 @@
 .garage-pane-header h3{
     margin: 0 0 0 20px;
     color: #777;
-
 }
 
 .garage-pane-body{
@@ -36,6 +38,7 @@
   float: left;
   margin-right: 4px;
 }
+
 .fileinput-button input {
   position: absolute;
   top: 0;
@@ -50,7 +53,7 @@
 }
 
 .tab-content {
-    padding-left: 30px;
+  padding-left: 30px;
 }
 
 .lonely {

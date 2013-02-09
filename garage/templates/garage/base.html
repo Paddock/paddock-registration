@@ -2,10 +2,21 @@
 
 {% block head_css %}
   <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}fullcalendar/fullcalendar.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}garage/angular-ui/angular-ui.min.css">  
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}garage/angular-ui/ng-grid.css">  
+  <style> 
+  .membershipGrid {
+    border: 1px solid rgb(212,212,212);
+    width: 280px; 
+    height: 450px;
+  }
+  .typeahead {
+    z-index:1051;
+  }
+  </style>
 {% endblock head_css %}
 
 {%block foot_js%}
-  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script src="{{ STATIC_URL }}jquery.form.js"></script>
 
   <script src="{{ STATIC_URL }}fullcalendar/fullcalendar.min.js"></script>
@@ -13,8 +24,19 @@
   <script src="{{ STATIC_URL }}angular/tastypie-resource.js"></script>
   <script src="{{ STATIC_URL }}paddock-directives.js"></script>
 
+  <script src="http://fiddle.tinymce.com/tinymce/3.5.4.1/jquery.tinymce.js"></script>
+  <script src="http://fiddle.tinymce.com/tinymce/3.5.4.1/tiny_mce_jquery_src.js"></script>
+  <script src="{{ STATIC_URL }}garage/angular-ui/angular-ui.min.js"></script>
+  <script src="{{ STATIC_URL }}garage/angular-ui/angular-ui-ieshiv.min.js"></script>
+
+  <script src="{{ STATIC_URL }}garage/angular-ui/ng-grid-1.6.3.js"></script>
+  <script src="{{ STATIC_URL }}garage/angular-strap.js"></script>
+
+
   <script src="{{ STATIC_URL }}garage/services.js"></script>
   <script src="{{ STATIC_URL }}garage/{{js_target}}.js"></script>
+
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 
 
