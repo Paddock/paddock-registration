@@ -13,7 +13,6 @@ class TestResult(unittest.TestCase):
         
         self.c = Club()
         self.c.name = "test club"
-        self.c.full_clean()
         self.c.save()
         
         self.season = Season()
@@ -31,24 +30,27 @@ class TestResult(unittest.TestCase):
         self.e.name = "test event"
         self.e.date = datetime.date.today()
         self.e.season = self.season
+        self.e.club = self.c
         self.e.save()
         
         self.sess = Session()
         self.sess.name = "AM"
         self.sess.event = self.e
+        self.sess.club = self.c
         self.sess.save()
-        
         
         self.r = Registration()
         self.r.number = 11
         self.r.race_class = self.race_class
         self.r.pax_class = None
         self.r.event = self.e
+        self.r.club = self.c
         self.r.save()
         
         self.result = Result()
         self.result.reg = self.r
         self.result.session = self.sess
+        self.result.club = self.c
         self.result.save()
         
     def tearDown(self): 
@@ -67,67 +69,68 @@ class TestResult(unittest.TestCase):
         r1 = Run()
         r1.base_time = 10.0
         r1.result = self.result
+        r1.club = self.c
         r1.save()
         
         r2 = Run()
         r2.base_time = 11.0
         r2.result = self.result
+        r2.club = self.c
         r2.save()
         
         r3 = Run()
         r3.base_time = 9.0
         r3.cones = 1
         r3.result = self.result
+        r3.club = self.c
         r3.save()
         
         r4 = Run()
         r4.base_time = 10.0
         r4.result = self.result
         r4.penalty = "DNF"
+        r4.club = self.c
         r4.save()
-        
         
         best_run = self.result.find_best_run()
         
-        self.assertEqual(best_run,r1)
+        self.assertEqual(best_run, r1)
         
     def test_best_run2(self): 
         
         r1 = Run()
         r1.base_time = 10.0
         r1.result = self.result
+        r1.club = self.c
         r1.save()
-        
         
         best_run = self.result.find_best_run() 
         
-        self.assertEqual(best_run,r1)   
-        
+        self.assertEqual(best_run, r1)   
         
     def test_best_run3(self): 
         
         r1 = Run()
         r1.base_time = 10.0
         r1.result = self.result
+        r1.club = self.c
         r1.save()
         
         r2 = Run()
         r2.base_time = 9.0
         r2.result = self.result
+        r2.club = self.c
         r2.save()
         
         r3 = Run()
         r3.base_time = 10.5
         r3.result = self.result
+        r3.club = self.c
         r3.save()
-        
         
         best_run = self.result.find_best_run() 
         
-        self.assertEqual(best_run,r2) 
-        
-        
-        
+        self.assertEqual(best_run, r2) 
         
     def test_best_run_no_clean_runs(self): 
         
@@ -135,15 +138,17 @@ class TestResult(unittest.TestCase):
         r1.base_time = 10.0
         r1.result = self.result
         r1.penalty = "DNF"
+        r1.club = self.c
         r1.save()
         
         r2 = Run()
         r2.base_time = 0.1
         r2.result = self.result
         r2.penalty = "O/C"
+        r2.club = self.c
         r2.save()
         
         best_run = self.result.find_best_run() 
         
-        self.assertEqual(best_run,None)        
+        self.assertEqual(best_run, None)        
     

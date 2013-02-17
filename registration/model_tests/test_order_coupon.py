@@ -140,6 +140,7 @@ class TestOrder(unittest.TestCase):
         self.e.name = "test event"
         self.e.date = datetime.date.today()
         self.e.season = self.season
+        self.e.club = self.c
         self.e.save()        
         
         self.user = User()
@@ -166,6 +167,7 @@ class TestOrder(unittest.TestCase):
         item1.event = self.e
         item1.price = "40.00"
         item1.order = self.o
+        item1.club = self.c
         item1.save()
         
         item2 = Membership()

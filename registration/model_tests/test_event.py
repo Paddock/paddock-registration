@@ -29,11 +29,12 @@ class TestEvent(unittest.TestCase):
         self.e.name = "test event"
         self.e.date = datetime.date.today()
         self.e.season = self.s
+        self.e.club = self.c
         
     def tearDown(self): 
         
         for model in m.get_models(): 
-                    model.objects.all().delete()        
+            model.objects.all().delete()        
         
     def testEventSafeName(self): 
         pass
@@ -63,6 +64,7 @@ class TestEvent(unittest.TestCase):
         r.number = 11
         r.race_class = rc
         r.user_profile = u.get_profile()
+        r.club = self.c
         r.save()
         
         self.assertTrue(self.e.is_regd(u))
@@ -73,16 +75,16 @@ class TestEvent(unittest.TestCase):
             self.e.reg_close = datetime.datetime.today()+datetime.timedelta(days=1)
             self.e.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'Registration must close before the date of the event.']}",str(err))
+            self.assertEqual("{'__all__': [u'Registration must close before the date of the event.']}", str(err))
         else: 
             self.fail("ValidationError expected")     
                 
-        
     def test_event_reg_limit(self): 
         self.e.save()
         self.sess = Session()
         self.sess.name = "AM"
         self.sess.event = self.e
+        self.sess.club = self.c
         self.sess.save()
                 
         self.race_class = RaceClass()
@@ -94,7 +96,7 @@ class TestEvent(unittest.TestCase):
         self.e.reg_limit = 3
         self.e.save()
         
-        for i in range(0,4): 
+        for i in range(0, 4): 
             try: 
                 self.r = Registration()
                 self.r.number = i
@@ -102,16 +104,15 @@ class TestEvent(unittest.TestCase):
                 self.r._anon_f_name = "random_%d"%(i,)
                 self.r.pax_class = None
                 self.r.event = self.e
-                self.r.full_clean()
+                self.r.club = self.c
                 self.r.save()
                 
             except ValidationError as err: #don't error untill the limit is reached  
-                self.assertEqual(i,3)
+                self.assertEqual(i, 3)
             else: 
-                self.assertLess(i,3)
+                self.assertLess(i, 3)
         
-            
-            
+    
 class TestEventPointsCalc(unittest.TestCase): 
     
     def setUp(self): 
@@ -129,29 +130,32 @@ class TestEventPointsCalc(unittest.TestCase):
         self.e.name = "test event"
         self.e.date = datetime.date.today()
         self.e.season = self.season
+        self.e.club = self.c
         self.e.save()
         
         self.sess = Session()
         self.sess.name = "AM"
         self.sess.event = self.e
+        self.sess.club = self.c
         self.sess.save()
         
-        self.classes = ["A","B","C","D","E","F","G","H"]
-        self.paxes   = [1.0,.98,.96,.94,.92,.90,.88,.86]
-        for klass,pax in zip(self.classes,self.paxes): 
+        self.classes = ["A", "B", "C", "D", "E", "F", "G", "H"]
+        self.paxes   = [1.0, .98, .96, .94, .92, .90, .88, .86]
+        for klass, pax in zip(self.classes, self.paxes): 
             self.race_class = RaceClass()
             self.race_class.name = klass
             self.race_class.pax = pax
             self.race_class.club = self.c
             self.race_class.save()
             
-            for i in range(0,10): 
+            for i in range(0, 10): 
                 self.r = Registration()
-                self.r.number = 0
+                self.r.number = i
                 self.r.race_class = self.race_class
-                self.r._anon_f_name = "%s%d"%(self.race_class.name,i)
+                self.r._anon_f_name = "%s%d"%(self.race_class.name, i)
                 self.r.pax_class = None
                 self.r.event = self.e
+                self.r.club = self.c
                 self.r.save()
                 
                 #make two regs with empty runs for each class
@@ -159,17 +163,19 @@ class TestEventPointsCalc(unittest.TestCase):
                     self.result = Result()
                     self.result.reg = self.r
                     self.result.session = self.sess
+                    self.result.club = self.c
                     self.result.save()
-                    for j in range(0,3): 
+                    for j in range(0, 3): 
                         run = Run()
                         run.base_time = 100.0-i-j #91.0 is lowest raw time (*0.88 for index)
                         run.result = self.result
+                        run.club = self.c
                         run.save()        
                             
     def tearDown(self): 
         for model in m.get_models(): 
             model.objects.all().delete()
-            
+
     def test_no_index_classes_one_result(self): 
         
         race_classes = self.e.calc_results()
@@ -192,6 +198,7 @@ class TestEventPointsCalc(unittest.TestCase):
         self.sess = Session()
         self.sess.name = "PM"
         self.sess.event = self.e
+        self.sess.club = self.c
         self.sess.save()
 
         for klass, pax in zip(self.classes, self.paxes): 
@@ -204,11 +211,13 @@ class TestEventPointsCalc(unittest.TestCase):
                     self.result = Result()
                     self.result.reg = self.r
                     self.result.session = self.sess
+                    self.result.club = self.c
                     self.result.save()
                     for j in range(0, 3): 
                         run = Run()
                         run.base_time = 100.0-i-j
                         run.result = self.result
+                        run.club = self.c
                         run.save()   
                 self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name, i)).get()        
                 
@@ -231,36 +240,41 @@ class TestEventPointsCalc(unittest.TestCase):
         
         self.race_class = RaceClass()
         self.race_class.name = "Pro"
+        self.race_class.abrv ="X"
         self.race_class.pax = 1.0
+        self.race_class.pax_class=True
         self.race_class.club = self.c
         self.race_class.save()
 
         for i, pax_name in zip(range(0, 7), self.classes): 
             
-            pax_class = RaceClass.objects.filter(name=pax_name).get()
+            rc = RaceClass.objects.filter(name=pax_name).get()
             
             self.r = Registration()
-            self.r.number = i
-            self.r.race_class = self.race_class
+            self.r.number = 10*(1+i)
+            self.r.race_class = rc
             self.r._anon_f_name = "%s_%d"%(self.race_class.name, i)
-            self.r.pax_class = pax_class
+            self.r.pax_class = self.race_class
             self.r.event = self.e
+            self.r.club = self.c
             self.r.save()
             
-            #make  regs with empty runs for each class
-            if pax_class.name!="H": 
+            #make  regs with runs for each class
+            if rc.name!="H": 
                 self.result = Result()
                 self.result.reg = self.r
                 self.result.session = self.sess
+                self.result.club = self.c
                 self.result.save()
                 for j in range(0, 3): 
                     run = Run()
                     run.base_time = 100.0-i-j
                     run.result = self.result
+                    run.club = self.c
                     run.save()   
                 
         race_classes = self.e.calc_results()
-        self.assertEqual(["A", "B", "C", "D", "E", "F", "G", "Pro"], [rc.name for rc in race_classes])
+        self.assertEqual([u"A", u"B", u"C", u"D", u"E", u"F", u"G", u"Pro"], [rc.name for rc in race_classes])
                 
         #make sure the results come back sorted
         for rc, regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
@@ -287,26 +301,29 @@ class TestEventPointsCalc(unittest.TestCase):
 
         for i, pax_name in zip(range(0, 7), self.classes): 
             
-            pax_class = RaceClass.objects.filter(name=pax_name).get()
+            rc = RaceClass.objects.filter(name=pax_name).get()
             
             self.r = Registration()
-            self.r.number = i
-            self.r.race_class = pax_class
+            self.r.number = 10*(1+i)
+            self.r.race_class = rc
             self.r._anon_f_name = "%s_%d"%(self.race_class.name, i)
             self.r.bump_class = self.race_class
             self.r.event = self.e
+            self.r.club = self.c
             self.r.save()
             
             #make  regs with empty runs for each class
-            if pax_class.name!="H": 
+            if rc.name!="H": 
                 self.result = Result()
                 self.result.reg = self.r
                 self.result.session = self.sess
+                self.result.club = self.c
                 self.result.save()
                 for j in range(0, 3): 
                     run = Run()
                     run.base_time = 100.0-i-j
                     run.result = self.result
+                    run.club = self.c
                     run.save()   
                 
         race_classes = self.e.calc_results()
@@ -346,11 +363,12 @@ class TestEventPointsCalc(unittest.TestCase):
             pax_class = RaceClass.objects.filter(name=pax_name).get()
             
             self.r = Registration()
-            self.r.number = i
+            self.r.number = 10*(1+i)
             self.r.race_class = pax_class
             self.r._anon_f_name = "%s_%d"%(self.race_class2.name, i)
             self.r.bump_class = self.race_class1
             self.r.event = self.e
+            self.r.club = self.c
             self.r.save()
             
             #make  regs with empty runs for each class
@@ -358,19 +376,22 @@ class TestEventPointsCalc(unittest.TestCase):
                 self.result = Result()
                 self.result.reg = self.r
                 self.result.session = self.sess
+                self.result.club = self.c
                 self.result.save()
                 for j in range(0, 3): 
                     run = Run()
                     run.base_time = 100.0-i-j
                     run.result = self.result
+                    run.club = self.c
                     run.save()  
                     
                 self.r = Registration()
-                self.r.number = i
+                self.r.number = 60*(1+i)
                 self.r.race_class = pax_class
                 self.r._anon_f_name = "%s_%d"%(self.race_class2.name, i)
                 self.r.bump_class = self.race_class2
                 self.r.event = self.e
+                self.r.club = self.c
                 self.r.save()
                 
                 #make  regs with empty runs for each class
@@ -378,11 +399,13 @@ class TestEventPointsCalc(unittest.TestCase):
                     self.result = Result()
                     self.result.reg = self.r
                     self.result.session = self.sess
+                    self.result.club = self.c
                     self.result.save()
                     for j in range(0, 3): 
                         run = Run()
                         run.base_time = 100.0-i-j
                         run.result = self.result
+                        run.club = self.c
                         run.save()               
                     
         race_classes = self.e.calc_results()

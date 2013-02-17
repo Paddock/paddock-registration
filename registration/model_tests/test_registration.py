@@ -31,6 +31,7 @@ class TestRegistration(unittest.TestCase):
         self.e.name = "test event"
         self.e.date = datetime.date.today()
         self.e.season = self.season
+        self.e.club = self.c
         self.e.save()
         
         self.user = User()
@@ -56,9 +57,9 @@ class TestRegistration(unittest.TestCase):
         self.r.number = 11
         self.r.race_class = self.race_class
         self.r.pax_class = None
+        self.r.club = self.c
         self.r.event = self.e
         
-
         self.user_profile = UserProfile.objects.get(user=self.user)
         self.user_profile2 = UserProfile.objects.get(user=self.user2)
         
@@ -72,8 +73,8 @@ class TestRegistration(unittest.TestCase):
         
         self.r.calc_times()
         
-        self.assertEqual(self.r.total_raw_time,0)
-        self.assertEqual(self.r.total_index_time,0)
+        self.assertEqual(self.r.total_raw_time, 0)
+        self.assertEqual(self.r.total_index_time, 0)
         
     def test_calc_times(self): 
         self.r.save()        
@@ -81,34 +82,38 @@ class TestRegistration(unittest.TestCase):
         sess = Session()
         sess.name = "AM"
         sess.event = self.e
+        sess.club = self.c
         sess.save()        
         
         res = Result()
         res.reg = self.r
         res.session = sess
+        res.club = self.c
         res.save()
         
         r = Run()
         r.base_time = 10.0
         r.result = res
+        r.club = self.c
         r.save()
         
         res = Result()
         res.reg = self.r
         res.session = sess
+        res.club = self.c
         res.save()
         
         r = Run()
         r.base_time = 10.0
         r.result = res
+        r.club = self.c
         r.save()
         
         self.r.save()
         self.r.calc_times()
         
-        self.assertEqual(self.r.total_raw_time,20.0)
-        self.assertEqual(self.r.total_index_time,self.r.total_raw_time*self.race_class.pax)
-        
+        self.assertEqual(self.r.total_raw_time, 20.0)
+        self.assertEqual(self.r.total_index_time, self.r.total_raw_time*self.race_class.pax)
         
     def testAnon(self): 
         
@@ -118,9 +123,9 @@ class TestRegistration(unittest.TestCase):
         
         self.r.save()
         
-        self.assertEqual("Justin",self.r.first_name)
-        self.assertEqual("Gray",self.r.last_name)
-        self.assertEqual("1990 Mazda Miata",self.r.car_name)
+        self.assertEqual("Justin", self.r.first_name)
+        self.assertEqual("Gray", self.r.last_name)
+        self.assertEqual("1990 Mazda Miata", self.r.car_name)
         
     def testWithCar(self): 
         
@@ -128,9 +133,9 @@ class TestRegistration(unittest.TestCase):
         self.r.user_profile = self.user_profile
         self.r.save()
         
-        self.assertEqual("Justin",self.r.first_name)
-        self.assertEqual("Gray",self.r.last_name)
-        self.assertEqual("1990 Mazda Miata",self.r.car_name)
+        self.assertEqual("Justin", self.r.first_name)
+        self.assertEqual("Gray", self.r.last_name)
+        self.assertEqual("1990 Mazda Miata", self.r.car_name)
         
     def testAllowedNumberRaceClass(self): 
         
@@ -142,12 +147,13 @@ class TestRegistration(unittest.TestCase):
         self.r2.number = 11
         self.r2.race_class = self.race_class
         self.r2.pax_class = None
+        self.r2.club = self.c
         self.r2.event = self.e
         
         try: 
             self.r2.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'11 CSP is already taken, pick another number.']}",str(err))
+            self.assertEqual("{'__all__': [u'11 CSP is already taken, pick another number.']}", str(err))
         else: 
             self.fail("ValidationError expected")
             
@@ -162,15 +168,15 @@ class TestRegistration(unittest.TestCase):
         try: 
             self.r.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'12 CSP is already taken, pick another number.']}",str(err))
+            self.assertEqual("{'__all__': [u'12 CSP is already taken, pick another number.']}", str(err))
         else: 
             self.fail("ValidationError expected")        
         
-            
         self.e2 = Event()
         self.e2.name = "test event 2"
         self.e2.date = datetime.date.today()  
         self.e2.season = self.season
+        self.e2.club = self.c
         self.e2.save()        
         
         self.r3 = Registration()
@@ -178,6 +184,7 @@ class TestRegistration(unittest.TestCase):
         self.r3.race_class = self.race_class
         self.r3.pax_class = None
         self.r3.event = self.e2
+        self.r3.club = self.c
         self.r3.save()
         
         self.e.child_events.add(self.e2)
@@ -188,7 +195,7 @@ class TestRegistration(unittest.TestCase):
         try: 
             self.r2.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'77 CSP is already taken, pick another number.']}",str(err))
+            self.assertEqual("{'__all__': [u'77 CSP is already taken, pick another number.']}", str(err))
         else: 
             self.fail("ValidationError expected")
         
@@ -197,6 +204,7 @@ class TestRegistration(unittest.TestCase):
         self.e2.name = "test event 2"
         self.e2.date = datetime.date.today() 
         self.e2.season = self.season
+        self.e2.club = self.c
         self.e2.save()            
         
         self.race_class.user_reg_limit = 1
@@ -212,16 +220,16 @@ class TestRegistration(unittest.TestCase):
         self.r2.race_class = self.race_class
         self.r2.pax_class = None
         self.r2.event = self.e2     
+        self.r2.club = self.c
         self.r2.user_profile = self.user_profile
                 
         try: 
             self.r2.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'You have reached the registration limit for CSP.']}",str(err))
+            self.assertEqual("{'__all__': [u'You have reached the registration limit for CSP.']}", str(err))
         else: 
             self.fail("ValidationError expected")
               
-            
     def testEventRegLimit(self):           
         self.race_class.event_reg_limit = 1
         self.race_class.save()
@@ -235,13 +243,14 @@ class TestRegistration(unittest.TestCase):
         self.r2.number = 21
         self.r2.race_class = self.race_class
         self.r2.pax_class = None
+        self.r2.club = self.c
         self.r2.event = self.e    
         
         try: 
             self.r2.full_clean()
         except ValidationError as err: 
             self.assertEqual("{'__all__': [u'Only 1 registrations for CSP are "
-                             "allowed for an event. The class is full']}",str(err))
+                             "allowed for an event. The class is full']}", str(err))
         else: 
             self.fail("ValidationError expected") 
         
@@ -258,7 +267,7 @@ class TestRegistration(unittest.TestCase):
         try: 
             self.r2.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'__all__': [u'You have already registered to run as 11 CSP']}",str(err))
+            self.assertEqual("{'__all__': [u'You have already registered to run as 11 CSP']}", str(err))
         else: 
             self.fail("ValidationError expected")         
             
@@ -286,14 +295,15 @@ class TestRegistration(unittest.TestCase):
         self.r.bump_class = bump_class
         self.r.save()
         
-        self.assertEqual(self.r.race_class,self.race_class)
-        self.assertEqual(self.r.bump_class,bump_class)
+        self.assertEqual(self.r.race_class, self.race_class)
+        self.assertEqual(self.r.bump_class, bump_class)
         
     def testMakeAssocRegs(self): 
         e2 = Event()
         e2.name = "test event 2"
         e2.date = datetime.date.today() 
         e2.season = self.season
+        e2.club = self.c
         e2.save()           
         
         self.e.child_events.add(e2)
@@ -301,14 +311,14 @@ class TestRegistration(unittest.TestCase):
        
         self.r.make_assoc_regs()
         regs = Registration.objects.filter(event=e2).all()
-        self.assertEqual(len(regs),1)       
+        self.assertEqual(len(regs), 1)       
        
-   
     def testUpdateAssocRegs(self): 
         e2 = Event()
         e2.name = "test event 2"
         e2.date = datetime.date.today() 
         e2.season = self.season
+        e2.club = self.c
         e2.save()           
         
         self.e.child_events.add(e2)
@@ -321,5 +331,5 @@ class TestRegistration(unittest.TestCase):
         self.r.update_assoc_regs()
         
         reg = Registration.objects.filter(event=e2).get()
-        self.assertEqual(reg.number,self.r.number)
+        self.assertEqual(reg.number, self.r.number)
        

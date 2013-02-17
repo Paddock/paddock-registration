@@ -417,7 +417,7 @@ class RaceClass(m.Model):
     club = m.ForeignKey('Club', related_name='race_classes')
 
     def __unicode__(self): 
-        return u"%s %1.3f"%(self.abrv, self.pax)
+        return u"Class: %s, index: %1.3f"%(self.abrv, self.pax)
     
     def __cmp__(self, other): 
         if other: 
@@ -541,7 +541,8 @@ class Event(m.Model):
     count_points = m.BooleanField("Include this event in season point totals", default=True)
     multiplier = m.IntegerField("Multiplier on the total number of points an event is worth", default=1)
 
-    season = m.ForeignKey('Season', related_name="events")    
+    season = m.ForeignKey('Season', related_name="events") 
+    club = m.ForeignKey('Club', related_name="+")   
 
     #TODO: modify on_delete to set to club default location
     location = m.ForeignKey('Location', blank=True, null=True, on_delete=m.SET_NULL)
@@ -616,6 +617,8 @@ class Event(m.Model):
             #these get on the list sorted, because the whole list is sorted
             if reg.bump_class: 
                 key = reg.bump_class
+            elif reg.pax_class: 
+                key = reg.pax_class
             else: 
                 key = reg.race_class
             race_classes.setdefault(key, []).append(reg) 
@@ -673,6 +676,7 @@ class Registration(Purchasable):
     index_points = m.IntegerField(blank=True, null=True, editable=False)
 
     event = m.ForeignKey("Event", related_name="regs")
+    club = m.ForeignKey("Club", related_name="+")
 
     user_profile = m.ForeignKey('UserProfile', related_name="regs", blank=True, null=True)
     
@@ -750,12 +754,12 @@ class Registration(Purchasable):
                 reg.pax_class = self.pax_class
                 reg.user_profile = self.user_profile
                 reg.event = event
+                reg.club = self.club
                 reg.save()
         except Event.DoesNotExist: 
             return 
 
     def update_assoc_regs(self): 
-
         other_regs = Registration.objects.filter(user_profile=self.user_profile)
         for reg in other_regs: 
             reg.number = self.number
@@ -797,11 +801,16 @@ class Registration(Purchasable):
             reg = check_regs[0]
             raise ValidationError('You have already registered to run as %d %s'%(reg.number, reg.race_class.abrv))
 
+    def save(self): 
+        self.full_clean()
+        super(Registration, self).save()        
+
 
 class Session(m.Model): 
     name = m.CharField(max_length=30)
     event = m.ForeignKey("Event", related_name="sessions")
     course = m.OneToOneField("Course", blank=True, null=True)
+    club = m.ForeignKey("Club", related_name="+")
 
     def __unicode__(self): 
         return self.name
@@ -812,6 +821,7 @@ class Result(m.Model):
     reg = m.ForeignKey("Registration", related_name="results")
 
     session = m.ForeignKey("Session", related_name="results") 
+    club = m.ForeignKey("Club", related_name="+")
 
     def __unicode__(self): 
         return "Result id: %d"%self.pk
@@ -837,6 +847,7 @@ class Run(m.Model):
     penalty = m.CharField(default=None, max_length=10, blank=True, null=True)
 
     result = m.ForeignKey("Result", related_name="runs")
+    club = m.ForeignKey("Club", related_name="+")
 
     def _set_times(self):
         self.calc_time = self.base_time+2.0*self.cones
@@ -881,6 +892,7 @@ class Course(m.Model):
     img_loc = m.ImageField('Course Drawing', upload_to=upload_course_to)
 
     event = m.ForeignKey('Event', related_name="courses")
+    club = m.ForeignKey("Club", related_name="+")
 
     def __unicode__(self): 
         return self.safe_name

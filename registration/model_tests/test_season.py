@@ -24,6 +24,7 @@ class TestSeasonBasic(django.test.TestCase):
         e = Event()
         e.name = "points event 0"
         e.date = datetime.date.today()-datetime.timedelta(days=10)
+        e.club = self.c
         
         self.s.events.add(e)    
         
@@ -32,6 +33,7 @@ class TestSeasonBasic(django.test.TestCase):
         e = Event()
         e.name = "points event 1"
         e.date = datetime.date.today()+datetime.timedelta(days=10)
+        e.club = self.c
         
         self.s.events.add(e)
         

@@ -116,14 +116,13 @@ class Command(BaseCommand):
                 c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
             c.save()    
 
-        membership_map = {}
         reader = csv.DictReader(open('old_data/membership.csv', 'rb'))
         for line in reader: 
             """"id","club_name","number","start_date","valid_thru_date",
             "price","paid","token","payer_id","transaction_id","anon_f_name",
             "anon_l_name","driver_user_name"""
             
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None 
 
@@ -201,8 +200,8 @@ class Command(BaseCommand):
             e.member_price = float(line['member_cost'])
             e.non_member_price = float(line['non_member_cost'])
             e.non_pre_pay_penalty = float(line['pay_at_event_cost'])
-            #e.club = Club.objects.get(name=line['club_name'])
             e.season = season_map[line['season_id']]
+            e.club = e.season.club
             e.count_points = int(line['count_points'])
             e.multiplier = int(line['multiplier'])
             
@@ -216,7 +215,7 @@ class Command(BaseCommand):
         race_class_map = {}
         for line in csv.DictReader(open('old_data/raceclass.csv')):
             """id","pax","name","club_name"""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
             
@@ -226,7 +225,6 @@ class Command(BaseCommand):
             r.abrv = line['name']
             r.pax = float(line['pax'])
             r.club = club
-            
             r.save()
             
             race_class_map[line['id']] = r
@@ -243,7 +241,7 @@ class Command(BaseCommand):
         for line in csv.DictReader(open('old_data/regtype.csv')):
             """id","name","class_letters","reg_limit","index",
             "description","club_name"""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
             club = Club.objects.get(name=line['club_name']) 
@@ -252,16 +250,15 @@ class Command(BaseCommand):
             r.description = line['description']
             r.name = line['name']
             r.abrv = line['class_letters']
-            if line['reg_limit']: r.user_reg_limit = line['reg_limit']
+            if line['reg_limit']: 
+                r.user_reg_limit=line['reg_limit']
             r.pax = 1.0
             r.club = club
-            
             r.save()
             
             reg_type_map[line['id']] = r
         
         registration_map = {}  
-        count = 0
         for line in csv.DictReader(open('old_data/registration.csv')): 
             
             """id","number","paid","token","payer_id","transaction_id",
@@ -269,7 +266,7 @@ class Command(BaseCommand):
             "anon_l_name","anon_car","driver_user_name","event_id","reg_type_id",
             "car_id","race_class_id"""
             
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
                 
@@ -297,19 +294,26 @@ class Command(BaseCommand):
                 r.price = 0.00
             r.index_points = int(line['index_points'])
             r.class_points = int(line['class_points'])
-            if line['anon_car']: r._anon_car = line['anon_car'].strip()
-            if line['anon_l_name']: r._anon_l_name = line['anon_l_name'].strip()
-            if line['anon_f_name']: r._anon_f_name = line['anon_f_name'].strip()
+            if line['anon_car']: 
+                r._anon_car=line['anon_car'].strip()
+            if line['anon_l_name']: 
+                r._anon_l_name=line['anon_l_name'].strip()
+            if line['anon_f_name']: 
+                r._anon_f_name=line['anon_f_name'].strip()
             r.race_class = rc
             r.event = event_map[line['event_id']]
+            r.club = r.event.club
             try: 
-                if line['reg_type_id']: r.pax_class = reg_type_map[line['reg_type_id']]
+                if line['reg_type_id']: 
+                    r.pax_class=reg_type_map[line['reg_type_id']]
             except: 
                 pass
             
-            if line['index_flag']: r.bump_class = index_class
+            if line['index_flag']: 
+                r.bump_class=index_class
             try: 
-                if line['car_id']: r.car = car_map[line['car_id']]
+                if line['car_id']:
+                    r.car=car_map[line['car_id']]
             except: 
                 pass
             #TODO race_class_id
@@ -322,8 +326,8 @@ class Command(BaseCommand):
                 
         session_map = {}
         for line in csv.DictReader(open('old_data/session.csv')):
-            "id","name","event_id","course_id"
-            for k,v in line.iteritems(): 
+            """id", "name", "event_id", "course_id"""
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None             
             
@@ -335,14 +339,15 @@ class Command(BaseCommand):
             s = Session()
             s.name = line['name']
             s.event = event_map[line['event_id']]
+            s.club = s.event.club
             s.save()
             
             session_map[line['id']] = s
             
         result_map = {}    
         for line in csv.DictReader(open('old_data/result.csv')):        
-            "id","registration_id","event_id","sess_id"
-            for k,v in line.iteritems(): 
+            """id","registration_id","event_id","sess_id"""
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None                        
     
@@ -355,6 +360,7 @@ class Command(BaseCommand):
             r = Result()
             r.reg = registration_map[line['registration_id']]
             r.session = session_map[line['sess_id']]
+            r.club = r.session.club
             r.save()
             
             result_map[line['id']] = r
@@ -362,7 +368,7 @@ class Command(BaseCommand):
         for line in csv.DictReader(open('old_data/run.csv')):
             """id","base_time","calc_time","index_time","cones",
             "penalty","result_id","result_2_id"""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None
                     
@@ -372,8 +378,10 @@ class Command(BaseCommand):
                 r = Run()
                 r.base_time = float(line['base_time'])
                 r.cones = int(line['cones'])
-                if line['penalty']: r.penalty = line['penalty']
+                if line['penalty']:
+                    r.penalty = line['penalty']
                 r.result = result_map[line['result_id']]
+                r.club = r.result.club
                 r.save()
                 
             except KeyError: 
