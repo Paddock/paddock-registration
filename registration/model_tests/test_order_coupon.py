@@ -4,8 +4,9 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 from django.db import models as m
 
-from registration.models import Registration, User, UserProfile, Club,\
+from registration.models import Registration, User, Club, \
      Coupon, Order, Membership, Season, Event, RaceClass
+
 
 class TestCoupon(unittest.TestCase):   
     
@@ -14,24 +15,35 @@ class TestCoupon(unittest.TestCase):
             model.objects.all().delete()
             
     def test_validcode(self): 
-        self.c = Coupon()
-        self.c.code = "test code"
+        c = Coupon()
+        c.code = "test code"
+
+        club = Club()
+        club.name = "test-test"
+        club.save()
+        c.club = club
         
         try: 
-            self.c.full_clean()
+            c.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'code': [u'Spaces not allowed in the code']}",str(err))
+            self.assertEqual("{'code': [u'Spaces not allowed in the code']}", str(err))
         else: 
             self.fail("ValidationError expected")
                
     def test_expires(self):  
-        self.c = Coupon()
-        self.c.expires = datetime.date.today()
-        self.c.code = "testcode"
+        c = Coupon()
+        c.expires = datetime.date.today()
+        c.code = "testcode"
+
+        club = Club()
+        club.name = "test-test"
+        club.save()
+        c.club = club
+
         try: 
-            self.c.full_clean()
+            c.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'expires': [u'Date must be at least one day from now']}",str(err))
+            self.assertEqual("{'expires': [u'Date must be at least one day from now']}", str(err))
         else: 
             self.fail("ValidationError expected")            
     
@@ -61,12 +73,16 @@ class TestCoupon(unittest.TestCase):
         user2.username = "tito"
         user2.save()
 
-               
+        club = Club()
+        club.name ="test-test"
+        club.save()
+ 
         c = Coupon()
         c.discount_amount = "10.00"
         c.permanent = True
         c.code = "aaa"
         c.expires = datetime.date.today() + datetime.timedelta(days=1)
+        c.club = club
         c.save()
         
         o = Order()
@@ -96,6 +112,7 @@ class TestCoupon(unittest.TestCase):
         c.single_use_per_user = True
         self.assertFalse(c.is_valid(user))
         
+
 class TestOrder(unittest.TestCase): 
     
     def tearDown(self): 
@@ -137,8 +154,6 @@ class TestOrder(unittest.TestCase):
         self.user2.username = "tito"
         self.user2.save()
     
-    
-
     def test_total_price(self): 
         self.o = Order()
         self.o.user_prof = self.user.get_profile()
@@ -164,30 +179,20 @@ class TestOrder(unittest.TestCase):
         item2.save()
         
         self.o.calc_total_price()
-        self.assertEqual(self.o.total_price,"100.00")
+        self.assertEqual(self.o.total_price, "100.00")
+
+        club = Club()
+        club.name ="test-test"
+        club.save()
         
         c = Coupon()
         c.discount_amount = "10.00"
         c.permanent = True
         c.code = "aaa"
         c.expires = datetime.date.today() + datetime.timedelta(days=1)
+        c.club = club
         c.save()
         
         self.o.coupon = c
         self.o.calc_total_price()
-        self.assertEqual(self.o.total_price,'90.00')        
-    
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        self.assertEqual(self.o.total_price, '90.00')        

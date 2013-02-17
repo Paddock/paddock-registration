@@ -18,6 +18,7 @@ class TestEvent(unittest.TestCase):
     def setUp(self): 
         self.c = Club()
         self.c.name = "test"
+        self.c.save()
         
         self.s = Season()
         self.s.year = 2011
@@ -165,8 +166,6 @@ class TestEventPointsCalc(unittest.TestCase):
                         run.result = self.result
                         run.save()        
                             
-                       
-    
     def tearDown(self): 
         for model in m.get_models(): 
             model.objects.all().delete()
@@ -174,19 +173,19 @@ class TestEventPointsCalc(unittest.TestCase):
     def test_no_index_classes_one_result(self): 
         
         race_classes = self.e.calc_results()
-        self.assertEqual(["A","B","C","D","E","F","G"],[rc.name for rc in race_classes])
+        self.assertEqual(["A", "B", "C", "D", "E", "F", "G"], [rc.name for rc in race_classes])
                 
         #make sure the results come back sorted
-        for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
-            self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
+        for rc, regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
+            self.assertEqual(regs, sorted(regs, key=lambda x: x.total_index_time))
 
-            self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
+            self.assertEqual(class_point_ladder[:8], [reg.class_points for reg in regs])
             
             self.assertEqual(8, len(regs))
             
         regs = self.e.get_results()
-        self.assertEqual(regs[0].total_index_time,(91.0)*.88)
-        self.assertEqual(index_point_ladder[:56],[reg.index_points for reg in regs])
+        self.assertEqual(regs[0].total_index_time, (91.0)*.88)
+        self.assertEqual(index_point_ladder[:56], [reg.index_points for reg in regs])
         
     def test_no_index_classes_two_result(self): 
         
@@ -195,10 +194,10 @@ class TestEventPointsCalc(unittest.TestCase):
         self.sess.event = self.e
         self.sess.save()
 
-        for klass,pax in zip(self.classes,self.paxes): 
+        for klass, pax in zip(self.classes, self.paxes): 
             self.race_class = RaceClass.objects.filter(name=klass).get()            
-            for i in range(0,10): 
-                self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name,i)).get()
+            for i in range(0, 10): 
+                self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name, i)).get()
                 
                 #make  regs with empty runs for each class
                 if self.race_class.name!="H" and i < 8: #one race class with no results
@@ -206,29 +205,27 @@ class TestEventPointsCalc(unittest.TestCase):
                     self.result.reg = self.r
                     self.result.session = self.sess
                     self.result.save()
-                    for j in range(0,3): 
+                    for j in range(0, 3): 
                         run = Run()
                         run.base_time = 100.0-i-j
                         run.result = self.result
                         run.save()   
-                self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name,i)).get()        
+                self.r = Registration.objects.filter(_anon_f_name="%s%d"%(self.race_class.name, i)).get()        
                 
         race_classes = self.e.calc_results()
-        self.assertEqual(["A","B","C","D","E","F","G"],[rc.name for rc in race_classes])
+        self.assertEqual(["A", "B", "C", "D", "E", "F", "G"], [rc.name for rc in race_classes])
                 
         #make sure the results come back sorted
-        for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
-            self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
+        for rc, regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
+            self.assertEqual(regs, sorted(regs, key=lambda x: x.total_index_time))
 
-            self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
+            self.assertEqual(class_point_ladder[:8], [reg.class_points for reg in regs])
             
             self.assertEqual(8, len(regs))
             
         regs = self.e.get_results()
-        self.assertEqual(regs[0].total_index_time,2*(91.0)*.88)
-        self.assertEqual(index_point_ladder[:56],[reg.index_points for reg in regs])
-        
-        
+        self.assertEqual(regs[0].total_index_time, 2*(91.0)*.88)
+        self.assertEqual(index_point_ladder[:56], [reg.index_points for reg in regs])
         
     def test_pax_class_one_result(self): 
         
@@ -238,14 +235,14 @@ class TestEventPointsCalc(unittest.TestCase):
         self.race_class.club = self.c
         self.race_class.save()
 
-        for i,pax_name in zip(range(0,7),self.classes): 
+        for i, pax_name in zip(range(0, 7), self.classes): 
             
             pax_class = RaceClass.objects.filter(name=pax_name).get()
             
             self.r = Registration()
             self.r.number = i
             self.r.race_class = self.race_class
-            self.r._anon_f_name = "%s_%d"%(self.race_class.name,i)
+            self.r._anon_f_name = "%s_%d"%(self.race_class.name, i)
             self.r.pax_class = pax_class
             self.r.event = self.e
             self.r.save()
@@ -256,32 +253,29 @@ class TestEventPointsCalc(unittest.TestCase):
                 self.result.reg = self.r
                 self.result.session = self.sess
                 self.result.save()
-                for j in range(0,3): 
+                for j in range(0, 3): 
                     run = Run()
                     run.base_time = 100.0-i-j
                     run.result = self.result
                     run.save()   
                 
         race_classes = self.e.calc_results()
-        self.assertEqual(["A","B","C","D","E","F","G","Pro"],[rc.name for rc in race_classes])
+        self.assertEqual(["A", "B", "C", "D", "E", "F", "G", "Pro"], [rc.name for rc in race_classes])
                 
         #make sure the results come back sorted
-        for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
-            self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
+        for rc, regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
+            self.assertEqual(regs, sorted(regs, key=lambda x: x.total_index_time))
 
-            
             if rc.name != "Pro": 
-                self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
+                self.assertEqual(class_point_ladder[:8], [reg.class_points for reg in regs])
                 self.assertEqual(8, len(regs))
             else: 
-                self.assertEqual(class_point_ladder[:7],[reg.class_points for reg in regs])
+                self.assertEqual(class_point_ladder[:7], [reg.class_points for reg in regs])
                 self.assertEqual(7, len(regs))
                 
-            
         regs = self.e.get_results()
-        self.assertEqual(regs[0].total_index_time,(91.0)*.88)
-        self.assertEqual(index_point_ladder[:63],[reg.index_points for reg in regs])  
-        
+        self.assertEqual(regs[0].total_index_time, (91.0)*.88)
+        self.assertEqual(index_point_ladder[:63], [reg.index_points for reg in regs])  
         
     def test_one_bump_class_one_result(self): 
         
@@ -291,14 +285,14 @@ class TestEventPointsCalc(unittest.TestCase):
         self.race_class.club = self.c
         self.race_class.save()
 
-        for i,pax_name in zip(range(0,7),self.classes): 
+        for i, pax_name in zip(range(0, 7), self.classes): 
             
             pax_class = RaceClass.objects.filter(name=pax_name).get()
             
             self.r = Registration()
             self.r.number = i
             self.r.race_class = pax_class
-            self.r._anon_f_name = "%s_%d"%(self.race_class.name,i)
+            self.r._anon_f_name = "%s_%d"%(self.race_class.name, i)
             self.r.bump_class = self.race_class
             self.r.event = self.e
             self.r.save()
@@ -309,32 +303,29 @@ class TestEventPointsCalc(unittest.TestCase):
                 self.result.reg = self.r
                 self.result.session = self.sess
                 self.result.save()
-                for j in range(0,3): 
+                for j in range(0, 3): 
                     run = Run()
                     run.base_time = 100.0-i-j
                     run.result = self.result
                     run.save()   
                 
         race_classes = self.e.calc_results()
-        self.assertEqual(["A","B","C","D","E","F","G","index"],[rc.name for rc in race_classes])
+        self.assertEqual(["A", "B", "C", "D", "E", "F", "G", "index"], [rc.name for rc in race_classes])
                 
         #make sure the results come back sorted
-        for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
-            self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
+        for rc, regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
+            self.assertEqual(regs, sorted(regs, key=lambda x: x.total_index_time))
 
-            
             if rc.name != "index": 
-                self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
+                self.assertEqual(class_point_ladder[:8], [reg.class_points for reg in regs])
                 self.assertEqual(8, len(regs))
             else: 
-                self.assertEqual(class_point_ladder[:7],[reg.class_points for reg in regs])
+                self.assertEqual(class_point_ladder[:7], [reg.class_points for reg in regs])
                 self.assertEqual(7, len(regs))
-                
             
         regs = self.e.get_results()
-        self.assertEqual(regs[0].total_index_time,(91.0)*.88)
-        self.assertEqual(index_point_ladder[:63],[reg.index_points for reg in regs])  
-        
+        self.assertEqual(regs[0].total_index_time, (91.0)*.88)
+        self.assertEqual(index_point_ladder[:63], [reg.index_points for reg in regs])  
         
     def test_two_bump_class_one_result(self): 
         
@@ -350,14 +341,14 @@ class TestEventPointsCalc(unittest.TestCase):
         self.race_class2.club = self.c
         self.race_class2.save()
 
-        for i,pax_name in zip(range(0,7),self.classes): 
+        for i, pax_name in zip(range(0, 7), self.classes): 
             
             pax_class = RaceClass.objects.filter(name=pax_name).get()
             
             self.r = Registration()
             self.r.number = i
             self.r.race_class = pax_class
-            self.r._anon_f_name = "%s_%d"%(self.race_class2.name,i)
+            self.r._anon_f_name = "%s_%d"%(self.race_class2.name, i)
             self.r.bump_class = self.race_class1
             self.r.event = self.e
             self.r.save()
@@ -368,7 +359,7 @@ class TestEventPointsCalc(unittest.TestCase):
                 self.result.reg = self.r
                 self.result.session = self.sess
                 self.result.save()
-                for j in range(0,3): 
+                for j in range(0, 3): 
                     run = Run()
                     run.base_time = 100.0-i-j
                     run.result = self.result
@@ -377,7 +368,7 @@ class TestEventPointsCalc(unittest.TestCase):
                 self.r = Registration()
                 self.r.number = i
                 self.r.race_class = pax_class
-                self.r._anon_f_name = "%s_%d"%(self.race_class2.name,i)
+                self.r._anon_f_name = "%s_%d"%(self.race_class2.name, i)
                 self.r.bump_class = self.race_class2
                 self.r.event = self.e
                 self.r.save()
@@ -388,39 +379,28 @@ class TestEventPointsCalc(unittest.TestCase):
                     self.result.reg = self.r
                     self.result.session = self.sess
                     self.result.save()
-                    for j in range(0,3): 
+                    for j in range(0, 3): 
                         run = Run()
                         run.base_time = 100.0-i-j
                         run.result = self.result
                         run.save()               
                     
-                    
-                
         race_classes = self.e.calc_results()
-        self.assertEqual(set(["A","B","C","D","E","F","G","index1","index2"]),set([rc.name for rc in race_classes]))
+        self.assertEqual(set(["A", "B", "C", "D", "E", "F", "G", "index1", "index2"]), set([rc.name for rc in race_classes]))
                 
         #make sure the results come back sorted
-        for rc,regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
-            self.assertEqual(regs, sorted(regs,key=lambda x: x.total_index_time))
+        for rc, regs in race_classes.iteritems(): #all race_classes should have 8 regs in the results    
+            self.assertEqual(regs, sorted(regs, key=lambda x: x.total_index_time))
 
-            
             if "index" not in rc.name: 
-                self.assertEqual(class_point_ladder[:8],[reg.class_points for reg in regs])
+                self.assertEqual(class_point_ladder[:8], [reg.class_points for reg in regs])
                 self.assertEqual(8, len(regs))
             else: 
-                self.assertEqual(class_point_ladder[:7],[reg.class_points for reg in regs])
+                self.assertEqual(class_point_ladder[:7], [reg.class_points for reg in regs])
                 self.assertEqual(7, len(regs))
                 
-            
         regs = self.e.get_results()
-        self.assertEqual(regs[0].total_index_time,(91.0)*.88)
-        self.assertEqual(index_point_ladder[:70],[reg.index_points for reg in regs])      
-        
-        
-            
-            
-            
-        
-      
+        self.assertEqual(regs[0].total_index_time, (91.0)*.88)
+        self.assertEqual(index_point_ladder[:70], [reg.index_points for reg in regs])      
         
         

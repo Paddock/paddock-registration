@@ -41,3 +41,9 @@ mod.factory('Coupon', function($resource){
     query: {method: 'GET', params:{couponId:''}, isArray:true}
   });
 });
+
+mod.factory('RaceClass', function($resource){
+  return $resource('/garage/api/v1/raceclass/:rcId', {}, {
+    query: {method: 'GET', params:{rcId:''}, isArray:true}
+  });
+});

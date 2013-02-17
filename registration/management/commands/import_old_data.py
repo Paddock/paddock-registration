@@ -150,7 +150,7 @@ class Command(BaseCommand):
         location_map = {}    
         for line in csv.DictReader(open("old_data/location.csv")):    
                 """id","name","address","lat","lng","club_name"""
-                for k,v in line.iteritems(): 
+                for k, v in line.iteritems(): 
                     if v == "NULL": 
                         line[k] = None                
                 club = Club.objects.get(name=line['club_name'])        
@@ -166,12 +166,11 @@ class Command(BaseCommand):
                 
                 location_map[line['id']] = l
                     
-            
         season_map = {}    
         for line in csv.DictReader(open('old_data/season.csv')): 
             s = Season()
             """"id","year","active","club_name","drop_lowest_events"""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
             club = Club.objects.get(name=line['club_name'])
@@ -179,21 +178,18 @@ class Command(BaseCommand):
             s.year = int(line['year'])
             s.drop_lowest_events = int(line['drop_lowest_events'])
             s.save()
-
-            if bool(int(line['active'])): 
-                club.active_season = s
             
             club.save()
             
             season_map[line['id']] = s
 
         event_map = {}
-        for line in csv.DictReader(open('old_data/event.csv','rU')):
+        for line in csv.DictReader(open('old_data/event.csv', 'rU')):
             
             """id","name","note","date","registration_close","member_cost",
             "non_member_cost","pay_at_event_cost","location_id","club_name",
             "season_id","multiplier","count_points"""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
             

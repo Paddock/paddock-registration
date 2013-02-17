@@ -68,23 +68,38 @@ v1_api.register(CarResource())
 class ClubResource(ModelResource):
 
     name = fields.CharField(attribute='name')
-    #active_season = fields.ToOneField('garage.api.SeasonResource', 'active_season', 
-    #    'club', full=True, blank=True, null=True)
     seasons = fields.ToManyField('garage.api.SeasonResource', 'seasons', 'club', 
         full=True, readonly=True)
     locations = fields.ToManyField('garage.api.LocationResource', 'locations',
-        'club', full=True , blank=True, null=True, readonly=True)
+        'club', full=True, blank=True, null=True, readonly=True)
     memberships = fields.ToManyField('garage.api.MembershipResource', 
-        'memberships', 'club' , full=True ,readonly=True)
+        'memberships', 'club', full=True, readonly=True)
     coupons = fields.ToManyField('garage.api.CouponResource', 'coupons', 
+        full=True,  readonly=True)
+    race_classes = fields.ToManyField('garage.api.RaceClassResource', 'race_classes', 
         full=True,  readonly=True)
     
     class Meta:
         queryset = Club.objects.prefetch_related('seasons', 'locations', 'memberships')
         resource_name = 'club'
+        authentication= SessionAuthentication()
         authorization = Authorization()
 
 v1_api.register(ClubResource())
+
+
+class RaceClassResource(ModelResource): 
+
+    club = fields.ToOneField('garage.api.ClubResource', 'club')
+    default_pax_class = fields.ToOneField('garage.api.RaceClassResource', 'default_pax_class', blank=True, null=True)
+
+    class Meta: 
+        queryset = RaceClass.objects.all()
+        resource_name = 'raceclass'
+        authentication= SessionAuthentication()
+        authorization = Authorization()
+
+v1_api.register(RaceClassResource())
 
 
 class MembershipResource(ModelResource):
@@ -142,13 +157,13 @@ v1_api.register(EventResource())
 
 class SeasonResource(ModelResource):
 
-    events = fields.ToManyField('garage.api.EventResource','events','season',
+    events = fields.ToManyField('garage.api.EventResource', 'events', 'season',
         full=True, null=True, blank=True, readonly=True)
 
-    club = fields.ToOneField('garage.api.ClubResource','club','season')
+    club = fields.ToOneField('garage.api.ClubResource', 'club', 'season')
 
     class Meta: 
-        queryset = Season.objects.all()
+        queryset = Season.objects.prefetch_related().all()
         authentication = SessionAuthentication()
         authorization = Authorization()
         always_return_data = True
@@ -173,6 +188,7 @@ class CouponResource(ModelResource):
     username = fields.CharField(readonly=True)
 
     club = fields.ToOneField('garage.api.ClubResource','club','season')
+    user_prof = fields.ToOneField('garage.api.UserProfileResource', 'user_prof', blank=True, null=True)
 
 
     class Meta: 
@@ -181,6 +197,7 @@ class CouponResource(ModelResource):
         authorization = Authorization()
 
     def dehydrate(self, bundle):
+        print "TESTING: ", type(bundle.obj.user_prof)
         if bundle.obj.user_prof: 
             bundle.data['username'] = bundle.obj.user_prof.user.username
         else: 

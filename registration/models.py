@@ -23,8 +23,8 @@ from django.utils.timezone import now as django_now
 from django.conf import settings 
 
 #TODO: need to replace this with some sort of plugin system
-from registration.points_calculators.nora_class_points import calc_points as class_points
-from registration.points_calculators.nora_index_points import calc_points as index_points
+from registration.points_calculators.nora_class_points import calc_points as calc_class_points
+from registration.points_calculators.nora_index_points import calc_points as calc_index_points
 
 
 def urlsafe(name): 
@@ -65,11 +65,13 @@ class CouponCodeField(m.CharField):
         if " " in value: 
             raise ValidationError("Spaces not allowed in the code")
 
+
 class OverwriteStorage(FileSystemStorage):
     def _save(self, name, content):
         if self.exists(name):
             self.delete(name)
         return super(OverwriteStorage, self)._save(name, content)
+
     def get_available_name(self, name):
         return name            
 
@@ -88,7 +90,7 @@ class UserProfile(m.Model):
     def __unicode__(self):
         return u"%s" % self.user    
     
-    def send_activation_email(self,request): 
+    def send_activation_email(self, request): 
         
         ctx_dict = {'activation_key': self.activation_key,
                     'SITE_URL': settings.SITE_URL,
@@ -244,19 +246,18 @@ class Club(Purchasable):
 
     events_for_dibs = m.IntegerField("# of events to get dibs", default=3)
 
-    active_season = m.OneToOneField("Season", related_name="+", blank=True, null=True)
     default_location = m.OneToOneField("Location", related_name="+", blank=True, null=True)
 
     def __unicode__(self): 
         return self.safe_name
 
-    def full_clean(self,*args,**kwargs):
+    def full_clean(self, *args, **kwargs):
         self.safe_name = urlsafe(self.name)
-        super(Club,self).full_clean(*args,**kwargs) 
+        super(Club, self).full_clean(*args, **kwargs) 
 
-    def save(self,*args,**kwargs):
+    def save(self, *args, **kwargs):
         self.safe_name = urlsafe(self.name)
-        super(Club,self).save(*args,**kwargs)       
+        super(Club, self).save(*args, **kwargs)       
     
     @property
     def sorted_seasons(self): 
@@ -332,19 +333,19 @@ class Club(Purchasable):
             return False
         return True     
 
-    def is_active_member(self,user): 
+    def is_active_member(self, user): 
 
         try: 
-            membership = Membership.objects.filter(user_prof=user.get_profile(),
-                                                   club=self,
-                                                   valid_thru__gt=datetime.date.today()).get()
+            Membership.objects.filter(user_prof=user.get_profile(),
+                club=self, valid_thru__gt=datetime.date.today()).get()
             return True
         except Membership.DoesNotExist: 
             return False
 
-    def upcoming_events(self): 
-        if self.active_season: 
-            return self.active_season.upcoming_events()
+    def upcoming_events(self):
+        season = self.seasons.all()[0]
+        if season:
+            return season.upcoming_events()
         return None      
 
 
@@ -356,7 +357,7 @@ class Membership(Purchasable):
     valid_thru = m.DateField("Valid Through")
 
     user_prof = m.ForeignKey('UserProfile', related_name="memberships")
-    club = m.ForeignKey("Club",related_name="memberships")
+    club = m.ForeignKey("Club", related_name="memberships")
 
     _anon_f_name = m.CharField(max_length=50, blank=True, null=True, default=None)
     _anon_l_name = m.CharField(max_length=50, blank=True, null=True, default=None)
@@ -393,34 +394,37 @@ class Membership(Purchasable):
             except Membership.DoesNotExist: 
                 self.num = 100
 
-        super(Membership,self).save()
+        super(Membership, self).save()
 
 
 class RaceClass(m.Model): 
-    name = m.CharField('Class Name',max_length=20)
-    abrv = m.CharField('Arbeviation',max_length=4)
+    name = m.CharField('Class Name', max_length=20)
+    abrv = m.CharField('Arbeviation', max_length=4)
     pax = m.FloatField('PAX multiplier')
 
-    pax_class = m.BooleanField('PAX Class',default=False)
-    bump_class = m.BooleanField('Bump Class',default=False)
-    description = m.TextField("Description",blank=True,null=True,default="")
-    user_reg_limit = m.IntegerField("Limit for Users",null=True,default=None)
-    event_reg_limit = m.IntegerField("Limit per Event",null=True,default=None)
-    allow_dibs = m.BooleanField("dibs",default=True)
-    hidden = m.BooleanField("hidden",default=False,
+    pax_class = m.BooleanField('PAX Class', default=False)
+    default_pax_class = m.ForeignKey('self', null=True, blank=True)
+    bump_class = m.BooleanField('Bump Class', default=False)
+    hidden = m.BooleanField("hidden", default=False,
                             help_text="Hidden race classes can't be selected by users for registration."+\
-                            "These race classes are used for index/bump-class results")
-
-    club = m.ForeignKey('Club',related_name='race_classes')
+                            "These race classes are used for index/bump-class results and non-pickable pax classes")
+    
+    description = m.TextField("Description", blank=True, default="")
+    user_reg_limit = m.IntegerField("Limit for Users", null=True, default=None)
+    event_reg_limit = m.IntegerField("Limit per Event", null=True, default=None)
+    allow_dibs = m.BooleanField("dibs", default=True)
+    
+    club = m.ForeignKey('Club', related_name='race_classes')
 
     def __unicode__(self): 
-        return u"%s %1.3f"%(self.abrv,self.pax)
+        return u"%s %1.3f"%(self.abrv, self.pax)
     
-    def __cmp__(self,other): 
+    def __cmp__(self, other): 
         if other: 
-            return cmp(self.name,other.name)
+            return cmp(self.name, other.name)
         else: 
             return 1
+
 
 class Dibs(m.Model): 
     created = m.DateField(auto_now_add=True)
@@ -429,12 +433,12 @@ class Dibs(m.Model):
                               help_text="# of days after the most recent event a User ran in the Dibs is valid for",
                               default=30)
     number = m.IntegerField("Number")    
-    race_class = m.ForeignKey('RaceClass',related_name='+')
-    club = m.ForeignKey("Club",related_name='dibs')
-    user_profile = m.ForeignKey(UserProfile,related_name='dibs')
+    race_class = m.ForeignKey('RaceClass', related_name='+')
+    club = m.ForeignKey("Club", related_name='dibs')
+    user_profile = m.ForeignKey(UserProfile, related_name='dibs')
 
     def __unicode__(self):
-        return "%d %s, for %s"%(self.number,self.race_class.name,self.user.username)
+        return "%d %s, for %s"%(self.number, self.race_class.name, self.user.username)
 
 
 class Season(m.Model): 
@@ -446,7 +450,7 @@ class Season(m.Model):
     drop_lowest_events = m.IntegerField('# of Events to drop from points calculations',
                                         default=0)    
 
-    club = m.ForeignKey('Club',related_name="seasons")
+    club = m.ForeignKey('Club', related_name="seasons")
     
     def upcoming_events(self): 
         return self.events.exclude(date__lt=datetime.date.today()).order_by('date').all()
@@ -455,26 +459,26 @@ class Season(m.Model):
     def complete_events(self): 
         return self.events.exclude(date__gte=datetime.date.today()).order_by('-date')
     
-    def points_as_of(self,date=None): 
+    def points_as_of(self, date=None): 
         """gets a lists of index_points,[(user,{'n_regs':<int>,'points':<int>,'appe':<int>}),...], and 
         class_points, [(race_class,[user{'n_regs':<int>,'points':<int>,'appe':<int>},...])], as of the given date"""
         
-        event_count = self.events.filter(season=self,count_points=True).count()
+        event_count = self.events.filter(season=self, count_points=True).count()
         if event_count > self.drop_lowest_events: 
             limit = event_count - self.drop_lowest_events
         else: 
             limit = event_count
          
-        q =  Registration.objects.select_related('user_profile','pax_class','race_class'
-                                                 'event__season','results')
+        q = Registration.objects.select_related('user_profile', 'pax_class', 'race_class'
+                                                 'event__season', 'results')
         if date: 
-            regs = q.filter(event__season=self,event__count_points=True,
-                            results__isnull=False,user_profile__isnull=False,
+            regs = q.filter(event__season=self, event__count_points=True,
+                            results__isnull=False, user_profile__isnull=False,
                             event__date__lte=date).\
                 distinct().order_by('-index_points').all()
         else: 
-            regs = q.filter(event__season=self,event__count_points=True,
-                            results__isnull=False,user_profile__isnull=False).\
+            regs = q.filter(event__season=self, event__count_points=True,
+                            results__isnull=False, user_profile__isnull=False).\
                 distinct().order_by('-index_points').all()
         
         index_sets = dict()
@@ -486,45 +490,44 @@ class Season(m.Model):
             if reg.pax_class: 
                 class_key = reg.pax_class
             
-            index_sets.setdefault(up,{'n_regs':0,'points':0,'appe':0}) 
-            class_sets.setdefault(class_key,dict())
+            index_sets.setdefault(up, {'n_regs': 0, 'points': 0, 'appe': 0}) 
+            class_sets.setdefault(class_key, dict())
             
             if index_sets[up]['n_regs'] < limit: 
                 index_sets[up]['n_regs'] += 1
                 index_sets[up]['points'] += reg.index_points
-                index_sets[up]['appe'] = int(round(index_sets[up]['points']/float(index_sets[up]['n_regs']),0))
+                index_sets[up]['appe'] = int(round(index_sets[up]['points']/float(index_sets[up]['n_regs']), 0))
                 
-                class_sets[class_key].setdefault(up,{'n_regs':0,'points':0,'appe':0})
+                class_sets[class_key].setdefault(up, {'n_regs': 0, 'points': 0, 'appe': 0})
                 class_sets[class_key][up]['n_regs']+=1
                 class_sets[class_key][up]['points']+=reg.class_points
                 class_sets[class_key][up]['appe'] = int(round(class_sets[class_key][up]['points']/float(class_sets[class_key][up]['n_regs'])))
                 
-        index_points = sorted(index_sets.items(), key=lambda t: t[1]['points'],reverse=True) 
+        index_points = sorted(index_sets.items(), key=lambda t: t[1]['points'], reverse=True) 
         class_points = sorted(class_sets.items(), key=lambda t: t[0].abrv) 
-        for i,reg_set in enumerate(class_points):  
-            class_points[i] = (reg_set[0],sorted(reg_set[1].items(), 
-                                                 key=lambda t: t[1]['points'],reverse=True))
-            
-        
-        return index_points,class_points 
+        for i, reg_set in enumerate(class_points):  
+            class_points[i] = (reg_set[0], sorted(reg_set[1].items(), 
+                                                 key=lambda t: t[1]['points'], reverse=True))
+           
+        return index_points, class_points 
     
-
     def __unicode__(self): 
         return u"%d"%self.year
+
 
 class Event(m.Model): 
 
     class Meta: 
         ordering = ['date']
 
-    name = m.CharField('Name',max_length=40)
+    name = m.CharField('Name', max_length=40)
     safe_name = m.CharField(max_length=40)
 
     date = m.DateField('Event Date')
     
-    note = m.TextField('notes', blank=True,null=True)
+    note = m.TextField('notes', blank=True, null=True)
 
-    reg_close = m.DateTimeField('Registration Close Date',blank=True,null=True)
+    reg_close = m.DateTimeField('Registration Close Date', blank=True, null=True)
 
     member_price = m.DecimalField("Price for club members", max_digits=10,
                                   decimal_places=2, default="0.00")
@@ -535,24 +538,25 @@ class Event(m.Model):
 
     reg_limit = m.IntegerField("Reg. Limit", default=0, help_text="Maximum number of registrations allowed. ")
 
-    count_points = m.BooleanField("Include this event in season point totals",default=True)
-    multiplier = m.IntegerField("Multiplier on the total number of points an event is worth",default=1)
+    count_points = m.BooleanField("Include this event in season point totals", default=True)
+    multiplier = m.IntegerField("Multiplier on the total number of points an event is worth", default=1)
 
-    season = m.ForeignKey('Season',related_name="events")    
+    season = m.ForeignKey('Season', related_name="events")    
 
     #TODO: modify on_delete to set to club default location
-    location = m.ForeignKey('Location',blank=True,null=True,on_delete=m.SET_NULL)
+    location = m.ForeignKey('Location', blank=True, null=True, on_delete=m.SET_NULL)
 
     #This is to allow for registration of one event to automaticaly count toward any child events as well
-    child_events = m.ManyToManyField("self",symmetrical=False,related_name="parent_events",
-                                     blank=True,null=True,
+    child_events = m.ManyToManyField("self", symmetrical=False, related_name="parent_events",
+                                     blank=True, null=True,
                                      help_text="When drivers register for this event, they will automatically be" 
                                      "registered for all the associated events listed here.")
+    
     @property
     def reg_is_open(self): 
         return django_now() < self.reg_close
     
-    def is_regd(self,user): 
+    def is_regd(self, user): 
         try: 
             reg = self.regs.filter(user_profile=user.get_profile()).get()
             return reg
@@ -560,15 +564,15 @@ class Event(m.Model):
             return False
 
     #do this in clean and save because sometimes clean is not called??
-    def full_clean(self,*args,**kwargs): 
+    def full_clean(self, *args, **kwargs): 
         self.safe_name = urlsafe(self.name)
-        super(Event,self).full_clean(*args,**kwargs)
+        super(Event, self).full_clean(*args, **kwargs)
 
-    def save(self,*args,**kwargs): 
+    def save(self, *args, **kwargs): 
         self.safe_name = urlsafe(self.name)
-        super(Event,self).save(*args,**kwargs)        
+        super(Event, self).save(*args, **kwargs)        
 
-    def allow_number_race_class(self,reg): 
+    def allow_number_race_class(self, reg): 
         """Checks to see if the specified registration has a unique number and 
         race_class for the event"""
         reg_check = self.regs.filter(number=reg.number,	                     
@@ -576,14 +580,14 @@ class Event(m.Model):
         
         #Check if the number/class is used in any child events
         child_reg_check = self.child_events.all().\
-                    filter(regs__number=reg.number,regs__race_class=reg.race_class).count() 
+                    filter(regs__number=reg.number, regs__race_class=reg.race_class).count() 
         
-        if reg.pk and reg_check==1 and child_reg_check <=1 : #then it exists, so you need to make sure it's still unique
+        if reg.pk and reg_check==1 and child_reg_check <=1: #then it exists, so you need to make sure it's still unique
             return True
             
         #it does not exists, so check if the number/class is used in this event 
         #make sure no one has dibs on that
-        elif reg_check == 0 and child_reg_check == 0 and not self.season.club.check_dibs(reg.number,reg.race_class): 
+        elif reg_check == 0 and child_reg_check == 0 and not self.season.club.check_dibs(reg.number, reg.race_class): 
             return True
 
         return False	
@@ -600,13 +604,13 @@ class Event(m.Model):
 
         #find all the regs, now ordered by time
         regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
-            event=self,n_results=self.sessions.all().count()).order_by('total_index_time').all()
+            event=self, n_results=self.sessions.all().count()).order_by('total_index_time').all()
 
         #assign index points, sort results into classes, then assign class points
         race_classes = dict()
 
-        for i,reg in enumerate(regs): 
-            if i == 0 : #fastest index time!
+        for i, reg in enumerate(regs): 
+            if i == 0: #fastest index time!
                 index_ftd = reg
 
             #these get on the list sorted, because the whole list is sorted
@@ -614,15 +618,15 @@ class Event(m.Model):
                 key = reg.bump_class
             else: 
                 key = reg.race_class
-            race_classes.setdefault(key,[]).append(reg) 
+            race_classes.setdefault(key, []).append(reg) 
             #assign class points, based on position in the list
 
             place = len(race_classes[key])
             first_place_time = race_classes[key][0].total_index_time
-            reg.class_points = class_points(place,first_place_time,reg.total_index_time)
+            reg.class_points = calc_class_points(place, first_place_time, reg.total_index_time)
 
             #place is i+1
-            reg.index_points = index_points(i+1,index_ftd.total_index_time,reg.total_index_time)
+            reg.index_points = calc_index_points(i+1, index_ftd.total_index_time, reg.total_index_time)
             reg.save()
 
         return race_classes
@@ -634,8 +638,8 @@ class Event(m.Model):
         
         regs = Registration.objects.annotate(n_results=m.Count('results'),
                                             n_runs=m.Count('results__best_run'))\
-            .filter(event=self,n_results=n_sessions).\
-            order_by('-n_runs','total_index_time').\
+            .filter(event=self, n_results=n_sessions).\
+            order_by('-n_runs', 'total_index_time').\
             all()
 
         return regs 
@@ -647,34 +651,35 @@ class Event(m.Model):
     def __unicode__(self): 
         return self.safe_name
 
+
 class Registration(Purchasable):
-    car = m.ForeignKey("Car",related_name="regs",blank=True,null=True,on_delete=m.SET_NULL)
+    car = m.ForeignKey("Car", related_name="regs", blank=True, null=True, on_delete=m.SET_NULL)
     number = m.IntegerField("Number")
-    race_class = m.ForeignKey("RaceClass",limit_choices_to={'pax_class':False},
+    race_class = m.ForeignKey("RaceClass", limit_choices_to={'pax_class': False},
                               related_name="+")
-    pax_class  = m.ForeignKey("RaceClass",limit_choices_to={'pax_class':True},
+    pax_class = m.ForeignKey("RaceClass", limit_choices_to={'pax_class': True},
                               verbose_name="Registration Type",
-                              related_name="+",blank=True,null=True,
+                              related_name="+", blank=True, null=True,
                               help_text="If you're not sure, run in Open Class")
-    bump_class = m.ForeignKey("RaceClass",related_name="+",blank=True,null=True)
-    run_heat = m.IntegerField("Run Heat",blank=True,null=True,default=None)
-    work_heat = m.IntegerField("Work Heat",blank=True,null=True,default=None)
-    checked_in = m.BooleanField("Checked In",default=False,editable=False)
+    bump_class = m.ForeignKey("RaceClass", related_name="+", blank=True, null=True)
+    run_heat = m.IntegerField("Run Heat", blank=True, null=True, default=None)
+    work_heat = m.IntegerField("Work Heat", blank=True, null=True, default=None)
+    checked_in = m.BooleanField("Checked In", default=False, editable=False)
 
-    total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default = None)
-    total_index_time = m.FloatField('Total Index Time', blank=True, null=True, default = None)
+    total_raw_time = m.FloatField('Total Raw Time', blank=True, null=True, default=None)
+    total_index_time = m.FloatField('Total Index Time', blank=True, null=True, default=None)
 
-    class_points = m.IntegerField(blank=True,null=True, editable=False)
-    index_points = m.IntegerField(blank=True,null=True, editable=False)
+    class_points = m.IntegerField(blank=True, null=True, editable=False)
+    index_points = m.IntegerField(blank=True, null=True, editable=False)
 
-    event = m.ForeignKey("Event",related_name="regs")
+    event = m.ForeignKey("Event", related_name="regs")
 
-    user_profile = m.ForeignKey('UserProfile',related_name="regs",blank=True,null=True)
+    user_profile = m.ForeignKey('UserProfile', related_name="regs", blank=True, null=True)
     
     #used only for anonymous regs
-    _anon_f_name = m.CharField(max_length=50,default="N/A", editable=False)
-    _anon_l_name = m.CharField(max_length=50,default="N/A", editable=False)
-    _anon_car = m.CharField(max_length=50,default="N/A", editable=False)    
+    _anon_f_name = m.CharField(max_length=50, default="N/A", editable=False)
+    _anon_l_name = m.CharField(max_length=50, default="N/A", editable=False)
+    _anon_car = m.CharField(max_length=50, default="N/A", editable=False)    
     
     @property
     def user(self):
@@ -707,12 +712,10 @@ class Registration(Purchasable):
             return self._anon_l_name
         return "Not On File" 
      
-
     def __unicode__(self):
         if self.user_profile: 
-            return "%s for %s"%(self.user_profile.user.username,self.event.name)
-        return "anon: %s %s for %s"%(self.first_name,self.last_name,self.event.name)
-
+            return "%s for %s"%(self.user_profile.user.username, self.event.name)
+        return "anon: %s %s for %s"%(self.first_name, self.last_name, self.event.name)
 
     def calc_times(self): 
         """Finds the lowest time for each associated result, adds them together, then 
@@ -728,8 +731,7 @@ class Registration(Purchasable):
         self.total_index_time = self.total_raw_time*pax
         self.save()
 
-
-    def associate_with_user(self,user): 
+    def associate_with_user(self, user): 
         self._anon_f_name = "N/A"
         self._anon_l_name = "N/A"
         self.user_profile = UserProfile.objects.get(user__username=user)
@@ -761,11 +763,10 @@ class Registration(Purchasable):
             reg.pax_class = self.pax_class
             reg.save()
 
-
     def clean(self): 
         
         if not self.event.allow_number_race_class(self):
-            raise ValidationError('%d %s is already taken, pick another number.'%(self.number,self.race_class.name))
+            raise ValidationError('%d %s is already taken, pick another number.'%(self.number, self.race_class.name))
         #if necessary, check to make sure user has not already run the max times in this class
         if self.user_profile and self.race_class.user_reg_limit:	
             reg_count = Registration.objects.filter(event__season__club=self.event.season.club,
@@ -776,7 +777,7 @@ class Registration(Purchasable):
                 raise ValidationError("You have reached the registration limit for %s."%self.race_class.name)
 
         if self.race_class.event_reg_limit: 
-            reg_count = Registration.objects.filter(event=self.event,race_class=self.race_class).count()
+            reg_count = Registration.objects.filter(event=self.event, race_class=self.race_class).count()
             if reg_count >= self.race_class.event_reg_limit: 
                 raise ValidationError("Only %d registrations for %s are allowed "
                                       "for an event. The class is full"%(self.race_class.event_reg_limit,
@@ -794,22 +795,23 @@ class Registration(Purchasable):
         
         if check_regs.count(): 
             reg = check_regs[0]
-            raise ValidationError('You have already registered to run as %d %s'%(reg.number,reg.race_class.abrv))
+            raise ValidationError('You have already registered to run as %d %s'%(reg.number, reg.race_class.abrv))
 
 
 class Session(m.Model): 
     name = m.CharField(max_length=30)
-    event = m.ForeignKey("Event",related_name="sessions")
-    course = m.OneToOneField("Course",blank=True,null=True)
+    event = m.ForeignKey("Event", related_name="sessions")
+    course = m.OneToOneField("Course", blank=True, null=True)
 
     def __unicode__(self): 
         return self.name
 
-class Result(m.Model): 
-    best_run = m.OneToOneField("Run",related_name="+",null=True)
-    reg = m.ForeignKey("Registration",related_name="results")
 
-    session = m.ForeignKey("Session",related_name="results") 
+class Result(m.Model): 
+    best_run = m.OneToOneField("Run", related_name="+", null=True)
+    reg = m.ForeignKey("Registration", related_name="results")
+
+    session = m.ForeignKey("Session", related_name="results") 
 
     def __unicode__(self): 
         return "Result id: %d"%self.pk
@@ -817,9 +819,9 @@ class Result(m.Model):
     def find_best_run(self): 
         #find the best run        
         try:     
-            br =  Run.objects.filter(result=self,
+            br = Run.objects.filter(result=self,
                   penalty__isnull=True).\
-                  order_by('calc_time','base_time')[0]
+                  order_by('calc_time', 'base_time')[0]
             self.best_run = br
             self.save()
             return br
@@ -832,9 +834,9 @@ class Run(m.Model):
     calc_time = m.FloatField('Calculated Time')
 
     cones = m.IntegerField(default=0)
-    penalty = m.CharField(default=None,max_length=10,blank=True,null=True)
+    penalty = m.CharField(default=None, max_length=10, blank=True, null=True)
 
-    result = m.ForeignKey("Result",related_name="runs")
+    result = m.ForeignKey("Result", related_name="runs")
 
     def _set_times(self):
         self.calc_time = self.base_time+2.0*self.cones
@@ -842,86 +844,87 @@ class Run(m.Model):
 
     def save(self): 
         self._set_times()
-        super(Run,self).save()
+        super(Run, self).save()
         self.result.find_best_run()
-
 
     def __unicode__(self): 
         if self.penalty: 
             return self.penalty
         if self.cones: 
             if self.cones > 1: 
-                return u"%3.3f +%d cones"%(self.calc_time,self.cones)
-            return u"%3.3f +%d cone"%(self.calc_time,self.cones)
+                return u"%3.3f +%d cones"%(self.calc_time, self.cones)
+            return u"%3.3f +%d cone"%(self.calc_time, self.cones)
         
         return u"%3.3f"%(self.calc_time)
 
+
 class Location(m.Model):
 
-    name = m.CharField('Location Name',max_length=100)
+    name = m.CharField('Location Name', max_length=100)
 
-    address = m.CharField('Address',max_length=250)
+    address = m.CharField('Address', max_length=250)
 
-    club = m.ForeignKey('Club',related_name='locations')
+    club = m.ForeignKey('Club', related_name='locations')
 
     def __unicode__(self): 
         return self.name
 
-def upload_course_to(course,file_name): 
-    return os.path.join(course.event.club.safe_name,course.event.safe_name,"")    
+
+def upload_course_to(course, file_name): 
+    return os.path.join(course.event.club.safe_name, course.event.safe_name, "")    
+
 
 class Course(m.Model): 
-    name = m.CharField('Name',max_length=50)
+    name = m.CharField('Name', max_length=50)
     safe_name = m.CharField(max_length=50)
 
-    img_loc = m.ImageField('Course Drawing',upload_to=upload_course_to)
+    img_loc = m.ImageField('Course Drawing', upload_to=upload_course_to)
 
-    event = m.ForeignKey('Event',related_name="courses")
+    event = m.ForeignKey('Event', related_name="courses")
 
     def __unicode__(self): 
         return self.safe_name
 
+
 class Car(m.Model): 
-    name = m.CharField('Nickname',max_length=30,blank=True,null=True)
-    color = m.CharField('Color',max_length=40,blank=True,null=True)
-    year = m.IntegerField('Year',blank=True,null=True)    
-    make = m.CharField('Make',max_length=40,blank=True,null=True)
-    model = m.CharField('Model',max_length=40,blank=True,null=True)
+    name = m.CharField('Nickname', max_length=30, blank=True, null=True)
+    color = m.CharField('Color', max_length=40, blank=True, null=True)
+    year = m.IntegerField('Year', blank=True, null=True)    
+    make = m.CharField('Make', max_length=40, blank=True, null=True)
+    model = m.CharField('Model', max_length=40, blank=True, null=True)
 
-    provisional = m.BooleanField('provisional',default=True)
+    provisional = m.BooleanField('provisional', default=True)
 
-    avatar = m.ImageField('Picture of your car',upload_to='car_avatars',storage=OverwriteStorage(),blank=True,null=True)
-    thumb = m.ImageField('Thumbnail of your car',upload_to='car_thumbs',storage=OverwriteStorage(),blank=True,null=True)
+    avatar = m.ImageField('Picture of your car', upload_to='car_avatars', storage=OverwriteStorage(), blank=True, null=True)
+    thumb = m.ImageField('Thumbnail of your car', upload_to='car_thumbs', storage=OverwriteStorage(), blank=True, null=True)
 
-    user_profile = m.ForeignKey(UserProfile,related_name="cars")
+    user_profile = m.ForeignKey(UserProfile, related_name="cars")
     
-    
-
     @property
     def user(self): 
         return self.user_profile.user
     
     @property
     def car_str(self): 
-        return "%s %s %s"%(self.year,self.make,self.model)   
+        return "%s %s %s"%(self.year, self.make, self.model)   
 
     def __unicode__(self): 
-        if  self.year and self.make and self.model: 
-            return "%d %s %s"%(self.year,self.make,self.model)
+        if self.year and self.make and self.model: 
+            return "%d %s %s"%(self.year, self.make, self.model)
         else: 
             return "empty car"
 
 
 class Lease(m.Model): 
-    suggested_number = m.IntegerField("Suggested Number",null=True)
-    suggested_race_class = m.ForeignKey('RaceClass',null=True,on_delete=m.SET_NULL,related_name='+')
+    suggested_number = m.IntegerField("Suggested Number", null=True)
+    suggested_race_class = m.ForeignKey('RaceClass', null=True, on_delete=m.SET_NULL, related_name='+')
 
     expiration = m.DateField("Expiration Date")
     permanent = m.BooleanField("Permanent Lease")
 
-    user = m.ForeignKey(User,related_name="leases")
-    car = m.ForeignKey("Car",related_name="leases")
+    user = m.ForeignKey(User, related_name="leases")
+    car = m.ForeignKey("Car", related_name="leases")
 
     def __unicode__(self): 
-        return "%s to %s"%(self.car.name ,self.user.username)
+        return "%s to %s"%(self.car.name, self.user.username)
 

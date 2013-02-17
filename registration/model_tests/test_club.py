@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 
 from registration.models import Club
 
+
 class TestClub(unittest.TestCase): 
     
     def tearDown(self): 
@@ -13,11 +14,11 @@ class TestClub(unittest.TestCase):
         c = Club()
         c.name = "Some - Racers"
 
-        c.full_clean()
+        c.save()
         self.assertEqual("someracers", c.safe_name)
-
-        c = Club()
+        
         c.name = "some\\racers"
+        c.save()
         self.assertEqual("someracers", c.safe_name)
 
     def testUniqueSafeName(self): 
@@ -32,15 +33,6 @@ class TestClub(unittest.TestCase):
         try: 
             new_c.full_clean()
         except ValidationError as err: 
-            self.assertEqual("{'safe_name': [u'Club with this Safe_name already exists.']}",str(err))
+            self.assertEqual("{'safe_name': [u'Club with this Safe_name already exists.']}", str(err))
         else: 
             self.fail("ValidationError expected")
-
-
-
-
-
-
-
-
-

@@ -2,18 +2,52 @@ var app = angular.module('clubs',['ngCookies', 'ui', 'tpResource',
     'paddock.directives', 'garage.services', 'ngGrid']);
 
 app.controller('club_admin', function club_admin($scope, $cookies, $http,
-    Profile,Club,Season,Event,Membership,Coupon){
+    Profile,Club,Season,Event,Membership,Coupon,RaceClass){
 
     $scope.csrf = $cookies.csrftoken;
     $scope.selected_members = [];
+    $scope.selected_class = [];
     $scope.edit_membership = false;
-    $scope.gridOptions = { data: 'memberships',
+    $scope.membersGridOptions = { data: 'memberships',
       selectedItems: $scope.selected_members,
       showColumnMenu: false,
       columnDefs: [ {field:'num', displayName:'#', width: '50px'},
           {field:'username', displayName:'User'},
           {field: 'real_name', displayName: 'Name'}
       ]
+    };
+    var check_tmpl = '<div class="ngCellText colt{{$index}}"><i ui-if="row.getProperty(col.field)" class="icon-ok"></i></div>';
+    $scope.edit_raceclass_target = null;
+    $scope.raceclassGridOptions = {
+        data: 'race_classes',
+        multiSelect:false,
+        showColumnMenu: false,
+        showFilter: false,
+        displaySelectionCheckbox: false,
+        selectedItems: $scope.selected_class,
+        columnDefs: [
+          {field:'abrv', displayName:'Class'},
+          {field:'pax', displayName:'Index'},
+          {field: 'pax_class', displayName: 'PAX',
+          width:'45px',
+          cellTemplate: check_tmpl
+          },
+          {field: 'bump_class', displayName: 'BMP',
+          width:'45px',
+          cellTemplate: check_tmpl,
+          keepLastSelected: false
+          }
+        ],
+        filterOptions: {filterText:'classSearchStr', useExternalFilter: false},
+        beforeSelectionChange: function(rowItem, event){
+            if (!rowItem.selected){ //for some reason, this seems backwards.
+                $scope.edit_raceclass_target = rowItem.entity;
+            }
+            else {
+                $scope.edit_raceclass_target = null;
+            }
+            return true;
+        }
     };
 
     $scope.profile = Profile.get({userId:USER_ID},function(){
@@ -40,6 +74,8 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         $scope.memberships = $scope.club.memberships;
 
         $scope.coupons = $scope.club.coupons;
+
+        $scope.race_classes = $scope.club.race_classes;
     });
 
     $scope.show_edit_event = false;
@@ -153,7 +189,6 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     };
 
     $scope.save_coupon = function(coupon) {
-        console.log("TEST");
         Coupon.save(coupon);
     };
 
@@ -162,6 +197,12 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
             var i = $scope.coupons.indexOf(coupon);
             $scope.coupons.splice(i,1);
         });
+    };
+
+
+    $scope.save_raceclass = function(race_class) {
+        console.log("TEST");
+        RaceClass.save(race_class);
     };
 
 });

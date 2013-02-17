@@ -13,7 +13,7 @@
     border: 2px solid #D4D4D4;
     border-radius: 4px;
     margin: 15px;
-    padding: 0px;
+    padding: 0;
     color: #777;
 }
 
@@ -58,4 +58,15 @@
 
 .lonely {
   margin-top:9px;
+}
+
+.membershipGrid {
+  border: 1px solid rgb(212, 212, 212);
+  width: 280px; 
+  height: 450px;
+}
+.raceclassGrid {
+  border: 1px solid rgb(212, 212, 212);
+  width: 280px; 
+  height: 450px;
 }
