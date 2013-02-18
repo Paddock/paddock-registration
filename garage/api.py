@@ -4,9 +4,10 @@ from tastypie import fields, api
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization,DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
+from tastypie.authentication import Authentication as SessionAuthentication
 
 from registration.models import Registration, Event, RaceClass, Car, \
-    UserProfile, User, Coupon, Club, Season, Location, Membership
+    UserProfile, User, Coupon, Club, Season, Location, Membership, Group
 
 v1_api = api.Api(api_name='v1')
 
@@ -78,12 +79,31 @@ class ClubResource(ModelResource):
         full=True,  readonly=True)
     race_classes = fields.ToManyField('garage.api.RaceClassResource', 'race_classes', 
         full=True,  readonly=True)
+
+    admins = fields.ToManyField('garage.api.UserResource', lambda b: b.obj.group.user_set, related_name="+", full=True, null=True, blank=True)
     
     class Meta:
         queryset = Club.objects.prefetch_related('seasons', 'locations', 'memberships')
         resource_name = 'club'
         authentication= SessionAuthentication()
         authorization = Authorization()
+
+    #this seems horribly inefficient, but it won't happen that often
+    def hydrate_admins(self, bundle): 
+        admins = bundle.data['admins']
+        if admins and not type(admins[0]) == type(bundle):  #dirty hack, because hydrate gets called twice
+            bundle.obj.group = Group.objects.get(name="%s_admin"%bundle.obj.safe_name)
+            users = User.objects.filter(username__in=[a['username'] for a in admins])
+            for u in users: 
+                bundle.obj.group.user_set.add(u)
+            bundle.obj.save()
+            
+        return bundle
+        
+
+    #def save_m2m(self,bundle): 
+    #    return     
+
 
 v1_api.register(ClubResource())
 
@@ -197,7 +217,6 @@ class CouponResource(ModelResource):
         authorization = Authorization()
 
     def dehydrate(self, bundle):
-        print "TESTING: ", type(bundle.obj.user_prof)
         if bundle.obj.user_prof: 
             bundle.data['username'] = bundle.obj.user_prof.user.username
         else: 

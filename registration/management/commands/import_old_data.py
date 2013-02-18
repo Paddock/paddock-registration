@@ -320,7 +320,12 @@ class Command(BaseCommand):
             #TODO remove reg_detail class, and associate reg with UserProfile directly
             #TODO registrations can be siblings for joint update
             
-            r.save()
+            try: 
+                r.save()
+            except: 
+                r.number += 100
+                r.save()
+                exit()
             
             registration_map[line['id']] = r
                 

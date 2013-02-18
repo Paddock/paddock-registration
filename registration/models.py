@@ -8,6 +8,8 @@ import random
 from django.db import models as m
 #from django.contrib.localflavor.us.forms import USStateField, USZipCodeField
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.contenttypes.models import ContentType
+
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.core.files.storage import FileSystemStorage
@@ -15,7 +17,7 @@ from django.core.files.storage import FileSystemStorage
 
 from django.template.loader import render_to_string
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
 from django.db.models.signals import post_save
 
 from django.utils.timezone import now as django_now
@@ -248,6 +250,8 @@ class Club(Purchasable):
 
     default_location = m.OneToOneField("Location", related_name="+", blank=True, null=True)
 
+    group = m.OneToOneField(Group, related_name="club", blank=True, null=True)
+
     def __unicode__(self): 
         return self.safe_name
 
@@ -346,7 +350,31 @@ class Club(Purchasable):
         season = self.seasons.all()[0]
         if season:
             return season.upcoming_events()
-        return None      
+        return None  
+
+
+
+
+#causes creation of club admin permissions after club is saved  
+def create_club(sender, instance, created, **kwargs): 
+    if created:
+        club_content_type = ContentType.objects.get(app_label='registration', model='club')
+
+        p = Permission.objects.create(codename="%s_admin"%instance.safe_name,
+                                       name="%s Administrator"%instance.name,
+                                       content_type=club_content_type)
+        p.save()
+
+        g = Group()
+        g.name = "%s_admin"%instance.safe_name
+        g.save()
+
+        g.permissions.add(p)
+
+        instance.group = g
+        instance.save()
+        
+post_save.connect(create_club, sender=Club)               
 
 
 class Membership(Purchasable): 
