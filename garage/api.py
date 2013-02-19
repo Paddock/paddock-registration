@@ -4,7 +4,8 @@ from tastypie import fields, api
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization,DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
-from tastypie.authentication import Authentication as SessionAuthentication
+#from tastypie.authentication import Authentication as SessionAuthentication
+#from tastypie.authentication import Authentication as SessionAuthentication
 
 from registration.models import Registration, Event, RaceClass, Car, \
     UserProfile, User, Coupon, Club, Season, Location, Membership, Group
@@ -87,12 +88,14 @@ class ClubResource(ModelResource):
         resource_name = 'club'
         authentication= SessionAuthentication()
         authorization = Authorization()
+        always_return_data = True
+
 
     #this seems horribly inefficient, but it won't happen that often
     def hydrate_admins(self, bundle): 
         admins = bundle.data['admins']
+        bundle.obj.group = Group.objects.get(name="%s_admin"%bundle.obj.safe_name)
         if admins and not type(admins[0]) == type(bundle):  #dirty hack, because hydrate gets called twice
-            bundle.obj.group = Group.objects.get(name="%s_admin"%bundle.obj.safe_name)
             users = User.objects.filter(username__in=[a['username'] for a in admins])
             for u in users: 
                 bundle.obj.group.user_set.add(u)

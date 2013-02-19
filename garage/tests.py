@@ -90,12 +90,12 @@ class TestClubAPI(ResourceTestCase):
             model.objects.all().delete()   
 
     def get_credentials(self):
-        result = self.api_client.client.login(username='justingray',
+        resp = self.api_client.client.login(username='justingray',
                                               password='test')
-        return result             
+        return resp
 
     def test_list_club_admins(self): 
-        self.client.login(username='justingray', password='test')     
+        self.client.login(username='justingray', password='test')   
 
         resp = self.api_client.get(self.detail_url, format="json", 
             authenticate=self.get_credentials())
@@ -106,7 +106,7 @@ class TestClubAPI(ResourceTestCase):
             data['admins'])
 
         new_data = data.copy()
-        new_data['admins'].append({u'username': u'eligray', u'first_name': u'Eli', u'last_name': u'Gray', u'email': u''})
+        new_data['admins'].append({u'username': u'eligray'})
         #use2 should not have permissions yet
         self.assertFalse(self.user2.has_perm('registration.test_admin'))
         resp = self.api_client.post(self.list_url, format='json', data=new_data, 
@@ -131,3 +131,9 @@ class TestClubAPI(ResourceTestCase):
         #eli should now has permissions
         self.assertTrue(u.has_perm('registration.test_admin'))
 
+        #try empty admins list
+        new_data['admins'] = []
+        resp = self.api_client.post(self.list_url, format='json', data=new_data, 
+            authentication=self.get_credentials())
+        self.assertHttpCreated(resp)
+        

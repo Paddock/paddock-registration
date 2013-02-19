@@ -76,6 +76,10 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         $scope.coupons = $scope.club.coupons;
 
         $scope.race_classes = $scope.club.race_classes;
+
+        //copy because I need to delete from the club list, post, then if successfuly remove from copy
+        $scope.admins = angular.copy($scope.club.admins);
+
     });
 
     $scope.show_edit_event = false;
@@ -199,10 +203,30 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         });
     };
 
-
     $scope.save_raceclass = function(race_class) {
-        console.log("TEST");
         RaceClass.save(race_class);
+    };
+
+    $scope.delete_admin = function(user){
+        var index = -1;
+        for (var i=0; i <$scope.club.admins.length; i++) {
+            if ($scope.club.admins[i]==user){
+                index = i;
+            }
+        }
+
+        $scope.club.admins.splice(index,1);
+        Club.save($scope.club,function(club){
+            $scope.admins.splice(index,1);
+        });
+    };
+
+    $scope.add_admin = function(userid) {
+        $scope.club.admins.push({username: userid});
+        Club.save($scope.club, function(club){
+            $scope.club = club;
+            $scope.admins = angular.copy(club.admins);
+        })
     };
 
 });
