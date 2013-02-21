@@ -221,8 +221,6 @@
                 </div>    
             </div>
         </pane>
-        <pane title="Locations"> 
-        </pane>
         <pane title="Race Classes">
             <div class="row">
                 <div class="span4">
@@ -232,71 +230,95 @@
                     <div class="raceclassGrid" ng-grid="raceclassGridOptions"></div>
                 </div>
                 <div class="span5">
-                    <div ui-if="edit_raceclass_target">
-
-                        <form class="form-horizontal">
-                            <legend> Edit RaceClass: {{edit_raceclass_target.abrv}} </legend>
-                            <div class="control-group">
-                                <label class="control-label"> Symbol </label> 
-                                <div class="controls">
-                                    <input type="text" ng-model="edit_raceclass_target.abrv" class="input-small">
-                                </div>
-                                <label class="control-label"> Index </label> 
-                                <div class="controls">
-                                    <input type="text" ng-model="edit_raceclass_target.pax" class="input-small">
-                                </div>
-                                <label class="control-label"> Full Name </label> 
-                                <div class="controls">
-                                    <input type="text" ng-model="edit_raceclass_target.name" placeholder="optional" class="input-medium">
-                                </div>
+                    <form class="form-horizontal">
+                        <legend ui-if="edit_raceclass"> Edit RaceClass: {{edit_raceclass_target.abrv}} </legend>
+                        <legend ui-if="!edit_raceclass"> New RaceClass </legend>
+                        <div class="control-group">
+                            <label class="control-label"> Symbol </label> 
+                            <div class="controls">
+                                <input type="text" ng-model="edit_raceclass_target.abrv" class="input-small">
                             </div>
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <label class="checkbox">
-                                        <input type="checkbox" ng-model="edit_raceclass_target.pax_class"> PAX Group Class 
-                                    </label>
-
-                                    <label class="checkbox">
-                                        <input type="checkbox" ng-model="edit_raceclass_target.bump_class"> Bump Class 
-                                    </label>
-
-                                    <label class="checkbox">
-                                        <input type="checkbox" ng-model="edit_raceclass_target.hidden"> User Selectable 
-                                    </label>
-                                </div>
+                            <label class="control-label"> Index </label> 
+                            <div class="controls">
+                                <input type="text" ng-model="edit_raceclass_target.pax" class="input-small">
                             </div>
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <label>
-                                        Default PAX Group
-                                    </label>
-                                    <select ng-model="edit_raceclass_target.default_pax_class" ng-options="c as c.abrv for c in race_classes | filter:{pax_class:true}">
-                                        <option value=""> -- None -- </option>
-                                    </select>
-                                </div>
+                            <label class="control-label"> Full Name </label> 
+                            <div class="controls">
+                                <input type="text" ng-model="edit_raceclass_target.name" placeholder="optional" class="input-medium">
                             </div>
+                        </div>
 
-                            <div class="control-group">
-                                <div class="controls">
-                                    <label>
-                                        Description
-                                    </label>
-                                    <textarea rows="5" placeholder="Optional extra information" ng-model="edit_raceclass_target.description"></textarea>
-                                </div>
-                            </div>
+                        <div class="control-group">
+                            <div class="controls">
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="edit_raceclass_target.pax_class"> PAX Group Class 
+                                </label>
 
-                            <div class="control-group">
-                                <div class="controls">
-                                    <button class="btn btn-primary" ng-click="save_raceclass(edit_raceclass_target)"> Save </button>
-                                    <!--<button class="btn" ng-click="edit_raceclass_target=null"> Cancel </button>-->
-                                </div>
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="edit_raceclass_target.bump_class"> Bump Class 
+                                </label>
+
+                                <label class="checkbox">
+                                    <input type="checkbox" ng-model="edit_raceclass_target.hidden"> User Selectable 
+                                </label>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <label>
+                                    Default PAX Group
+                                </label>
+                                <select ng-model="edit_raceclass_target.default_pax_class" ng-options="c as c.abrv for c in race_classes | filter:{pax_class:true}">
+                                    <option value=""> -- None -- </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <label>
+                                    Description
+                                </label>
+                                <textarea rows="5" placeholder="Optional extra information" ng-model="edit_raceclass_target.description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <button class="btn btn-primary" ng-click="save_raceclass(edit_raceclass_target)"> Save </button>
+                                <button class="btn" ng-click="cancel_edit_raceclass()"> Cancel </button>
+                                <button class="btn btn-danger" ui-if="edit_raceclass" ng-click="delete_raceclass(edit_raceclass_target)"> Delete </button>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div> 
+        </pane>
+        <pane title="Locations"> 
+            <div class="row">
+                <div class="span5">
+                    <div class="locationGrid" ng-grid="locationsGridOptions"></div>
+                </div>
+               <div class="span4"> 
+                    <form><fieldset>
+                        <legend ui-if="edit_location"> Edit Location </legend>
+                        <legend ui-if="!edit_location"> New Location </legend>
+
+                        <label> Name </label>
+                        <input type="text" ng-model="edit_location_target.name"> 
+
+                        <label> Address </label>
+                        <input type="text" class="input-block-level" ng-model="edit_location_target.address">
+
+                        <button type="submit" class="btn btn-primary" ng-click="save_location(edit_location_target)"> Save </button>
+                        <button type="submit" class="btn" ng-click="cancel_edit_location()"> Cancel </button>
+                        <button type="submit" class="btn btn-danger" ui-if="edit_location" ng-click="delete_location(edit_location_target)"> Delete </button>
+                    </fieldset></form>
+                </div>
+            </div>
+
         </pane>
         <pane title="Club Info">
             <div class="row">

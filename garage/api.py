@@ -4,8 +4,6 @@ from tastypie import fields, api
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization,DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
-#from tastypie.authentication import Authentication as SessionAuthentication
-#from tastypie.authentication import Authentication as SessionAuthentication
 
 from registration.models import Registration, Event, RaceClass, Car, \
     UserProfile, User, Coupon, Club, Season, Location, Membership, Group
@@ -65,7 +63,6 @@ class CarResource(ModelResource):
         return super(CarResource, self).obj_create(bundle, request, user_profile=request.user.get_profile())
 
 v1_api.register(CarResource()) 
-
 
 class ClubResource(ModelResource):
 
@@ -198,9 +195,13 @@ v1_api.register(SeasonResource())
 
 
 class LocationResource(ModelResource): 
+    
+    club = fields.ToOneField('garage.api.ClubResource', 'club')
 
     class Meta: 
         queryset = Location.objects.all()
+        authentication = SessionAuthentication()
+        authorization = Authorization()
 
 v1_api.register(LocationResource())        
 
@@ -210,9 +211,8 @@ class CouponResource(ModelResource):
 
     username = fields.CharField(readonly=True)
 
-    club = fields.ToOneField('garage.api.ClubResource','club','season')
+    club = fields.ToOneField('garage.api.ClubResource', 'club', 'season')
     user_prof = fields.ToOneField('garage.api.UserProfileResource', 'user_prof', blank=True, null=True)
-
 
     class Meta: 
         queryset = Coupon.objects.prefetch_related().all()  

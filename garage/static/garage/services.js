@@ -47,3 +47,9 @@ mod.factory('RaceClass', function($resource){
     query: {method: 'GET', params:{rcId:''}, isArray:true}
   });
 });
+
+mod.factory('Location', function($resource){
+  return $resource('/garage/api/v1/location/:locId', {}, {
+    query: {method: 'GET', params:{locId:''}, isArray:true}
+  });
+});

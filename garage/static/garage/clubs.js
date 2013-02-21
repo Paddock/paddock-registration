@@ -2,7 +2,7 @@ var app = angular.module('clubs',['ngCookies', 'ui', 'tpResource',
     'paddock.directives', 'garage.services', 'ngGrid']);
 
 app.controller('club_admin', function club_admin($scope, $cookies, $http,
-    Profile,Club,Season,Event,Membership,Coupon,RaceClass){
+    Profile,Club,Season,Event,Membership,Coupon,RaceClass,Location){
 
     $scope.csrf = $cookies.csrftoken;
     $scope.selected_members = [];
@@ -15,6 +15,29 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
           {field:'username', displayName:'User'},
           {field: 'real_name', displayName: 'Name'}
       ]
+    };
+    $scope.edit_location_target = {name:'',address:''}
+    $scope.locationsGridOptions = {
+        data: 'locations',
+        multiSelect:false,
+        showColumnMenu: false,
+        displaySelectionCheckbox: false,
+        showFilter: false,
+        columnDefs: [
+            {field:'name', displayName:'Name'},
+            {field:'address', displayName:'Adress' }
+        ],
+        beforeSelectionChange: function(rowItem, event){
+            if (!rowItem.selected){ //for some reason, this seems backwards.
+                $scope.edit_location_target = rowItem.entity;
+                $scope.edit_location = true;
+            }
+            else {
+                $scope.edit_location_target = {name:'',address:''};
+                $scope.edit_location = false;
+            }
+            return true;
+        }
     };
     var check_tmpl = '<div class="ngCellText colt{{$index}}"><i ui-if="row.getProperty(col.field)" class="icon-ok"></i></div>';
     $scope.edit_raceclass_target = null;
@@ -42,9 +65,10 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         beforeSelectionChange: function(rowItem, event){
             if (!rowItem.selected){ //for some reason, this seems backwards.
                 $scope.edit_raceclass_target = rowItem.entity;
+                $scope.edit_raceclass = true;
             }
             else {
-                $scope.edit_raceclass_target = null;
+                $scope.cancel_edit_raceclass();
             }
             return true;
         }
@@ -76,6 +100,8 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         $scope.coupons = $scope.club.coupons;
 
         $scope.race_classes = $scope.club.race_classes;
+
+        $scope.locations = $scope.club.locations
 
         //copy because I need to delete from the club list, post, then if successfuly remove from copy
         $scope.admins = angular.copy($scope.club.admins);
@@ -207,6 +233,28 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         RaceClass.save(race_class);
     };
 
+    $scope.delete_raceclass = function(race_class) {
+        if(confirm("You're about to delete "+race_class.abrv+". This can not be undone!" )){
+            var index = 1;
+            for (var i=0; i< $scope.race_classes.length; i++){
+                if ($scope.race_classes[i].abrv==race_class.abrv){
+                    index = i;
+                    break;
+                }
+            }
+            RaceClass.delete({'rcId':race_class.id}, function(){
+                $scope.race_classes.splice(index,1);
+                $scope.edit_raceclass=false;
+            });
+        }
+    };
+
+    $scope.cancel_edit_raceclass = function(){
+        $scope.edit_raceclass_target = {abrv:'',pax:'',pax_class:''};
+        $scope.edit_raceclass=false;
+
+    };
+
     $scope.delete_admin = function(user){
         var index = -1;
         for (var i=0; i <$scope.club.admins.length; i++) {
@@ -226,7 +274,40 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         Club.save($scope.club, function(club){
             $scope.club = club;
             $scope.admins = angular.copy(club.admins);
-        })
+        });
+    };
+
+    $scope.save_location = function(loc) {
+        if ($scope.edit_location) {
+            console.log(loc);
+            Location.save(loc);
+        }
+        else {
+            loc.club = $scope.club.resource_uri;
+            Location.save(loc, function(loc){
+                $scope.locations.push(loc);
+            });
+        }
+    };
+
+    $scope.cancel_edit_location = function(){
+        $scope.edit_location_target = {name:'',address:''};
+        $scope.edit_location = false;
+    };
+
+    $scope.delete_location = function(loc){
+         if(confirm("You're about to delete "+loc.name+". This can not be undone!" )){
+            var index = -1;
+            for (var i=0; i<$scope.locations.length;i++) {
+                if ($scope.locations[i].name==loc.name && $scope.locations[i].address==loc.address) {
+                    index = i;
+                    break;
+                }
+            }
+            Location.delete({locId: loc.id}, function(){
+                $scope.locations.splice(index,1);
+            });
+        }
     };
 
 });
