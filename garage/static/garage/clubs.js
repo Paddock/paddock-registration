@@ -230,6 +230,14 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     };
 
     $scope.save_raceclass = function(race_class) {
+        if (!$scope.edit_raceclass) {
+            race_class.club = $scope.club.resource_uri;
+            RaceClass.save(race_class,function(race_class){
+                $scope.race_classes.push(race_class)
+            });
+
+        }
+
         RaceClass.save(race_class);
     };
 
@@ -250,7 +258,9 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     };
 
     $scope.cancel_edit_raceclass = function(){
-        $scope.edit_raceclass_target = {abrv:'',pax:'',pax_class:''};
+        $scope.edit_raceclass_target = {abrv:'',pax:'',pax_class:false,description:'', 
+            allow_dibs: false, hidden: false, event_reg_limit: null, bump_class: false, 
+            user_reg_limit: null};
         $scope.edit_raceclass=false;
 
     };

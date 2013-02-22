@@ -111,13 +111,14 @@ v1_api.register(ClubResource())
 class RaceClassResource(ModelResource): 
 
     club = fields.ToOneField('garage.api.ClubResource', 'club')
-    default_pax_class = fields.ToOneField('garage.api.RaceClassResource', 'default_pax_class', blank=True, null=True)
+    default_pax_class = fields.ToOneField('garage.api.RaceClassResource', 'default_pax_class', blank=True, null=True, readonly=True)
 
     class Meta: 
         queryset = RaceClass.objects.all()
         resource_name = 'raceclass'
         authentication= SessionAuthentication()
         authorization = Authorization()
+        always_return_data = True
 
 v1_api.register(RaceClassResource())
 
