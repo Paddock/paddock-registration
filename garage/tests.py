@@ -53,10 +53,11 @@ class TestPermissions(TestCase):
         self.assertTrue(user.has_perm('registration.test_admin'))
 
 
-class TestClubAPI(ResourceTestCase): 
+
+class TestAPIPermissions(ResourceTestCase): 
 
     def setUp(self): 
-        super(TestClubAPI, self).setUp()
+        super(TestAPIPermissions, self).setUp()
 
         self.c = Club()
         self.c.name = "test"

@@ -39,6 +39,30 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
             return true;
         }
     };
+
+    $scope.coupon_edit_target = {username:'',code:'',permanent:false, is_percent:false, 
+        single_use_per_user:false, discount_amount:0.0, expires:'', uses_left:0}
+    $scope.couponGridOption = {
+        data: 'coupons',
+        multiSelect:false,
+        showColumnMenu: false,
+        displaySelectionCheckbox: false,
+        showFilter: false,
+        columnDefs: [
+            {field:'code', displayName:'Code'},
+            {field:'username', displayName:'username' }
+        ],
+        beforeSelectionChange: function(rowItem, event){
+            if (!rowItem.selected){ //for some reason, this seems backwards.
+                $scope.edit_coupon_target = rowItem.entity;
+                $scope.edit_coupon = true;
+            }
+            else {
+                $scope.cancel_edit_coupon();
+            }
+            return true;
+        }
+    };
     var check_tmpl = '<div class="ngCellText colt{{$index}}"><i ui-if="row.getProperty(col.field)" class="icon-ok"></i></div>';
     $scope.edit_raceclass_target = null;
     $scope.raceclassGridOptions = {
@@ -219,7 +243,21 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     };
 
     $scope.save_coupon = function(coupon) {
-        Coupon.save(coupon);
+        coupon.club = $scope.club.resource_uri;
+        if (!$scope.edit_coupon) {
+            Coupon.save(coupon,function(coupon){
+                $scope.coupons.push(coupon);
+            });
+        }
+        else {
+            Coupon.save(coupon);
+        }
+    };
+
+    $scope.cancel_edit_coupon = function() {
+        $scope.edit_coupon_target = {username:'',code:'',permanent:false, is_percent:false, 
+        single_use_per_user:false, discount_amount:0.0, expires:'', uses_left:0};
+        $scope.edit_coupon = false;
     };
 
     $scope.delete_coupon = function(coupon) {

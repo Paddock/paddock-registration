@@ -177,9 +177,7 @@ class Command(BaseCommand):
             s.year = int(line['year'])
             s.drop_lowest_events = int(line['drop_lowest_events'])
             s.save()
-            
-            club.save()
-            
+                        
             season_map[line['id']] = s
 
         event_map = {}

@@ -1,3 +1,6 @@
+
+import json 
+
 from django.core.urlresolvers import reverse
 
 from tastypie import fields, api
@@ -5,18 +8,23 @@ from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization,DjangoAuthorization
 from tastypie.authentication import SessionAuthentication
 
+
 from registration.models import Registration, Event, RaceClass, Car, \
     UserProfile, User, Coupon, Club, Season, Location, Membership, Group
+
+from garage.api_auth import ClubAdminAuthorization, UserAdminAuthorization
 
 v1_api = api.Api(api_name='v1')
 
 
 class UserResource(ModelResource): 
+
     class Meta: 
         queryset = User.objects.all()
         resource_name = 'users'
         fields = ['first_name', 'last_name', 'email', 'username']
         include_resource_uri = False
+        authorization = Authorization()
 
 #v1_api.register(UserResource())
 
@@ -37,7 +45,7 @@ class UserProfileResource(ModelResource):
         excludes = ['activation_key']
         authentication= SessionAuthentication()
         #authorization= IsOwnerAuthorization()
-        authorization = Authorization()
+        authorization = UserAdminAuthorization()
 
     #todo: limit stuff here --> might need a resource where you can only see id... 
     #def apply_authorization_limits(self, request, object_list):
@@ -54,7 +62,7 @@ class CarResource(ModelResource):
         queryset = Car.objects.all()
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
         fields = ['id', 'name', 'make', 'model', 'year', 'thumb', 'avatar',
          'provisional']
         always_return_data = True
@@ -84,7 +92,7 @@ class ClubResource(ModelResource):
         queryset = Club.objects.prefetch_related('seasons', 'locations', 'memberships')
         resource_name = 'club'
         authentication= SessionAuthentication()
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
         always_return_data = True
 
 
@@ -96,14 +104,8 @@ class ClubResource(ModelResource):
             users = User.objects.filter(username__in=[a['username'] for a in admins])
             for u in users: 
                 bundle.obj.group.user_set.add(u)
-            bundle.obj.save()
-            
         return bundle
         
-
-    #def save_m2m(self,bundle): 
-    #    return     
-
 
 v1_api.register(ClubResource())
 
@@ -117,7 +119,7 @@ class RaceClassResource(ModelResource):
         queryset = RaceClass.objects.all()
         resource_name = 'raceclass'
         authentication= SessionAuthentication()
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
         always_return_data = True
 
 v1_api.register(RaceClassResource())
@@ -135,7 +137,7 @@ class MembershipResource(ModelResource):
         queryset = Membership.objects.all()
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
         excludes = ['_anon_f_name', '_anon_l_name']
 
     def dehydrate(self, bundle): 
@@ -164,7 +166,7 @@ class EventResource(ModelResource):
 
     class Meta: 
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
         queryset = Event.objects.all()
 
     def dehydrate(self, bundle): 
@@ -181,12 +183,12 @@ class SeasonResource(ModelResource):
     events = fields.ToManyField('garage.api.EventResource', 'events', 'season',
         full=True, null=True, blank=True, readonly=True)
 
-    club = fields.ToOneField('garage.api.ClubResource', 'club', 'season')
+    club = fields.ToOneField('garage.api.ClubResource', 'club')
 
     class Meta: 
-        queryset = Season.objects.prefetch_related().all()
+        queryset = Season.objects.select_related().all()
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
         always_return_data = True
 
     def save_m2m(self, bundle): 
@@ -202,7 +204,7 @@ class LocationResource(ModelResource):
     class Meta: 
         queryset = Location.objects.all()
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
 
 v1_api.register(LocationResource())        
 
@@ -210,22 +212,34 @@ v1_api.register(LocationResource())
 # No URI for these, so they don't need to be protected
 class CouponResource(ModelResource):
 
-    username = fields.CharField(readonly=True)
+    username = fields.CharField()
 
     club = fields.ToOneField('garage.api.ClubResource', 'club', 'season')
-    user_prof = fields.ToOneField('garage.api.UserProfileResource', 'user_prof', blank=True, null=True)
+    #user_prof = fields.ToOneField('garage.api.UserProfileResource', 'user_prof', blank=True, null=True)
 
     class Meta: 
         queryset = Coupon.objects.prefetch_related().all()  
         authentication = SessionAuthentication()
-        authorization = Authorization()
+        authorization = ClubAdminAuthorization()
+        always_return_data = True
 
     def dehydrate(self, bundle):
         if bundle.obj.user_prof: 
             bundle.data['username'] = bundle.obj.user_prof.user.username
         else: 
             bundle.data['username'] = "N/A"
-        return bundle     
+        return bundle    
+
+    def hydrate_username(self, bundle): 
+        username = bundle.data['username']
+        print "TESTING"
+        if (not username) or (username == "N/A"): 
+            bundle.object.user_prof = None
+
+        else: 
+            user = User.objects.get(username=username)
+            print user
+            bundle.obj.user_prof = user.get_profile()
+        return bundle
 
 v1_api.register(CouponResource())
-

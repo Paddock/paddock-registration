@@ -87,7 +87,10 @@ class UserProfile(m.Model):
     address = m.CharField('Home Address', max_length=150, null=True, blank=True)
     city = m.CharField('City', max_length=25, null=True, blank=True)
     state = m.CharField('State', max_length=25, null=True, blank=True)
-    zip_code = m.CharField('Zip Code', max_length=13, null=True, blank=True)    
+    zip_code = m.CharField('Zip Code', max_length=13, null=True, blank=True) 
+
+    class Meta: 
+        permissions = (("view_user", "Can see information about users"),)
     
     def __unicode__(self):
         return u"%s" % self.user    
@@ -365,11 +368,14 @@ def create_club(sender, instance, created, **kwargs):
                                        content_type=club_content_type)
         p.save()
 
+        user_p = Permission.objects.get(codename="view_user")
+
         g = Group()
         g.name = "%s_admin"%instance.safe_name
         g.save()
 
         g.permissions.add(p)
+        g.permissions.add(user_p)
 
         instance.group = g
         instance.save()
