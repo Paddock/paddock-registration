@@ -95,6 +95,13 @@ class TestAPIPermissions(ResourceTestCase):
                                               password='test')
         return resp
 
+    def test_not_allowed(self): 
+        resp = self.api_client.get(self.detail_url, format="json", 
+            authenticate=self.get_credentials())
+        self.assertHttpUnauthorized(resp)
+
+
+
     def test_list_club_admins(self): 
         self.client.login(username='justingray', password='test')   
 
