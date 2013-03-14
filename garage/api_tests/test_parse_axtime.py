@@ -1,10 +1,9 @@
 import StringIO
 import datetime
 
-from unittest import TestCase
-
 from django.db import models as m
 from django.contrib.auth.models import AnonymousUser
+from django.test import TestCase
 
 from garage.utils import parse_axtime
 
@@ -134,6 +133,13 @@ class TestParseAxtime(TestCase):
         result = results[1]
         self.assertEqual(result.reg.race_class,self.rc3)
         self.assertEqual(result.reg.pax_class,self.rc2)
+
+    def test_upload_with_error(self): 
+        self.c = Client()
+
+        url = "/garage/event/61/results"
+
+            
 
 
 
