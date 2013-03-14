@@ -322,9 +322,11 @@ class Command(BaseCommand):
                 r.save()
             except: 
                 r.number += 100
-                r.save()
-                exit()
-            
+                try: 
+                    r.save()
+                except: 
+                    continue   
+
             registration_map[line['id']] = r
                 
         session_map = {}
@@ -362,9 +364,15 @@ class Command(BaseCommand):
             
             r = Result()
             r.reg = registration_map[line['registration_id']]
+
             r.session = session_map[line['sess_id']]
             r.club = r.session.club
-            r.save()
+            try: 
+                r.save()
+            except Exception as err: 
+                print registration_map[line['registration_id']].pk
+                print str(err)
+                print registration_map[line['registration_id']]
             
             result_map[line['id']] = r
             

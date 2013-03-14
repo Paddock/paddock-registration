@@ -1,3 +1,10 @@
+import csv
+import re
+
+from registration.models import Result, RaceClass, UserProfile, User, Registration, Run
+
+int_check = re.compile('^\d+$')
+
 def reg_txt(regs): 
     """return a string with registration data formatted for axware"""
 
@@ -114,4 +121,159 @@ def reg_dat(regs):
         lines ="".join([lines,line,'\r\n'])
 
     return lines
+
+def parse_axtime(event,session,results_file): 
+    """Expects a Session object and a file object with 
+    and iterates through to return either a list of result instances, 
+    or a dictionary containing error messages""" 
+
+    validate_error = {}
+    results = []  
+    club = session.club
+
+    reader = csv.reader(results_file)
+    header = reader.next()
+    header_check = ['First','Last','Reg','Class','Num','Vehicle',
+                    'Pax_Cls','Color',"Notes","Heat"]
+    if not all([h in header for h in header_check]):
+        validate_error['results_file'] = "your file was missing some columns"
+        return validate_error
+    
+    time_keys = [k for k in header if 'Run' in k]
+    cone_keys = [k for k in header if 'Pyl' in k]
+    pen_keys = [k for k in header if 'Pen' in k]
+    
+    if not all([time_keys,cone_keys,pen_keys]): 
+        validate_error['result_file'] = "your file was missing some run results columns"
+        return validate_error
+        
+    keys = header_check + time_keys + cone_keys + pen_keys
+    for line in reader: 
+        result = Result()
+        result.session = session
+        result.club = session.club
+
+        data = dict(zip(header,line))
+        reg_id = data['Notes']
+        
+        #find the group class and raceclass: 
+        if data['Class']==data['Pax_Cls']: 
+            group = None
+        else: 
+            try: 
+                group = RaceClass.objects.get(abrv=data['Class'],club=club)
+                       
+            except RaceClass.DoesNotExist: 
+                validate_error['result_file'] = 'Your Reults for %s %s included a unknown entry, %s in the Class column'%(data['First'],data['Last'],data['Class'])
+                return validate_error
+        
+        try: 
+            race_class = RaceClass.objects.get(abrv=data['Pax_Cls'],club=club)
+        except RaceClass.DoesNotExist: 
+            if not data['Pax_Cls']: 
+                validate_error['results_file'] = "Your results for %s %s included an blank race class"%(data['First'],data['Last'])
+            else: 
+                validate_error['results_file'] = "Your results for %s %s included an unknown race class: %s"%(data['First'],data['Last'],data['Pax_Cls'])
+            return validate_error
+
+        car_data = data['Vehicle'].split()
+        if len(car_data) == 3 and int_check.match(car_data[0]):
+            data['Vehicle_year'] = car_data[0]
+            data['Vehicle_make'] = car_data[1]
+            data['Vehicle_model'] = car_data[2]
+                
+        elif len(car_data) == 2:
+            data['Vehicle_year'] = None
+            data['Vehicle_make'] = car_data[0]
+            data['Vehicle_model'] = car_data[1]
+        else:
+            data['Vehicle_year'] = None
+            data['Vehicle_make'] = None
+            data['Vehicle_model'] = data['Vehicle'] 
+                        
+        #try REALLY hard to find the registration that maps to this driver
+        try: 
+            user = User.objects.filter(username__icontains=data['Mem_Num'], 
+                first_name__icontains=data['First'], 
+                last_name__icontains=data['Last'])[0]
+        except IndexError: #coudn't find one
+            user = None
+           
+        if user: 
+            try:
+                reg = Registration.objects.get(event=event,user_profile__user__username=user.username) 
+                if reg.race_class != race_class:
+                    reg.race_class = race_class
+            
+            except Registration.DoesNotExist:    
+                reg = Registration()
+                reg.user_profile = user.get_profile()
+                reg.number = int(data['Num'])
+                reg.race_class = race_class
+                reg.pax_class = group
+                reg._anon_car = data['Vehicle']
+                reg.event = event
+                reg.club = club
+                reg.save()
+            #not sure how this could happen at all...    
+            #except Registration.MultipleObjectsReturned:
+            #    reg = session.query(model.Registration).join(model.Driver).join(model.Event).\
+            #            filter(model.Event.id==c.event.id).filter(model.Driver.user_name==driver.user_name).all()
+            #    for r in reg: 
+            #        session.delete(r)
+            #    
+            #    reg = model.Registration()
+            #    reg.driver = driver
+            #    reg.number = int(data['Num'])
+            #    reg.race_class = race_class
+            #    reg.anon_car = unicode(data['Vehicle'])
+            #    reg.event = c.event
+                
+        else:  
+            #try to find a previous anon_reg
+            try:
+                reg = Registration.objects.get(event=event, _anon_f_name=data['First'], 
+                    _anon_l_name=data['Last'])        
+                        
+            except Registration.DoesNotExist: 
+                reg = Registration()
+                reg.number = int(data['Num'])
+                reg.race_class = race_class
+                reg.pax_class = group
+                
+                reg._anon_f_name = data['First']
+                reg._anon_l_name = data['Last']
+                reg._anon_car = data['Vehicle']
+                reg.event = event
+                reg.club = club
+                reg.save()
+            
+        try: 
+            reg.number = int(data['Num']) 
+        except Exception,err: 
+             validate_error['results_file'] = 'Problem with car number for entry: %s %s'%(reg.first_name,reg.last_name)
+             return validate_error
+
+        result.reg = reg 
+        result.save()
+
+        for r_key,c_key,p_key in zip(time_keys,cone_keys,pen_keys):
+            run = Run()
+            run.result = result
+            run.club = club
+            try: 
+                if float(data[r_key]) <= 0.0: continue
+            except ValueError: 
+                continue
+
+            run.base_time = float(data[r_key])
+            run.cones = int(data[c_key])
+            if data[p_key].strip():
+                run.penalty = data[p_key]
+            run.save()
+        reg.save()
+        results.append(result)
+
+    return results
+               
     

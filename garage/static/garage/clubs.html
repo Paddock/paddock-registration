@@ -34,7 +34,7 @@
               <input class="span1" type="text" ng-model="edit_event_target.non_pre_pay_penalty">
             </div>
             <label>Location</label>
-            <select ng-model="edit_event_location" ng-options="l.id as l.name for l in club.locations">
+            <select ng-model="edit_event_location" ng-options="l.resource_uri as l.name for l in club.locations">
             </select>
          </div>
     </div>
@@ -83,7 +83,7 @@
                                     <th style="width:12em;"></th>
                                 </tr></thead>
                                 <tbody><tr ng-repeat="event in season.events">
-                                    <td>{{event.name}}</td>
+                                    <td><a ng-href="/garage/events/{{event.id}}">{{event.name}}</a></td>
                                     <td>{{event.date | date:'mediumDate'}}</td>
                                     <td>
                                         <button class="btn btn-primary btn-mini" type="button" ng-click="edit_event(event)">

@@ -17,6 +17,7 @@ from django.core.files.temp import NamedTemporaryFile
 from django.core.mail import send_mail
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
+from django.db import transaction
 
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login,logout
@@ -25,12 +26,12 @@ from django.contrib.auth.decorators import login_required
 from django.forms import ModelChoiceField, HiddenInput
 
 from registration.models import Club, Event, Car, UserProfile, User, find_user, \
-    Membership
+    Membership, Session
 
 from django.views.decorators.csrf import csrf_exempt
 
 from garage.api import MembershipResource
-from garage.utils import reg_txt, reg_dat
+from garage.utils import reg_txt, reg_dat, parse_axtime
 
 
 @login_required
@@ -45,6 +46,7 @@ def admin_user(request, username):
                               context,
                               context_instance=RequestContext(request))
 
+
 #TODO Permissions for user to access this? 
 @login_required
 @require_http_methods(['GET'])
@@ -54,11 +56,27 @@ def admin_club(request, clubname):
     club = Club.objects.get(safe_name="noraascc")
     context = {'js_target': 'clubs',
                'club': club,
-               'user': request.user }
+               'user': request.user}
 
     return render_to_response('garage/base.html',
                               context,
                               context_instance=RequestContext(request))
+
+
+@login_required
+@require_http_methods(['GET'])
+def admin_event(request, event_id): 
+
+    event = Event.objects.get(pk=event_id)
+    context = {'js_target': 'events',
+               'club': event.club,
+               'user': request.user,
+               'event': event}
+
+    return render_to_response('garage/base.html',
+                              context,
+                              context_instance=RequestContext(request))           
+
 
 @login_required
 @require_http_methods(['POST'])
@@ -66,30 +84,31 @@ def email_regd_drivers(request, event_id):
     e = Event.objects.get(pk=event_id)
     emails = e.regs.filter(user_profile__isnull=False).\
         select_related('user_profile__user').\
-        values_list('user_profile__user__email',flat=True).\
+        values_list('user_profile__user__email', flat=True).\
         all()
     
     subject = request.POST['subject']
-    body =  request.POST['body']
+    body = request.POST['body']
     
-    send_mail(subject,body,settings.DEFAULT_FROM_EMAIL,emails)
+    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, emails)
     
     return HttpResponse(status=200)
 
+
 @login_required
 @require_http_methods(['GET'])
-def reg_data_files(request,event_id): 
+def reg_data_files(request, event_id): 
 
     e = Event.objects.select_related().get(pk=event_id)
     
     out_file = StringIO.StringIO()
-    z = zipfile.ZipFile(out_file,'w')
+    z = zipfile.ZipFile(out_file, 'w')
 
     dat = reg_dat(e.regs.all())
     txt = reg_txt(e.regs.all())
 
-    z.writestr('pre_reg.dat',dat)
-    z.writestr('pre_reg.txt',txt)
+    z.writestr('pre_reg.dat', dat)
+    z.writestr('pre_reg.txt', txt)
 
     z.close()
     out_file.seek(0)
@@ -97,6 +116,38 @@ def reg_data_files(request,event_id):
         content=out_file)
     response['Content-Disposition'] = 'filename="pre_reg.zip"'
     return response
+
+
+@login_required
+@require_http_methods(['POST'])
+def upload_results(request, event_id): 
+    validate_error = dict()
+
+    event = Event.objects.get(pk=event_id)
+
+    with transaction.atomic():
+        name = request.params.get('name') 
+        if not name: 
+            validate_error['name'] = "you must name the session"
+            raise ValueError
+
+        session = Session()
+        s.club = event.club
+
+        f = StringIO.StringIO(request.FILES['results_file'].read())
+
+        results = parse_axtime(event,session,f)
+
+        if isintance(results,dict): #some kind of error happened
+            validate_error = results
+            raise ValueError
+
+        return HttpResponse(mimetype="application/json",status=200)
+        
+    except Exception: 
+        return HttpResponse(content=json.dumps({'msg': validate_error}),
+                                mimetype="application/json",
+                                status=400)
 
 @login_required
 @require_http_methods(['POST'])

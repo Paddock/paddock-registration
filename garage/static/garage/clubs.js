@@ -104,10 +104,6 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
 
     $scope.club = Club.get({clubId:CLUB_ID},function(){
         //console.log($scope.club);
-        $scope.location_map = {};
-        angular.forEach($scope.club.locations,function(l,index){
-            $scope.location_map[l.resource_uri] = index;
-        });
         $scope.new_event_season = $scope.club.seasons[0];
 
 
@@ -125,7 +121,7 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
 
         $scope.race_classes = $scope.club.race_classes;
 
-        $scope.locations = $scope.club.locations
+        $scope.locations = $scope.club.locations;
 
         //copy because I need to delete from the club list, post, then if successfuly remove from copy
         $scope.admins = angular.copy($scope.club.admins);
@@ -206,8 +202,7 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
             
             $scope.edit_event_target.reg_close = midnight;
         }
-        var i = $scope.location_map[$scope.edit_event_location];
-        $scope.edit_event_target.location = $scope.club.locations[i].resource_uri;
+        $scope.edit_event_target.location = $scope.edit_event_location;
         $scope.show_event_modal = false;
 
         //don't need to manually update the data, because angular seems

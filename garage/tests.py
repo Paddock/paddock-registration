@@ -1,10 +1,3 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 
 from django.test import TestCase
 from django.contrib.auth.models import User
@@ -21,6 +14,8 @@ from tastypie.test import ResourceTestCase
 #from garage.api_tests.test_api import RegistrationResourceTest
 
 from registration.models import Club, Group, Permission, User
+
+from api_tests.test_parse_axtime import TestParseAxtime
 
 
 class TestPermissions(TestCase): 
@@ -95,9 +90,26 @@ class TestAPIPermissions(ResourceTestCase):
                                               password='test')
         return resp
 
+    def test_add_coupons(self): 
+        data = {"code": "something",
+                 "username": "justingray",
+                 "discount_amount": "100",
+                 "uses_left": "10",
+                 "expires": "2013-10-01",
+                 "club": "/garage/api/v1/club/test/",
+                 "permanent": True}
+        
+        resp = self.api_client.post('/garage/api/v1/coupon/', format='json',
+            authenticate=self.get_credentials(), data=data)
+        self.assertHttpCreated(resp)
+
+
     def test_not_allowed(self): 
+        cred = self.api_client.client.login(username='eligray',
+                                              password='test')
+
         resp = self.api_client.get(self.detail_url, format="json", 
-            authenticate=self.get_credentials())
+            authenticate=cred)
         self.assertHttpUnauthorized(resp)
 
 

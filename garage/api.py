@@ -10,7 +10,8 @@ from tastypie.authentication import SessionAuthentication
 
 
 from registration.models import Registration, Event, RaceClass, Car, \
-    UserProfile, User, Coupon, Club, Season, Location, Membership, Group
+    UserProfile, User, Coupon, Club, Season, Location, Membership, Group, \
+    Result, Run, Session
 
 from garage.api_auth import ClubAdminAuthorization, UserAdminAuthorization
 
@@ -145,7 +146,53 @@ class MembershipResource(ModelResource):
         bundle.data['real_name'] = '%s %s'%(bundle.obj.f_name, bundle.obj.l_name)
         return bundle
 
-v1_api.register(MembershipResource())        
+v1_api.register(MembershipResource())
+
+
+class RunResource(ModelResource): 
+
+    class Meta: 
+        authentication = SessionAuthentication()
+        authorization = ClubAdminAuthorization()
+        queryset = Run.objects.all()
+
+v1_api.register(RunResource())
+
+
+class ResultResource(ModelResource):
+
+    session = fields.CharField(readonly=True)
+    runs = fields.ToManyField('garage.api.RunResource', 'runs', readonly=True, full=True)
+
+    class Meta: 
+        authentication = SessionAuthentication()
+        authorization = ClubAdminAuthorization()
+        queryset = Result.objects.all()
+        include_resource_uri = False
+
+
+    def dehydrate_session(self, bundle): 
+        return bundle.obj.session.name
+
+
+class RegistrationResource(ModelResource): 
+
+    race_class = fields.ToOneField('garage.api.RaceClassResource', 'race_class', full=True)
+    pax_class = fields.ToOneField('garage.api.RaceClassResource', 'pax_class', full=True, null=True, blank=True)
+    bump_class = fields.ToOneField('garage.api.RaceClassResource', 'bump_class', full=True, null=True, blank=True)
+    first_name = fields.CharField(attribute='first_name', readonly=True)
+    last_name = fields.CharField(attribute='last_name', readonly=True)
+    car_name = fields.CharField(attribute='car_name', readonly=True)
+
+    results = fields.ToManyField('garage.api.ResultResource', 'results', readonly=True, full=True)
+
+    class Meta: 
+        authentication = SessionAuthentication()
+        authorization = ClubAdminAuthorization()
+        queryset = Registration.objects.all()
+        excludes = ['_anon_l_name', '_anon_f_name', '_anon_car']
+
+v1_api.register(RegistrationResource())
 
 
 class EventResource(ModelResource): 
@@ -161,6 +208,7 @@ class EventResource(ModelResource):
     location = fields.ToOneField('garage.api.LocationResource', 'location', 
         blank=True, null=True)
     season = fields.ToOneField('garage.api.SeasonResource', 'season')
+    club = fields.ToOneField('garage.api.ClubResource', 'club')
     club_name = fields.CharField(null=True, readonly=True)
     url = fields.CharField(null=True, readonly=True)
 
@@ -168,14 +216,34 @@ class EventResource(ModelResource):
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
         queryset = Event.objects.all()
+        resource_name = "event"
 
     def dehydrate(self, bundle): 
         bundle.data['club_name'] = bundle.obj.season.club.name
         bundle.data['url'] = self.get_url(bundle)
         return bundle    
-  
 
-v1_api.register(EventResource())
+
+class EventDetailResource(EventResource): 
+
+    regs = fields.ToManyField('garage.api.RegistrationResource', 
+        attribute=lambda b: b.obj.get_results(), 
+        full=True)
+    sessions = fields.ToManyField('garage.api.SessionResource',
+        attribute="sessions", full=True, readonly=True)
+
+v1_api.register(EventDetailResource())
+
+
+class SessionResource(ModelResource): 
+
+    class Meta: 
+        authentication = SessionAuthentication()
+        authorization = ClubAdminAuthorization()
+        queryset = Session.objects.all()
+        resource_name = "sessions"
+
+v1_api.register(SessionResource())
 
 
 class SeasonResource(ModelResource):
@@ -232,13 +300,11 @@ class CouponResource(ModelResource):
 
     def hydrate_username(self, bundle): 
         username = bundle.data['username']
-        print "TESTING"
         if (not username) or (username == "N/A"): 
             bundle.object.user_prof = None
 
         else: 
             user = User.objects.get(username=username)
-            print user
             bundle.obj.user_prof = user.get_profile()
         return bundle
 

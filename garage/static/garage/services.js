@@ -53,3 +53,9 @@ mod.factory('Location', function($resource){
     query: {method: 'GET', params:{locId:''}, isArray:true}
   });
 });
+
+mod.factory('Session', function($resource){
+  return $resource('/garage/api/v1/sessions/:sessId', {}, {
+    query: {method: 'GET', params:{sessId:''}, isArray:true}
+  });
+});

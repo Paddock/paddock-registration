@@ -18,7 +18,7 @@ from django.core.files.storage import FileSystemStorage
 from django.template.loader import render_to_string
 
 from django.contrib.auth.models import User, Group, Permission
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 
 from django.utils.timezone import now as django_now
 
@@ -139,7 +139,7 @@ class UserProfile(m.Model):
             if r.event == event: 
                 return r
         return False
-    
+
 
 #causes creation of user profile just after new users are created    
 def create_user_profile(sender, instance, created, **kwargs): 
@@ -228,8 +228,8 @@ class Club(Purchasable):
     name = m.CharField('Club Name', max_length=100)
     safe_name = m.CharField("safe_name", max_length=100, primary_key=True, unique=True) 
 
-    created = m.DateTimeField(auto_now_add=True)
-    last_mod = m.DateTimeField(auto_now=True)
+    #created = m.DateTimeField(auto_now_add=True)
+    #last_mod = m.DateTimeField(auto_now=True)
 
     new_member_cost = m.DecimalField('New Membership Price', 
                                      max_digits=10,
@@ -356,7 +356,11 @@ class Club(Purchasable):
         return None  
 
 
+def remove_club(sender,instance,signal,using,**kwargs): 
 
+    Permission.objects.get(codename="%s_admin"%instance.safe_name).delete()
+    Group.objects.get(name="%s_admin"%instance.safe_name).delete()
+post_delete.connect(remove_club, sender=Club)
 
 #causes creation of club admin permissions after club is saved  
 def create_club(sender, instance, created, **kwargs): 
@@ -434,7 +438,7 @@ class Membership(Purchasable):
 class RaceClass(m.Model): 
     name = m.CharField('Class Name', max_length=20)
     abrv = m.CharField('Arbeviation', max_length=4)
-    pax = m.FloatField('PAX multiplier')
+    pax = m.FloatField('PAX multiplier',default=1.0)
 
     pax_class = m.BooleanField('PAX Class', default=False)
     default_pax_class = m.ForeignKey('self', null=True, blank=True)
@@ -874,8 +878,8 @@ class Result(m.Model):
 
 
 class Run(m.Model):     
-    base_time = m.FloatField('Base Time')
-    calc_time = m.FloatField('Calculated Time')
+    base_time = m.FloatField('Base Time',default=0.0)
+    calc_time = m.FloatField('Calculated Time', default=0.0)
 
     cones = m.IntegerField(default=0)
     penalty = m.CharField(default=None, max_length=10, blank=True, null=True)

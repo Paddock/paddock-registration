@@ -124,3 +124,50 @@ app.directive('autoUsername', function($http) {
 });
 
 
+app.directive('ajaxform',function(){
+    return {
+      restrict:"A",
+      scope:false,
+      link: function(scope,element,attrs){
+
+          var file_input = $($(element).find('input[type=file]')[0]);
+          var ngModel_var = file_input.attr('ng-model');
+          var attr_set = attrs['ajaxform'].split(',');
+          var status_class_var = attr_set[0];
+          var status_msg_var = attr_set[1];
+          if (attr_set.length > 2) { //third one is success callback
+          var success_cb = attr_set[2];
+          }
+
+
+          $(file_input).bind('change',function(){
+            if (ngModel_var) {
+              var file_name = file_input.val().replace(/C:\\fakepath\\/i, '');
+              scope.$apply(ngModel_var+'="'+file_name+'"');
+            }
+            scope.$apply(status_class_var+"=''");
+            scope.$apply(status_msg_var+"=''");
+            //element.submit();
+          });
+
+          element.ajaxForm({
+            success: function(resp,status,xhr,element){
+              var msg = resp.msg;
+              scope.$apply(status_class_var+"=''");
+              scope.$apply(status_msg_var+"='"+msg+"'");
+              scope.$apply(success_cb);
+            },
+            error: function(resp,status,xhr,element){
+
+              var msg = angular.fromJson(resp.responseText).msg;
+              scope.$apply(status_class_var+"='error'");
+              scope.$apply(status_msg_var+"='"+msg+"'");
+              //var err_msg = resp.responseText
+            },
+            dataType: 'json'
+        });
+      } 
+  }
+  });
+
+

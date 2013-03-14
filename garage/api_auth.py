@@ -1,7 +1,7 @@
 from tastypie.authorization import Authorization
 from tastypie.exceptions import Unauthorized
 
-from registration.models import Club, User, UserProfile
+from registration.models import Club, User, UserProfile, Event
     
 
 class UserAdminAuthorization(Authorization): 
@@ -71,10 +71,13 @@ class ClubAdminAuthorization(Authorization):
             else: 
                 club = bundle.obj
         else: 
-            cls = type(bundle.obj)
-            id = bundle.data['id'] #this is shitty... but the bundle.obj does not seem to be valid yet
-            obj = cls.objects.get(pk=id)
-            club = obj.club
+            try: 
+                club = bundle.obj.club
+            except: 
+                if type(bundle.obj) == Event: 
+                    print bundle.data
+                club_id = bundle.data['club'].split("/")[-2]
+                club = Club.objects.get(safe_name=club_id)
 
         perm = 'registration.%s_admin'%club.safe_name
         if not user.has_perm(perm): 

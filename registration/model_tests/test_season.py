@@ -80,7 +80,7 @@ class TestSeasonWithData(django.test.TestCase):
         self.assertEqual(17216, index_points[0][1]['points'])
         self.assertEqual(8, index_points[0][1]['n_regs'])
         
-        self.assertEqual(14471, index_points[2][1]['points'])
+        self.assertEqual(14400, index_points[2][1]['points'])
         self.assertEqual(7, index_points[2][1]['n_regs'])
         
         self.assertEqual(12676, index_points[6][1]['points'])
