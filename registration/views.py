@@ -1,12 +1,12 @@
 from collections import OrderedDict
 import json
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.core import serializers
-from django.views.generic.create_update import create_object, update_object
+#from django.views.generic.create_update import create_object, update_object
 from django.views.decorators.http import require_http_methods
 
 from django.contrib.auth.models import User
@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
 
-from registration.models import Club, Event, Car, UserProfile
+from registration.models import Club, Event, Car, UserProfile, Registration
 
 from registration.forms import UserCreationForm, ActivationForm,\
      RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
@@ -23,6 +23,7 @@ from registration.forms import UserCreationForm, ActivationForm,\
 
 JSON = serializers.get_serializer('json')
 toJSON = JSON() #need an instance of the serializer
+
 
 def login(request, *args, **kwargs):
     if request.method == 'POST':
@@ -51,8 +52,8 @@ def event(request, club_name, season_year, event_name):
     
     event = Event.objects.select_related('regs', 'season').\
         get(season__club__safe_name=club_name,
-                              season__year=season_year,
-                              safe_name=event_name)
+            season__year=season_year,
+            safe_name=event_name)
     
     reg_is_open = event.reg_is_open
 
@@ -93,34 +94,33 @@ def event(request, club_name, season_year, event_name):
     
     if reg_is_open: 
         return render_to_response('registration/upcoming_event.html',
-                              context,
-                              context_instance=RequestContext(request))
+                                  context,
+                                  context_instance=RequestContext(request))
     else: 
         context['index_points'], context['class_points'] = event.season.points_as_of(event.date) 
         context['top_pax_reg'] = regs[0]
         context['top_raw_reg'] = regs.order_by('-n_runs', 'total_raw_time')[0]        
         return render_to_response('registration/complete_event.html',
-                                      context,
-                                      context_instance=RequestContext(request)) 
+                                  context,
+                                  context_instance=RequestContext(request)) 
     
-
 @login_required
 @form_is_for_self(RegForm, 'user_profile')
 def event_register(request, club_name, season_year, event_name, username=None): 
     """register for an event""" 
     up = request.user.get_profile()
     e = Event.objects.select_related('season', 'season__club', 'user_profile').\
-                get(season__club__safe_name=club_name,
-                    season__year=season_year,
-                    safe_name=event_name)    
+        get(season__club__safe_name=club_name,
+            season__year=season_year,
+            safe_name=event_name)    
     redirect_target = reverse('registration.views.event', args=[club_name, season_year, event_name])
     form_template = 'registration/event_reg_form.html'
     
-    extra_c={
+    context={
         'event': e,
         'season': e.season,
         'club':  e.season.club
-    }    
+    } 
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
@@ -128,18 +128,33 @@ def event_register(request, club_name, season_year, event_name, username=None):
                                  initial=e.pk, widget=HiddenInput())
         user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
                                         initial=up.pk, widget=HiddenInput())
+    
+    """
+        return UpdateView(request, form_class=UserRegForm, object_id=reg.pk,
+                          post_save_redirect=redirect_target,
+                          template_name=form_template,
+                          extra_context=extra_c).as_view()
         
+    return CreateRegView(request, form_class=UserRegForm,
+                         post_save_redirect=redirect_target,
+                         template_name=form_template,
+                         extra_context=extra_c).as_view() """
+    reg = None
     if username: 
         reg = e.regs.get(user_profile__user__username=username)
-        return update_object(request, form_class=UserRegForm, object_id=reg.pk,
-            post_save_redirect=redirect_target,
-            template_name=form_template,
-            extra_context=extra_c)
-        
-    return create_object(request, form_class=UserRegForm,
-        post_save_redirect=redirect_target,
-        template_name=form_template,
-        extra_context=extra_c)        
+
+    if request.method == 'POST':
+        form = UserRegForm(request.POST, request.FILES, instance=reg)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(redirect_target)
+    else:
+        form = UserRegForm(instance=reg)
+
+    context['form'] = form
+    return render_to_response(form_template,
+                              context,
+                              context_instance=RequestContext(request))                               
 
 
 #new user registration

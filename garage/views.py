@@ -17,7 +17,7 @@ from django.core.files.temp import NamedTemporaryFile
 from django.core.mail import send_mail
 from django.views.decorators.http import require_http_methods
 from django.conf import settings
-from django.db import transaction
+from django.db import transaction, IntegrityError
 
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login,logout
@@ -112,10 +112,11 @@ def reg_data_files(request, event_id):
 
     z.close()
     out_file.seek(0)
-    response = HttpResponse(status=200, mimetype="application/x-zip-compressed",
+    response = HttpResponse(status=200, mimetype="application/x-zip-compressed", 
         content=out_file)
     response['Content-Disposition'] = 'filename="pre_reg.zip"'
     return response
+
 
 
 @login_required
@@ -124,30 +125,31 @@ def upload_results(request, event_id):
     validate_error = dict()
 
     event = Event.objects.get(pk=event_id)
-
-    with transaction.atomic():
-        name = request.params.get('name') 
+    try: 
+        name = request.POST.get('name') 
         if not name: 
             validate_error['name'] = "you must name the session"
-            raise ValueError
+            raise IntegrityError
 
         session = Session()
-        s.club = event.club
+        session.club = event.club
+        session.event = event
+        session.save()
 
         f = StringIO.StringIO(request.FILES['results_file'].read())
 
-        results = parse_axtime(event,session,f)
+        results = parse_axtime(event, session, f)
 
-        if isintance(results,dict): #some kind of error happened
+        if isinstance(results, dict): #some kind of error happened
             validate_error = results
             raise ValueError
-
-        return HttpResponse(mimetype="application/json",status=200)
+        return HttpResponse(content=json.dumps({'msg': "success"}), mimetype="application/json", status=200)
         
-    except Exception: 
-        return HttpResponse(content=json.dumps({'msg': validate_error}),
-                                mimetype="application/json",
-                                status=400)
+    except ValueError: 
+        session.delete()
+        return HttpResponse(content=json.dumps(validate_error), mimetype="application/json", status=400)
+ 
+
 
 @login_required
 @require_http_methods(['POST'])

@@ -614,12 +614,24 @@ class Event(m.Model):
     def allow_number_race_class(self, reg): 
         """Checks to see if the specified registration has a unique number and 
         race_class for the event"""
-        reg_check = self.regs.filter(number=reg.number,	                     
-                                              race_class=reg.race_class).count()  
-        
+
+
+        print "TESTING"
+        regs  = self.regs.filter(number=reg.number,	                     
+                                              race_class=reg.race_class)
+
+        reg_check = regs.count()
+
+        print "Reg count: ", reg_check
         #Check if the number/class is used in any child events
-        child_reg_check = self.child_events.all().\
-                    filter(regs__number=reg.number, regs__race_class=reg.race_class).count() 
+        child_regs = self.child_events.all().\
+                    filter(regs__number=reg.number, regs__race_class=reg.race_class)
+
+        child_reg_check = child_regs.count()
+
+        #existing reg, trying to change to a taken number
+        if reg.pk and (reg_check and reg.pk!=regs[0].pk or (child_reg_check and reg.pk!=child_regs[0].pk)): #someone else already has this
+            return False 
         
         if reg.pk and reg_check==1 and child_reg_check <=1: #then it exists, so you need to make sure it's still unique
             return True

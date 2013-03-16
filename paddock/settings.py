@@ -186,3 +186,5 @@ LOGGING = {
         },
     }
 }
+
+EASY_MAPS_GOOGLE_KEY = "ABQIAAAATvRDIFo06ZH6wxD0M7w9_xTChe-YGGDmB-cOOA53ItdltubsShRG06fmtsu2unMlfUBeR3WtrI1MSw"

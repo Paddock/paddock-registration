@@ -46,11 +46,16 @@ class CarAvatarForm(Form):
     user_profile = forms.IntegerField()
 
 
+class ClassChoiceField(forms.ModelChoiceField):
+        def label_from_instance(self, race_class):
+            return race_class.abrv    
+
+
 class RegForm(ModelForm): 
-    pax_class = forms.ModelChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
+    pax_class = ClassChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
                 label="Registration Series",
                 empty_label="Open Class", required=False)
-    race_class = forms.ModelChoiceField(queryset=RaceClass.objects.\
+    race_class = ClassChoiceField(queryset=RaceClass.objects.\
                                         filter(pax_class=False, bump_class=False).\
                                         order_by('abrv').all(),
                 label="Race Class")
@@ -58,10 +63,10 @@ class RegForm(ModelForm):
     class Meta: 
         model = Registration
         #fields = ('number','race_class','pax_class')
-        exclude = ['order', 'price', 'bump_class', 'checked_in', 'run_heat',
+        exclude = ('order', 'price', 'bump_class', 'checked_in', 'run_heat',
                    'work_heat', 'total_raw_time', 'total_index_time',
                    'class_points', 'index_points', '_anon_f_name',
-                   '_anon_l_name', '_anon_car']  
+                   '_anon_l_name', '_anon_car', 'club', 'paid')  
         
 
 class UserCreationForm(UCF):
