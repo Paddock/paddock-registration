@@ -1,24 +1,24 @@
 from tastypie.authorization import Authorization
 from tastypie.exceptions import Unauthorized
 
-from registration.models import Club, User, UserProfile, Event
+from registration.models import Club, User, UserProfile, Event, Car
     
 
 class UserAdminAuthorization(Authorization): 
 
     def _get_user(self, bundle): 
-        user = bundle.request.user
-        if isinstance(bundle.obj, UserProfile): 
+        if isinstance(bundle.obj, User): 
             try: 
-                user = bundle.obj.user
+                user = bundle.obj
+                user.get_profile() #causes an error for empty users (whatever that means)
             except: 
-                username = bundle.data['username']
-                user = User.objects.get(username=username)
+                "got here"
+                if bundle.data: 
+                    username = bundle.data['username']
+                    user = User.objects.get(username=username)
         else: 
-            cls = type(bundle.obj)
-            id = bundle.data['id'] #this is shitty... but the bundle.obj does not seem to be valid yet
-            obj = cls.objects.get(pk=id)
-            user = obj.user
+            user = bundle.obj.user
+
         return user    
 
     def _read_only(self, bundle):     
@@ -42,12 +42,10 @@ class UserAdminAuthorization(Authorization):
         #return object_list
 
     def create_detail(self, object_list, bundle):
-        try: 
-            print "HERE2"
-        except: 
-            import traceback 
-            print traceback.format_exc()
         u = self._get_user(bundle)
+
+        print "HERE2"
+        #raise Unauthorized()
         if bundle.request.user != u:
             raise Unauthorized()
         return True
@@ -73,9 +71,11 @@ class UserAdminAuthorization(Authorization):
 
     def delete_detail(self, object_list, bundle):
         print "HERE6"
-        raise Unauthorized("Sorry, no deletes.")
+        u = self._get_user(bundle)
+        if bundle.request.user != u or isinstance(bundle.obj,User): 
+            raise Unauthorized("Sorry, no deletes.")
         #self._is_user_admin(bundle)
-        #return True
+        return True
 
 
 class ClubAdminAuthorization(Authorization): 

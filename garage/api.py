@@ -20,58 +20,44 @@ v1_api = api.Api(api_name='v1')
 
 class UserResource(ModelResource): 
 
-
+    cars = fields.ToManyField('garage.api.CarResource', lambda b: b.obj.get_profile().cars,
+                               full=True, null=True, blank=True, readonly=True)
+    coupons = fields.ToManyField('garage.api.CouponResource', lambda b: b.obj.get_profile().coupons,
+                                 full=True, null=True, blank=True, readonly=True)
+    upcoming_events = fields.ToManyField('garage.api.EventResource',
+                                         lambda bundle: bundle.obj.get_profile().get_next_events(), 
+                                         blank=True, null=True, readonly=True, full=True)
 
     class Meta: 
         queryset = User.objects.all()
         resource_name = 'users'
-        fields = ['first_name', 'last_name', 'email', 'username']
+        fields = ['first_name', 'last_name', 'email', 'username', 'cars',
+                  'coupons', 'upcoming_events','id']
+        resource_name = 'profile'  
         include_resource_uri = False
         authentication= SessionAuthentication()
         authorization = UserAdminAuthorization()
 
-    def dehydrate(self, bundle):     
 
-#v1_api.register(UserResource())
+v1_api.register(UserResource())
 
 
 class UserProfileResource(ModelResource):
     cars = fields.ToManyField('garage.api.CarResource', 'cars', full=True, 
-                              null=True, blank=True, readonly=True)
+        null=True, blank=True, readonly=True)
     coupons = fields.ToManyField('garage.api.CouponResource', 'coupons', 
-                                 full=True, null=True, blank=True, readonly=True)
-    user = fields.ToOneField('garage.api.UserResource', 'user', full=True, readonly=True)
+        full=True, null=True, blank=True, readonly=True)
+    user = fields.ToOneField('garage.api.UserResource', 'user', 'profile', full=True, readonly=True)
     upcoming_events = fields.ToManyField('garage.api.EventResource',
-                                         lambda bundle: bundle.obj.get_next_events(), 
-                                         blank=True, null=True, readonly=True, full=True)
-
-    first_name = fields.CharField()
-    last_name = fields.CharField()
-    email = fields.CharField()
-    username = fields.CharField(readonly=True)
-
-    def dehydrate(self, bundle): 
-        bundle.data['first_name'] = bundle.obj.user.first_name
-        bundle.data['last_name'] = bundle.obj.user.last_name
-        bundle.data['email'] = bundle.obj.user.email
-        bundle.data['username'] = bundle.obj.user.username
-
-        return bundle
-
-    def hydrate(self, bundle): 
-        print bundle
-        #bundle.obj.user.first_name = bundle.data['first_name']
-        #bundle.obj.user.last_name = bundle.data['last_name']
-        #undle.obj.user.email = bundle.data['email']
-        return bundle 
+        lambda bundle: bundle.obj.get_next_events(), 
+        blank=True, null=True, full=True, readonly=True)
 
     class Meta: 
         queryset = UserProfile.objects.all()
-        resource_name = 'profile'
-        excludes = ['activation_key', 'address', 'city', 'state', 'zip_code']
+        resource_name = 'user_prof'
+        excludes = ['activation_key']
         authentication= SessionAuthentication()
         #authorization= IsOwnerAuthorization()
-        authorization = UserAdminAuthorization()
 
     #todo: limit stuff here --> might need a resource where you can only see id... 
     #def apply_authorization_limits(self, request, object_list):
@@ -79,6 +65,7 @@ class UserProfileResource(ModelResource):
 
 
 v1_api.register(UserProfileResource())
+
 
 
 class CarResource(ModelResource):
