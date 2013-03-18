@@ -34,12 +34,26 @@ from garage.api import MembershipResource
 from garage.utils import reg_txt, reg_dat, parse_axtime
 
 
+def is_club_admin(user, club): 
+    perm = 'registration.%s_admin'%club.safe_name
+
+    if user.has_perm(perm):
+        return True
+
+    return HttpResponseRedirect(reverse('registration.views.logout'))    
+
+
 @login_required
 @require_http_methods(['GET'])
 def admin_user(request, username): 
+    print "HERE", request.user.username, username, request.user.username != username
+    if request.user.username != username: 
+        return HttpResponseRedirect(reverse('garage.views.admin_user', 
+                                            kwargs={'username': request.user.username}))
+
     user = User.objects.get(username=username)
 
-    context = {'js_target':'users',
+    context = {'js_target': 'users',
                'user': user}
 
     return render_to_response('garage/base.html',
@@ -113,14 +127,14 @@ def reg_data_files(request, event_id):
     z.close()
     out_file.seek(0)
     response = HttpResponse(status=200, mimetype="application/x-zip-compressed", 
-        content=out_file)
+                            content=out_file)
     response['Content-Disposition'] = 'filename="pre_reg.zip"'
     return response
 
 
-
 @login_required
 @require_http_methods(['POST'])
+@transaction.commit_manually
 def upload_results(request, event_id): 
     validate_error = dict()
 
@@ -129,7 +143,7 @@ def upload_results(request, event_id):
         name = request.POST.get('name') 
         if not name: 
             validate_error['name'] = "you must name the session"
-            raise IntegrityError
+            raise ValueError
 
         session = Session()
         session.club = event.club
@@ -143,12 +157,28 @@ def upload_results(request, event_id):
         if isinstance(results, dict): #some kind of error happened
             validate_error = results
             raise ValueError
+
+        transaction.rollback()    
         return HttpResponse(content=json.dumps({'msg': "success"}), mimetype="application/json", status=200)
         
-    except ValueError: 
+    except Exception:
+        #import traceback
+        #tb = traceback.format_exc()
         session.delete()
+        transaction.rollback()
+        print json.dumps(validate_error)
         return HttpResponse(content=json.dumps(validate_error), mimetype="application/json", status=400)
- 
+
+
+@login_required
+@require_http_methods(['POST'])
+def calc_results(request, event_id): 
+
+    event = Event.objects.get(pk=event_id)
+
+    event.calc_results()
+
+    return HttpResponse(content=json.dumps({'msg': "success"}), mimetype="application/json", status=200)
 
 
 @login_required

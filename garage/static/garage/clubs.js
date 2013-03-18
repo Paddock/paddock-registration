@@ -250,7 +250,7 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     };
 
     $scope.cancel_edit_coupon = function() {
-        $scope.edit_coupon_target = {username:'',code:'',permanent:false, is_percent:false, 
+        $scope.edit_coupon_target = {username:'', code:'', permanent:false, is_percent:false,
         single_use_per_user:false, discount_amount:0.0, expires:'', uses_left:0};
         $scope.edit_coupon = false;
     };
@@ -266,12 +266,13 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         if (!$scope.edit_raceclass) {
             race_class.club = $scope.club.resource_uri;
             RaceClass.save(race_class,function(race_class){
-                $scope.race_classes.push(race_class)
+                $scope.race_classes.push(race_class);
             });
 
         }
-
-        RaceClass.save(race_class);
+        else {
+            RaceClass.save(race_class);
+        }
     };
 
     $scope.delete_raceclass = function(race_class) {
@@ -291,7 +292,7 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     };
 
     $scope.cancel_edit_raceclass = function(){
-        $scope.edit_raceclass_target = {abrv:'',pax:'',pax_class:false,description:'', 
+        $scope.edit_raceclass_target = {abrv:'', pax:'', pax_class:false, description:'', 
             allow_dibs: false, hidden: false, event_reg_limit: null, bump_class: false, 
             user_reg_limit: null};
         $scope.edit_raceclass=false;
@@ -351,6 +352,18 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
                 $scope.locations.splice(index,1);
             });
         }
+    };
+
+    $scope.calc_event_results = function(event) {
+        $http({method:'POST',url:'/garage/event/'+event.id+'/calc_results',
+            headers:{'X-CSRFToken':$scope.csrf}
+        }).
+        success(function(data, status, headers, config){
+            console.log("Results Calculated!");
+        }).
+        error(function(data, status, headers, config){
+            console.log("Wups!");
+        });
     };
 
 });

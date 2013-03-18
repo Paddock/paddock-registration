@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
 
-from registration.models import Club, Event, Car, UserProfile, Registration
+from registration.models import Club, Event, Car, UserProfile
 
 from registration.forms import UserCreationForm, ActivationForm,\
      RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
@@ -104,6 +104,7 @@ def event(request, club_name, season_year, event_name):
                                   context,
                                   context_instance=RequestContext(request)) 
     
+
 @login_required
 @form_is_for_self(RegForm, 'user_profile')
 def event_register(request, club_name, season_year, event_name, username=None): 
@@ -116,29 +117,13 @@ def event_register(request, club_name, season_year, event_name, username=None):
     redirect_target = reverse('registration.views.event', args=[club_name, season_year, event_name])
     form_template = 'registration/event_reg_form.html'
     
-    context={
-        'event': e,
-        'season': e.season,
-        'club':  e.season.club
-    } 
-    
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
         event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),
                                  initial=e.pk, widget=HiddenInput())
         user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
                                         initial=up.pk, widget=HiddenInput())
-    
-    """
-        return UpdateView(request, form_class=UserRegForm, object_id=reg.pk,
-                          post_save_redirect=redirect_target,
-                          template_name=form_template,
-                          extra_context=extra_c).as_view()
-        
-    return CreateRegView(request, form_class=UserRegForm,
-                         post_save_redirect=redirect_target,
-                         template_name=form_template,
-                         extra_context=extra_c).as_view() """
+
     reg = None
     if username: 
         reg = e.regs.get(user_profile__user__username=username)
@@ -151,7 +136,12 @@ def event_register(request, club_name, season_year, event_name, username=None):
     else:
         form = UserRegForm(instance=reg)
 
-    context['form'] = form
+    context={
+        'event': e,
+        'season': e.season,
+        'club':  e.club,
+        'form': form
+    } 
     return render_to_response(form_template,
                               context,
                               context_instance=RequestContext(request))                               

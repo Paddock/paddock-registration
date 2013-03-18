@@ -58,20 +58,20 @@
   var Events = Backbone.Collection.extend({
     model: Event,
   });
-  
+
   //////////////////////////////////
   // Views
   //////////////////////////////////
-  
+
   var CollectionView  = Backbone.View.extend({
     template: Handlebars.compile("<tr>{{{row}}}</tr>"),
     render: function() {
       var that = this;
       _.each(this.collection.models,function(item){
         var column_vals = that.row_template(item.toJSON());
-        $(that.el).append(that.template({'row':column_vals}));      
-      });    
-    },
+        $(that.el).append(that.template({'row':column_vals}));
+      });
+    }
   });
 
   var TableCollectionView = CollectionView.extend({
@@ -80,19 +80,19 @@
     head_row_tmp: Handlebars.compile('<th>{{name}}</th>'),
     render: function(){
       var that = this;
-      var el = $(that.el)
+      var el = $(that.el);
       el.append("<thead>");
       _.each(that.cols,function(value,key){
-        el.append(that.head_row_tmp({"name":value}))
+        el.append(that.head_row_tmp({"name":value}));
       });
-      el.append("</thead>")
+      el.append("</thead>");
       //hackish way to call parent's render
       TableCollectionView.__super__.render.apply(that);
     },
   });
 
   var ListCollectionView = CollectionView.extend({
-    template: Handlebars.compile("<li>{{{row}}}</li>"),
+    template: Handlebars.compile("<li>{{{row}}}</li>")
   });
   
   var CarView = Backbone.View.extend({
@@ -101,8 +101,7 @@
     events: {
       'click .icon-trash': 'clear',
       'click .icon-edit': 'edit',
-      'click #save_btn': 'save',
-
+      'click #save_btn': 'save'
     },
     row_template: Handlebars.compile('<td class="view">'+
           '{{name}}</td><td class="view">{{year}} {{make}} {{model}} '+
@@ -115,7 +114,7 @@
           '<input type="text" style="width:35%;" name="make" value="{{make}}">'+
           '<input type="text" style="width:35%;" name="model" value="{{model}}">'+
           '</form></td>'+
-          '<td class="editing"><button class="btn btn-primary" id="save_btn" style="width:6em;">Save</button></td>'),  
+          '<td class="editing"><button class="btn btn-primary" id="save_btn" style="width:6em;">Save</button></td>'), 
     initialize: function(){
       //this.model.on('change', this.render, this);
       this.model.on('destroy', this.remove, this);

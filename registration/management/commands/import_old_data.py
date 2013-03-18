@@ -4,8 +4,8 @@ from os.path import exists
 from django.core.management.base import BaseCommand
 from django.core.files import File
 from registration.models import Club, Season, Event, Registration, \
-     RaceClass, Result, Session, Location, User, Car, Run, Coupon, \
-     Membership
+    RaceClass, Result, Session, Location, User, Car, Run, Coupon, \
+    Membership
 
 
 class Command(BaseCommand): 
@@ -48,7 +48,7 @@ class Command(BaseCommand):
         for line in reader:     
             """id","nickname","make","model","color","avatar_file_loc",
             "avatar_thumb_loc","year","owner_user_name"""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
             if line['owner_user_name']: 
@@ -58,13 +58,14 @@ class Command(BaseCommand):
                     c.name = line['nickname']
                     c.make = line['make']
                     c.model = line['model']
-                    if line['color']: c.color = line['color']
+                    if line['color']: 
+                        c.color = line['color']
                     c.year = line['year']
                     c.user_profile = User.objects.get(username=line['owner_user_name']).get_profile()
-                    s_car_id = (line['owner_user_name'],line['nickname'])
+                    s_car_id = (line['owner_user_name'], line['nickname'])
                     if exists('old_data/avatars/%s_%s_avatar'%s_car_id): 
-                        c.avatar.save('%s_%s_avatar'%s_car_id,File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
-                        c.thumb.save('%s_%s_thumb'%s_car_id,File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
+                        c.avatar.save('%s_%s_avatar'%s_car_id, File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
+                        c.thumb.save('%s_%s_thumb'%s_car_id, File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
                     c.save()
                     car_map[line['id']] = c
                 except:
@@ -72,13 +73,12 @@ class Command(BaseCommand):
                     
         
         #read in clubs
-        
         club_map = {}
-        for line in csv.DictReader(open('old_data/club.csv','rU')): 
+        for line in csv.DictReader(open('old_data/club.csv', 'rU')): 
             """"name","web_link","process_payments","points_calc_type",
             "membership_cost","renewal_cost","membership_terms","paypal_email",
             "index_point_method","address","city","state","zip_code","""
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None            
             c = Club()
@@ -100,7 +100,7 @@ class Command(BaseCommand):
         for line in csv.DictReader(open('old_data/coupon.csv')):    
             """coupon_code","club_name","discount_amount","uses_left","expires",
             "permanent","driver_user_name","registration_id"""    
-            for k,v in line.iteritems(): 
+            for k, v in line.iteritems(): 
                 if v == "NULL": 
                     line[k] = None
             
@@ -398,6 +398,11 @@ class Command(BaseCommand):
             except KeyError: 
                 continue
 
-
         for reg in Registration.objects.select_related('results').all(): 
             reg.calc_times()
+
+        #House keeping
+        nora = Club.objects.get(safe_name='noraascc')
+        user = User.objects.get(username="justingray")
+        nora.group.user_set.add(user)
+

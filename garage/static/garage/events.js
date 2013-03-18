@@ -58,6 +58,27 @@ app.controller('event_admin', function club_admin($scope, $cookies, $http,
         }
     };
 
+    $scope.upload_status = "";
+    $scope.upload_err_msg = "";
+    $('#session_form').ajaxForm({
+        success: function(resp,status,xhr,element){
+          //console.log('Yay! Good Job!');
+          $scope.$apply('upload_status = "";');
+          $scope.$apply('upload_err_msg = "";');
+          element.resetForm();
+        },
+        error: function(resp,status,xhr,element){
+          var err = angular.fromJson(resp.responseText);
+          var msg = "";
+          for (var key in err) {
+            msg += key+": "+err[key];
+          }
+          $scope.$apply('upload_status = "error";');
+          $scope.$apply('upload_err_msg = "'+msg+'";');
+          //console.log(msg);
+        },
+        dataType: 'json'
+    });
 });
 
 app.config(['$routeProvider', function($routeProvider) {

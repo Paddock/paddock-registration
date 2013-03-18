@@ -14,9 +14,11 @@
     </ul>
 </div>
 <div class="row">
-    <form action="/garage/event/{{event.id}}/results" method="POST" enctype="multipart/form-data">
-        <legend> Add Session </legend>
+    <form id="session_form" action="/garage/event/{{event.id}}/results" method="POST" enctype="multipart/form-data">
+        <legend> Add Session </legend> 
         <div class="control-group {{upload_status}}">
+            <span class="help-inline">{{upload_err_msg}}</span>
+
             <input type="hidden" name="csrfmiddlewaretoken" value="{{csrf}}"/>
             <div class="controls">
                 <input type="text" name="name" placeholder="Name">

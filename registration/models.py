@@ -118,7 +118,7 @@ class UserProfile(m.Model):
         ret = None
         for m in self.memberships.all(): 
             e = m.club.upcoming_events()
-            if e!=None:
+            if e != None:
                 if ret!=None: 
                     ret | e
                 else: 
@@ -615,17 +615,14 @@ class Event(m.Model):
         """Checks to see if the specified registration has a unique number and 
         race_class for the event"""
 
-
-        print "TESTING"
-        regs  = self.regs.filter(number=reg.number,	                     
-                                              race_class=reg.race_class)
+        regs = self.regs.filter(number=reg.number,	                     
+                                race_class=reg.race_class)
 
         reg_check = regs.count()
 
-        print "Reg count: ", reg_check
         #Check if the number/class is used in any child events
         child_regs = self.child_events.all().\
-                    filter(regs__number=reg.number, regs__race_class=reg.race_class)
+            filter(regs__number=reg.number, regs__race_class=reg.race_class)
 
         child_reg_check = child_regs.count()
 
@@ -652,6 +649,9 @@ class Event(m.Model):
         #calc all penalty times, index times, 
         for reg in regs: 
             reg.calc_times()
+            print "TESTING:", reg.first_name, reg.last_name, reg.total_index_time, 
+            print "    ", reg.results.all()
+
 
         #find all the regs, now ordered by time
         regs = Registration.objects.annotate(n_results=m.Count('results')).filter(
@@ -690,7 +690,7 @@ class Event(m.Model):
         #check if valid points calculations, if not calc_results        
         
         regs = Registration.objects.annotate(n_results=m.Count('results'),
-                                            n_runs=m.Count('results__best_run'))\
+                                             n_runs=m.Count('results__best_run'))\
             .filter(event=self, n_results=n_sessions).\
             order_by('-n_runs', 'total_index_time').\
             all()
@@ -711,9 +711,9 @@ class Registration(Purchasable):
     race_class = m.ForeignKey("RaceClass", limit_choices_to={'pax_class': False},
                               related_name="+")
     pax_class = m.ForeignKey("RaceClass", limit_choices_to={'pax_class': True},
-                              verbose_name="Registration Type",
-                              related_name="+", blank=True, null=True,
-                              help_text="If you're not sure, run in Open Class")
+                             verbose_name="Registration Type",
+                             related_name="+", blank=True, null=True,
+                             help_text="If you're not sure, run in Open Class")
     bump_class = m.ForeignKey("RaceClass", related_name="+", blank=True, null=True)
     run_heat = m.IntegerField("Run Heat", blank=True, null=True, default=None)
     work_heat = m.IntegerField("Work Heat", blank=True, null=True, default=None)
