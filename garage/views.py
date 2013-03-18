@@ -68,6 +68,7 @@ def admin_club(request, clubname):
 
     #club = Club.objects.get(safe_name=clubname)
     club = Club.objects.get(safe_name="noraascc")
+    is_club_admin(request.user, club)
     context = {'js_target': 'clubs',
                'club': club,
                'user': request.user}
@@ -82,6 +83,8 @@ def admin_club(request, clubname):
 def admin_event(request, event_id): 
 
     event = Event.objects.get(pk=event_id)
+    is_club_admin(request.user, event.club)
+
     context = {'js_target': 'events',
                'club': event.club,
                'user': request.user,
@@ -96,6 +99,7 @@ def admin_event(request, event_id):
 @require_http_methods(['POST'])
 def email_regd_drivers(request, event_id):
     e = Event.objects.get(pk=event_id)
+    is_club_admin(request.user, e.club)
     emails = e.regs.filter(user_profile__isnull=False).\
         select_related('user_profile__user').\
         values_list('user_profile__user__email', flat=True).\
@@ -114,7 +118,8 @@ def email_regd_drivers(request, event_id):
 def reg_data_files(request, event_id): 
 
     e = Event.objects.select_related().get(pk=event_id)
-    
+    is_club_admin(request.user, e.club)
+
     out_file = StringIO.StringIO()
     z = zipfile.ZipFile(out_file, 'w')
 
@@ -139,6 +144,8 @@ def upload_results(request, event_id):
     validate_error = dict()
 
     event = Event.objects.get(pk=event_id)
+    is_club_admin(request.user, event.club)
+
     try: 
         name = request.POST.get('name') 
         if not name: 
@@ -175,6 +182,7 @@ def upload_results(request, event_id):
 def calc_results(request, event_id): 
 
     event = Event.objects.get(pk=event_id)
+    is_club_admin(request.user, event.club)
 
     event.calc_results()
 
@@ -187,6 +195,10 @@ def car_avatar(request, car_id):
     """Handles a POST or PUT to a car for an avatar file upload, returns JSON"""
 
     car = Car.objects.get(pk=car_id)
+
+    if car.user_profile.user != request.user: 
+        return HttpResponse(mimetype="application/json",
+                            status=403)
 
     if request.FILES == None:
             msg = "No Files uploaded!"
@@ -232,7 +244,7 @@ def car_avatar(request, car_id):
 def search_users(request, query): 
     """Query against user database and returns possible matches"""
 
-    results = [{'first_name':u.first_name, 'last_name': u.last_name, 'username': u.username} for u in find_user(query)]
+    results = [{'first_name': u.first_name, 'last_name': u.last_name, 'username': u.username} for u in find_user(query)]
 
     return HttpResponse(json.dumps(results), mimetype='application/json')
 
@@ -248,6 +260,8 @@ def new_membership(request, clubname):
     up = u.get_profile()
     c = Club.objects.get(safe_name=clubname)
 
+    is_club_admin(request.user, c)
+
     try: 
         m = Membership.objects.get(club=c, user_prof=up)
     except Membership.DoesNotExist: 
@@ -260,5 +274,5 @@ def new_membership(request, clubname):
 
     mr = MembershipResource()
     mr_bundle = mr.build_bundle(obj=m, request=request)
-    return HttpResponse(mr.serialize(None, mr.full_dehydrate(mr_bundle),'application/json'), mimetype='application/json')
+    return HttpResponse(mr.serialize(None, mr.full_dehydrate(mr_bundle), 'application/json'), mimetype='application/json')
 

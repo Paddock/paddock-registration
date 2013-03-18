@@ -1,4 +1,5 @@
-var app = angular.module('users',['ngCookies','ui','tpResource','paddock.directives','garage.services'])
+var app = angular.module('users', ['ngCookies', 'ui', 'tpResource',
+    'paddock.directives', 'garage.services']);
 
 app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     $scope.profile = Profile.get({userId:USER_ID},function(){
@@ -12,7 +13,7 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
                    };
             races.push(data);
         });
-        
+
         var start_date = new Date(races[0].start);
         $('#calendar').fullCalendar({
             events: races,
@@ -33,11 +34,8 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
 
     $scope._submit_avatar_first = false;
 
-
-
-    
     $scope.save_user = function(){
-        //console.log('Saving: ',$scope.user.first_name)
+        console.log('Saving: ',$scope.profile);
         Profile.save($scope.profile);
     };
 

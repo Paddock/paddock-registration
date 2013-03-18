@@ -20,30 +20,55 @@ v1_api = api.Api(api_name='v1')
 
 class UserResource(ModelResource): 
 
+
+
     class Meta: 
         queryset = User.objects.all()
         resource_name = 'users'
         fields = ['first_name', 'last_name', 'email', 'username']
         include_resource_uri = False
-        authorization = Authorization()
+        authentication= SessionAuthentication()
+        authorization = UserAdminAuthorization()
+
+    def dehydrate(self, bundle):     
 
 #v1_api.register(UserResource())
 
 
 class UserProfileResource(ModelResource):
     cars = fields.ToManyField('garage.api.CarResource', 'cars', full=True, 
-        null=True, blank=True)
+                              null=True, blank=True, readonly=True)
     coupons = fields.ToManyField('garage.api.CouponResource', 'coupons', 
-        full=True, null=True, blank=True)
-    user = fields.ToOneField('garage.api.UserResource', 'user', 'profile', full=True)
+                                 full=True, null=True, blank=True, readonly=True)
+    user = fields.ToOneField('garage.api.UserResource', 'user', full=True, readonly=True)
     upcoming_events = fields.ToManyField('garage.api.EventResource',
-        lambda bundle: bundle.obj.get_next_events(), 
-        blank=True, null=True, readonly=True, full=True)
+                                         lambda bundle: bundle.obj.get_next_events(), 
+                                         blank=True, null=True, readonly=True, full=True)
+
+    first_name = fields.CharField()
+    last_name = fields.CharField()
+    email = fields.CharField()
+    username = fields.CharField(readonly=True)
+
+    def dehydrate(self, bundle): 
+        bundle.data['first_name'] = bundle.obj.user.first_name
+        bundle.data['last_name'] = bundle.obj.user.last_name
+        bundle.data['email'] = bundle.obj.user.email
+        bundle.data['username'] = bundle.obj.user.username
+
+        return bundle
+
+    def hydrate(self, bundle): 
+        print bundle
+        #bundle.obj.user.first_name = bundle.data['first_name']
+        #bundle.obj.user.last_name = bundle.data['last_name']
+        #undle.obj.user.email = bundle.data['email']
+        return bundle 
 
     class Meta: 
         queryset = UserProfile.objects.all()
         resource_name = 'profile'
-        excludes = ['activation_key']
+        excludes = ['activation_key', 'address', 'city', 'state', 'zip_code']
         authentication= SessionAuthentication()
         #authorization= IsOwnerAuthorization()
         authorization = UserAdminAuthorization()
@@ -63,13 +88,13 @@ class CarResource(ModelResource):
         queryset = Car.objects.all()
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
-        authorization = ClubAdminAuthorization()
+        authorization = UserAdminAuthorization()
         fields = ['id', 'name', 'make', 'model', 'year', 'thumb', 'avatar',
          'provisional']
         always_return_data = True
 
-    def obj_create(self, bundle, request=None, **kwargs):
-        return super(CarResource, self).obj_create(bundle, request, user_profile=request.user.get_profile())
+    #def obj_create(self, bundle, request=None, **kwargs):
+    #    return super(CarResource, self).obj_create(bundle, request, user_profile=request.user.get_profile())
 
 v1_api.register(CarResource()) 
 
@@ -77,15 +102,15 @@ class ClubResource(ModelResource):
 
     name = fields.CharField(attribute='name')
     seasons = fields.ToManyField('garage.api.SeasonResource', 'seasons', 'club', 
-        full=True, readonly=True)
+                                 full=True, readonly=True)
     locations = fields.ToManyField('garage.api.LocationResource', 'locations',
-        'club', full=True, blank=True, null=True, readonly=True)
+                                   'club', full=True, blank=True, null=True, readonly=True)
     memberships = fields.ToManyField('garage.api.MembershipResource', 
-        'memberships', 'club', full=True, readonly=True)
+                                     'memberships', 'club', full=True, readonly=True)
     coupons = fields.ToManyField('garage.api.CouponResource', 'coupons', 
-        full=True,  readonly=True)
+                                 full=True,  readonly=True)
     race_classes = fields.ToManyField('garage.api.RaceClassResource', 'race_classes', 
-        full=True,  readonly=True)
+                                      full=True,  readonly=True)
 
     admins = fields.ToManyField('garage.api.UserResource', lambda b: b.obj.group.user_set, related_name="+", full=True, null=True, blank=True)
     
@@ -228,7 +253,7 @@ class EventDetailResource(EventResource):
 
     regs = fields.ToManyField('garage.api.RegistrationResource', 
         attribute=lambda b: b.obj.get_results(), 
-        full=True)
+        full=True, readonly=True)
     sessions = fields.ToManyField('garage.api.SessionResource',
         attribute="sessions", full=True, readonly=True)
 

@@ -93,7 +93,7 @@ class UserProfile(m.Model):
         permissions = (("view_user", "Can see information about users"),)
     
     def __unicode__(self):
-        return u"%s" % self.user    
+        return u'Profile %s'%self.pk
     
     def send_activation_email(self, request): 
         
