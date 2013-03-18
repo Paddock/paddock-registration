@@ -17,7 +17,15 @@ class UserAdminAuthorization(Authorization):
                     username = bundle.data['username']
                     user = User.objects.get(username=username)
         else: 
-            user = bundle.obj.user
+            try: 
+                user = bundle.obj.user
+            except: 
+                cls = type(bundle.obj)
+                id = bundle.data['id'] #this is shitty... but the bundle.obj does not seem to be valid yet
+                obj = cls.objects.get(pk=id)
+                print "Car: ", obj
+                user = obj.user
+
 
         return user    
 

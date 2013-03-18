@@ -69,7 +69,7 @@ v1_api.register(UserProfileResource())
 
 
 class CarResource(ModelResource):
-    #user = fields.ToOneField(UserResource, 'user_profile',blank=True,null=True)
+    user_profile = fields.ToOneField(UserProfileResource, 'user_profile',blank=True,null=True)
 
     class Meta: 
         queryset = Car.objects.all()
@@ -80,8 +80,6 @@ class CarResource(ModelResource):
          'provisional']
         always_return_data = True
 
-    #def obj_create(self, bundle, request=None, **kwargs):
-    #    return super(CarResource, self).obj_create(bundle, request, user_profile=request.user.get_profile())
 
 v1_api.register(CarResource()) 
 

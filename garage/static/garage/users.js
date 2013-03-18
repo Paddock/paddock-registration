@@ -114,7 +114,7 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
             $scope.edit_car_target.avatar = $scope.edit_car_target.avatar.replace(/#[0-9]+\b/,'');
             $scope.edit_car_target.thumb =  $scope.edit_car_target.thumb.replace(/#[0-9]+\b/,'');
         }
-
+        console.log($scope.edit_car_target);
         Car.save($scope.edit_car_target,function(car){
             if ($scope.edit_car_index<0){
                 $scope.profile.cars.push(car);
