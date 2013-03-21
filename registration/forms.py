@@ -53,12 +53,12 @@ class ClassChoiceField(forms.ModelChoiceField):
 
 class RegForm(ModelForm): 
     pax_class = ClassChoiceField(queryset=RaceClass.objects.filter(pax_class=True).all(),
-                label="Registration Series",
-                empty_label="Open Class", required=False)
-    race_class = ClassChoiceField(queryset=RaceClass.objects.\
-                                        filter(pax_class=False, bump_class=False).\
-                                        order_by('abrv').all(),
-                label="Race Class")
+                                 label="Registration Series",
+                                 empty_label="Open Class", required=False)
+    race_class = ClassChoiceField(queryset=RaceClass.objects.
+                                  filter(pax_class=False, bump_class=False).
+                                  order_by('abrv').all(),
+                                  label="Race Class")
     
     class Meta: 
         model = Registration
@@ -66,7 +66,7 @@ class RegForm(ModelForm):
         exclude = ('order', 'price', 'bump_class', 'checked_in', 'run_heat',
                    'work_heat', 'total_raw_time', 'total_index_time',
                    'class_points', 'index_points', '_anon_f_name',
-                   '_anon_l_name', '_anon_car', 'club', 'paid')  
+                   '_anon_l_name', '_anon_car', 'paid')  
         
 
 class UserCreationForm(UCF):

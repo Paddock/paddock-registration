@@ -121,6 +121,8 @@ def event_register(request, club_name, season_year, event_name, username=None):
         car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
         event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),
                                  initial=e.pk, widget=HiddenInput())
+        club = ModelChoiceField(queryset=Club.objects.filter(pk=e.club.pk), 
+                                initial=e.club.pk, widget=HiddenInput())
         user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
                                         initial=up.pk, widget=HiddenInput())
 
