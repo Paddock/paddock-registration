@@ -991,12 +991,17 @@ class Lease(m.Model):
     def __unicode__(self): 
         return "%s to %s"%(self.car.name, self.user.username)
 
-clear_model_list = [UserProfile, Lease, Purchasable, Order, Coupon, 
-                    Club, Membership, RaceClass, Dibs, Season, Event, 
-                    Registration, Session, Result, Run, Location, Course, 
-                    Car, Lease, User]
+#note this order is significant
+clear_model_list = [Lease, Order, Coupon, Registration,
+                    Membership, RaceClass, Dibs, Season, Event, 
+                    Session, Result, Run, Location, Course, 
+                    Car, Lease, User, Club]
+
 
 def clear_db(): 
     for m in clear_model_list: 
-        m.objects.all().delete() 
+        objs = m.objects.all()
+        for o in objs: 
+            o.delete()
+
 

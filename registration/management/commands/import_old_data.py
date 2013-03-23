@@ -5,13 +5,15 @@ from django.core.management.base import BaseCommand
 from django.core.files import File
 from registration.models import Club, Season, Event, Registration, \
     RaceClass, Result, Session, Location, User, Car, Run, Coupon, \
-    Membership
+    Membership, clear_db
 
 
 class Command(BaseCommand): 
     """imports data from paddock 1.0 database in csv file format""" 
     
     def handle(self, *args, **options):
+        clear_db()
+        
         reader = csv.DictReader(open('old_data/driver.csv', 'rU'))
         for line in reader: 
             """user_name","email","verified","activation_code",
