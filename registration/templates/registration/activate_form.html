@@ -1,17 +1,29 @@
 {% extends "registration/base.html" %}
+{% load crispy_forms_tags %}
 {% load url from future %}
 
-{% block title %} Racerslane: Sign Up {% endblock %}
+{% block title %} Racerslane: Account Activation {% endblock %}
 
 {% block content %}
   <div class="container">
     <div class="row">
       <div class="span5">
-        <form method="post" action="{% url 'registration.views.activate' %}" class="form-horizontal"> {% csrf_token %}
-          {{ form }}
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
+        <p>Before you can start using Racerslane.com you need to activate your account. 
+           You should have recieved an email with an activation code in it. You can 
+           copy that code and paste it here, or just follow the link in the email to activate 
+           your account. 
+         </p>
+         <p>
+          If you did not get an email, first check your spam folder and make sure it was not 
+          blocked. You can add noreply@racerslane.com to your whitelist of emails. Click 
+          here if you want your activation code resent to you. 
+         </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span5">
+        <form method="post" action="{% url 'registration.views.activate' username %}" class="form-horizontal"> {% csrf_token %}
+          {%crispy form%}
         </form>
       </div>
     </div>  

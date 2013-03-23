@@ -96,6 +96,14 @@ class UserProfile(m.Model):
         return u'Profile %s'%self.pk
     
     def send_activation_email(self, request): 
+
+        salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
+        username = self.user.username
+        if isinstance(username, unicode):
+            username = username.encode('utf-8')
+        #40 characters
+        self.activation_key = hashlib.sha1(salt+username).hexdigest() 
+        self.save() 
         
         ctx_dict = {'activation_key': self.activation_key,
                     'SITE_URL': settings.SITE_URL,
@@ -145,13 +153,6 @@ class UserProfile(m.Model):
 def create_user_profile(sender, instance, created, **kwargs): 
     if created:
         p = UserProfile.objects.create(user=instance) 
-        
-        salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
-        username = instance.username
-        if isinstance(username, unicode):
-            username = username.encode('utf-8')
-        #40 characters
-        p.activation_key = hashlib.sha1(salt+username).hexdigest()  
         p.save()
         
 post_save.connect(create_user_profile, sender=User)    
@@ -989,4 +990,9 @@ class Lease(m.Model):
 
     def __unicode__(self): 
         return "%s to %s"%(self.car.name, self.user.username)
+
+clear_model_list = [UserProfile, Lease, Purchasable, Order, Coupon, 
+                    Club, Membership, RaceClass, Dibs, Season, Event, 
+                    Registration, Session, Result, Run, Location, Course, 
+                    Car, Lease]
 

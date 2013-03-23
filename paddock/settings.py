@@ -154,7 +154,7 @@ INSTALLED_APPS = (
 
 AUTH_PROFILE_MODULE = 'registration.UserProfile'
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/clubs'
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACTIVATION_DAYS = 7
 DEFAULT_FROM_EMAIL = "noreply@racerslane.com"
 

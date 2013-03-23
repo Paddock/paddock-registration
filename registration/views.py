@@ -178,9 +178,9 @@ def register(request):
                               context_instance=RequestContext(request))
 
 
-def activate(request): 
+def activate(request, username): 
     set_valid = False
-    form = ActivationForm()
+    form = ActivationForm(initial={'username': username})
     if request.method == 'POST': #form submission
         form = ActivationForm(request.POST) #bound form            
         if form.is_valid(): 
@@ -200,5 +200,6 @@ def activate(request):
         return HttpResponseRedirect(reverse('registration.views.login')) 
         
     return render_to_response('registration/activate_form.html',
-                              {'form': form},
+                              {'form': form, 
+                               'username': username},
                               context_instance=RequestContext(request))

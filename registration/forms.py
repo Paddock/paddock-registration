@@ -13,7 +13,7 @@ from django.utils.decorators import available_attrs
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
 
-from django.forms import BooleanField, Form, ModelForm
+from django.forms import BooleanField, Form, ModelForm, HiddenInput
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -93,8 +93,6 @@ class UserCreationForm(UCF):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        username = self.cleaned_data.get('username')
-        User.objects.filter(email=email).count()
         if email and User.objects.filter(email=email).count() > 0:
             raise forms.ValidationError(u'This email address is already registered.')
         return email    
@@ -103,18 +101,18 @@ class UserCreationForm(UCF):
 class AuthenticationForm(AF):
     #monkey patch to adjust error messages
     error_messages = {
-            'invalid_login': _("Please enter a correct username and password. "
-                               "Note that both fields are case-sensitive."),
-            'no_cookies': _("Your Web browser doesn't appear to have cookies "
-                            "enabled. Cookies are required for logging in."),
-            'inactive': _("This account is inactive. Please check your email for you activation code"),
-        }  
+        'invalid_login': _("Please enter a correct username and password. "
+                           "Note that both fields are case-sensitive."),
+        'no_cookies': _("Your Web browser doesn't appear to have cookies "
+                        "enabled. Cookies are required for logging in."),
+        'inactive': _("This account is inactive. Please check your email for you activation code"),
+    }  
     
     remember_me = BooleanField(
         label=_('Remember Me'),
         initial=False,
         required=False,
-        )
+    )
 
     def __init__(self, *args, **kwargs): 
         self.helper = FormHelper()
@@ -138,10 +136,23 @@ class ActivationForm(Form):
     username = forms.RegexField(label="Username", max_length=30,
                                 regex=r'^[\w.@+-]+$',
                                 error_messages={'invalid': "This value may contain only letters, numbers and "
-                                                 "@/./+/-/_ characters."})
+                                "@/./+/-/_ characters."}, 
+                                widget=HiddenInput())
     
     activation_key = forms.fields.CharField(label="Activation key", max_length=40)
     
+    def __init__(self, *args, **kwargs): 
+        self.helper = FormHelper()
+
+        #self.helper.form_id = 'id-exampleForm'
+        self.helper.form_class = 'well form-horizontal'
+        self.helper.form_method = 'post'
+        #self.helper.form_action = reverse('registration.views.login')
+        self.helper.form_tag = False
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+        super(ActivationForm, self).__init__(*args, **kwargs)
+
     def clean_username(self):
         # Since User.username is unique, this check is redundant,
         # but it sets a nicer error message than the ORM. See #13147.
