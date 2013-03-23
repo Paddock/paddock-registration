@@ -13,7 +13,8 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         clear_db()
-        
+
+        print "Loading users"
         reader = csv.DictReader(open('old_data/driver.csv', 'rU'))
         for line in reader: 
             """user_name","email","verified","activation_code",
@@ -43,8 +44,9 @@ class Command(BaseCommand):
         justin = User.objects.get(username="justingray")   
         password = justin.password
         
-        User.objects.all().update(password=password)
+        #User.objects.all().update(password=password)
 
+        print "Loading Cars"
         car_map = {}
         reader = csv.DictReader(open('old_data/car.csv', 'rb'))
         for line in reader:     
@@ -73,7 +75,7 @@ class Command(BaseCommand):
                 except:
                     continue         
                     
-        
+        print "Loading Clubs"
         #read in clubs
         club_map = {}
         for line in csv.DictReader(open('old_data/club.csv', 'rU')): 
@@ -99,6 +101,7 @@ class Command(BaseCommand):
 
             club_map[line['name']] = c
 
+        print "loading coupons"
         for line in csv.DictReader(open('old_data/coupon.csv')):    
             """coupon_code","club_name","discount_amount","uses_left","expires",
             "permanent","driver_user_name","registration_id"""    
@@ -118,6 +121,7 @@ class Command(BaseCommand):
                 c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
             c.save()    
 
+        print "loading memberships"
         reader = csv.DictReader(open('old_data/membership.csv', 'rb'))
         for line in reader: 
             """"id","club_name","number","start_date","valid_thru_date",
@@ -148,6 +152,7 @@ class Command(BaseCommand):
 
             m.save()
         
+        print "loading locations"
         location_map = {}    
         for line in csv.DictReader(open("old_data/location.csv")):    
                 """id","name","address","lat","lng","club_name"""
@@ -166,7 +171,8 @@ class Command(BaseCommand):
                 l.save()      
                 
                 location_map[line['id']] = l
-                    
+        
+        print "loading seasons"      
         season_map = {}    
         for line in csv.DictReader(open('old_data/season.csv')): 
             s = Season()
@@ -182,6 +188,7 @@ class Command(BaseCommand):
                         
             season_map[line['id']] = s
 
+        print "loading events"
         event_map = {}
         for line in csv.DictReader(open('old_data/event.csv', 'rU')):
             
@@ -212,6 +219,7 @@ class Command(BaseCommand):
             
             event_map[line['id']] = e
         
+        print "loading race_classes" 
         race_class_map = {}
         for line in csv.DictReader(open('old_data/raceclass.csv')):
             """id","pax","name","club_name"""
@@ -237,6 +245,7 @@ class Command(BaseCommand):
         index_class.club = club
         index_class.save()
         
+        print "loading reg_types" 
         reg_type_map = {}    
         for line in csv.DictReader(open('old_data/regtype.csv')):
             """id","name","class_letters","reg_limit","index",
@@ -258,6 +267,7 @@ class Command(BaseCommand):
             
             reg_type_map[line['id']] = r
         
+        print "loading registrations" 
         registration_map = {}  
         for line in csv.DictReader(open('old_data/registration.csv')): 
             
@@ -330,7 +340,8 @@ class Command(BaseCommand):
                     continue   
 
             registration_map[line['id']] = r
-                
+            
+        print "loading sessions"     
         session_map = {}
         for line in csv.DictReader(open('old_data/session.csv')):
             """id", "name", "event_id", "course_id"""
@@ -350,7 +361,8 @@ class Command(BaseCommand):
             s.save()
             
             session_map[line['id']] = s
-            
+         
+        print "loading results"   
         result_map = {}    
         for line in csv.DictReader(open('old_data/result.csv')):        
             """id","registration_id","event_id","sess_id"""
@@ -377,7 +389,8 @@ class Command(BaseCommand):
                 print registration_map[line['registration_id']]
             
             result_map[line['id']] = r
-            
+        
+        print "loading runs" 
         for line in csv.DictReader(open('old_data/run.csv')):
             """id","base_time","calc_time","index_time","cones",
             "penalty","result_id","result_2_id"""

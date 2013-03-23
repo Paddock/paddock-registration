@@ -999,6 +999,7 @@ clear_model_list = [Lease, Order, Coupon, Registration,
 
 
 def clear_db(): 
+    print "Clearing the Database"
     for m in clear_model_list: 
         objs = m.objects.all()
         for o in objs: 
