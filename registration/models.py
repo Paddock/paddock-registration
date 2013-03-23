@@ -994,5 +994,5 @@ class Lease(m.Model):
 clear_model_list = [UserProfile, Lease, Purchasable, Order, Coupon, 
                     Club, Membership, RaceClass, Dibs, Season, Event, 
                     Registration, Session, Result, Run, Location, Course, 
-                    Car, Lease]
+                    Car, Lease, User]
 
