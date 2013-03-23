@@ -46,7 +46,7 @@ def is_club_admin(user, club):
 @login_required
 @require_http_methods(['GET'])
 def admin_user(request, username): 
-    print "HERE", request.user.username, username, request.user.username != username
+    #print "HERE", request.user.username, username, request.user.username != username
     if request.user.username != username: 
         return HttpResponseRedirect(reverse('garage.views.admin_user', 
                                             kwargs={'username': request.user.username}))
@@ -207,36 +207,45 @@ def car_avatar(request, car_id):
                                 status=415)
 
     #getting file data for farther manipulations
-    uploaded = request.FILES['file']
-
-    avatar_img = Image.open(uploaded)
-
-    avatar_img.thumbnail((400, 400), Image.ANTIALIAS)
-    avatar_file = NamedTemporaryFile()
-    avatar_img.save(avatar_file, 'JPEG')
-    name = '%d_avatar.jpg'%car.pk
-    if os.path.exists(name): 
-        os.remove(name)
-    car.avatar.save(name, File(avatar_file))
-    avatar_file.close()
-
-    uploaded.seek(0)
-    thumb_img = Image.open(uploaded)
-    thumb_img.thumbnail((100, 100), Image.ANTIALIAS)
-    thumb_file = NamedTemporaryFile()
-    thumb_img.save(thumb_file, 'JPEG')
-    name = '%d_thumb.jpg'%car.pk
-    if os.path.exists(name): 
-        os.remove(name)
-    car.thumb.save(name, File(thumb_file))
-    thumb_file.close()
-
-    uploaded.close()
-    car.save()
     data = {}
-    data["msg"] = "Upload successful"
-    data['avatar'] = car.avatar.url
-    data['thumb'] = car.thumb.url
+    if not request.FILES: 
+        #clear out the images
+        car.avatar = None
+        car.thumb = None
+        car.save()
+        data["msg"] = "Upload successful"
+        data['avatar'] = None
+        data['thumb'] = None
+    else:    
+        uploaded = request.FILES['file']
+
+        avatar_img = Image.open(uploaded)
+
+        avatar_img.thumbnail((400, 400), Image.ANTIALIAS)
+        avatar_file = NamedTemporaryFile()
+        avatar_img.save(avatar_file, 'JPEG')
+        name = '%d_avatar.jpg'%car.pk
+        if os.path.exists(name): 
+            os.remove(name)
+        car.avatar.save(name, File(avatar_file))
+        avatar_file.close()
+
+        uploaded.seek(0)
+        thumb_img = Image.open(uploaded)
+        thumb_img.thumbnail((100, 100), Image.ANTIALIAS)
+        thumb_file = NamedTemporaryFile()
+        thumb_img.save(thumb_file, 'JPEG')
+        name = '%d_thumb.jpg'%car.pk
+        if os.path.exists(name): 
+            os.remove(name)
+        car.thumb.save(name, File(thumb_file))
+        thumb_file.close()
+
+        uploaded.close()
+        car.save()
+        data["msg"] = "Upload successful"
+        data['avatar'] = car.avatar.url
+        data['thumb'] = car.thumb.url
     return HttpResponse(json.dumps(data), mimetype='application/json')
 
 

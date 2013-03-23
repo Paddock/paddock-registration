@@ -48,7 +48,12 @@ class CarAvatarForm(Form):
 
 class ClassChoiceField(forms.ModelChoiceField):
         def label_from_instance(self, race_class):
-            return race_class.abrv    
+            return race_class.abrv 
+
+
+class CarChoiceField(forms.ModelChoiceField):
+        def label_from_instance(self, car):
+            return "%s: %d %s %s"%(car.name, car.year, car.make, car.model)              
 
 
 class RegForm(ModelForm): 
@@ -72,9 +77,9 @@ class RegForm(ModelForm):
 class UserCreationForm(UCF):
     
     email = forms.EmailField(widget=forms.TextInput(),
-                            max_length=75,
-                            label=("E-mail"),
-                            error_messages={'invalid': 'please provide a valid email address'})    
+                             max_length=75,
+                             label=("E-mail"),
+                             error_messages={'invalid': 'please provide a valid email address'})    
 
     def __init__(self, *args, **kwargs): 
         self.helper = FormHelper()
@@ -85,6 +90,14 @@ class UserCreationForm(UCF):
 
         self.helper.add_input(Submit('submit', 'Submit'))
         super(UserCreationForm, self).__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        username = self.cleaned_data.get('username')
+        User.objects.filter(email=email).count()
+        if email and User.objects.filter(email=email).count() > 0:
+            raise forms.ValidationError(u'This email address is already registered.')
+        return email    
 
 
 class AuthenticationForm(AF):

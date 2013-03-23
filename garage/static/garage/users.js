@@ -69,7 +69,7 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
         $scope.car_form_title='Edit ' + car.name;
         $scope.edit_car_target = angular.copy(car);
         $scope.car_modal_show = true;
-    }
+    };
 
     $scope.save_car = function() {
         if($scope._submit_avatar_first) {
@@ -79,8 +79,7 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
         else {
             $scope.save_car_fields();
         }
-        
-    }
+    };
 
     //setup for upload preview
     $("#avatar_upload").change( function(e) {
@@ -96,25 +95,30 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     var avatar_form = $('#avatar_form');
     avatar_form.ajaxForm({
         success: function(resp,status,xhr,element){
+          console.log(resp);
+          console.log(resp.avatar);
           $scope.edit_car_target.avatar = resp.avatar;
           $scope.edit_car_target.thumb = resp.thumb;
+          element.empty();
           $scope.save_car_fields();
-        },
-        error: function(resp,status,xhr,element){
-          
+          if(!resp.avatar){
+            $scope.profile.cars[$scope.edit_car_index].avatar = false;
+            $scope.profile.cars[$scope.edit_car_index].thumb = false;
+          }
         },
         dataType: 'json'
-    })
+    });
 
     $scope.save_car_fields = function() {
         $scope.edit_car_target.provisional=false;
-        
+
         //strip any hack strings from the links
+        console.log($scope.edit_car_target.avatar, Boolean($scope.edit_car_target.avatar))
         if ($scope.edit_car_target.avatar){
             $scope.edit_car_target.avatar = $scope.edit_car_target.avatar.replace(/#[0-9]+\b/,'');
             $scope.edit_car_target.thumb =  $scope.edit_car_target.thumb.replace(/#[0-9]+\b/,'');
         }
-        console.log($scope.edit_car_target);
+        //console.log($scope.edit_car_target);
         Car.save($scope.edit_car_target,function(car){
             if ($scope.edit_car_index<0){
                 $scope.profile.cars.push(car);
@@ -122,25 +126,24 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
             else{
                 $scope.profile.cars[$scope.edit_car_index] = angular.copy(car);
                 //dirty hack to trick the browser to reload the images incase the changed
-                $scope.profile.cars[$scope.edit_car_index].avatar = car.avatar + "#" + new Date().getTime();
-                $scope.profile.cars[$scope.edit_car_index].thumb =  car.thumb + "#" + new Date().getTime();
-                console.log($scope.profile.cars[$scope.edit_car_index].avatar); 
+                if (car.avatar){
+                    $scope.profile.cars[$scope.edit_car_index].avatar = car.avatar + "#" + new Date().getTime();
+                    $scope.profile.cars[$scope.edit_car_index].thumb =  car.thumb + "#" + new Date().getTime();
+                }
+                //console.log($scope.profile.cars[$scope.edit_car_index].avatar);
             }
-
-            $scope.edit_car_target = null; 
+            $scope.edit_car_target = null;
             $scope.car_modal_show = false;
         });
-    }
+    };
 
     $scope.cancel_edit_car = function(){
         if($scope.edit_car_index<0){
             Car.delete({'carId':$scope.edit_car_target.id}); //just a little cleanup so we don't have too many provisional cars around
         }
-        $scope.edit_car_target = null; 
+        $scope.edit_car_target = null;
         $scope.car_modal_show=false;
-    }
-
-    
+    };
 });
 
 app.config(['$routeProvider', function($routeProvider) {

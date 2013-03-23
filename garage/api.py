@@ -44,13 +44,13 @@ v1_api.register(UserResource())
 
 class UserProfileResource(ModelResource):
     cars = fields.ToManyField('garage.api.CarResource', 'cars', full=True, 
-        null=True, blank=True, readonly=True)
+                              null=True, blank=True, readonly=True)
     coupons = fields.ToManyField('garage.api.CouponResource', 'coupons', 
-        full=True, null=True, blank=True, readonly=True)
+                                 full=True, null=True, blank=True, readonly=True)
     user = fields.ToOneField('garage.api.UserResource', 'user', 'profile', full=True, readonly=True)
     upcoming_events = fields.ToManyField('garage.api.EventResource',
-        lambda bundle: bundle.obj.get_next_events(), 
-        blank=True, null=True, full=True, readonly=True)
+                                         lambda bundle: bundle.obj.get_next_events(), 
+                                         blank=True, null=True, full=True, readonly=True)
 
     class Meta: 
         queryset = UserProfile.objects.all()
@@ -67,9 +67,8 @@ class UserProfileResource(ModelResource):
 v1_api.register(UserProfileResource())
 
 
-
 class CarResource(ModelResource):
-    user_profile = fields.ToOneField(UserProfileResource, 'user_profile',blank=True,null=True)
+    user_profile = fields.ToOneField(UserProfileResource, 'user_profile', blank=True, null=True)
 
     class Meta: 
         queryset = Car.objects.all()
@@ -86,6 +85,7 @@ class CarResource(ModelResource):
 
 
 v1_api.register(CarResource()) 
+
 
 class ClubResource(ModelResource):
 

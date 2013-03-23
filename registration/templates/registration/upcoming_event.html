@@ -62,8 +62,11 @@
       {% if is_auth and is_regd %}
   <p> {{ is_regd.first_name }}, you've registered as {{ is_regd.number }} {{ is_regd.race_class.abrv}}
   with {{ is_regd.car.name }}<br/></p>
-  <p><img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
-  </p>
+  {%if is_regd.car.avatar%}
+    <p>
+      <img src="{{ is_regd.car.avatar.url }}" alt="{{ is_regd.car.name }}_image" width="250"/>
+    </p>
+  {%endif%}  
   <p>
     <a href="{% url 'registration.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
     Update your registration	

@@ -7,18 +7,17 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.core import serializers
 #from django.views.generic.create_update import create_object, update_object
-from django.views.decorators.http import require_http_methods
 
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login as django_login,logout
+from django.contrib.auth.views import login as django_login, logout
 from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
 
 from registration.models import Club, Event, Car, UserProfile
 
-from registration.forms import UserCreationForm, ActivationForm,\
-     RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm
+from registration.forms import UserCreationForm, ActivationForm, \
+    RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm, CarChoiceField
 
 
 JSON = serializers.get_serializer('json')
@@ -118,7 +117,7 @@ def event_register(request, club_name, season_year, event_name, username=None):
     form_template = 'registration/event_reg_form.html'
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
-        car = ModelChoiceField(queryset=Car.objects.filter(user_profile=up))
+        car = CarChoiceField(queryset=Car.objects.filter(user_profile=up))
         event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),
                                  initial=e.pk, widget=HiddenInput())
         club = ModelChoiceField(queryset=Club.objects.filter(pk=e.club.pk), 
