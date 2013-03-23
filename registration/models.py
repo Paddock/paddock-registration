@@ -996,7 +996,7 @@ clear_model_list = [UserProfile, Lease, Purchasable, Order, Coupon,
                     Registration, Session, Result, Run, Location, Course, 
                     Car, Lease, User]
 
-def clear_db(self): 
+def clear_db(): 
     for m in clear_model_list: 
         m.objects.all().delete() 
 
