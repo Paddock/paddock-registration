@@ -559,7 +559,7 @@ class Event(m.Model):
     class Meta: 
         ordering = ['date']
 
-    name = m.CharField('Name', max_length=40)
+    name = m.CharField('Name', max_length=100)
     safe_name = m.CharField(max_length=40)
 
     date = m.DateField('Event Date')
