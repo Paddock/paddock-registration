@@ -95,7 +95,7 @@ class UserProfile(m.Model):
     def __unicode__(self):
         return u'Profile %s'%self.pk
     
-    def send_activation_email(self, request): 
+    def send_activation_email(self): 
 
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
         username = self.user.username
@@ -560,7 +560,7 @@ class Event(m.Model):
         ordering = ['date']
 
     name = m.CharField('Name', max_length=100)
-    safe_name = m.CharField(max_length=40)
+    safe_name = m.CharField(max_length=100)
 
     date = m.DateField('Event Date')
     

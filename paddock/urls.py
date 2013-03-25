@@ -9,6 +9,7 @@ from django.conf import settings
 urlpatterns = patterns('',
     # Examples:
     url(r'^', include('registration.urls')),
+    url(r'^password/', include('password_reset.urls')),
     url(r'^garage/', include('garage.urls'))
 
 )

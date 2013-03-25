@@ -9,7 +9,7 @@ from django.core import serializers
 #from django.views.generic.create_update import create_object, update_object
 
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login as django_login, logout
+from django.contrib.auth.views import login as django_login, logout, password_reset
 from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
@@ -167,15 +167,30 @@ def register(request):
             
             profile = u.get_profile()
                         
-            profile.send_activation_email(request)
+            profile.send_activation_email()
             
-            return HttpResponseRedirect(reverse('registration.views.activate'))
+            return HttpResponseRedirect(reverse('registration.views.activate', 
+                                                kwargs={'username': u.username}))
     else: 
         form = UserCreationForm() #unbound form (no data)   
          
     return render_to_response('registration/registration_form.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+
+
+def resend_activation_code(request, username): 
+    
+    user = User.objects.get(username=username)
+    up = user.get_profile()
+
+    if not user.is_active:
+        up.send_activation_email()
+
+        return HttpResponseRedirect(reverse('registration.views.activate', 
+                                            kwargs={'username': user.username}))
+    return HttpResponseRedirect(reverse('registration.views.login'))
 
 
 def activate(request, username): 
