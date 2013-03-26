@@ -159,8 +159,10 @@ def register(request):
         
         if form.is_valid(): 
             #then create the user from the form data
-            u = User.objects.create_user(form.cleaned_data['username'], 
-                                         password=form.cleaned_data['password1'])
+            u = User.objects.create_user(username=form.cleaned_data['username'], 
+                                         password=form.cleaned_data['password1'], 
+                                         email=form.cleaned_data['email'])
+            #u = form.save()
             u.is_active = False #only active after email verification
             
             u.save()

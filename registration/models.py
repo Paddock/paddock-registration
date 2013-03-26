@@ -116,7 +116,7 @@ class UserProfile(m.Model):
         
         message = render_to_string('registration/activation_email.txt',
                                    ctx_dict)
-        
+        print self.user.email
         self.user.email_user(subject, message, settings.DEFAULT_FROM_EMAIL)        
 
     def get_next_events(self): 
