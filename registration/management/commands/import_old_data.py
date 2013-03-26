@@ -3,9 +3,12 @@ import datetime
 from os.path import exists
 from django.core.management.base import BaseCommand
 from django.core.files import File
+from django import db
 from registration.models import Club, Season, Event, Registration, \
     RaceClass, Result, Session, Location, User, Car, Run, Coupon, \
     Membership, clear_db
+
+
 
 
 class Command(BaseCommand): 
@@ -39,6 +42,8 @@ class Command(BaseCommand):
             up.state = line['state']
             up.zip_code = line['zip_code']
             up.save()
+            db.reset_queries()
+
             
         #dev to make it so I can login to any account    
         justin = User.objects.get(username="justingray")   
@@ -71,10 +76,11 @@ class Command(BaseCommand):
                         c.avatar.save('%s_%s_avatar'%s_car_id, File(open('old_data/avatars/%s_%s_avatar'%s_car_id)))
                         c.thumb.save('%s_%s_thumb'%s_car_id, File(open('old_data/avatars/%s_%s_thumb'%s_car_id)))
                     c.save()
-                    car_map[line['id']] = c
+                    db.reset_queries()
+                    car_map[line['id']] = c.pk
                 except:
                     continue         
-                    
+     
         print "Loading Clubs"
         #read in clubs
         club_map = {}
@@ -100,6 +106,7 @@ class Command(BaseCommand):
             c.save()
 
             club_map[line['name']] = c
+            db.reset_queries()
 
         print "loading coupons"
         for line in csv.DictReader(open('old_data/coupon.csv')):    
@@ -120,6 +127,7 @@ class Command(BaseCommand):
             if line['driver_user_name']:
                 c.user_prof = User.objects.get(username=line['driver_user_name']).get_profile()
             c.save()    
+            db.reset_queries()
 
         print "loading memberships"
         reader = csv.DictReader(open('old_data/membership.csv', 'rb'))
@@ -151,27 +159,29 @@ class Command(BaseCommand):
             m._anon_l_name = line['anon_l_name']
 
             m.save()
-        
+            db.reset_queries()
+
         print "loading locations"
         location_map = {}    
         for line in csv.DictReader(open("old_data/location.csv")):    
-                """id","name","address","lat","lng","club_name"""
-                for k, v in line.iteritems(): 
-                    if v == "NULL": 
-                        line[k] = None                
-                club = Club.objects.get(name=line['club_name'])        
-                
-                l = Location()
-                l.name = line['name']
-                l.address = line['address']
-                #l.lat = line['lat']
-                #l.lon = line['lng']
-                l.club = club
-                
-                l.save()      
-                
-                location_map[line['id']] = l
-        
+            """id","name","address","lat","lng","club_name"""
+            for k, v in line.iteritems(): 
+                if v == "NULL": 
+                    line[k] = None                
+            club = Club.objects.get(name=line['club_name'])        
+            
+            l = Location()
+            l.name = line['name']
+            l.address = line['address']
+            #l.lat = line['lat']
+            #l.lon = line['lng']
+            l.club = club
+            
+            l.save()      
+            
+            location_map[line['id']] = l
+            db.reset_queries()
+
         print "loading seasons"      
         season_map = {}    
         for line in csv.DictReader(open('old_data/season.csv')): 
@@ -187,6 +197,7 @@ class Command(BaseCommand):
             s.save()
                         
             season_map[line['id']] = s
+            db.reset_queries()
 
         print "loading events"
         event_map = {}
@@ -218,7 +229,8 @@ class Command(BaseCommand):
             e.save()
             
             event_map[line['id']] = e
-        
+            db.reset_queries()
+
         print "loading race_classes" 
         race_class_map = {}
         for line in csv.DictReader(open('old_data/raceclass.csv')):
@@ -234,6 +246,7 @@ class Command(BaseCommand):
             r.pax = float(line['pax'])
             r.club = club
             r.save()
+            db.reset_queries()
             
             race_class_map[line['id']] = r
             
@@ -266,7 +279,8 @@ class Command(BaseCommand):
             r.save()
             
             reg_type_map[line['id']] = r
-        
+            db.reset_queries()
+
         print "loading registrations" 
         registration_map = {}  
         for line in csv.DictReader(open('old_data/registration.csv')): 
@@ -323,7 +337,7 @@ class Command(BaseCommand):
                 r.bump_class=index_class
             try: 
                 if line['car_id']:
-                    r.car=car_map[line['car_id']]
+                    r.car=Car.objects.get(pk=car_map[line['car_id']])
             except: 
                 pass
             #TODO race_class_id
@@ -339,8 +353,9 @@ class Command(BaseCommand):
                 except: 
                     continue   
 
-            registration_map[line['id']] = r
-            
+            registration_map[line['id']] = r.pk
+            db.reset_queries()
+
         print "loading sessions"     
         session_map = {}
         for line in csv.DictReader(open('old_data/session.csv')):
@@ -361,7 +376,8 @@ class Command(BaseCommand):
             s.save()
             
             session_map[line['id']] = s
-         
+            db.reset_queries()
+
         print "loading results"   
         result_map = {}    
         for line in csv.DictReader(open('old_data/result.csv')):        
@@ -377,7 +393,8 @@ class Command(BaseCommand):
                 continue
             
             r = Result()
-            r.reg = registration_map[line['registration_id']]
+            reg = Registration.objects.get(pk=registration_map[line['registration_id']])
+            r.reg = reg 
 
             r.session = session_map[line['sess_id']]
             r.club = r.session.club
@@ -388,8 +405,9 @@ class Command(BaseCommand):
                 print str(err)
                 print registration_map[line['registration_id']]
             
-            result_map[line['id']] = r
-        
+            result_map[line['id']] = r.id
+            db.reset_queries()
+
         print "loading runs" 
         for line in csv.DictReader(open('old_data/run.csv')):
             """id","base_time","calc_time","index_time","cones",
@@ -406,15 +424,18 @@ class Command(BaseCommand):
                 r.cones = int(line['cones'])
                 if line['penalty']:
                     r.penalty = line['penalty']
-                r.result = result_map[line['result_id']]
+                result = Result.objects.get(pk=result_map[line['result_id']])
+                r.result = result
                 r.club = r.result.club
                 r.save()
-                
+                db.reset_queries()
             except KeyError: 
                 continue
 
-        for reg in Registration.objects.select_related('results').all(): 
+        print "calculating reg times"
+        for reg in Registration.objects.select_related('results').all().iterator(): 
             reg.calc_times()
+
 
         #House keeping
         nora = Club.objects.get(safe_name='noraascc')

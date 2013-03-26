@@ -776,7 +776,7 @@ class Registration(Purchasable):
         """Finds the lowest time for each associated result, adds them together, then 
         calculates a new combined index time based on the associated race_class or 
         pax_class"""
-        runs = [res.find_best_run() for res in self.results.all()]
+        runs = [res.find_best_run() for res in self.results.all().iterator()]
         
         self.total_raw_time = sum([r.calc_time for r in runs if r])
         if self.pax_class:
@@ -1001,7 +1001,7 @@ clear_model_list = [Lease, Order, Coupon, Registration,
 def clear_db(): 
     print "Clearing the Database"
     for m in clear_model_list: 
-        objs = m.objects.all()
+        objs = m.objects.all().iterator()
         for o in objs: 
             o.delete()
 
