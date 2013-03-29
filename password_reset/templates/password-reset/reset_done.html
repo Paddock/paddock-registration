@@ -1,0 +1,18 @@
+{% extends "registration/base.html" %}
+{% load crispy_forms_tags %}
+{% load url from future %}
+
+{% block title %}Password reset successful{% endblock %}
+
+{% block nav_login %}{% endblock nav_login %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="span5">
+        <p>We've e-mailed you instructions for setting your password to the e-mail address you submitted.</p>
+        <p>You should be receiving it shortly.</p>
+      </div><!-- /span12 --> 
+    </div><!-- /row --> 
+  </div><!-- /container -->  
+{% endblock content %}

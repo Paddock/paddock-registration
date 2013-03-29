@@ -1,0 +1,37 @@
+{% extends "registration/base.html" %}
+{% load crispy_forms_tags %}
+{% load url from future %}
+
+{% block title %} Racerslane: Setting New password {% endblock %}
+
+{% block nav_login %}{% endblock nav_login %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="span5">
+        {% if validlink %}
+            {% if form.errors %}
+              <p>
+                {{ form.email.errors }}
+              </p> 
+            {% endif %}
+            <p>Please enter your new password twice.<br />
+               So we can verify you typed it in correctly.</p>
+            {%crispy form%}
+
+        {% else %}
+            <h1>Password reset unsuccessful</h1>
+            <p>The password reset link was invalid, <br />
+            possibly because it has already been used. <br />
+            Please request a new password reset.</p>
+        {% endif %}  
+      </div><!-- /span12 --> 
+    </div><!-- /row --> 
+    <div class="row">
+      <div class="span5">
+        <a href="{% url "password_reset" %}">Forgot your password?</a>
+      </div>
+    </div>
+  </div><!-- /container -->  
+{% endblock content %}

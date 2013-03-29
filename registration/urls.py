@@ -10,7 +10,7 @@ urlpatterns = patterns('registration.views',
     url(r'^register/$', 'register'),
     url(r'^activate/(?P<username>[\w\'\.\-]+)', 'activate'),
     url(r'^reactivate/(?P<username>[\w\'\.\-]+)', 'resend_activation_code'),
-    url(r'^login/', 'login'),
+    url(r'^login/', 'login', name="login"),
     url(r'^logout/$', 'logout',
         {'next_page': '/'}),
 )

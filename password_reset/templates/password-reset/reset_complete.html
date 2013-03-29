@@ -1,0 +1,23 @@
+{% extends "registration/base.html" %}
+{% load crispy_forms_tags %}
+{% load url from future %}
+
+{% block title %} Racerslane: Reset Password {% endblock %}
+
+{% block nav_login %}{% endblock nav_login %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="span5">
+  
+        <p>Your password has been successfully reset. You can 
+      </div><!-- /span12 --> 
+    </div><!-- /row --> 
+    <div class="row">
+      <div class="span5">
+        <a href="{% url "login" %}">Log In</a>
+      </div>
+    </div>
+  </div><!-- /container -->  
+{% endblock content %}
