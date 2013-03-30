@@ -20,7 +20,8 @@ from django.conf import settings
 from django.db import transaction, IntegrityError
 
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login as django_login,logout
+from django.contrib.auth.views import login as django_login,logout, \
+    password_change as pwd_change
 from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
@@ -32,6 +33,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from garage.api import MembershipResource
 from garage.utils import reg_txt, reg_dat, parse_axtime
+from garage.forms import CrispyPasswordChangeForm
+
+
 
 
 def is_club_admin(user, club): 
@@ -40,8 +44,18 @@ def is_club_admin(user, club):
     if user.has_perm(perm):
         return True
 
-    return HttpResponseRedirect(reverse('registration.views.logout'))    
+    return HttpResponseRedirect(reverse('registration.views.logout'))  
 
+
+def password_change(request, username, *args, **kwargs): 
+    #just need to strip the username out of it
+    new_kwargs = {
+        'template_name': 'garage/password_change.html',
+        'post_change_redirect': reverse('garage.views.admin_user', kwargs={'username': username}),
+        'password_change_form': CrispyPasswordChangeForm
+    }
+    kwargs.update(new_kwargs)
+    return pwd_change(request, *args, **kwargs)
 
 @login_required
 @require_http_methods(['GET'])

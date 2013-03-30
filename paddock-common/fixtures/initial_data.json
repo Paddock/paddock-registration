@@ -1,0 +1,10 @@
+[
+  {
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+      "domain": "racerslane.com",
+      "name": "Racerslane.com"
+    }
+  }
+]

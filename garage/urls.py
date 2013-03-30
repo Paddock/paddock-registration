@@ -4,6 +4,7 @@ from api import v1_api
 
 urlpatterns = patterns('garage.views',
     url(r'^users/(?P<username>\w{3,})$', 'admin_user', name="admin_user"),
+    url(r'^users/(?P<username>\w{3,})/password$','password_change', name='password_change'),
     url(r'^clubs/(?P<clubname>\w{3,})$', 'admin_club', name="admin_club"),
     url(r'^clubs/(?P<clubname>\w{3,})/membership/', 'new_membership'),
     url(r'^events/(?P<event_id>[0-9]+)$', 'admin_event', name="admin_event"),
