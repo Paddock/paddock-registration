@@ -2,8 +2,6 @@
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 DEBUG = True
-#TEMPLATE_DEBUG = DEBUG
-TEMPLATE_DEBUG = True
 
 #FOR Testing
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -144,20 +142,17 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'password_reset',
     'crispy_forms',
     'easy_maps',
     'tastypie',
+    'paypal.standard.pdt',
+    'billing',
     'paddock-common',
+    'password_reset',
     'registration',
     'garage'
 )
 
-AUTH_PROFILE_MODULE = 'registration.UserProfile'
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_ACTIVATION_DAYS = 7
-DEFAULT_FROM_EMAIL = "noreply@racerslane.com"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -193,3 +188,8 @@ try:
     from settings_local import * 
 except ImportError: 
     pass    
+
+MERCHANT_TEST_MODE = DEBUG
+PAYPAL_TEST = DEBUG
+TEMPLATE_DEBUG = DEBUG
+
