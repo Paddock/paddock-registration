@@ -124,7 +124,7 @@ class UserProfile(m.Model):
         #TODO: get all events that user is registered for, 
         #      or that are coming up for clubs that you're member of  
         ret = None
-        for m in self.memberships.all(): 
+        for m in self.memberships.all().iterator(): 
             e = m.club.upcoming_events()
             if e != None:
                 if ret!=None: 
@@ -137,13 +137,13 @@ class UserProfile(m.Model):
 
     def is_member(self, club): 
         today = datetime.date.today()
-        for m in self.memberships.all(): 
+        for m in self.memberships.all().iterator(): 
             if m.club == club and m.paid and m.valid_thru >= today: 
                 return m
         return False    
 
     def is_registered(self, event): 
-        for r in self.registrations.all():
+        for r in self.registrations.all().iterator():
             if r.event == event: 
                 return r
         return False
@@ -174,7 +174,8 @@ class Order(m.Model):
         if self.coupon:
             price -= self.coupon.discount(price)
         self.total_price = "%.2f"%price
-        self.save()    
+        self.save()
+        return self.total_price    
 
 
 class Coupon(m.Model):     
@@ -207,7 +208,7 @@ class Coupon(m.Model):
             return False
         elif (not self.permanent) and self.uses_left < 1: #used up
             return False
-        elif self.expires < datetime.date.today(): #expired
+        elif (not self.permanent) and self.expires < datetime.date.today(): #expired
             return False
 
         return True

@@ -4,15 +4,16 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 from django.db import models as m
 
-from registration.models import Registration, User, Club, \
-     Coupon, Order, Membership, Season, Event, RaceClass
+from registration.models import (Registration, User, Club,
+     Coupon, Order, Membership, Season, Event, RaceClass, 
+     db_clear
+     )
 
 
 class TestCoupon(unittest.TestCase):   
     
     def tearDown(self): 
-        for model in m.get_models(): 
-            model.objects.all().delete()
+        db_clear()
             
     def test_validcode(self): 
         c = Coupon()
@@ -45,8 +46,10 @@ class TestCoupon(unittest.TestCase):
         except ValidationError as err: 
             self.assertEqual("{'expires': [u'Date must be at least one day from now']}", str(err))
         else: 
-            self.fail("ValidationError expected")            
-    
+            self.fail("ValidationError expected")   
+
+              
+        
     def test_discount_calculation(self): 
         c = Coupon()
         c.discount_amount = "10.00"

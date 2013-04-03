@@ -1,0 +1,19 @@
+{% extends "registration/base.html" %}
+{% load url from future %}
+{% load paddock_tags %}
+
+{% block title %} Racerslane: {{ club.name }} {{ event.name }} {% endblock %}
+
+{% block head_css %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}DT_bootstrap.css">
+{% endblock head_css %}
+
+{% block content %}
+<div class="row">
+<div class="span12">
+  <h3>Send a payment of &#36;{{price}} to {{club.name}}</h3>
+  <br/>
+  {{paypal_form.render}}
+</div><!-- /span12 -->
+</div><!-- /row -->
+{% endblock content%}

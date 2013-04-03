@@ -14,10 +14,14 @@ from django.contrib.auth.decorators import login_required
 
 from django.forms import ModelChoiceField, HiddenInput
 
-from registration.models import Club, Event, Car, UserProfile
+from paypal.standard.forms import PayPalPaymentsForm
 
-from registration.forms import UserCreationForm, ActivationForm, \
-    RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm, CarChoiceField
+from registration.models import Club, Event, Car, UserProfile, Order
+
+from registration.forms import (UserCreationForm, ActivationForm, 
+    RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm, 
+    CarChoiceField
+    )
 
 
 JSON = serializers.get_serializer('json')
@@ -130,9 +134,51 @@ def event_register(request, club_name, season_year, event_name, username=None):
         reg = e.regs.get(user_profile__user__username=username)
 
     if request.method == 'POST':
-        form = UserRegForm(request.POST, request.FILES, instance=reg)
+        form = UserRegForm(request.POST, request.FILES, 
+            user=request.user, instance=reg)
         if form.is_valid():
-            form.save()
+            reg = form.save()
+            if form.cleaned_data['prepay']: 
+                #figure out base reg price (member or not?)
+                member = up.is_member(e.club)
+                if member: 
+                    reg.price = e.member_price
+                else: 
+                    reg.price = e.non_member_price
+
+                up = request.user.get_profile()
+                #construct order, add reg to order
+                order = Order()
+                order.user_prof = up
+                order.coupon = form.coupon
+                order.save()
+                reg.order = order
+                reg.save()
+
+                # What you want the button to do.
+                paypal_dict = {
+                    "business": e.club.paypal_email,
+                    "amount": order.calc_total_price(),
+                    "item_name": 'Registration for %s %s'%(e.club.name, e.name),
+                    "invoice": order.pk,
+                    "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+                    "return_url": request.build_absolute_uri(redirect_target),
+                    "cancel_return": request.build_absolute_uri(redirect_target),
+
+                }
+                paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+
+                context={
+                    'paypal_form': paypal_form,
+                    'price': paypal_dict['amount'],
+                    'club': e.club, 
+                    'order': order
+                }
+                
+                return render_to_response('registration/start_pay.html',
+                                          context,
+                                          context_instance=RequestContext(request))
+
             return HttpResponseRedirect(redirect_target)
     else:
         form = UserRegForm(instance=reg)
@@ -141,7 +187,7 @@ def event_register(request, club_name, season_year, event_name, username=None):
         'event': e,
         'season': e.season,
         'club':  e.club,
-        'form': form
+        'form': form, 
     } 
     return render_to_response(form_template,
                               context,

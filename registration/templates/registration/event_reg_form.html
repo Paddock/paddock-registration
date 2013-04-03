@@ -1,5 +1,6 @@
 {% extends "registration/base.html" %}
 {% load url from future %}
+{% load crispy_forms_tags %}
 {% load easy_maps_tags %}
 {% load paddock_tags %}
 
@@ -8,11 +9,6 @@
 {% block head_css %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}DT_bootstrap.css">
 {% endblock head_css %}
-
-{% block foot_js %}
-<script src="{{ STATIC_URL }}ember-0.9.8.1.min.js"></script>
-<script src="{{ STATIC_URL }}ember-data.js"></script>
-{% endblock foot_js %}
 
 {% block content %}
 <div class="row">
@@ -30,12 +26,10 @@
 
 <div class="row">
 <div id="registration" class="span3">
-  <form action="{{ request.path  }}" method="post">{% csrf_token %}
-    {{ form }}
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary">Register</button>
-    </div>
-  </form>
+
+    {%crispy form%}
+
+  {{ paypal_form.render }}
 </div><!-- /span12 -->
 </div><!-- /row -->
 {% endblock content%}

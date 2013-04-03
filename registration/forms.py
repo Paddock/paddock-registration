@@ -13,12 +13,13 @@ from django.utils.decorators import available_attrs
 
 from django.contrib.auth.forms import UserCreationForm as UCF, AuthenticationForm as AF
 
-from django.forms import BooleanField, Form, ModelForm, HiddenInput
+from django.forms import (BooleanField, Form, ModelForm, HiddenInput, 
+    CharField)
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
-from registration.models import Registration, RaceClass
+from registration.models import Registration, RaceClass, Coupon
 
 
 def form_is_for_self(form_class, form_field):
@@ -64,6 +65,46 @@ class RegForm(ModelForm):
                                   filter(pax_class=False, bump_class=False).
                                   order_by('abrv').all(),
                                   label="Race Class")
+    prepay = BooleanField(
+        initial=False, required=False)
+    
+    coupon_code = CharField(required=False)
+
+    def __init__(self, *args, **kwargs): 
+        self.helper = FormHelper()
+
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.form_action = "#"
+
+        self.helper.add_input(Submit('submit', 'Submit'))
+
+        #used for coupon code checking
+        self.user = kwargs.get('user')
+        if self.user: 
+            del kwargs['user']
+        super(RegForm,self).__init__(*args,**kwargs)
+
+    def clean_coupon_code(self): 
+        code = self.cleaned_data.get('coupon_code')
+        self.coupon = None
+        if code: 
+            allowed = True
+            try: 
+                c = Coupon.objects.get(code=code)
+                allowed = c.is_valid(self.user)
+                self.coupon = c
+            except: 
+                allowed=False
+
+            if not allowed: 
+                    raise forms.ValidationError(u'Invalid Coupon Code')
+        return code
+
+    #TODO: Define some javascript to show/hide coupon code 
+    #  and change button text to/from (Register/Checout with Paypal)
+
+    #todo add verify function to check for valid coupon code...
     
     class Meta: 
         model = Registration

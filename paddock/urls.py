@@ -6,15 +6,13 @@ from django.conf.urls import patterns, include, url
 
 from django.conf import settings
 
-from billing import get_integration
-pay_pal = get_integration("pay_pal")
-
 urlpatterns = patterns('',
     # Examples:
     url(r'^', include('registration.urls')),
     url(r'^password/', include('password_reset.urls')),
     url(r'^garage/', include('garage.urls')),
-    url(r'^paypal-ipn-handler/', include(pay_pal.urls)),
+    #random numbers in url are for 'security'
+    url(r'^paypal-ipn-handler/3995760248/', include('paypal.standard.ipn.urls'))
 )
 
 if settings.DEBUG:

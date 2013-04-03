@@ -145,14 +145,18 @@ INSTALLED_APPS = (
     'crispy_forms',
     'easy_maps',
     'tastypie',
-    'paypal.standard.pdt',
-    'billing',
+    'paypal.standard.ipn',
     'paddock-common',
     'password_reset',
     'registration',
     'garage'
 )
 
+AUTH_PROFILE_MODULE = 'registration.UserProfile'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_ACTIVATION_DAYS = 7
+DEFAULT_FROM_EMAIL = "noreply@racerslane.com"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -189,7 +193,6 @@ try:
 except ImportError: 
     pass    
 
-MERCHANT_TEST_MODE = DEBUG
 PAYPAL_TEST = DEBUG
 TEMPLATE_DEBUG = DEBUG
 
