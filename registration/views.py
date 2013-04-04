@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import ModelChoiceField, HiddenInput
 
 from paypal.standard.forms import PayPalPaymentsForm
-from paypal.standard.ipn.signals import payment_was_successful
+from paypal.standard.ipn.signals import payment_was_successful, payment_was_flagged
 
 from registration.models import Club, Event, Car, UserProfile, Order
 
@@ -199,12 +199,22 @@ def event_register(request, club_name, season_year, event_name, username=None):
 def payment_complete(sender, **kwargs):
     ipn_obj = sender
     # Undertake some action depending upon `ipn_obj`.
+
+    pront
     
     import sys
     print >> sys.stderr, "this worked!!!", sender
 
 payment_was_successful.connect(payment_complete)
 
+def payment_failed(sender, **kwargs):
+    ipn_obj = sender
+    # Undertake some action depending upon `ipn_obj`.
+    
+    import sys
+    print >> sys.stderr, "this failed!!!", sender
+
+payment_was_flagged.connect(payment_failed)
 
 #new user registration
 def register(request): 
