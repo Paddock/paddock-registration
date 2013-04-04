@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.forms import ModelChoiceField, HiddenInput
 
 from paypal.standard.forms import PayPalPaymentsForm
+from paypal.standard.ipn.signals import payment_was_successful
 
 from registration.models import Club, Event, Car, UserProfile, Order
 
@@ -157,7 +158,8 @@ def event_register(request, club_name, season_year, event_name, username=None):
 
                 # What you want the button to do.
                 paypal_dict = {
-                    "business": e.club.paypal_email,
+                    #"business": e.club.paypal_email,
+                    'business': 'Justin.S.Gray-facilitator@gmail.com',
                     "amount": order.calc_total_price(),
                     "item_name": 'Registration for %s %s'%(e.club.name, e.name),
                     "invoice": order.pk,
@@ -169,7 +171,7 @@ def event_register(request, club_name, season_year, event_name, username=None):
                 paypal_form = PayPalPaymentsForm(initial=paypal_dict)
 
                 context={
-                    'paypal_form': paypal_form,
+                    'paypal_form': paypal_form.sandbox(),
                     'price': paypal_dict['amount'],
                     'club': e.club, 
                     'order': order
@@ -192,6 +194,14 @@ def event_register(request, club_name, season_year, event_name, username=None):
     return render_to_response(form_template,
                               context,
                               context_instance=RequestContext(request))                               
+
+#ipn notification signal 
+def payment_complete(sender, **kwargs):
+    ipn_obj = sender
+    # Undertake some action depending upon `ipn_obj`.
+    
+    print 'Payment Successfull: ', ipn_obj       
+payment_was_successful.connect(payment_complete)
 
 
 #new user registration
