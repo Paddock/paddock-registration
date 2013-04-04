@@ -200,7 +200,9 @@ def payment_complete(sender, **kwargs):
     ipn_obj = sender
     # Undertake some action depending upon `ipn_obj`.
     
-    print 'Payment Successfull: ', ipn_obj       
+    import sys
+    print >> sys.stderr, "this worked!!!", sender
+
 payment_was_successful.connect(payment_complete)
 
 
