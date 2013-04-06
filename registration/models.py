@@ -176,6 +176,7 @@ class Order(m.Model):
         self.total_price = "%.2f"%price
         self.save()
         return self.total_price    
+   
 
 
 class Coupon(m.Model):     

@@ -200,10 +200,10 @@ def payment_complete(sender, **kwargs):
     ipn_obj = sender
     # Undertake some action depending upon `ipn_obj`.
 
-    pront
-    
-    import sys
-    print >> sys.stderr, "this worked!!!", sender
+    o = Order.objects.get(pk=ipn_obj.invoice)
+    for item in o.items.all().iterator(): 
+        item.paid = True
+        item.save()
 
 payment_was_successful.connect(payment_complete)
 
@@ -211,8 +211,8 @@ def payment_failed(sender, **kwargs):
     ipn_obj = sender
     # Undertake some action depending upon `ipn_obj`.
     
-    import sys
-    print >> sys.stderr, "this failed!!!", sender
+    o = Order.objects.get(pk=ipn_obj.invoice)
+    o.delete()
 
 payment_was_flagged.connect(payment_failed)
 
