@@ -106,7 +106,7 @@ class Command(BaseCommand):
             c.save()
 
             club_map[line['name']] = c
-            db.reset_queries()
+            db.reset_queries()  
 
         print "loading coupons"
         for line in csv.DictReader(open('old_data/coupon.csv')):    

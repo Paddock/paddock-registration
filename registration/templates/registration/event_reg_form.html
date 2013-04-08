@@ -10,6 +10,25 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}DT_bootstrap.css">
 {% endblock head_css %}
 
+
+{%block foot_js%}
+  {{block.super}}
+  <script type="text/javascript"> 
+  $(document).ready(function(){
+    $("#div_id_coupon_code").hide();
+    $("#id_prepay").click(function(){
+      var test = $(this).attr('checked');
+      if(test){
+        $("#div_id_coupon_code").show();
+      }
+      else{
+        $("#div_id_coupon_code").hide();
+      }
+    });
+  });
+  </script>
+{%endblock foot_js%}
+
 {% block content %}
 <div class="row">
 <div id="registration" class="span12">
@@ -25,11 +44,10 @@
 </div><!-- /row -->
 
 <div class="row">
-<div id="registration" class="span3">
+<div id="registration" class="span5">
 
     {%crispy form%}
 
-  {{ paypal_form.render }}
 </div><!-- /span12 -->
 </div><!-- /row -->
 {% endblock content%}

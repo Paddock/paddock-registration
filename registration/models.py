@@ -163,6 +163,20 @@ class Purchasable(m.Model):
     order = m.ForeignKey("Order", related_name="items", blank=True, null=True)
     paid = m.BooleanField('paid', default=False)
 
+    content_type = m.ForeignKey(ContentType,editable=False,null=True)
+
+    def save(self): 
+        if self.content_type is None: 
+            self.content_type = ContentType.objects.get_for_model(self.__class__)
+            #print self.content_type, self.content_type.model_class()
+        super(Purchasable,self).save()
+
+    def as_leaf_model(self):
+        model = self.content_type.model_class()
+        if (model == Purchasable):
+            return self
+        return model.objects.get(id=self.id)
+        
 
 class Order(m.Model): 
     total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default="0.00")
@@ -737,6 +751,11 @@ class Registration(Purchasable):
     _anon_f_name = m.CharField(max_length=50, default="N/A", editable=False)
     _anon_l_name = m.CharField(max_length=50, default="N/A", editable=False)
     _anon_car = m.CharField(max_length=50, default="N/A", editable=False)    
+
+    def cart_name(self):
+        """provides the string description of the registration for showing in 
+        checkout cart"""
+        return "Registration for %s"%self.event.name
     
     @property
     def user(self):

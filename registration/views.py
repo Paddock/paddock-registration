@@ -152,6 +152,7 @@ def event_register(request, club_name, season_year, event_name, username=None):
                 order = Order()
                 order.user_prof = up
                 order.coupon = form.coupon
+                order.coupon.uses_left -= 1
                 order.save()
                 reg.order = order
                 reg.save()
@@ -174,8 +175,10 @@ def event_register(request, club_name, season_year, event_name, username=None):
                     'paypal_form': paypal_form.sandbox(),
                     'price': paypal_dict['amount'],
                     'club': e.club, 
-                    'order': order
+                    'order': order,
+                    'items': [i.as_leaf_model().cart_name() for i in order.items.all()]
                 }
+
                 
                 return render_to_response('registration/start_pay.html',
                                           context,

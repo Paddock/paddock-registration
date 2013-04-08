@@ -11,7 +11,13 @@
 {% block content %}
 <div class="row">
 <div class="span12">
-  <h3>Send a payment of &#36;{{price}} to {{club.name}}</h3>
+
+  <h3>Send a payment of &#36;{{price}} to {{club.name}} for: </h3>
+  <ul class="unstyled">
+    {% for item in items %}
+      <li><h4>{{item}}</h4></li>
+    {% endfor %}
+  </ul>
   <br/>
   {{paypal_form}}
 </div><!-- /span12 -->
