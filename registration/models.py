@@ -160,7 +160,8 @@ post_save.connect(create_user_profile, sender=User)
 
 class Purchasable(m.Model): 
     price = m.DecimalField("$", max_digits=10, decimal_places=2, default="0.00")    
-    order = m.ForeignKey("Order", related_name="items", blank=True, null=True)
+    order = m.ForeignKey("Order", related_name="items", 
+        blank=True, null=True, on_delete=m.SET_NULL)
     paid = m.BooleanField('paid', default=False)
 
     content_type = m.ForeignKey(ContentType,editable=False,null=True)
@@ -176,12 +177,21 @@ class Purchasable(m.Model):
         if (model == Purchasable):
             return self
         return model.objects.get(id=self.id)
+
+    #place holders for children to use
+    def payment_complete(self): 
+        pass     
+
+    def payment_canceled(self): 
+        pass    
         
 
 class Order(m.Model): 
     total_price = m.DecimalField("$", max_digits=10, decimal_places=2, default="0.00")
     coupon = m.ForeignKey("Coupon", related_name="orders", null=True, blank=True)
     user_prof = m.ForeignKey("UserProfile", related_name="orders")
+
+    timestamp = m.DateTimeField(auto_now=True)
 
     def calc_total_price(self): 
         price = float(self.items.aggregate(m.Sum('price'))['price__sum'])
@@ -418,7 +428,18 @@ class Membership(Purchasable):
     _anon_l_name = m.CharField(max_length=50, blank=True, null=True, default=None)
 
     def __unicode__(self):
-        return "%s in %s>"%(self.user.username, self.club.safe_name)
+        return "%s in %s>"%(self.user_prof.user.username, self.club.safe_name)
+
+    def cart_name(self): 
+        return 'Membership in %s valid until %s'%(self.club.name,
+            self.valid_thru.strftime('%b %d, %Y'))
+
+    def payment_complete(self): 
+        self.valid_thru += datetime.timedelta(days=365)
+        self.save()
+
+    def payment_canceled(self): 
+        self.delete() #don't keep this around then    
 
     @property    
     def f_name(self):

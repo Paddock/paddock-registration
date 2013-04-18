@@ -1,0 +1,106 @@
+{% extends "registration/base.html" %}
+{% load paddock_tags %}
+
+{% block title %} Racerslane: Clubs {% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="span12">
+      <h2>{{club.name}}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span6">
+      <div class="accordion" id="accordion2">
+        {% for season in club.sorted_seasons %}
+          {% with season.upcoming_events as u_events %}
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <ul class="inline">
+                <li>
+                  <h3> <a class="accordion-toggle" 
+                  data-toggle="collapse" 
+                  href="#{{ club.safe_name }}_{{ season.year }}" 
+                  data-parent="#accordion2"> {{ season.year }} 
+                  </a> </h3> 
+                </li>
+                <li style="vertical-align: middle; margin-top:10px;">
+                  {%if u_events.count %}
+                    <ul class="nav nav-pills">
+                      <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_u_events" 
+                      data-toggle="tab">Upcoming Events</a></li>
+                      <li><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
+                      data-toggle="tab">Results</a></li>
+                    </ul> <!-- close nav-pills -->
+                  {% else %}
+                    <ul class="nav nav-pills">
+                      <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
+                      data-toggle="tab">Results</a></li>
+                    </ul> <!-- close nav-pills -->
+                  {%endif%}
+                </li>
+              </ul>
+              </div>
+              <div class="accordion-body {% if forloop.first %} in {% endif %} collapse" id="{{club.safe_name}}_{{season.year}}">                    
+                <div class="accordion-inner"> 
+                  {%if u_events.count %}
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
+                        {% events_table u_events %}
+                      </div> <!-- close tab-pane -->
+                      <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
+                        {% events_table season.complete_events %}
+                      </div><!-- close tab-pane -->
+                    </div> <!-- close tab-content -->
+                  {% else %}
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_f_events">
+                        {% events_table season.complete_events %}
+                      </div><!-- close tab-pane -->
+                    </div> <!-- close tab-content -->
+                  {% endif %}
+                </div> <!-- close accordion-inner -->
+              </div> <!-- close collapse -->
+            </div> <!-- close accordion-group -->
+          {% endwith %}  
+        {% endfor %}  <!-- close season loop -->
+      </div> <!-- close accordion -->  
+    </div>  <!-- close span6 -->
+    <div class="span4">
+      {% if user.is_authenticated and member%}
+        <h4>
+          Your membership #: {{member.num}}
+        </h4>
+        <h4>
+          Member since: {{member.start}}
+        </h4>
+        <h4>
+          Expiration: {{member.valid_thru}} 
+        </h4> 
+        <h4>
+          <a href="{%url 'renew_membership' club_name=club.pk %}">
+            Renew your mebership (&#36;{{club.renew_cost}})
+          </a>
+        </h4>
+      {% elif user.is_authenticated %}
+        <h4>
+          <a href="{%url 'renew_membership' club_name=club.pk %}">
+            Become a member (&#36;{{club.new_member_cost}})
+          </a>
+        </h4>
+        <h5>Mailing Address: </h5>
+        <address>
+          {{club.address}}<br/>
+          {{club.city}},{{club.state}} {{zip_code}}<br/>
+        </address>
+        {{club.membership_terms|safe}}
+      {% else%}
+        <h4>
+          <a href="{% url 'registration.views.login' %}?next={{request.get_full_path}}">Login</a> 
+          to check your membership status
+        </h4>
+      {% endif %}
+    </div> <!-- close span6 -->
+      
+  </div><!-- /row --> 
+
+{% endblock content%}

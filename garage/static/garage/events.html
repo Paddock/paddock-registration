@@ -42,6 +42,7 @@
                 <th>#</th>
                 <th>Car</th>
                 <th>Driver</th>
+                <th class="span1">Paid</th>
                 <th>Total Time</th>
                 <th>PAX Time</th>
                 <th>Class Points</th>
@@ -52,6 +53,7 @@
                 <td rowspan="2"><i ng-class="{'icon-play-circle':!show_results,'icon-download':show_results}" ng-click="show_results=!show_results"></i>{{$index+1}}</td>
                 <td>{{reg.number}} {{reg.race_class.name}}</td>
                 <td>{{reg.first_name}} {{reg.last_name}}</td>
+                <td>{{{true:'&#x2713;', false:''}[reg.paid]}}</td>
                 <td>{{reg.total_raw_time | number:3}}</td>
                 <td>{{reg.total_index_time | number:3}}</td>
                 <td>{{reg.class_points}}</td>

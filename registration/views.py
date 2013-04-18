@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import json
+import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -12,12 +13,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login, logout, password_reset
 from django.contrib.auth.decorators import login_required
 
+from django.views.decorators.csrf import csrf_exempt
+
 from django.forms import ModelChoiceField, HiddenInput
+from django.db.models import Count
 
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import payment_was_successful, payment_was_flagged
 
-from registration.models import Club, Event, Car, UserProfile, Order
+from registration.models import Club, Event, Car, UserProfile, Order, Membership
 
 from registration.forms import (UserCreationForm, ActivationForm, 
     RegForm, CarAvatarForm, form_is_for_self, AuthenticationForm, 
@@ -42,7 +46,12 @@ def login(request, *args, **kwargs):
 
 def clubs(request):
     """club index page"""
-    clubs = Club.objects.all()
+    clubs = Club.objects.select_related().\
+            annotate(n_events=Count('seasons__events')).\
+            order_by('-n_events')
+
+    for c in clubs: 
+        c.current_season = c.sorted_seasons[0]     
         
     context = {'clubs': clubs}
 
@@ -50,6 +59,24 @@ def clubs(request):
                               context,
                               context_instance=RequestContext(request))
 
+@csrf_exempt
+def club(request, club_name): 
+    """club detail page"""
+
+    club = Club.objects.select_related().\
+            get(safe_name=club_name)  
+    member = False        
+    if request.user.is_authenticated(): 
+        up = request.user.get_profile()
+        member = up.is_member(club)
+
+    context = {'club': club,
+               'member': member}  
+
+    return render_to_response('registration/club.html',
+                              context,
+                              context_instance=RequestContext(request))
+    
 
 def event(request, club_name, season_year, event_name): 
     """single event page""" 
@@ -108,6 +135,63 @@ def event(request, club_name, season_year, event_name):
                                   context,
                                   context_instance=RequestContext(request)) 
     
+@login_required    
+def renew_membership(request, club_name): 
+    """new club memberships and renewals""" 
+
+    user = request.user
+    up = user.get_profile()
+    club = Club.objects.get(safe_name=club_name)
+
+    try: 
+        m = Membership.objects.get(user_prof=up,club=club,paid=True)
+        m.price = club.renew_cost
+
+    except Membership.DoesNotExist: 
+        #create new membership 
+        m = Membership()
+        m.club = club
+        m.user_prof = up
+        m.price = club.new_member_cost
+
+        m.start = datetime.date.today()
+        m.valid_thru = m.start + datetime.timedelta(days=365)
+
+    #create an order
+    order = Order()
+    order.user_prof = up
+    order.save()
+    m.order = order
+    m.save()
+
+    redirect_target = request.build_absolute_uri(reverse('club_detail',
+            kwargs={'club_name': club_name}))
+
+    # What you want the button to do.
+    paypal_dict = {
+        #"business": e.club.paypal_email,
+        'business': 'jgray-seller@test.com',
+        "amount": order.calc_total_price(),
+        "item_name": 'Membership for %s '%club.name,
+        "invoice": order.pk,
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return_url": redirect_target,
+        "cancel_return": redirect_target,
+
+    }
+    paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+
+    context={
+        'paypal_form': paypal_form.sandbox(),
+        'price': paypal_dict['amount'],
+        'club': club, 
+        'order': order,
+        'items': [i.as_leaf_model().cart_name() for i in order.items.all()]
+    }    
+
+    return render_to_response('registration/start_pay.html',
+                                          context,
+                                          context_instance=RequestContext(request))    
 
 @login_required
 @form_is_for_self(RegForm, 'user_profile')
@@ -206,6 +290,7 @@ def payment_complete(sender, **kwargs):
     o = Order.objects.get(pk=ipn_obj.invoice)
     for item in o.items.all().iterator(): 
         item.paid = True
+        item.payment_complete()
         item.save()
 
 payment_was_successful.connect(payment_complete)

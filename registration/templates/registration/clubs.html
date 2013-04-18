@@ -20,52 +20,18 @@
             {% for club in clubs %}
               <div class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ club.safe_name }}">
                 <div class="span5">
-                  <div class="accordion" id="accordion2">
-                    {% for season in club.sorted_seasons %}
-                      <div class="accordion-group">
-                        <div class="accordion-heading"><h3> <a class="accordion-toggle" 
-                          data-toggle="collapse" 
-                          href="#{{ club.safe_name }}_{{ season.year }}" 
-                          data-parent="#accordion2"> {{ season.year }} 
-                        </a> </h3> </div>
-                        <div class="accordion-body {% if forloop.first %} in {% endif %} collapse" id="{{club.safe_name}}_{{season.year}}">                     
-                          <div class="accordion-inner"> 
-                          {% with season.upcoming_events as u_events %}
-                            {%if u_events.count %}
-                              <ul class="nav nav-pills">
-                                <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_u_events" 
-                                data-toggle="tab">Upcoming Events</a></li>
-                                <li><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
-                                data-toggle="tab">Results</a></li>
-                              </ul> <!-- close nav-pills -->
-                               
-                              <div class="tab-content">
-                                <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_u_events">
-                                  {% events_table u_events %}
-                                </div> <!-- close tab-pane -->
-                                <div class="tab-pane" id="{{ club.safe_name }}_{{ season.year }}_f_events">
-                                  {% events_table season.complete_events %}
-                                </div><!-- close tab-pane -->
-                              </div> <!-- close tab-content -->
-                            {% else %}
-                              <ul class="nav nav-pills">
-                                <li class="active"><a href="#{{ club.safe_name }}_{{ season.year }}_f_events" 
-                                data-toggle="tab">Results</a></li>
-                              </ul> <!-- close nav-pills -->
-                              
-                              <div class="tab-content">
-                                <div class="tab-pane active" id="{{ club.safe_name }}_{{ season.year }}_f_events">
-                                  {% events_table season.complete_events %}
-                                </div><!-- close tab-pane -->
-                              </div> <!-- close tab-content -->
-                            {% endif %}
-                          {% endwith %}
-                          </div> <!-- close accordion-inner -->
-                        </div> <!-- close collapse -->
-                      </div> <!-- close accordion-group -->
-                      
-                    {% endfor %}  <!-- close season loop -->
-                  </div> <!-- close accordion -->  
+                  {% with club.current_season as season %}
+                    {% with season.upcoming_events as u_events %}
+                      <h3><a href="{%url 'club_detail' club_name=club.safe_name%}">{{ club.name }}</a>: {{ season.year }} Season</h3>
+                      {%if u_events.count %}
+                        <h4> Upcomming Events </h4>
+                        {% events_table u_events %}
+                      {% else %}
+                        <h4> Complete Events </h4>
+                        {% events_table season.complete_events %}
+                      {% endif %}
+                    {% endwith %}
+                  {% endwith %}  <!-- close width season -->
                 </div>  <!-- close span5 -->
               </div>  <!-- close tab-pane -->
             {% endfor %} <!-- close club loop -->
