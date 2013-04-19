@@ -77,7 +77,7 @@ def club(request, club_name):
                               context,
                               context_instance=RequestContext(request))
     
-
+@csrf_exempt
 def event(request, club_name, season_year, event_name): 
     """single event page""" 
     
@@ -290,7 +290,7 @@ def payment_complete(sender, **kwargs):
     o = Order.objects.get(pk=ipn_obj.invoice)
     for item in o.items.all().iterator(): 
         item.paid = True
-        item.payment_complete()
+        item.as_leaf_model().payment_complete()
         item.save()
 
 payment_was_successful.connect(payment_complete)

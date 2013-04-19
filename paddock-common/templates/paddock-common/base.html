@@ -42,7 +42,7 @@
           {%endif%}
           {% block nav_login %} <ul class="nav pull-right">
             {% if user.is_authenticated %}
-            <li><p class="navbar-text">Logged in as <a>{{user.username}}</a>,</p></li>
+            <li><p class="navbar-text">Logged in as <a href="{%url 'admin_user' user.username%}">{{user.username}}</a>,</p></li>
             <li><a href="{% url 'registration.views.logout' %}">logout</a></li>
             {% else %}
             <li>

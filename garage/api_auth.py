@@ -11,7 +11,6 @@ class UserAdminAuthorization(Authorization):
                 user = bundle.obj
                 user.get_profile() #causes an error for empty users (whatever that means)
             except: 
-                "got here"
                 if bundle.data: 
                     username = bundle.data['username']
                     user = User.objects.get(username=username)
@@ -46,6 +45,7 @@ class UserAdminAuthorization(Authorization):
         #return object_list
 
     def create_detail(self, object_list, bundle):
+        print "TEST0"
         u = self._get_user(bundle)
 
         #raise Unauthorized()
