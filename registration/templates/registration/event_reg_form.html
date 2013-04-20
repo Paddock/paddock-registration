@@ -14,17 +14,28 @@
 {%block foot_js%}
   {{block.super}}
   <script type="text/javascript"> 
+  function prepay_action(){
+    var test = $("#id_prepay").attr('checked');
+    if(test){
+      $("#div_id_coupon_code").show();
+      $('#submit-id-submit').val('Checkout');
+      $('#submit-id-submit').removeClass('btn-primary');
+      $('#submit-id-submit').addClass('btn-success');
+    }
+    else{
+      $("#div_id_coupon_code").hide();
+      $('#div_id_coupon_code').find('input').val('');
+      $('#submit-id-submit').val('Submit');
+      $('#submit-id-submit').removeClass('btn-success');
+      $('#submit-id-submit').addClass('btn-primary');
+    }
+  }
+
   $(document).ready(function(){
-    $("#div_id_coupon_code").hide();
-    $("#id_prepay").click(function(){
-      var test = $(this).attr('checked');
-      if(test){
-        $("#div_id_coupon_code").show();
-      }
-      else{
-        $("#div_id_coupon_code").hide();
-      }
-    });
+    //initialization 
+    prepay_action();
+    //click event
+    $("#id_prepay").click(prepay_action);
   });
   </script>
 {%endblock foot_js%}

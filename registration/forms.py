@@ -87,8 +87,9 @@ class RegForm(ModelForm):
 
     def clean_coupon_code(self): 
         code = self.cleaned_data.get('coupon_code')
+        prepay = self.cleaned_data.get('prepay')
         self.coupon = None
-        if code: 
+        if prepay and code: 
             allowed = True
             try: 
                 c = Coupon.objects.get(code=code)
@@ -101,10 +102,6 @@ class RegForm(ModelForm):
                     raise forms.ValidationError(u'Invalid Coupon Code')
         return code
 
-    #TODO: Define some javascript to show/hide coupon code 
-    #  and change button text to/from (Register/Checout with Paypal)
-
-    #todo add verify function to check for valid coupon code...
     
     class Meta: 
         model = Registration
