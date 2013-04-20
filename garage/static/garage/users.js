@@ -35,18 +35,18 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     $scope._submit_avatar_first = false;
 
     $scope.save_user = function(){
-        console.log('Saving: ',$scope.profile);
         Profile.save($scope.profile);
     };
 
     $scope.del_car = function(car){
-        //console.log(car);
-        var i = $scope.profile.cars.indexOf(car);
-        var car_id = $scope.profile.cars[i].id;
-        //console.log(i)
-        Car.remove({'carId':car_id},function(){
-            $scope.profile.cars.splice(i,1);
-        });
+        if(confirm("You're about to delete "+car.name+". This can't be undone! Are you sure?" )) {
+            var i = $scope.profile.cars.indexOf(car);
+            var car_id = $scope.profile.cars[i].id;
+            //console.log(i)
+            Car.remove({'carId':car_id},function(){
+                $scope.profile.cars.splice(i,1);
+            });
+        }
     };
 
     $scope.new_car = function(){
@@ -72,6 +72,9 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     };
 
     $scope.save_car = function() {
+        if (!Boolean($scope.edit_car_target.name)) {
+            return $scope.cancel_edit_car();
+        }
         if($scope._submit_avatar_first) {
             avatar_form.submit(); // submits the form for the avatar file
             // success of this trigger save_car_fields
@@ -95,8 +98,6 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
     var avatar_form = $('#avatar_form');
     avatar_form.ajaxForm({
         success: function(resp,status,xhr,element){
-          console.log(resp);
-          console.log(resp.avatar);
           $scope.edit_car_target.avatar = resp.avatar;
           $scope.edit_car_target.thumb = resp.thumb;
           element.empty();
@@ -113,7 +114,6 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
         $scope.edit_car_target.provisional=false;
 
         //strip any hack strings from the links
-        console.log($scope.edit_car_target.avatar, Boolean($scope.edit_car_target.avatar))
         if ($scope.edit_car_target.avatar){
             $scope.edit_car_target.avatar = $scope.edit_car_target.avatar.replace(/#[0-9]+\b/,'');
             $scope.edit_car_target.thumb =  $scope.edit_car_target.thumb.replace(/#[0-9]+\b/,'');

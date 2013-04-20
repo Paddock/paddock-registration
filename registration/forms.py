@@ -116,6 +116,9 @@ class RegForm(ModelForm):
         
 
 class UserCreationForm(UCF):
+
+    first_name = forms.CharField()
+    last_name = forms.CharField()
     
     email = forms.EmailField(widget=forms.TextInput(),
                              max_length=75,
@@ -137,6 +140,7 @@ class UserCreationForm(UCF):
         if email and User.objects.filter(email=email).count() > 0:
             raise forms.ValidationError(u'This email address is already registered.')
         return email    
+    
 
 
 class AuthenticationForm(AF):

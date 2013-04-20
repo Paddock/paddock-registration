@@ -206,7 +206,7 @@ def event_register(request, club_name, season_year, event_name, username=None):
     form_template = 'registration/event_reg_form.html'
     
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
-        car = CarChoiceField(queryset=Car.objects.filter(user_profile=up))
+        car = CarChoiceField(queryset=Car.objects.filter(user_profile=up,provisional=False))
         event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),
                                  initial=e.pk, widget=HiddenInput())
         club = ModelChoiceField(queryset=Club.objects.filter(pk=e.club.pk), 
@@ -320,6 +320,8 @@ def register(request):
                                          email=form.cleaned_data['email'])
             #u = form.save()
             u.is_active = False #only active after email verification
+            u.first_name = form.cleaned_data['first_name']
+            u.last_name = form.cleaned_data['last_name']
             
             u.save()
             
