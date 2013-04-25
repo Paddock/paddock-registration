@@ -9,6 +9,7 @@ function MapCtrl($scope) {
     }; 
 
     $scope.setCenter = function(pnt) {
+      console.log($scope.myMap);
       var marker = new google.maps.Marker({
         map: $scope.myMap,
         position: pnt
