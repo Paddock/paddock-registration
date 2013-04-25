@@ -6,14 +6,14 @@ from django.db import models as m
 
 from registration.models import (Registration, User, Club,
      Coupon, Order, Membership, Season, Event, RaceClass, 
-     db_clear
+     clear_db
      )
 
 
 class TestCoupon(unittest.TestCase):   
     
     def tearDown(self): 
-        db_clear()
+        clear_db()
             
     def test_validcode(self): 
         c = Coupon()
@@ -97,11 +97,13 @@ class TestCoupon(unittest.TestCase):
         c.uses_left = 0
         self.assertTrue(c.is_valid(user))
 
-        c.expires = datetime.date.today() - datetime.timedelta(days=1)        
-        self.assertFalse(c.is_valid(user))
-        
-        c.expires = datetime.date.today() + datetime.timedelta(days=1)
+        c.expires = datetime.date.today() - datetime.timedelta(days=1)    
+        self.assertTrue(c.is_valid(user))
+
         c.permanent = False
+        self.assertFalse(c.is_valid(user))
+
+        c.expires = datetime.date.today() + datetime.timedelta(days=1)
         c.uses_left = 1
         self.assertTrue(c.is_valid(user))
         c.uses_left = 0
@@ -119,8 +121,7 @@ class TestCoupon(unittest.TestCase):
 class TestOrder(unittest.TestCase): 
     
     def tearDown(self): 
-        for model in m.get_models(): 
-            model.objects.all().delete()
+        clear_db()
             
     def setUp(self): 
         self.c = Club()

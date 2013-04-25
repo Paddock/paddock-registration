@@ -235,8 +235,9 @@ def event_register(request, club_name, season_year, event_name, username=None):
                 #construct order, add reg to order
                 order = Order()
                 order.user_prof = up
-                order.coupon = form.coupon
-                order.coupon.uses_left -= 1
+                if form.coupon: 
+                    order.coupon = form.coupon
+                    order.coupon.uses_left -= 1
                 order.save()
                 reg.order = order
                 reg.save()
@@ -253,20 +254,25 @@ def event_register(request, club_name, season_year, event_name, username=None):
                     "cancel_return": request.build_absolute_uri(redirect_target),
 
                 }
-                paypal_form = PayPalPaymentsForm(initial=paypal_dict)
 
-                context={
-                    'paypal_form': paypal_form.sandbox(),
-                    'price': paypal_dict['amount'],
-                    'club': e.club, 
-                    'order': order,
-                    'items': [i.as_leaf_model().cart_name() for i in order.items.all()]
-                }
+                if paypal_dict['amount']=='0.00': #don't need to pay if the price is 0
+                    order.payment_complete()
+                    return HttpResponseRedirect(redirect_target)
+                else: 
+                    paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+     
+                    context={
+                        'paypal_form': paypal_form.sandbox(),
+                        'price': paypal_dict['amount'],
+                        'club': e.club, 
+                        'order': order,
+                        'items': [i.as_leaf_model().cart_name() for i in order.items.all()]
+                    }
 
-                
-                return render_to_response('registration/start_pay.html',
-                                          context,
-                                          context_instance=RequestContext(request))
+                    
+                    return render_to_response('registration/start_pay.html',
+                                              context,
+                                              context_instance=RequestContext(request))
 
             return HttpResponseRedirect(redirect_target)
     else:
@@ -288,10 +294,7 @@ def payment_complete(sender, **kwargs):
     # Undertake some action depending upon `ipn_obj`.
 
     o = Order.objects.get(pk=ipn_obj.invoice)
-    for item in o.items.all().iterator(): 
-        item.paid = True
-        item.as_leaf_model().payment_complete()
-        item.save()
+    o.payment_complete()
 
 payment_was_successful.connect(payment_complete)
 
@@ -300,7 +303,7 @@ def payment_failed(sender, **kwargs):
     # Undertake some action depending upon `ipn_obj`.
     
     o = Order.objects.get(pk=ipn_obj.invoice)
-    o.delete()
+    o.payment_failed()
 
 payment_was_flagged.connect(payment_failed)
 

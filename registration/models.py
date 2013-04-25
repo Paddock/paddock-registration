@@ -199,8 +199,16 @@ class Order(m.Model):
             price -= self.coupon.discount(price)
         self.total_price = "%.2f"%price
         self.save()
-        return self.total_price    
-   
+        return self.total_price   
+
+    def payment_complete(self):      
+        for item in self.items.all().iterator(): 
+            item.paid = True
+            item.as_leaf_model().payment_complete()
+            item.save()
+
+    def payment_failed(self):
+        self.delete()         
 
 
 class Coupon(m.Model):     
@@ -229,11 +237,11 @@ class Coupon(m.Model):
                 return False
             except Order.DoesNotExist: #then you're ok
                 pass
+        elif (not self.permanent) and self.expires < datetime.date.today(): #expired
+            return False        
         elif self.user_prof and user.get_profile()!=self.user_prof: 
             return False
         elif (not self.permanent) and self.uses_left < 1: #used up
-            return False
-        elif (not self.permanent) and self.expires < datetime.date.today(): #expired
             return False
 
         return True
@@ -658,6 +666,8 @@ class Event(m.Model):
 
         reg_check = regs.count()
 
+
+
         #Check if the number/class is used in any child events
         child_regs = self.child_events.all().\
             filter(regs__number=reg.number, regs__race_class=reg.race_class)
@@ -667,7 +677,6 @@ class Event(m.Model):
         #existing reg, trying to change to a taken number
         if reg.pk and (reg_check and reg.pk!=regs[0].pk or (child_reg_check and reg.pk!=child_regs[0].pk)): #someone else already has this
             return False 
-        
         if reg.pk and reg_check==1 and child_reg_check <=1: #then it exists, so you need to make sure it's still unique
             return True
             
@@ -687,8 +696,8 @@ class Event(m.Model):
         #calc all penalty times, index times, 
         for reg in regs: 
             reg.calc_times()
-            print "TESTING:", reg.first_name, reg.last_name, reg.total_index_time, 
-            print "    ", reg.results.all()
+            #print "TESTING:", reg.first_name, reg.last_name, reg.total_index_time, 
+            #print "    ", reg.results.all()
 
 
         #find all the regs, now ordered by time
@@ -837,7 +846,7 @@ class Registration(Purchasable):
         """creates regs for all child events of the event this registration is associated with""" 
         try: 
             events = self.event.child_events.exclude(regs__user_profile=self.user_profile,
-                                                           regs__user_profile__isnull=False).all()
+                                                     regs__user_profile__isnull=False).all().iterator()
 
             #only grab child events which don't already have an associated reg
             for event in events: 
@@ -853,7 +862,7 @@ class Registration(Purchasable):
             return 
 
     def update_assoc_regs(self): 
-        other_regs = Registration.objects.filter(user_profile=self.user_profile)
+        other_regs = Registration.objects.filter(user_profile=self.user_profile, event__in=self.event.child_events.all())
         for reg in other_regs: 
             reg.number = self.number
             reg.race_class = self.race_class
@@ -1041,7 +1050,7 @@ clear_model_list = [Lease, Order, Coupon, Registration,
 
 
 def clear_db(): 
-    print "Clearing the Database"
+    #print "Clearing the Database"
     for m in clear_model_list: 
         objs = m.objects.all().iterator()
         for o in objs: 

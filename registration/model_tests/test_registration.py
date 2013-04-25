@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models as m
 
 from registration.models import Registration, User, RaceClass, Event, Car, Club, \
-                           Season, Session, Result, Run, UserProfile
+                           Season, Session, Result, Run, UserProfile, clear_db
 
 class TestRegistration(unittest.TestCase): 
     
@@ -65,8 +65,7 @@ class TestRegistration(unittest.TestCase):
         
     def tearDown(self): 
         
-        for model in m.get_models(): 
-            model.objects.all().delete()
+        clear_db()
     
     def test_calc_times_empty_results(self): 
         self.r.save()
@@ -162,8 +161,7 @@ class TestRegistration(unittest.TestCase):
         self.r2.save()  
         
         self.r.number = 12
-        self.r.full_clean()
-        self.r.save()
+        #self.r.save()
         
         try: 
             self.r.full_clean()
@@ -329,7 +327,7 @@ class TestRegistration(unittest.TestCase):
         self.r.number = 10
         self.r.save()
         self.r.update_assoc_regs()
-        
+
         reg = Registration.objects.filter(event=e2).get()
         self.assertEqual(reg.number, self.r.number)
        

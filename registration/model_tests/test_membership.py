@@ -4,7 +4,7 @@ from django.utils import unittest
 from django.core.exceptions import ValidationError
 from django.db import models as m
 
-from registration.models import Club, User, Membership
+from registration.models import Club, User, Membership, clear_db
 
 class TestMembership(unittest.TestCase): 
     
@@ -39,8 +39,7 @@ class TestMembership(unittest.TestCase):
         
     def tearDown(self): 
         
-        for model in m.get_models(): 
-            model.objects.all().delete()
+        clear_db()
             
     def test_is_active_member(self):         
         self.assertTrue(self.c.is_active_member(self.user1))

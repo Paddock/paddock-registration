@@ -7,7 +7,7 @@ from django.db import models as m
 
 
 from registration.models import Event, Registration, Season, Club, Session, Result, \
-     Run, RaceClass, User
+     Run, RaceClass, User, clear_db
 
 from registration.points_calculators.nora_index_points import point_ladder as index_point_ladder
 from registration.points_calculators.nora_class_points import point_ladder as class_point_ladder
@@ -32,9 +32,8 @@ class TestEvent(unittest.TestCase):
         self.e.club = self.c
         
     def tearDown(self): 
-        
-        for model in m.get_models(): 
-            model.objects.all().delete()        
+        clear_db()
+               
         
     def testEventSafeName(self): 
         pass
@@ -173,8 +172,7 @@ class TestEventPointsCalc(unittest.TestCase):
                         run.save()        
                             
     def tearDown(self): 
-        for model in m.get_models(): 
-            model.objects.all().delete()
+        clear_db()
 
     def test_no_index_classes_one_result(self): 
         
