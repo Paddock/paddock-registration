@@ -3,6 +3,7 @@ var reg_app = angular.module('registration',['paddock.directives','ui']);
 function MapCtrl($scope) {
 
     pnt = new google.maps.LatLng();
+    $scope.myMap = null;
     $scope.mapOptions = {
       zoom: 11,
       mapTypeId: google.maps.MapTypeId.ROADMAP
