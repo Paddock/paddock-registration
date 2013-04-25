@@ -4,6 +4,11 @@
 
 <!-- Giving the div an id="map_canvas" fix problems with twitter bootstrap affecting
 google maps -->
+    <script>
+      var map_center_coords = [{{lat}},{{long}}];
+      var zoom = {{zoom}};
+    </script>
+
     <section id="directives-map" ng-controller="MapCtrl">
         <div id="map_canvas" ui-map="myMap" class="map"
           ui-map-center="{{lat}},{{long}}"
@@ -21,10 +26,7 @@ google maps -->
     </div>    
     </section>
 
-  <script>
-      var map_center_coords = [{{lat}},{{long}}];
-      var zoom = {{zoom}};
-  </script>
+
  
   <style>
   #directives-map .map {
