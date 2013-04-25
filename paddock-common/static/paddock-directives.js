@@ -5,6 +5,7 @@ angular.module('ui.directives').directive('uiMapCenter', [function(){
     restrict: 'A',
     //doesn't work as E for unknown reason
     link: function (scope, elm, attrs) {
+        console.log("TEST", scope);
         var coords = attrs.uiMapCenter.split(",");
         var center = new google.maps.LatLng(coords[0],coords[1]);
         scope.setCenter(center); 

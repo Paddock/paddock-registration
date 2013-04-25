@@ -1,7 +1,6 @@
 var reg_app = angular.module('registration',['paddock.directives','ui']);
 
 function MapCtrl($scope) {
-
     pnt = new google.maps.LatLng();
     $scope.mapOptions = {
       zoom: 11,
