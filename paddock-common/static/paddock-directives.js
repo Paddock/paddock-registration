@@ -1,5 +1,5 @@
 //monkey patch to add centering to maps
-angular.module('ui.directives').directive('uiMapCenter', [function(){
+angular.module('ui.directives').directive('uiMapCenterBck', [function(){
     return {
     priority: 0,
     restrict: 'A',

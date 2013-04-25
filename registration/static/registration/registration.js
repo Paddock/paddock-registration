@@ -2,21 +2,22 @@ var reg_app = angular.module('registration',['paddock.directives','ui']);
 
 function MapCtrl($scope) {
 
-    pnt = new google.maps.LatLng();
-    $scope.myMap = null;
+    pnt = new google.maps.LatLng(map_center_coords[0],map_center_coords[1]);
     $scope.mapOptions = {
+      center: pnt,
       zoom: 11,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }; 
 
-    $scope.setCenter = function(sc, pnt) {
+    // when the map gets set, add a marker 
+    $scope.$watch('myMap',function(oldMap,newMap){
       var marker = new google.maps.Marker({
-        map: sc.myMap,
+        map: newMap,
         position: pnt
         });
       google.maps.event.addListener(marker, 'click',function() {
-        sc.myInfoWindow.open($scope.myMap, marker);
+        $scope.myInfoWindow.open(newMap, marker);
       });
-      sc.myMap.setCenter(pnt);
-    };
-}
+    });
+
+}{}
