@@ -7,7 +7,7 @@ angular.module('ui.directives').directive('uiMapCenter', [function(){
     link: function (scope, elm, attrs) {
         var coords = attrs.uiMapCenter.split(",");
         var center = new google.maps.LatLng(coords[0],coords[1]);
-        scope.setCenter(center); 
+        scope.setCenter(scope, center); 
     }
   };
 }]);

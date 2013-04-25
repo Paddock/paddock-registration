@@ -9,15 +9,14 @@ function MapCtrl($scope) {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }; 
 
-    $scope.setCenter = function(pnt) {
-      console.log($scope.myMap);
+    $scope.setCenter = function(sc, pnt) {
       var marker = new google.maps.Marker({
-        map: $scope.myMap,
+        map: sc.myMap,
         position: pnt
         });
       google.maps.event.addListener(marker, 'click',function() {
-        $scope.myInfoWindow.open($scope.myMap, marker);
+        sc.myInfoWindow.open($scope.myMap, marker);
       });
-      $scope.myMap.setCenter(pnt);
+      sc.myMap.setCenter(pnt);
     };
 }
