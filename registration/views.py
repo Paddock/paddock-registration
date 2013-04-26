@@ -330,7 +330,7 @@ def register(request):
             
             profile = u.get_profile()
                         
-            profile.send_activation_email()
+            profile.send_activation_email(request)
             
             return HttpResponseRedirect(reverse('registration.views.activate', 
                                                 kwargs={'username': u.username}))
@@ -349,7 +349,7 @@ def resend_activation_code(request, username):
     up = user.get_profile()
 
     if not user.is_active:
-        up.send_activation_email()
+        up.send_activation_email(request)
 
         return HttpResponseRedirect(reverse('registration.views.activate', 
                                             kwargs={'username': user.username}))

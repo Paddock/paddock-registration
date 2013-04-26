@@ -17,12 +17,15 @@
   function prepay_action(){
     var test = $("#id_prepay").attr('checked');
     if(test){
+
       $("#div_id_coupon_code").show();
       $('#submit-id-submit').val('Checkout');
       $('#submit-id-submit').removeClass('btn-primary');
       $('#submit-id-submit').addClass('btn-success');
     }
     else{
+      $("#div_id_coupon_code").removeClass('error');
+      $('#error_1_id_coupon_code').remove();
       $("#div_id_coupon_code").hide();
       $('#div_id_coupon_code').find('input').val('');
       $('#submit-id-submit').val('Submit');

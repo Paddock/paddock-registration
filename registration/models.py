@@ -13,6 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.core.files.storage import FileSystemStorage
+from django.core.urlresolvers import reverse
 
 
 from django.template.loader import render_to_string
@@ -95,7 +96,7 @@ class UserProfile(m.Model):
     def __unicode__(self):
         return u'Profile %s'%self.pk
     
-    def send_activation_email(self): 
+    def send_activation_email(self, request): 
 
         salt = hashlib.sha1(str(random.random())).hexdigest()[:5]
         username = self.user.username
@@ -106,7 +107,8 @@ class UserProfile(m.Model):
         self.save() 
         
         ctx_dict = {'activation_key': self.activation_key,
-                    'SITE_URL': settings.SITE_URL,
+                    'activation_url': request.build_absolute_uri(reverse('registration.views.activate',
+                        kwargs={'username': username})),
                     'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
                     'user': self.user}
         subject = render_to_string('registration/activation_email_subject.txt',
@@ -131,6 +133,14 @@ class UserProfile(m.Model):
                     ret | e
                 else: 
                     ret = e   
+        reg_event_ids = []            
+        for r in self.regs.exclude(event__date__lt=datetime.date.today()).all().iterator():
+            reg_event_ids.append(r.event.pk)     
+        if ret != None: 
+            ret | Event.objects.filter(pk__in=reg_event_ids).all()
+        else: 
+            ret = Event.objects.filter(pk__in=reg_event_ids).all()
+            
         if ret != None: 
             return ret.order_by('date')   
         return False     

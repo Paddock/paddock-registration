@@ -9,6 +9,9 @@ from registration.models import Club, Season, Event, Registration, \
     Membership, clear_db
 
 
+from django.contrib.sites.models import Site
+
+
 
 
 class Command(BaseCommand): 
@@ -16,6 +19,12 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         clear_db()
+
+        
+        s = Site.objects.all()[0]
+        s.domain = "dev.racerslane.com" 
+        s.name = "Racerslane.com" 
+        s.save()
 
         print "Loading users"
         reader = csv.DictReader(open('old_data/driver.csv', 'rU'))
