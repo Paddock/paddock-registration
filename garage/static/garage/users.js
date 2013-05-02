@@ -112,6 +112,7 @@ app.controller('user_admin', function user($scope,$cookies,Profile,Car){
 
     $scope.save_car_fields = function() {
         $scope.edit_car_target.provisional=false;
+        $scope.edit_car_target.name = $scope.edit_car_target.name.substring(0,40)
 
         //strip any hack strings from the links
         if ($scope.edit_car_target.avatar){
