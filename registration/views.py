@@ -204,15 +204,25 @@ def event_register(request, club_name, season_year, event_name, username=None):
             safe_name=event_name)    
     redirect_target = reverse('registration.views.event', args=[club_name, season_year, event_name])
     form_template = 'registration/event_reg_form.html'
+
     
+    show_cars = bool(Car.objects.filter(user_profile=up, provisional=False).count())
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
-        car = CarChoiceField(queryset=Car.objects.filter(user_profile=up,provisional=False))
+        
+        car = CarChoiceField(queryset=Car.objects.filter(user_profile=up, provisional=False), 
+            required=False, empty_label=None)
         event = ModelChoiceField(queryset=Event.objects.filter(pk=e.pk),
                                  initial=e.pk, widget=HiddenInput())
         club = ModelChoiceField(queryset=Club.objects.filter(pk=e.club.pk), 
                                 initial=e.club.pk, widget=HiddenInput())
         user_profile = ModelChoiceField(queryset=UserProfile.objects.filter(pk=up.pk),
                                         initial=up.pk, widget=HiddenInput())
+
+        def __init__(self,*args,**kwargs): 
+            super(UserRegForm, self).__init__(*args,**kwargs)
+
+            if not show_cars: 
+                self.fields['car'].widget=HiddenInput()
 
     reg = None
     if username: 

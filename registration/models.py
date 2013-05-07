@@ -409,7 +409,7 @@ post_delete.connect(remove_club, sender=Club)
 
 #causes creation of club admin permissions after club is saved  
 def create_club(sender, instance, created, **kwargs): 
-    if created:
+    if created and not kwargs.get('raw', False):
         club_content_type = ContentType.objects.get(app_label='registration', model='club')
 
         p = Permission.objects.create(codename="%s_admin"%instance.safe_name,

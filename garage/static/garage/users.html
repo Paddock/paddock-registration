@@ -67,14 +67,14 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="span3">
-                            <form class="form">
-                                <label>Name</label><input type="text" ng-model="edit_car_target.name">
-                                <label>year</label><input type="text" ng-model="edit_car_target.year">
+                            <form class="form" name="new_car_form">
+                                <label>Name</label><input type="text" maxlength="40" ng-model="edit_car_target.name">
+                                <label>year</label><input class="input-mini" type="text" maxlength="4" ng-model="edit_car_target.year" name="year">
                                 <label>make</label><input type="text" ng-model="edit_car_target.make">
                                 <label>model</label><input type="text" ng-model="edit_car_target.model">
                             </form>
                         </div>
-                        <div class="span2">
+                        <div class="span3">
                             <div class="row">
                                 <img ng-show="avatar_preview" id="avatar-preview" style="padding-bottom:10px;">
                                 <img ng-hide="avatar_preview" ng-src="{{avatar_url}}" style="padding-bottom:10px;">

@@ -30,13 +30,17 @@ class TestViews(TestCase):
         self.c = Client()
         
     def test_index_views(self):
-        urls = (('/clubs/', {}),
+        urls = (('', {}),
+                ('/clubs/noraascc',{}),
                 ('/clubs/noraascc/seasons/2012/events/testntune', {}),
                )
         
         for addr, args in urls: 
             response = self.c.get(addr, args)
-            self.assertEqual(response.status_code, 200)
+            try: 
+                self.assertEqual(response.status_code, 200)
+            except AssertionError as err: 
+                self.fail("problem with '%s: %s'"%(addr,str(err)))    
 
 
 class TestGeneral(TestCase): 
