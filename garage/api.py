@@ -199,6 +199,7 @@ class RegistrationResource(ModelResource):
     first_name = fields.CharField(attribute='first_name', readonly=True)
     last_name = fields.CharField(attribute='last_name', readonly=True)
     car_name = fields.CharField(attribute='car_name', readonly=True)
+    anon = fields.BooleanField(readonly=False)
 
     results = fields.ToManyField('garage.api.ResultResource', 'results', readonly=True, full=True)
 
@@ -207,6 +208,10 @@ class RegistrationResource(ModelResource):
         authorization = ClubAdminAuthorization()
         queryset = Registration.objects.all()
         excludes = ['_anon_l_name', '_anon_f_name', '_anon_car']
+
+    def dehydrate(self,bundle):
+        bundle.data['anon'] = (bundle.obj.user_profile is None)
+        return bundle    
 
 v1_api.register(RegistrationResource())
 

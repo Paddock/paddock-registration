@@ -1,4 +1,6 @@
 
+import datetime
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 
@@ -13,7 +15,8 @@ from tastypie.test import ResourceTestCase
 
 #from garage.api_tests.test_api import RegistrationResourceTest
 
-from registration.models import Club, Group, Permission, User
+from registration.models import (Club, Group, Permission, User, Season, Event, 
+    Registration, RaceClass)
 
 from api_tests.test_parse_axtime import TestParseAxtime
 
@@ -46,6 +49,86 @@ class TestPermissions(TestCase):
         self.c.group.user_set.add(user)
 
         self.assertTrue(user.has_perm('registration.test_admin'))
+
+
+class TestPostForms(ResourceTestCase): 
+
+    def setUp(self): 
+        super(TestPostForms, self).setUp()
+
+        self.c = Club()
+        self.c.name = "test club"
+        self.c.full_clean()
+        self.c.save()
+        
+        self.season = Season()
+        self.season.club = self.c
+        self.season.year = 2011
+        self.season.save()
+        
+        self.race_class = RaceClass()
+        self.race_class.name = "CSP"
+        self.race_class.abrv = "CSP"
+        self.race_class.pax = .875
+        self.race_class.club = self.c
+        self.race_class.save()
+        
+        self.e = Event()
+        self.e.name = "test event"
+        self.e.date = datetime.date.today()
+        self.e.season = self.season
+        self.e.club = self.c
+        self.e.save()
+        
+        self.user = User()
+        self.user.first_name = "Justin"
+        self.user.last_name = "Gray"
+        self.user.username = "justingray"
+        self.user.save()
+
+        self.c.group.user_set.add(self.user)
+        self.c.save()
+
+        self.user.set_password("test")
+        self.user.save()
+          
+        
+        self.r = Registration()
+        self.r.number = 11
+        self.r.race_class = self.race_class
+        self.r.pax_class = None
+        self.r.club = self.c
+        self.r.event = self.e
+
+    def get_credentials(self):
+        resp = self.api_client.client.login(username='justingray',
+                                              password='test')
+        return resp
+
+    def test_assoc_reg_user(self): 
+
+        self.r.save()
+
+
+        data = {"username": "justingray",}
+
+        self.get_credentials()
+        
+        resp = self.api_client.client.post('/garage/reg/%s/driver'%self.r.pk, data)    
+
+        self.assertValidJSONResponse(resp)
+        post_data = self.deserialize(resp)
+
+        resp = self.api_client.get('/garage/api/v1/registration/%d/'%self.r.pk)
+        self.assertValidJSONResponse(resp)
+
+        get_data = self.deserialize(resp)
+
+        self.assertEqual(post_data,get_data)
+
+
+        
+        
 
 
 

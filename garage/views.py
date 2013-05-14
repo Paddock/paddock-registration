@@ -6,7 +6,8 @@ import datetime
 
 from PIL import Image 
 
-from django.http import HttpResponseRedirect, HttpResponse,  HttpResponseBadRequest
+from django.http import (HttpResponseRedirect, HttpResponse, 
+    HttpResponseBadRequest, HttpResponseForbidden)
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
@@ -27,11 +28,11 @@ from django.contrib.auth.decorators import login_required
 from django.forms import ModelChoiceField, HiddenInput
 
 from registration.models import Club, Event, Car, UserProfile, User, find_user, \
-    Membership, Session
+    Membership, Session, Registration
 
 from django.views.decorators.csrf import csrf_exempt
 
-from garage.api import MembershipResource
+from garage.api import MembershipResource, RegistrationResource
 from garage.utils import reg_txt, reg_dat, parse_axtime
 from garage.forms import CrispyPasswordChangeForm
 
@@ -40,11 +41,10 @@ from garage.forms import CrispyPasswordChangeForm
 
 def is_club_admin(user, club): 
     perm = 'registration.%s_admin'%club.safe_name
-
     if user.has_perm(perm):
         return True
+    return False
 
-    return HttpResponseRedirect(reverse('registration.views.logout'))  
 
 
 def password_change(request, username, *args, **kwargs): 
@@ -82,7 +82,11 @@ def admin_club(request, clubname):
 
     #club = Club.objects.get(safe_name=clubname)
     club = Club.objects.get(safe_name="noraascc")
-    is_club_admin(request.user, club)
+    
+    admin = is_club_admin(request.user, club)
+    if not admin: 
+        return HttpResponseForbidden()
+
     context = {'js_target': 'clubs',
                'club': club,
                'user': request.user}
@@ -97,7 +101,11 @@ def admin_club(request, clubname):
 def admin_event(request, event_id): 
 
     event = Event.objects.get(pk=event_id)
-    is_club_admin(request.user, event.club)
+    admin = is_club_admin(request.user, event.club)
+
+    if not admin: 
+        return HttpResponseForbidden()
+
 
     context = {'js_target': 'events',
                'club': event.club,
@@ -113,7 +121,11 @@ def admin_event(request, event_id):
 @require_http_methods(['POST'])
 def email_regd_drivers(request, event_id):
     e = Event.objects.get(pk=event_id)
-    is_club_admin(request.user, e.club)
+    
+    admin = is_club_admin(request.user, e.club)
+    if not admin: 
+        return HttpResponseForbidden()
+
     emails = e.regs.filter(user_profile__isnull=False).\
         select_related('user_profile__user').\
         values_list('user_profile__user__email', flat=True).\
@@ -132,7 +144,10 @@ def email_regd_drivers(request, event_id):
 def reg_data_files(request, event_id): 
 
     e = Event.objects.select_related().get(pk=event_id)
-    is_club_admin(request.user, e.club)
+
+    admin = is_club_admin(request.user, e.club)
+    if not admin: 
+        return HttpResponseForbidden()
 
     out_file = StringIO.StringIO()
     z = zipfile.ZipFile(out_file, 'w')
@@ -158,7 +173,9 @@ def upload_results(request, event_id):
     validate_error = dict()
 
     event = Event.objects.get(pk=event_id)
-    is_club_admin(request.user, event.club)
+    admin = is_club_admin(request.user, event.club)
+    if not admin: 
+        return HttpResponseForbidden()
 
     try: 
         name = request.POST.get('name') 
@@ -196,7 +213,10 @@ def upload_results(request, event_id):
 def calc_results(request, event_id): 
 
     event = Event.objects.get(pk=event_id)
-    is_club_admin(request.user, event.club)
+    
+    admin = is_club_admin(request.user, event.club)
+    if not admin: 
+        return HttpResponseForbidden()
 
     event.calc_results()
 
@@ -274,16 +294,38 @@ def search_users(request, query):
 
 @login_required
 @require_http_methods(['POST'])
+def set_reg_driver(request, reg_id): 
+    username = request.POST['username']
+
+    reg = Registration.objects.get(pk=reg_id)
+
+    admin = is_club_admin(request.user, reg.club)
+    if not admin: 
+        return HttpResponseForbidden()
+
+    reg.associate_with_user(username)
+    reg.save()
+
+    reg_r = RegistrationResource()
+    reg_r_bundle = reg_r.build_bundle(obj=reg,request=request)
+    return HttpResponse(reg_r.serialize(None, reg_r.full_dehydrate(reg_r_bundle), 'application/json'),
+        mimetype='application/json')
+
+
+
+@login_required
+@require_http_methods(['POST'])
 def new_membership(request, clubname): 
     """create a new membership for the given user and club"""
-
     username = request.POST['username']
 
     u = User.objects.get(username=username)
     up = u.get_profile()
     c = Club.objects.get(safe_name=clubname)
 
-    is_club_admin(request.user, c)
+    admin = is_club_admin(request.user, c)
+    if not admin: 
+        return HttpResponseForbidden()
 
     try: 
         m = Membership.objects.get(club=c, user_prof=up)

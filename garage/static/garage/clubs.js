@@ -217,7 +217,7 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
     $scope.new_membership = function(username) {
         $http.post('/garage/clubs/'+$scope.club.safe_name+'/membership/',
             data=$.param({'username':username}),
-            config={headers: {'X-CSRFToken':$scope.csrf}}).success(function(membership){
+            config={headers: {'X-CSRFToken':$scope.csrf,'Content-Type': 'application/x-www-form-urlencoded'}}).success(function(membership){
                 var l = $scope.club.memberships.length;
                 var index = -1;
                 for (var i = 0; i < l; i++) {

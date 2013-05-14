@@ -66,7 +66,54 @@ class TestRegistration(unittest.TestCase):
     def tearDown(self): 
         
         clear_db()
-    
+
+    def test_default_pax_class(self):
+         
+        pax_class = RaceClass()
+        pax_class.name = "Street Tire"
+        pax_class.abrv = "T"
+        pax_class.pax = 1
+        pax_class.club = self.c
+        pax_class.pax_class = True
+        pax_class.hidden=True
+        pax_class.save()
+
+        other_pax_class = RaceClass()
+        other_pax_class.name = "Pro"
+        other_pax_class.abrv = "X"
+        other_pax_class.pax = 1
+        other_pax_class.club = self.c
+        other_pax_class.pax_class = True
+        other_pax_class.hidden=False
+        other_pax_class.save()
+
+        race_class = RaceClass()
+        race_class.name = "HS"
+        race_class.abrv = "HS"
+        race_class.pax = .5
+        race_class.club = self.c
+        race_class.default_pax_class = pax_class
+        race_class.save()
+
+        self.r.race_class = race_class
+        self.r.save()
+
+        self.assertEqual(self.r.pax_class,pax_class)
+
+        #set it back to CSP
+        self.r.race_class = self.race_class
+        self.r.save()
+        self.assertEqual(self.r.pax_class,None)
+
+        #make sure pax_class does not change
+        self.r.pax_class = other_pax_class
+        self.r.save()
+        self.assertEqual(self.r.pax_class,other_pax_class)
+        self.r.race_class = race_class
+        self.r.save()
+        self.assertEqual(self.r.pax_class,other_pax_class)
+
+
     def test_calc_times_empty_results(self): 
         self.r.save()
         
@@ -125,6 +172,14 @@ class TestRegistration(unittest.TestCase):
         self.assertEqual("Justin", self.r.first_name)
         self.assertEqual("Gray", self.r.last_name)
         self.assertEqual("1990 Mazda Miata", self.r.car_name)
+
+        self.r.associate_with_user(self.user2.username)
+        self.r.save()
+
+        self.assertEqual("Eli", self.r.first_name)
+        self.assertEqual("Gray", self.r.last_name)
+        self.assertEqual("1990 Mazda Miata", self.r.car_name)
+
         
     def testWithCar(self): 
         

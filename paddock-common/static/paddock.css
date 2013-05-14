@@ -5,6 +5,10 @@
   background-color: #f9f9f9;
 }
 
+.anon-driver {
+  background-color: yellow;
+}
+
 .thin {
   margin: 0;
 }

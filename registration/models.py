@@ -915,6 +915,15 @@ class Registration(Purchasable):
 
     def save(self): 
         self.full_clean()
+
+        d_p_class =  self.race_class.default_pax_class
+        #if pax_class is empty, use default
+        if self.pax_class is None: 
+            self.pax_class = d_p_class
+        #if pax_class is not empty, and is not an user picked class
+        elif self.pax_class.hidden: 
+            self.pax_class = d_p_class
+
         super(Registration, self).save()        
 
 

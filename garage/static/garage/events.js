@@ -10,10 +10,11 @@ function setdefault(obj,key,default_value) {
     }
 }
 
-app.controller('event_admin', function club_admin($scope, $cookies, $http,
+app.controller('event_admin', function club_admin($scope, $cookies, $http, $q, 
     Event, Session){
 
     $scope.csrf = $cookies.csrftoken;
+    $scope.assign_username = null;
 
     function get_event(){
         $scope.event = Event.get({eventId:EVENT_ID},function(){
@@ -79,6 +80,45 @@ app.controller('event_admin', function club_admin($scope, $cookies, $http,
         },
         dataType: 'json'
     });
+
+    $scope.set_reg_driver = function(reg,username){
+        data = $.param({'username':username});
+        addr = '/garage/reg/'+reg.id+'/driver';
+        //console.log(addr, data);
+
+        var deferred = $q.defer();
+        $http({
+            url:'/garage/reg/'+reg.id+'/driver',
+            method: 'POST',
+            data:$.param({'username':username}),
+            headers: {'X-CSRFToken':$scope.csrf, 
+                      'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(new_reg){
+            console.log(new_reg);
+            deferred.resolve(new_reg);
+
+            var key;
+            if (reg.pax_class) {
+                key = reg.pax_class.name;
+            }   
+            else if (reg.bump_class) {
+                key = reg.bump_class.name;
+            }   
+            else {
+                key = 'Open Class';
+            }
+            var index = $scope.reg_sets[key].indexOf(reg);
+            console.log(index);
+            $scope.reg_sets[key][index] = new_reg;
+
+        }).error(function(){
+            console.log("bad User Name");
+            deferred.reject("Invalid username");
+        });
+
+
+        return deferred.promise
+    };
 });
 
 app.config(['$routeProvider', function($routeProvider) {

@@ -33,6 +33,7 @@ class TestViews(TestCase):
         urls = (('', {}),
                 ('/clubs/noraascc',{}),
                 ('/clubs/noraascc/seasons/2012/events/testntune', {}),
+                ('/login/',{})
                )
         
         for addr, args in urls: 

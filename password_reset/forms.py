@@ -43,5 +43,5 @@ class SetForm(SetPasswordForm):
         return password2
 
     def save(self, commit=True):
-        print "testing: ", self.cleaned_data['new_password1']
+        #print "testing: ", self.cleaned_data['new_password1']
         super(SetForm,self).save(commit)  

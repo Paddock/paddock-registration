@@ -13,6 +13,7 @@ urlpatterns = patterns('garage.views',
     url(r'^event/(?P<event_id>[0-9]+)/reg_files$', 'reg_data_files'),
     url(r'^event/(?P<event_id>[0-9]+)/results$', 'upload_results'),
     url(r'^event/(?P<event_id>[0-9]+)/calc_results$', 'calc_results'),
+    url(r'^reg/(?P<reg_id>[0-9]+)/driver$','set_reg_driver'),
     url(r'^search_users/(?P<query>\w{3,})$', 'search_users'),
     url(r'api/', include(v1_api.urls)),
 )

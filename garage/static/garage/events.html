@@ -39,7 +39,7 @@
     <table class="table table-striped table-bordered table-condense">
         <thead>
             <tr>
-                <th>#</th>
+                <th class="span1">#</th>
                 <th>Car</th>
                 <th>Driver</th>
                 <th class="span1">Paid</th>
@@ -52,17 +52,22 @@
             <tr class="result_row">
                 <td rowspan="2"><i ng-class="{'icon-play-circle':!show_results,'icon-download':show_results}" ng-click="show_results=!show_results"></i>{{$index+1}}</td>
                 <td>{{reg.number}} {{reg.race_class.name}}</td>
-                <td>{{reg.first_name}} {{reg.last_name}}</td>
+                <td ng-style="{true:{'background-color':'yellow'},false:''}[reg.anon]">{{reg.first_name}} {{reg.last_name}}</td>
                 <td>{{{true:'&#x2713;', false:''}[reg.paid]}}</td>
                 <td>{{reg.total_raw_time | number:3}}</td>
                 <td>{{reg.total_index_time | number:3}}</td>
                 <td>{{reg.class_points}}</td>
             </tr>
             <tr ng-show="show_results">
-                <td colspan="5">
-                    <ul class="unstyled">
+                <td colspan="6">
+                    <div ui-if="reg.anon">
+                        Assign to driver: 
+                        <input auto-username type="text" ng-model="assign_username"> 
+                        <button class="btn btn-primary" ng-click="set_reg_driver(reg,assign_username);">Set Driver</button>
+                    </div>
+                    <ul class="inline">
                         <li ng-repeat="result in reg.results">
-                            <ul class="inline"> <li>{{result.session}}: </li>
+                            <ul class="unstyled"> <li>{{result.session}}: </li>
                                 <li ng-repeat="run in result.runs" >
                                     <input type="text" ng-model="run.base_time" class="input-mini">
                                     <select ng-model="run.cones" ng-options="n for n in [0,1,2,3,4,5,6,7,8,9,10]" class="input-mini">
