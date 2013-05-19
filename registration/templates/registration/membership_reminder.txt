@@ -1,0 +1,11 @@
+{{fist_name}},
+
+Your membership to {{club_name}} is set to expire in {{days_left}} days, 
+on {{valid_thru_date}}. Renewing your membership is easy, 
+and can be done online, <a href="{{renewal_link}}"> here </a> for &#36;{{renewal_price}}. 
+By keeping your membership up to date, you will continue to get mebership pricing at 
+all {{club_name}} events. 
+
+You must renew your membership before  {{valid_thru_date}} to get the renewal price. 
+After your membership expires, you will be charged the new member price of 
+&#36;{{new_membership_cost}} if you want to renew. 

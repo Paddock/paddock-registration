@@ -12,7 +12,8 @@ urlpatterns = patterns('',
     url(r'^password/', include('password_reset.urls')),
     url(r'^garage/', include('garage.urls')),
     #random numbers in url are for 'security'
-    url(r'^paypal-ipn-handler/3995760248/', include('paypal.standard.ipn.urls'))
+    url(r'^paypal-ipn-handler/3995760248/', include('paypal.standard.ipn.urls')),
+    #url(r'^profiler/', include('profiler.urls'))
 )
 
 if settings.DEBUG:

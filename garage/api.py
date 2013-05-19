@@ -53,7 +53,7 @@ class UserProfileResource(ModelResource):
                                          blank=True, null=True, full=True, readonly=True)
 
     class Meta: 
-        queryset = UserProfile.objects.all()
+        queryset = UserProfile.objects.all().prefetch_related()
         resource_name = 'user_prof'
         excludes = ['activation_key']
         authentication= SessionAuthentication()
@@ -71,7 +71,7 @@ class CarResource(ModelResource):
     user_profile = fields.ToOneField(UserProfileResource, 'user_profile', blank=True, null=True)
 
     class Meta: 
-        queryset = Car.objects.all()
+        queryset = Car.objects.all().select_related()
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
         authorization = UserAdminAuthorization()
@@ -106,7 +106,7 @@ class ClubResource(ModelResource):
     admins = fields.ToManyField('garage.api.UserResource', lambda b: b.obj.group.user_set, related_name="+", full=True, null=True, blank=True)
     
     class Meta:
-        queryset = Club.objects.prefetch_related('seasons', 'locations', 'memberships')
+        queryset = Club.objects.all().prefetch_related('group__user_set','race_classes','coupons','memberships','locations','seasons')
         resource_name = 'club'
         authentication= SessionAuthentication()
         authorization = ClubAdminAuthorization()
@@ -133,7 +133,7 @@ class RaceClassResource(ModelResource):
     default_pax_class = fields.ToOneField('garage.api.RaceClassResource', 'default_pax_class', blank=True, null=True, readonly=True)
 
     class Meta: 
-        queryset = RaceClass.objects.all()
+        queryset = RaceClass.objects.all().select_related()
         resource_name = 'raceclass'
         authentication= SessionAuthentication()
         authorization = ClubAdminAuthorization()
@@ -151,7 +151,7 @@ class MembershipResource(ModelResource):
     real_name = fields.CharField(readonly=True)
 
     class Meta: 
-        queryset = Membership.objects.all()
+        queryset = Membership.objects.all().select_related()
         authentication= SessionAuthentication()
         #authorization = IsOwnerAuthorization() #TODO: Need to add permissions
         authorization = ClubAdminAuthorization()
@@ -183,7 +183,7 @@ class ResultResource(ModelResource):
     class Meta: 
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
-        queryset = Result.objects.all()
+        queryset = Result.objects.all().prefetch_related()
         include_resource_uri = False
 
 
@@ -206,7 +206,7 @@ class RegistrationResource(ModelResource):
     class Meta: 
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
-        queryset = Registration.objects.all()
+        queryset = Registration.objects.all().select_related()
         excludes = ['_anon_l_name', '_anon_f_name', '_anon_car']
 
     def dehydrate(self,bundle):
@@ -236,7 +236,7 @@ class EventResource(ModelResource):
     class Meta: 
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
-        queryset = Event.objects.all()
+        queryset = Event.objects.all().select_related()
         resource_name = "event"
 
     def dehydrate(self, bundle): 
@@ -275,7 +275,7 @@ class SeasonResource(ModelResource):
     club = fields.ToOneField('garage.api.ClubResource', 'club')
 
     class Meta: 
-        queryset = Season.objects.select_related().all()
+        queryset = Season.objects.all().prefetch_related()
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
         always_return_data = True
@@ -291,7 +291,7 @@ class LocationResource(ModelResource):
     club = fields.ToOneField('garage.api.ClubResource', 'club')
 
     class Meta: 
-        queryset = Location.objects.all()
+        queryset = Location.objects.all().select_related()
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
 
@@ -307,7 +307,7 @@ class CouponResource(ModelResource):
     #user_prof = fields.ToOneField('garage.api.UserProfileResource', 'user_prof', blank=True, null=True)
 
     class Meta: 
-        queryset = Coupon.objects.prefetch_related().all()  
+        queryset = Coupon.objects.all().select_related()
         authentication = SessionAuthentication()
         authorization = ClubAdminAuthorization()
         always_return_data = True

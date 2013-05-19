@@ -50,7 +50,9 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
         showFilter: false,
         columnDefs: [
             {field:'code', displayName:'Code'},
-            {field:'username', displayName:'username' }
+            {field:'username', displayName:'username' },
+            {field:'uses_left', displayName:'# Left'},
+            {field:'expires', displayName:'Expr.'}
         ],
         beforeSelectionChange: function(rowItem, event){
             if (!rowItem.selected){ //for some reason, this seems backwards.

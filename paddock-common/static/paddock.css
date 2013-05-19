@@ -75,6 +75,12 @@
   height: 450px;
 }
 
+.couponGrid {
+  border: 1px solid rgb(212, 212, 212);
+  width: 350px; 
+  height: 450px;
+}
+
 .locationGrid {
   border: 1px solid rgb(212, 212, 212);
   width: 400px; 
