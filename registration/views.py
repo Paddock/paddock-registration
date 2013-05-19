@@ -182,7 +182,7 @@ def renew_membership(request, club_name):
     paypal_form = PayPalPaymentsForm(initial=paypal_dict)
 
     context={
-        'paypal_form': paypal_form.sandbox(),
+        'paypal_form': paypal_form.render(),
         'price': paypal_dict['amount'],
         'club': club, 
         'order': order,
