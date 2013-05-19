@@ -115,10 +115,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     #'profiler.middleware.ProfilerMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
 
 ROOT_URLCONF = 'paddock.urls'
 
@@ -132,6 +134,8 @@ TEMPLATE_DIRS = (
     
 )
 
+INTERNAL_IPS = ('127.0.0.1','96.11.104.73')
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,6 +143,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     #'profiler',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -178,7 +183,12 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        # Log to a text file that can be rotated by logrotate
+        'logfile': {
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': '/Users/justin/Desktop/log.txt'
+        },
     },
     'loggers': {
         'django.request': {
@@ -186,8 +196,22 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        # Might as well log any errors anywhere else in Django
+        'django': {
+            'handlers': ['logfile'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        # Your own app - this assumes all your logger names start with "myapp."
+        'registration': {
+            'handlers': ['logfile'],
+            'level': 'WARNING', # Or maybe INFO or DEBUG
+            'propagate': False
+        },
     }
 }
+
+ALLOWED_HOSTS = ['.racerslane.com','.localhost']
 
 #use this for production to override settings
 try: 
