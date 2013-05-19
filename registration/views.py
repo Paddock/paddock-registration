@@ -272,7 +272,7 @@ def event_register(request, club_name, season_year, event_name, username=None):
                     paypal_form = PayPalPaymentsForm(initial=paypal_dict)
      
                     context={
-                        'paypal_form': paypal_form.sandbox(),
+                        'paypal_form': paypal_form.render(),
                         'price': paypal_dict['amount'],
                         'club': e.club, 
                         'order': order,
