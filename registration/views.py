@@ -169,8 +169,8 @@ def renew_membership(request, club_name):
 
     # What you want the button to do.
     paypal_dict = {
-        #"business": e.club.paypal_email,
-        'business': 'jgray-seller@test.com',
+        "business": e.club.paypal_email,
+        #'business': 'jgray-seller@test.com',
         "amount": order.calc_total_price(),
         "item_name": 'Membership for %s '%club.name,
         "invoice": order.pk,
@@ -254,8 +254,8 @@ def event_register(request, club_name, season_year, event_name, username=None):
 
                 # What you want the button to do.
                 paypal_dict = {
-                    #"business": e.club.paypal_email,
-                    'business': 'jgray-seller@test.com',
+                    "business": e.club.paypal_email,
+                    #'business': 'jgray-seller@test.com',
                     "amount": order.calc_total_price(),
                     "item_name": 'Registration for %s %s'%(e.club.name, e.name),
                     "invoice": order.pk,
