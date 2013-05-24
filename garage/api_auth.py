@@ -91,7 +91,7 @@ class ClubAdminAuthorization(Authorization):
             try: 
                 club = bundle.obj.club
             except: 
-                #print bundle.data
+                print bundle.data
                 club_id = bundle.data['club'].split("/")[-2]
                 club = Club.objects.get(safe_name=club_id)
 

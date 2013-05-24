@@ -69,7 +69,11 @@
   {%endif%}  
   <p>
     <a href="{% url 'registration.views.event_register' club.safe_name season.year event.safe_name request.user.username%}">
-    Update your registration	
+    {% if is_regd.paid %}
+      Update your registration	
+    {% else %}
+      Update your registration or pre-pay
+    {% endif %}
     </a>	
   </p>
       {% elif is_auth %}

@@ -204,6 +204,7 @@ app.controller('club_admin', function club_admin($scope, $cookies, $http,
             
             $scope.edit_event_target.reg_close = midnight;
         }
+        $scope.edit_event_target.club = $scope.club.resource_uri;
         $scope.edit_event_target.location = $scope.edit_event_location;
         $scope.show_event_modal = false;
 

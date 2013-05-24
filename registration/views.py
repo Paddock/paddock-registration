@@ -205,6 +205,10 @@ def event_register(request, club_name, season_year, event_name, username=None):
     redirect_target = reverse('registration.views.event', args=[club_name, season_year, event_name])
     form_template = 'registration/event_reg_form.html'
 
+    reg = None
+    if username: 
+        reg = e.regs.get(user_profile__user__username=username)
+
     
     show_cars = bool(Car.objects.filter(user_profile=up, provisional=False).count())
     class UserRegForm(RegForm): #have to create the form here, since it's specific to a user
@@ -224,9 +228,13 @@ def event_register(request, club_name, season_year, event_name, username=None):
             if not show_cars: 
                 self.fields['car'].widget=HiddenInput()
 
-    reg = None
-    if username: 
-        reg = e.regs.get(user_profile__user__username=username)
+            if reg and reg.paid: #hide reg if paid
+                self.fields['prepay'].widget=HiddenInput()
+                self.fields['coupon_code'].widget=HiddenInput()
+
+
+
+    
 
     if request.method == 'POST':
         form = UserRegForm(request.POST, request.FILES, 
