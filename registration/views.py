@@ -169,7 +169,7 @@ def renew_membership(request, club_name):
 
     # What you want the button to do.
     paypal_dict = {
-        "business": e.club.paypal_email,
+        "business": club.paypal_email,
         #'business': 'jgray-seller@test.com',
         "amount": order.calc_total_price(),
         "item_name": 'Membership for %s '%club.name,
