@@ -163,7 +163,7 @@ class UserProfile(m.Model):
 
 #causes creation of user profile just after new users are created    
 def create_user_profile(sender, instance, created, **kwargs): 
-    if created:
+    if created not kwargs.get('raw', False):
         p = UserProfile.objects.create(user=instance) 
         p.save()
         
