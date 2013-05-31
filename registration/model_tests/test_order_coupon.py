@@ -3,6 +3,8 @@ import datetime
 from django.utils import unittest
 from django.core.exceptions import ValidationError
 from django.db import models as m
+from django.core import mail
+
 
 from registration.models import (Registration, User, Club,
      Coupon, Order, Membership, Season, Event, RaceClass, 
@@ -30,7 +32,7 @@ class TestCoupon(unittest.TestCase):
             self.assertEqual("{'code': [u'Spaces not allowed in the code']}", str(err))
         else: 
             self.fail("ValidationError expected")
-               
+
     def test_expires(self):  
         c = Coupon()
         c.expires = datetime.date.today()
@@ -61,6 +63,33 @@ class TestCoupon(unittest.TestCase):
         c.is_percent = True
         self.assertEqual(2.5, c.discount(25.00)) 
         self.assertEqual(1.0, c.discount(10.00)) 
+
+    def test_coupon_notification(self):     
+
+        user = User()
+        user.first_name = "justin"
+        user.last_name = "gray"
+        user.username = "justingray"
+        user.email = "test@test.com"
+        user.save()
+
+        club = Club()
+        club.name ="test-test"
+        club.save()
+ 
+        c = Coupon()
+        c.discount_amount = "10.00"
+        c.permanent = True
+        c.code = "aaa"
+        c.expires = datetime.date.today() + datetime.timedelta(days=1)
+        c.club = club
+        c.user_prof = user.get_profile()
+        c.save()
+
+        #make sure notification email was sent
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 
+            u'New example.com coupon')
         
     def test_coupon_is_valid(self): 
         
@@ -68,6 +97,7 @@ class TestCoupon(unittest.TestCase):
         user.first_name = "justin"
         user.last_name = "gray"
         user.username = "justingray"
+        user.email = "test@test.com"
         user.save()
         
         user2 = User()

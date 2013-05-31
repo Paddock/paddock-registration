@@ -19,6 +19,8 @@ from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 
 from django.contrib.auth.models import User, Group, Permission
+from django.contrib.sites.models import Site
+
 from django.db.models.signals import post_save, post_delete
 
 from django.utils.timezone import now as django_now
@@ -266,6 +268,33 @@ class Coupon(m.Model):
             return price #free, but not worth more than the price
 
         return discount
+
+#causes creation of club admin permissions after club is saved  
+def create_coupon(sender, instance, created, **kwargs): 
+    if created and not kwargs.get('raw', False):
+        up = instance.user_prof
+        print instance, instance.user_prof
+        if up: 
+            user = up.user
+            club = instance.club
+
+            ctx_dict = {
+                'first_name': user.first_name, 
+                'value': instance.discount_amount, 
+                'club_name': club.name, 
+                'domain': Site.objects.get_current().domain,
+                'coupon_code': instance.code, 
+                'garage_url': reverse('admin_user', 
+                    kwargs={'username':user.username})
+            }
+
+            subject = "New %s coupon"%ctx_dict['domain']
+            msg = render_to_string('registration/coupon_notify.txt', ctx_dict)
+            user.email_user(subject, msg, settings.DEFAULT_FROM_EMAIL)
+
+
+        
+post_save.connect(create_coupon, sender=Coupon)           
 
 
 class Club(Purchasable):

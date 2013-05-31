@@ -1,0 +1,9 @@
+{{first_name}}, 
+    You've been given a coupon worth &#36;{{value}} for {{club_name}}. You can use 
+this coupon to prepay for registration for any even with the club on 
+{{domain}}.
+
+The coupon code is:  {{coupon_code}}
+
+You can view all your active coupons in your garage at 
+<a href="http://{{domain}}{{garage_url}}">Racerslane.com</a>.
