@@ -45,7 +45,6 @@ class UserAdminAuthorization(Authorization):
         #return object_list
 
     def create_detail(self, object_list, bundle):
-        print "TEST0"
         u = self._get_user(bundle)
 
         #raise Unauthorized()
@@ -91,7 +90,6 @@ class ClubAdminAuthorization(Authorization):
             try: 
                 club = bundle.obj.club
             except: 
-                print bundle.data
                 club_id = bundle.data['club'].split("/")[-2]
                 club = Club.objects.get(safe_name=club_id)
 

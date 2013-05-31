@@ -1094,7 +1094,7 @@ class Lease(m.Model):
 clear_model_list = [Lease, Order, Coupon, Registration,
                     Membership, RaceClass, Dibs, Season, Event, 
                     Session, Result, Run, Location, Course, 
-                    Car, Lease, User, Club]
+                    Car, Lease, User, UserProfile, Club]
 
 
 def clear_db(): 
